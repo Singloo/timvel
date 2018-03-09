@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -11,44 +5,40 @@ import {
   Text,
   View
 } from 'react-native';
-import { Button}  from '../../components'
-import {base} from '../../utils'
-import store from './homePage.reducer'
+import { Button } from '../../components'
+import { base } from '../../utils'
+// import store from './homePage.reducer'
 
 
 class HomePage extends Component {
 
-  componentWillMount(){
-    store.subscribe(()=>{
-      this.forceUpdate()
-    })
-    console.warn(store.getState())
+  componentWillMount() {
+    // store.subscribe(()=>{
+    //   this.forceUpdate()
+    // })
   }
 
-  _add = ()=>{
-    store.dispatch({
-      type:'ADD',
+  _add = () => {
+    this.props.logic('HOME_PAGE_SET_STATE', {
+      count: 1
     })
-    console.warn(store.getState())
   }
 
-  _minus = ()=>{
-    store.dispatch({
-      type:'MINUS'
+  _minus = () => {
+    this.props.logic('HOME_PAGE_SET_STATE', {
+      count: 1
     })
-    console.warn(store.getState())
   }
 
-  _addCustom = ()=>{
-    store.dispatch({
-      type:'ADD_CUSTOM',
-      num:10
+  _addCustom = () => {
+    this.props.logic('HOME_PAGE_SET_STATE', {
+      count: 1
     })
-    console.warn(store.getState())
   }
 
   render() {
-    const {count}=store.getState().counter
+    const { count } = this.props.state
+
     return (
       <View style={styles.container}>
         <Text>{count}</Text>
