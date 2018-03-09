@@ -8,7 +8,7 @@ import {
 import { Button } from '../../components'
 import { base } from '../../utils'
 
-class Sample extends Component {
+class User extends Component {
 
   componentWillMount() {
   }
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sample
+export default User

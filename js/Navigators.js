@@ -4,7 +4,9 @@ import * as Connectors from './connectors'
 const MainScreenNavigator = TabNavigator(
   {
     Home: { screen: Connectors.homePage },
-    // Search: { screen: Connectors2.lessonFeed },
+    RememberPage: { screen: Connectors.rememberPage },
+    shooPage: { screen: Connectors.shopPage },
+    UserPage: { screen: Connectors.userPage }
     // // Study: { screen: SearchConnector },
     // Teacher: { screen: VideoHistoryConnector },
   },
@@ -18,19 +20,22 @@ const MainScreenNavigator = TabNavigator(
 );
 
 const SimpleApp = StackNavigator(
- { Main: {
-    screen: MainScreenNavigator,
-    navigationOptions: {
-      gesturesEnabled: false,
+  {
+    Main: {
+      screen: MainScreenNavigator,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
     },
-  }
+    // rememberPage:{
+    //   screen: Connectors.rememberPage
+    // }
 
-},
-{
-  headerMode: 'none',
-  initialRouteName: 'Main',
-  // initialRouteName: 'levelTest',
-},
+  },
+  {
+    headerMode: 'none',
+    initialRouteName: 'Main',
+  },
 )
 
 export default SimpleApp

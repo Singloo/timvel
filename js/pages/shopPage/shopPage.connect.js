@@ -1,7 +1,7 @@
-import Container from './sample.container'
+import Container from './shopPage.container'
 import { Setup } from '../../utils'
 
 export default Setup.connect({
-  name: 'sample',
+  name: 'shopPage',
   container: Container,
 })

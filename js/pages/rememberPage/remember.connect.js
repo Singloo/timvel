@@ -1,7 +1,7 @@
-import Container from './sample.container'
+import Container from './remember.container'
 import { Setup } from '../../utils'
 
 export default Setup.connect({
-  name: 'sample',
+  name: 'rememberPage',
   container: Container,
 })
