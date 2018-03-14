@@ -7,7 +7,8 @@ import {
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 import SimpleApp from './Navigators'
-import { Setup ,base} from './utils'
+import { Setup, base } from './utils'
+import { SafeAreaView } from 'react-navigation'
 const store = configureStore()
 
 
@@ -27,11 +28,13 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <SimpleApp
-          ref={navigation => {
-            this._navigation = navigation;
-          }}
-        />
+        {/* <SafeAreaView style={{ flex: 1 }}> */}
+          <SimpleApp
+            ref={navigation => {
+              this._navigation = navigation;
+            }}
+          />
+        {/* </SafeAreaView> */}
       </Provider>
     );
   }

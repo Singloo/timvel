@@ -3,7 +3,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
 import { Button } from '../../components'
 import { base } from '../../utils'
@@ -11,30 +12,24 @@ import { base } from '../../utils'
 
 
 class HomePage extends Component {
+  // static navigationOptions = {
+  //   drawerLabel: 'Home',
+  //   drawerIcon: ({ tintColor }) => (
+  //     <Image
+  //       source={{uri:'pikachu'}}
+  //       style={[styles.icon, {tintColor: tintColor}]}
+  //     />
+  //   ),
+  // };
 
   componentWillMount() {
-    // store.subscribe(()=>{
-    //   this.forceUpdate()
-    // })
+
   }
 
   _add = () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
-      count: 1
-    })
+   
   }
 
-  _minus = () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
-      count: 1
-    })
-  }
-
-  _addCustom = () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
-      count: 1
-    })
-  }
 
   render() {
     const { count } = this.props.state
@@ -46,6 +41,15 @@ class HomePage extends Component {
           onPress={this._add}
           title={'touch'}
         />
+        <Button
+        onPress={() => this.props.navigation.navigate('DrawerOpen')}
+        title="Go to notifications"
+      />
+      <Image
+        source={{uri:'pikachu'}}
+        style={[{width:100,height:100,tintColor:'yellow'}]}
+      />
+
       </View>
     );
   }
@@ -58,6 +62,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  icon:{
+    width:50,
+    height:50
+  }
 });
 
 export default HomePage
