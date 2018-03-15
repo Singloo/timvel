@@ -5,13 +5,11 @@ import {
   Text,
   View
 } from 'react-native';
-import { Button } from '../../components'
-import { base } from '../../utils'
+import { Button } from '../../../components'
+import { base } from '../../../utils'
+import PropTypes from 'prop-types';
 
-class ShopPage extends Component {
-  static navigationOptions = {
-    drawerLockMode:'locked-closed'
-  }
+class Card extends Component {
 
   componentWillMount() {
   }
@@ -25,14 +23,15 @@ class ShopPage extends Component {
     );
   }
 }
+Card.propTypes={
+
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center'
   },
 });
 
-export default ShopPage
+export default Card

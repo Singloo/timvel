@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "ios": "react-native run-ios"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "react": "16.2.0",
     "react-native": "0.53.3",
+    "react-native-blur": "^3.2.2",
+    "react-native-linear-gradient": "^2.4.0",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.2.1",
     "react-redux": "^5.0.7",

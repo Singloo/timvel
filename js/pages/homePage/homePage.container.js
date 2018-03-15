@@ -12,15 +12,6 @@ import { base } from '../../utils'
 
 
 class HomePage extends Component {
-  // static navigationOptions = {
-  //   drawerLabel: 'Home',
-  //   drawerIcon: ({ tintColor }) => (
-  //     <Image
-  //       source={{uri:'pikachu'}}
-  //       style={[styles.icon, {tintColor: tintColor}]}
-  //     />
-  //   ),
-  // };
 
   componentWillMount() {
 

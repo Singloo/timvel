@@ -1,5 +1,7 @@
 import { TabNavigator, StackNavigator ,DrawerNavigator} from 'react-navigation';
 import * as Connectors from './connectors'
+
+
 const MainScreenNavigator = TabNavigator(
   {
     Home: { screen: Connectors.homePage },
@@ -36,15 +38,16 @@ const SimpleApp = StackNavigator(
   },
 )
 
-const Drawer = DrawerNavigator(
-  {
-    Home: { screen: Connectors.homePage },
-    UserPage: { screen: Connectors.userPage }
-  },
-  {
-    initialRouteName:'Home',
-    contentComponent:Connectors.userPage
-  }
-)
+// const Drawer = DrawerNavigator(
+//   {
+//     Home: { screen: SimpleApp },
+//     UserPage: { screen: Connectors.userPage }
+//   },
+//   {
+//     initialRouteName:'Home',
+//     contentComponent:Connectors.userPage
+//   }
+// )
+
 
 export default SimpleApp
