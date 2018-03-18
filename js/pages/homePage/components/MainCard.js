@@ -9,7 +9,7 @@ import { Button } from '../../../components'
 import { base } from '../../../utils'
 import PropTypes from 'prop-types';
 
-const cardWidth = base.SCREEN_WIDTH - 40,
+const cardWidth = base.SCREEN_WIDTH - 40
 const cardHeight = base.SCREEN_WIDTH * 0.618
 class MainCard extends Component {
 
@@ -18,9 +18,10 @@ class MainCard extends Component {
 
 
   render() {
-    const {}=this.props
+    const {imgUri}=this.props
     return (
       <View style={styles.wrapper}>
+      <Image source={{uri:'nintendo_switch'}}/>
         <View style={styles.container}>
         
           </View>
