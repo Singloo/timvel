@@ -19,13 +19,13 @@ export function randomItem(arr) {
 export const shadow = isIOS
   ? {
       shadowOpacity: 0.4,
-      shadowRadius: 3,
+      shadowRadius: 4,
       shadowOffset: {
-        height: 2,
-        width: 1,
+        height: 3,
+        width: 2,
       },
     }
-  : { elevation: 3 };
+  : { elevation: 4 };
 
 export const colors = {
   main: '#00e5ff',

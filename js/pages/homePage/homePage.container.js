@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import { Button, NavBar, Icon } from '../../components';
+import { Button, NavBar, Icon,InfiniteText } from '../../components';
 import { base } from '../../utils';
 import MainCard from './components/MainCard'
 // import store from './homePage.reducer'
@@ -16,8 +16,8 @@ class HomePage extends Component {
     return (
       <View style={styles.container}>
         <NavBar
-          title={'hello'}
-          uriLeft={'nintendo_switch'}
+          title={'hello there'}
+          uriLeft={'eu_flamingo'}
           uriRight={'nintendo_switch'}
         />
         {/* <FlatList

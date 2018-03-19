@@ -53,9 +53,10 @@ class Icon extends Component {
             style={[
               { width: iconSize, height: iconSize },
               isRound && { borderRadius: iconSize / 2 },
+              {tintColor:tintColor}
             ]}
             resizeMode={resizeMode}
-            tintColor={tintColor}
+            
           />
         </View>
       </TouchableOpacity>
@@ -66,7 +67,7 @@ Icon.propTypes = {};
 Icon.defaultProps = {
   size: 'regular',
   resizeMode: 'contain',
-  tintColor: base.colors.depGrey,
+  // tintColor: base.colors.depGrey,
   isRound: false,
 };
 const styles = StyleSheet.create({
