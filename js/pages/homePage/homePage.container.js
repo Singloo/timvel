@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import { Button, NavBar, Icon } from '../../components';
 import { base } from '../../utils';
+import MainCard from './components/MainCard'
 // import store from './homePage.reducer'
 
 class HomePage extends Component {
@@ -19,9 +20,10 @@ class HomePage extends Component {
           uriLeft={'nintendo_switch'}
           uriRight={'nintendo_switch'}
         />
-        <FlatList
+        {/* <FlatList
         style={styles.list}
-        />
+        /> */}
+        <MainCard/>
       </View>
     );
   }
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: base.colors.lightGrey,
   },
   list:{
     flex:1

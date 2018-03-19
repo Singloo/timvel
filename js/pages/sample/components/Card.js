@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import { Button } from '../../../components'
-import { base } from '../../../utils'
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Button } from '../../../components';
+import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
-
-  componentWillMount() {
-  }
-
+  componentWillMount() {}
 
   render() {
     return (
@@ -23,9 +15,7 @@ class Card extends Component {
     );
   }
 }
-Card.propTypes={
-
-}
+Card.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -34,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card
+export default Card;

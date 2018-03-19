@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  StyleSheet
-} from 'react-native';
-import { Provider } from 'react-redux'
-import configureStore from './configureStore'
-import SimpleApp from './Navigators'
-import { Setup, base } from './utils'
-import { SafeAreaView } from 'react-navigation'
-const store = configureStore()
-
+import { Text, View, StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import configureStore from './configureStore';
+import SimpleApp from './Navigators';
+import { Setup, base } from './utils';
+import { SafeAreaView } from 'react-navigation';
+const store = configureStore();
 
 Setup.preventDoublePress(SimpleApp);
 export default class App extends Component {
@@ -29,14 +24,13 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         {/* <SafeAreaView style={{ flex: 1 }}> */}
-          <SimpleApp
-            ref={navigation => {
-              this._navigation = navigation;
-            }}
-          />
+        <SimpleApp
+          ref={navigation => {
+            this._navigation = navigation;
+          }}
+        />
         {/* </SafeAreaView> */}
       </Provider>
     );
   }
 }
-

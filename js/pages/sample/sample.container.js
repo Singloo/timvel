@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import { Button } from '../../components'
-import { base } from '../../utils'
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import PropTypes from 'prop-types';
+import { Button } from '../../components';
+import { base } from '../../utils';
 
 class Sample extends Component {
-
-  componentWillMount() {
-  }
-
+  componentWillMount() {}
 
   render() {
     return (
@@ -22,7 +15,7 @@ class Sample extends Component {
     );
   }
 }
-
+Sample.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -30,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sample
+export default Sample;

@@ -40,12 +40,12 @@ class Icon extends Component {
     } = this.props;
     const iconSize = this._iconSize(size);
     return (
-      <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
+      <TouchableOpacity onPress={() => onPress && onPress()}>
         <View
           style={[
             styles.wrapper,
-            style,
             isRound && { borderRadius: iconSize / 2 },
+            style,
           ]}
         >
           <Image
@@ -58,7 +58,7 @@ class Icon extends Component {
             tintColor={tintColor}
           />
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   }
 }
@@ -66,8 +66,8 @@ Icon.propTypes = {};
 Icon.defaultProps = {
   size: 'regular',
   resizeMode: 'contain',
-  tintColor: base.colors.midGrey,
-  isRound:false
+  tintColor: base.colors.depGrey,
+  isRound: false,
 };
 const styles = StyleSheet.create({
   wrapper: {

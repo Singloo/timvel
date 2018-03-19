@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { BlurView } from 'react-native-blur';
 import { base } from '../utils';
 import Icon from './Icon';
 class NavigationBar extends Component {
@@ -40,15 +41,19 @@ class NavigationBar extends Component {
   _renderTitle = () => {
     const { title, titleStyle } = this.props;
     if (title) {
-      return <Text style={[styles.title, titleStyle,]}>{title}</Text>;
+      return <Text style={[styles.title, titleStyle]}>{title}</Text>;
     } else {
       return <View style={[styles.blank, { flex: 1 }]} />;
     }
   };
   render() {
-    const {} = this.props;
+    const {style} = this.props;
     return (
-      <View style={styles.wrapper}>
+      <View style={[styles.wrapper,style]}>
+        <BlurView
+          blurType={'xlight'}
+          style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+        />
         {this._renderLeft.call(this)}
         {this._renderTitle.call(this)}
         {this._renderRight.call(this)}
@@ -65,8 +70,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
+    backgroundColor: 'transparent',
     // justifyContent: 'space-between',
-    backgroundColor: base.colors.lightGrey,
+    // backgroundColor: base.colors.lightGrey,
   },
   blank: {
     width: 32,
