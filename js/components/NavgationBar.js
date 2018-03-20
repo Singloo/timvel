@@ -47,9 +47,9 @@ class NavigationBar extends Component {
     }
   };
   render() {
-    const {style} = this.props;
+    const { style } = this.props;
     return (
-      <View style={[styles.wrapper,style]}>
+      <View style={[styles.wrapper, style]}>
         <BlurView
           blurType={'xlight'}
           style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: 'transparent',
-    // justifyContent: 'space-between',
-    // backgroundColor: base.colors.lightGrey,
   },
   blank: {
     width: 32,
@@ -86,6 +84,7 @@ const styles = StyleSheet.create({
     color: base.colors.depGrey,
     letterSpacing: 1,
     fontWeight: '100',
+    backgroundColor: 'transparent',
   },
 });
 

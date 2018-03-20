@@ -58,15 +58,16 @@ class Tabbar extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // borderTopWidth: 0.5,
-    // borderColor: base.colors.midGrey,
-    backgroundColor: base.colors.lightGrey,
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: base.SCREEN_WIDTH,
     paddingHorizontal: 30,
     height: 48,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 
