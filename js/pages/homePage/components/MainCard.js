@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, findNodeHandle } from 'react-native';
 import { Button, Icon, InfiniteText } from '../../../components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
@@ -8,21 +8,39 @@ import LinearGradient from 'react-native-linear-gradient';
 const cardWidth = base.SCREEN_WIDTH - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 class MainCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      viewRef: null,
+    };
+  }
   componentWillMount() {}
+
+  imageLoaded() {
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  }
 
   render() {
     const { imgUri } = this.props;
     return (
       <View style={[styles.wrapper]}>
         <View style={[styles.container, base.shadow]}>
-          <Image source={{ uri: 'bk1' }} style={styles.absoluteBK} />
+          <Image
+            ref={r => {
+              this.backgroundImage = r;
+            }}
+            source={{ uri: 'bk1' }}
+            style={styles.absoluteBK}
+            onLoadEnd={this.imageLoaded.bind(this)}
+          />
           <BlurView
+            viewRef={this.state.viewRef}
             blurType={'light'}
             style={styles.absoluteBK}
             blurAmount={2}
           />
         </View>
-        <View style={styles.headerBar}>
+        <View style={[styles.headerBar,{}]}>
           <Icon
             uri={'bk2'}
             size={60}
@@ -99,10 +117,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 10,
-    right:10,
+    right: 10,
     paddingLeft: 15,
-    paddingTop: 10,
+    marginTop: 10,
     flexDirection: 'row',
+    height:60
   },
   username: {
     fontSize: 17,

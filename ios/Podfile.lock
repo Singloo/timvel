@@ -1,5 +1,13 @@
 PODS:
+  - lottie-ios (2.5.0)
+  - lottie-react-native (2.3.2):
+    - lottie-ios
+    - React
   - QBImagePickerController (3.4.0)
+  - React (0.53.3):
+    - React/Core (= 0.53.3)
+  - react-native-image-picker (0.14.3):
+    - React
   - React/Core (0.53.3):
     - yoga (= 0.53.3.React)
   - React/fishhook (0.53.3)
@@ -35,6 +43,9 @@ PODS:
   - yoga (0.53.3.React)
 
 DEPENDENCIES:
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
@@ -50,20 +61,29 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 EXTERNAL SOURCES:
+  lottie-ios:
+    :path: ../node_modules/lottie-ios
+  lottie-react-native:
+    :path: ../node_modules/lottie-react-native
   React:
     :path: ../node_modules/react-native
+  react-native-image-picker:
+    :path: ../node_modules/react-native-image-picker
   RNImageCropPicker:
     :path: ../node_modules/react-native-image-crop-picker
   yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga/yoga.podspec
 
 SPEC CHECKSUMS:
+  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
+  lottie-react-native: f2e118cc10f478bc9857bbdb5568b6f4a9d30cf7
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: fd20e9486c9d994fb6e40d6e67dbd29c7709889c
+  react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
   RNImageCropPicker: 9ef50df72d7e1c02cbbca043a35456a03200f887
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   yoga: c7c8e64dbc2552b1ceac0b491ff03f5e5128b501
 
-PODFILE CHECKSUM: f38a39bf4945f78ddd9bb3d228db035c7a465fdc
+PODFILE CHECKSUM: 6c3d2aef8de6aa21eceb7fdc4cd38b77976f609a
 
 COCOAPODS: 1.3.1

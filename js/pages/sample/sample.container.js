@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from '../../components';
+import { Button, NavBar } from '../../components';
 import { base } from '../../utils';
 
 class Sample extends Component {
   componentWillMount() {}
 
+  _goBack = () => {
+    const { navigation } = this.props;
+    this.props.logic('NAVIGATION_BACK', {
+      navigation,
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
+        <NavBar title={'welcome'} />
         <Text>{'welcome'}</Text>
       </View>
     );

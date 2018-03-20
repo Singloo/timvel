@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  findNodeHandle,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 import { base } from '../utils';
 import Icon from './Icon';
 class NavigationBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      viewRef: null,
+    };
+  }
+
+  imageLoaded() {
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  }
   _renderLeft = () => {
     const { uriLeft, leftTint, onPressLeft } = this.props;
     if (uriLeft) {
@@ -50,7 +66,23 @@ class NavigationBar extends Component {
     const { style } = this.props;
     return (
       <View style={[styles.wrapper, style]}>
+        {!base.isIOS && (
+          <View
+            ref={r => {
+              this.backgroundImage = r;
+            }}
+            onLayout={this.imageLoaded.bind(this)}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}
+          />
+        )}
         <BlurView
+          viewRef={this.state.viewRef}
           blurType={'xlight'}
           style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
         />
@@ -69,7 +101,7 @@ const styles = StyleSheet.create({
     paddingTop: base.isIOS ? 20 : 0,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     backgroundColor: 'transparent',
   },
   blank: {

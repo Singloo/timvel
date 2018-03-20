@@ -30,9 +30,10 @@ const SimpleApp = StackNavigator(
         gesturesEnabled: false,
       },
     },
-    // rememberPage:{
-    //   screen: Connectors.rememberPage
-    // }
+    login:{
+      screen:Connectors.login,
+      
+    }
   },
   {
     headerMode: 'none',

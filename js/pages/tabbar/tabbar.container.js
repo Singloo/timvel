@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, findNodeHandle } from 'react-native';
 import { Button } from '../../components';
 import { base } from '../../utils';
 import { BlurView } from 'react-native-blur';
 import Tab from './components/Tab';
 class Tabbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      viewRef: null,
+    };
+  }
   componentWillMount() {}
+
+  imageLoaded() {
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  }
 
   render() {
     const { navigation, renderIcon, jumpToIndex } = this.props;
@@ -14,7 +24,23 @@ class Tabbar extends Component {
     const inactiveTintColor = base.colors.midGrey;
     return (
       <View style={styles.container}>
+        {!base.isIOS && (
+          <View
+            ref={r => {
+              this.backgroundImage = r;
+            }}
+            onLayout={this.imageLoaded.bind(this)}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}
+          />
+        )}
         <BlurView
+          viewRef={this.state.viewRef}
           blurType={'light'}
           style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
           blurAmount={10}

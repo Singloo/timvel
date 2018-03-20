@@ -5,13 +5,15 @@ import global from './pages/global/global.reducer'
 import userPage from './pages/userPage/user.reducer'
 import shopPage from './pages/shopPage/shopPage.reducer'
 import tabbar from './pages/tabbar/tabbar.reducer'
+import login from './pages/login/login.reducer'
 const reducers = combineReducers({
   homePage,
   rememberPage,
   global,
   userPage,
   shopPage,
-  tabbar
+  tabbar,
+  login
 })
 
 export default reducers

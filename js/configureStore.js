@@ -2,9 +2,15 @@ import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers'
 import logics from './logics'
 import { createLogicMiddleware } from 'redux-logic';
-
+import {User} from './utils'
 const deps = {
-
+  logic: function(type, payload){
+    return {
+      type,
+      payload: payload || {},
+    }
+  },
+  User,
 }
 
 

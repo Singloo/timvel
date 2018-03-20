@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import { Button } from '../../components'
-import { base } from '../../utils'
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Button } from '../../components';
+import { base } from '../../utils';
 
 class User extends Component {
+  componentWillMount() {}
 
-  componentWillMount() {
-  }
+  componentDidMount() {}
 
-
+  _onPressLogin = () => {
+    const { navigation } = this.props;
+    this.props.logic('NAVIGATION_NAVIGATE', {
+      navigation,
+      routeName: 'login',
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
-        <Text>{'welcome'}</Text>
+        <Button onPress={this._onPressLogin} title={'tap me'} />
       </View>
     );
   }
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 });
 
-export default User
+export default User;
