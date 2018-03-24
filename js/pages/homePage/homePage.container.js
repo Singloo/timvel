@@ -21,7 +21,6 @@ class HomePage extends Component {
   };
 
   render() {
-    const { count } = this.props.state;
 
     return (
       <View style={styles.container}>

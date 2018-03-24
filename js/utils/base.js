@@ -27,6 +27,11 @@ export const shadow = isIOS
     }
   : { elevation: 4 };
 
+export const isIphoneX =
+  isIOS &&
+  ((SCREEN_HEIGHT === 812 && SCREEN_WIDTH === 375) ||
+    (SCREEN_HEIGHT === 375 && SCREEN_WIDTH === 812));
+
 export const colors = {
   main: '#00e5ff',
   red: '#ff8a80',
