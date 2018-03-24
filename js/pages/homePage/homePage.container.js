@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import { Button, NavBar, Icon, InfiniteText } from '../../components';
+import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
+
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';
 // import store from './homePage.reducer'

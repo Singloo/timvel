@@ -1,0 +1,3 @@
+[submodule "re-kits"]
+	path = re-kits
+	url = git@bitbucket.org:measles/re-kits.git

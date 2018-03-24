@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Button } from '../../components';
+import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
 import { base } from '../../utils';
 
 class User extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, NavBar } from '../../components';
+import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
 import { base } from '../../utils';
 
 class Sample extends Component {

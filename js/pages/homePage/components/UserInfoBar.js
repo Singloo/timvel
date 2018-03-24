@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button ,Icon,InfiniteText} from '../../../components';
+import { Button ,Icon,InfiniteText} from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 

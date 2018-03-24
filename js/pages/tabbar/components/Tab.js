@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import { Button, Icon } from '../../../components';
+// import { Button, Icon } from '../../../components';
+import { Button ,Icon} from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 

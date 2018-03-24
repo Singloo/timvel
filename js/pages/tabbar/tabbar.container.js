@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, findNodeHandle } from 'react-native';
-import { Button } from '../../components';
+import {
+  Button,
+  NavBar,
+  Icon,
+  InfiniteText,
+} from '../../../re-kits/components';
 import { base } from '../../utils';
 import { BlurView } from 'react-native-blur';
 import Tab from './components/Tab';
+const PADDING_BOTTOM = base.isIphoneX ? 34 : 0;
 class Tabbar extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +29,12 @@ class Tabbar extends Component {
     const activeTintColor = base.colors.main;
     const inactiveTintColor = base.colors.midGrey;
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { height: 48 + PADDING_BOTTOM, paddingBottom: PADDING_BOTTOM },
+        ]}
+      >
         {!base.isIOS && (
           <View
             ref={r => {

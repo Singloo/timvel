@@ -5,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { Button } from '../../components'
+import { Button } from '../../../re-kits/components'
 import { base } from '../../utils'
 
 class Global extends Component {

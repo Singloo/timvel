@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, NavBar } from '../../components';
+import {
+  Button,
+  NavBar,
+  Icon,
+  InfiniteText,
+} from '../../../re-kits/components';
 import { base } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
 import { Sae } from 'react-native-textinput-effects';
-import { FontAwesomeIcon } from 'react-native-vector-icons';
+// import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -50,25 +55,17 @@ class Login extends Component {
         />
 
         <View style={styles.buttonContainer}>
-          <Sae
+          {/* <Sae
             label={'Your name'}
-            iconClass={FontAwesomeIcon}
-            iconName={'pencil'}
-            iconColor={'white'}
+            // iconClass={FontAwesomeIcon}
+            iconName={'pikachu'}
+            // iconColor={'white'}
             // TextInput props
             autoCapitalize={'none'}
             autoCorrect={false}
-          />
+          /> */}
 
-          <Sae
-            label={'Your password'}
-            iconClass={FontAwesomeIcon}
-            iconName={'pencil'}
-            iconColor={'white'}
-            // TextInput props
-            autoCapitalize={'none'}
-            autoCorrect={false}
-          />
+          
 
           <Button title={'Press me to login'} />
           <Button title={`Don't have an account?`} />
@@ -77,6 +74,7 @@ class Login extends Component {
           uriLeft={'arrow_left'}
           onPressLeft={this._goBack}
           title={'LogIn or SignUp or Get out'}
+          style={styles.navBar}
         />
       </View>
     );
@@ -87,6 +85,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  navBar:{
+    position:'absolute',
+    top:0
   },
   absoluteBK: {
     position: 'absolute',
