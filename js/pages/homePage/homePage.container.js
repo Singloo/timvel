@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
+import { StyleSheet, View, Image, FlatList } from 'react-native';
+import {
+  Button,
+  NavBar,
+  Icon,
+  InfiniteText,
+  Text,
+} from '../../../re-kits/components';
 
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';
@@ -18,11 +24,10 @@ class HomePage extends Component {
   _add = () => {};
 
   _renderItem = ({ item, index }) => {
-    return <MainCard key={index}/>;
+    return <MainCard key={index} />;
   };
 
   render() {
-
     return (
       <View style={styles.container}>
         <FlatList

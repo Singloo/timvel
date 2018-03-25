@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import {
-  Platform,
-  StyleSheet,
+  Button,
+  NavBar,
+  Icon,
+  InfiniteText,
   Text,
-  View
-} from 'react-native';
-import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
-import { base } from '../../utils'
+} from '../../../re-kits/components';
+import { base } from '../../utils';
 
-class Sample extends Component {
-
-  componentWillMount() {
-  }
-
+class Remember extends Component {
+  componentWillMount() {}
 
   render() {
     return (
@@ -28,8 +26,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 });
 
-export default Sample
+export default Remember;

@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, findNodeHandle } from 'react-native';
-import { Button ,Icon,InfiniteText} from '../../../../re-kits/components';
+import { StyleSheet, View, Image, findNodeHandle } from 'react-native';
+import {
+  Button,
+  Icon,
+  InfiniteText,
+  Text,
+} from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 
-import UserInfoBar from './UserInfoBar'
-import TimeBar from './TimeBar'
+import UserInfoBar from './UserInfoBar';
+import TimeBar from './TimeBar';
 const cardWidth = base.SCREEN_WIDTH - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 class MainCard extends Component {
@@ -42,13 +47,9 @@ class MainCard extends Component {
             blurAmount={2}
           />
         </View>
-          <UserInfoBar
-          style={styles.headerBar}
-          />
+        <UserInfoBar style={styles.headerBar} />
 
-        <TimeBar
-        style={styles.bottomBar}
-        />
+        <TimeBar style={styles.bottomBar} />
       </View>
     );
   }

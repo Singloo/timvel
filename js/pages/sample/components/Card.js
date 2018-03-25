@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Button } from '../../../../re-kits/components';
+import { Platform, StyleSheet, View } from 'react-native';
+import { Button, Text } from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 

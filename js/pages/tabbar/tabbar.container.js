@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, findNodeHandle } from 'react-native';
+import { Platform, StyleSheet, View, findNodeHandle } from 'react-native';
 import {
   Button,
   NavBar,
   Icon,
   InfiniteText,
+  Text,
 } from '../../../re-kits/components';
 import { base } from '../../utils';
 import { BlurView } from 'react-native-blur';

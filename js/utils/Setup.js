@@ -1,14 +1,13 @@
 import * as ReactRedux from 'react-redux';
-import { BackHandler, ToastAndroid, Platform } from 'react-native';
-const isIos = Platform.OS === 'ios';
-const logic = function (type, payload) {
+import { BackHandler, ToastAndroid } from 'react-native';
+const logic = function(type, payload) {
   return {
     type,
     payload,
   };
 };
 
-export const connect = function ({
+export const connect = function({
   name,
   stateMapper,
   actions = {},
@@ -18,7 +17,7 @@ export const connect = function ({
     throw new Error('connect name is required');
   }
   if (!stateMapper) {
-    stateMapper = function (state) {
+    stateMapper = function(state) {
       return {
         state: state[name],
         global: state.global,
@@ -27,7 +26,7 @@ export const connect = function ({
   }
   const allActions = {
     ...actions,
-    logic
+    logic,
   };
   return ReactRedux.connect(stateMapper, allActions)(container);
 };
@@ -39,7 +38,7 @@ export const connect = function ({
  *  Close the app if the the user taps back button two times.
  */
 let justClickBackButton = false;
-export const androidBackButton = function (navigation, store) {
+export const androidBackButton = function(navigation, store) {
   BackHandler.addEventListener('hardwareBackPress', () => {
     // sometimes crashes
     // null is not an object (evaluating 'n._navigation.state')
@@ -90,7 +89,7 @@ export const androidBackButton = function (navigation, store) {
  */
 let justNavigated = false;
 let timeout;
-export const preventDoublePress = function (Navigator) {
+export const preventDoublePress = function(Navigator) {
   const prevGetStateForActionHomeStack = Navigator.router.getStateForAction;
   Navigator.router.getStateForAction = (action, state) => {
     if (
@@ -126,7 +125,7 @@ export const preventDoublePress = function (Navigator) {
 
       justNavigated = true;
       clearTimeout(timeout);
-      timeout = setTimeout(function () {
+      timeout = setTimeout(function() {
         justNavigated = false;
       }, 700);
     }

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import { Platform, StyleSheet, View, TouchableOpacity } from 'react-native';
 // import { Button, Icon } from '../../../components';
-import { Button ,Icon} from '../../../../re-kits/components';
+import { Button, Icon, Text } from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 

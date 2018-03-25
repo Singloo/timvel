@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button ,Icon,InfiniteText} from '../../../../re-kits/components';
+import { StyleSheet, View } from 'react-native';
+import {
+  Button,
+  Icon,
+  InfiniteText,
+  Text,
+} from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 
@@ -8,37 +13,36 @@ class UserInfoBar extends Component {
   componentWillMount() {}
 
   render() {
-    const {style}=this.props
+    const { style } = this.props;
     return (
-        <View style={[styles.headerBar,style]}>
-          <Icon
-            uri={'bk2'}
-            size={60}
-            // isRound={true}
-            resizeMode={'cover'}
-            style={[{}, base.shadow]}
+      <View style={[styles.headerBar, style]}>
+        <Icon
+          uri={'bk2'}
+          size={60}
+          // isRound={true}
+          resizeMode={'cover'}
+          style={[{}, base.shadow]}
+        />
+        <View style={styles.headerTextContainer}>
+          <InfiniteText
+            style={{}}
+            text={'Lilith'}
+            textStyle={styles.username}
           />
-          <View style={styles.headerTextContainer}>
-            <InfiniteText
-              style={{}}
-              text={'Lilith'}
-              textStyle={styles.username}
-            />
-            <InfiniteText
-              style={{}}
-              text={'welcome back,how are you today,'}
-              textStyle={styles.title}
-            />
-          </View>
-          <View style={{ justifyContent: 'flex-end' }}>
-            <Icon
-              uri={'add'}
-              tintColor={'white'}
-              style={{ alignSelf: 'flex-end', marginRight: 2 }}
-            />
-          </View>
+          <InfiniteText
+            style={{}}
+            text={'welcome back,how are you today,'}
+            textStyle={styles.title}
+          />
         </View>
-      
+        <View style={{ justifyContent: 'flex-end' }}>
+          <Icon
+            uri={'add'}
+            tintColor={'white'}
+            style={{ alignSelf: 'flex-end', marginRight: 2 }}
+          />
+        </View>
+      </View>
     );
   }
 }
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
   headerBar: {
     paddingLeft: 15,
     flexDirection: 'row',
-    height:60
+    height: 60,
   },
   username: {
     fontSize: 17,

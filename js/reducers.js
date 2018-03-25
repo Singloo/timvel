@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import homePage from './pages/homePage/homePage.reducer'
-import rememberPage from './pages/rememberPage/remember.reducer'
-import global from './pages/global/global.reducer'
-import userPage from './pages/userPage/user.reducer'
-import shopPage from './pages/shopPage/shopPage.reducer'
-import tabbar from './pages/tabbar/tabbar.reducer'
-import login from './pages/login/login.reducer'
+import homePage from './pages/homePage/homePage.reducer';
+import rememberPage from './pages/rememberPage/remember.reducer';
+import global from './pages/global/global.reducer';
+import userPage from './pages/userPage/user.reducer';
+import shopPage from './pages/shopPage/shopPage.reducer';
+import tabbar from './pages/tabbar/tabbar.reducer';
+import login from './pages/login/login.reducer';
 const reducers = combineReducers({
   homePage,
   rememberPage,
@@ -13,7 +13,7 @@ const reducers = combineReducers({
   userPage,
   shopPage,
   tabbar,
-  login
-})
+  login,
+});
 
-export default reducers
+export default reducers;

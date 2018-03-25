@@ -1,21 +1,21 @@
 const initialState = {
-
-}
+  buttonLocations: [],
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case 'USER_SET_STATE': {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case 'USER_RESET_STATE': {
-      return initialState
-    };
+      return initialState;
+    }
     default:
-      return state
+      return state;
   }
 }
 
-export default reducer
+export default reducer;

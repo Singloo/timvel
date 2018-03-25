@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
   Icon,
   InfiniteText,
+  Text,
 } from '../../../re-kits/components';
 import { base } from '../../utils';
 import LottieView from 'lottie-react-native';
@@ -22,10 +23,10 @@ class Login extends Component {
   componentWillMount() {}
 
   componentDidMount() {
-    this.gradientBK.play();
+    // this.gradientBK.play();
   }
   componentWillUnmount() {
-    this.gradientBK.reset();
+    // this.gradientBK.reset();
   }
 
   _goBack = () => {
@@ -38,7 +39,7 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LottieView
+        {/* <LottieView
           ref={r => {
             this.gradientBK = r;
           }}
@@ -46,14 +47,14 @@ class Login extends Component {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-        />
+        /> */}
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}
           style={styles.absoluteBK}
           blurAmount={20}
         />
-
+        <View style={styles.contentContainer}>
         <View style={styles.buttonContainer}>
           {/* <Sae
             label={'Your name'}
@@ -65,10 +66,9 @@ class Login extends Component {
             autoCorrect={false}
           /> */}
 
-          
-
           <Button title={'Press me to login'} />
           <Button title={`Don't have an account?`} />
+        </View>
         </View>
         <NavBar
           uriLeft={'arrow_left'}
@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  navBar:{
-    position:'absolute',
-    top:0
+  navBar: {
+    position: 'absolute',
+    top: 0,
   },
   absoluteBK: {
     position: 'absolute',
@@ -98,8 +98,13 @@ const styles = StyleSheet.create({
     right: 0,
   },
   buttonContainer: {
-    flex: 1,
+    flexDirection:'column'
   },
+  contentContainer:{
+    flex:1,
+    flexDirection:'column',
+    justifyContent:'center'
+  }
 });
 
 export default Login;

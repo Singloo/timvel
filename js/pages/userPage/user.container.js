@@ -1,10 +1,36 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
+import { Platform, StyleSheet, View } from 'react-native';
+import {
+  Button,
+  NavBar,
+  Icon,
+  InfiniteText,
+  Text,
+} from '../../../re-kits/components';
 import { base } from '../../utils';
 
 class User extends Component {
-  componentWillMount() {}
+  constructor(props) {
+    super(props);
+    this.tempLocations = [];
+  }
+  componentWillMount() {
+    for (var i = 0; i <= 20; i++) {
+      var x = parseInt(Math.random() * base.SCREEN_WIDTH);
+      var y = parseInt(Math.random() * base.SCREEN_HEIGHT);
+      var coordinate = {
+        x,
+        y,
+      };
+      this.tempLocations.push(coordinate);
+
+      if (i == 20) {
+        this.props.logic('USER_SET_STATE', {
+          buttonLocations: this.tempLocations,
+        });
+      }
+    }
+  }
 
   componentDidMount() {}
 
@@ -16,9 +42,26 @@ class User extends Component {
     });
   };
   render() {
+    const { buttonLocations } = this.props.state;
+    const renderButton =
+      buttonLocations &&
+      buttonLocations.map((item, index) => {
+        return (
+          <Button
+            style={[styles.loginButton, { left: item.x, top: item.y }]}
+            title={'tap me'}
+            onPress={this._onPressLogin}
+          />
+        );
+      });
     return (
       <View style={styles.container}>
-        <Button onPress={this._onPressLogin} title={'tap me'} />
+        {renderButton}
+        {/* <Button
+
+          title={'tap me'}
+          onPress={this._onPressLogin}
+        /> */}
       </View>
     );
   }
@@ -28,8 +71,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  loginButton: {
+    position: 'absolute',
   },
 });
 
