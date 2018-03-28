@@ -6,6 +6,7 @@ import {
   Icon,
   InfiniteText,
   Text,
+  
 } from '../../../re-kits/components';
 import { base } from '../../utils';
 
@@ -15,7 +16,7 @@ class User extends Component {
     this.tempLocations = [];
   }
   componentWillMount() {
-    for (var i = 0; i <= 20; i++) {
+    for (var i = 0; i <= 50; i++) {
       var x = parseInt(Math.random() * base.SCREEN_WIDTH);
       var y = parseInt(Math.random() * base.SCREEN_HEIGHT);
       var coordinate = {
@@ -48,7 +49,7 @@ class User extends Component {
       buttonLocations.map((item, index) => {
         return (
           <Button
-            style={[styles.loginButton, { left: item.x, top: item.y }]}
+          buttonStyle={[styles.loginButton, { left: item.x, top: item.y ,}]}
             title={'tap me'}
             onPress={this._onPressLogin}
           />

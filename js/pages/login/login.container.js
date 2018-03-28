@@ -7,6 +7,7 @@ import {
   Icon,
   InfiniteText,
   Text,
+  TextInput
 } from '../../../re-kits/components';
 import { base } from '../../utils';
 import LottieView from 'lottie-react-native';
@@ -55,16 +56,13 @@ class Login extends Component {
           blurAmount={20}
         />
         <View style={styles.contentContainer}>
+        <View>
+          <TextInput
+          placeholder={'your email'}
+          />
+          </View>
         <View style={styles.buttonContainer}>
-          {/* <Sae
-            label={'Your name'}
-            // iconClass={FontAwesomeIcon}
-            iconName={'pikachu'}
-            // iconColor={'white'}
-            // TextInput props
-            autoCapitalize={'none'}
-            autoCorrect={false}
-          /> */}
+        
 
           <Button title={'Press me to login'} />
           <Button title={`Don't have an account?`} />
@@ -73,7 +71,7 @@ class Login extends Component {
         <NavBar
           uriLeft={'arrow_left'}
           onPressLeft={this._goBack}
-          title={'LogIn or SignUp or Get out'}
+          title={'LogIn or SignUp'}
           style={styles.navBar}
         />
       </View>
@@ -85,6 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    alignItems:'center'
   },
   navBar: {
     position: 'absolute',
