@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View, Keyboard,Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -7,13 +7,13 @@ import {
   Icon,
   InfiniteText,
   Text,
-  TextInput
+  TextInput,
+  Touchable,
 } from '../../../re-kits/components';
 import { base } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
-import { Sae } from 'react-native-textinput-effects';
-// import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -21,15 +21,48 @@ class Login extends Component {
       viewRef: null,
     };
   }
-  componentWillMount() {}
+  componentWillMount() {
+    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow',this.keyboardWillShow)
+    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide',this.keyboardWillHide)
+  }
 
   componentDidMount() {
-    // this.gradientBK.play();
+    this.gradientBK.play();
   }
   componentWillUnmount() {
-    // this.gradientBK.reset();
+    this.gradientBK.reset();
+    this.keyboardWillShowSub.remove()
+    this.keyboardWillHideSub.remove()
   }
 
+  //listener
+  keyboardWillShow = (event) => {
+    // Animated.parallel([
+    //     Animated.timing(this.keyboardHeight,{
+    //         duration: event.duration,
+    //         toValue: event.endCoordinates.height,
+    //     }),
+    //     Animated.timing(this.imageHeight,{
+    //         duration: event.duration,
+    //         toValue: IMAGE_HEIGHT_SMALL
+    //     })
+    // ]).start()
+}
+
+keyboardWillHide = (event) => {
+    // Animated.parallel([
+    //     Animated.timing(this.keyboardHeight,{
+    //         duration: event.duration,
+    //         toValue: base.realSize(100),
+    //     }),
+    //     Animated.timing(this.imageHeight,{
+    //         duration: event.duration,
+    //         toValue: IMAGE_HEIGHT
+    //     })
+    // ]).start()
+}
+
+  //press
   _goBack = () => {
     const { navigation } = this.props;
     this.props.logic('NAVIGATION_BACK', {
@@ -37,10 +70,13 @@ class Login extends Component {
     });
   };
 
+  _dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   render() {
     return (
       <View style={styles.container}>
-        {/* <LottieView
+        <LottieView
           ref={r => {
             this.gradientBK = r;
           }}
@@ -48,26 +84,24 @@ class Login extends Component {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-        /> */}
+        />
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}
           style={styles.absoluteBK}
           blurAmount={20}
         />
-        <View style={styles.contentContainer}>
-        <View>
-          <TextInput
-          placeholder={'your email'}
-          />
+        <Touchable withOutFeedback={true} onPress={this._dismissKeyboard}>
+          <View style={styles.contentContainer}>
+            <View>
+              <TextInput placeholder={'your email'} />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title={'Press me to login'} />
+              <Button title={`Don't have an account?`} />
+            </View>
           </View>
-        <View style={styles.buttonContainer}>
-        
-
-          <Button title={'Press me to login'} />
-          <Button title={`Don't have an account?`} />
-        </View>
-        </View>
+        </Touchable>
         <NavBar
           uriLeft={'arrow_left'}
           onPressLeft={this._goBack}
@@ -83,7 +117,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems:'center'
+    alignItems: 'center',
   },
   navBar: {
     position: 'absolute',
@@ -97,13 +131,13 @@ const styles = StyleSheet.create({
     right: 0,
   },
   buttonContainer: {
-    flexDirection:'column'
+    flexDirection: 'column',
   },
-  contentContainer:{
-    flex:1,
-    flexDirection:'column',
-    justifyContent:'center'
-  }
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
 });
 
 export default Login;

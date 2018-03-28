@@ -5,6 +5,7 @@ import {
   Icon,
   InfiniteText,
   Text,
+  Touchable
 } from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
@@ -28,9 +29,12 @@ class MainCard extends Component {
   }
 
   render() {
-    const { imgUri } = this.props;
+    const { imgUri,onPress } = this.props;
     return (
       <View style={[styles.wrapper]}>
+      <Touchable
+      onPress={onPress&&onPress}
+      >
         <View style={[styles.container, base.shadow]}>
           <Image
             ref={r => {
@@ -47,6 +51,7 @@ class MainCard extends Component {
             blurAmount={2}
           />
         </View>
+        </Touchable>
         <UserInfoBar style={styles.headerBar} />
 
         <TimeBar style={styles.bottomBar} />

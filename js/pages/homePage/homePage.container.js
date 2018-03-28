@@ -10,7 +10,7 @@ import {
 
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';
-// import store from './homePage.reducer'
+import ContentDetail from './components/ContentDetail';
 
 class HomePage extends Component {
   componentWillMount() {
@@ -20,14 +20,24 @@ class HomePage extends Component {
   componentDidMount() {
     // console.warn(User.current())
   }
-
-  _add = () => {};
-
+  //render
   _renderItem = ({ item, index }) => {
-    return <MainCard key={index} />;
+    return <MainCard onPress={this._onPressMainCard} key={index} />;
   };
 
+  //press
+  _onPressMainCard = () => {
+    this.props.logic('HOME_PAGE_SET_STATE', {
+      showDetail: true,
+    });
+  };
+  _closeModal = () => {
+    this.props.logic('HOME_PAGE_SET_STATE', {
+      showDetail: false,
+    });
+  };
   render() {
+    const { showDetail } = this.props.state;
     return (
       <View style={styles.container}>
         <FlatList
@@ -50,6 +60,14 @@ class HomePage extends Component {
             right: 0,
           }}
         />
+
+        {showDetail && (
+          <ContentDetail
+            frameTop={50}
+            frameLeft={20}
+            closeModal={this._closeModal}
+          />
+        )}
       </View>
     );
   }
