@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, Keyboard,Animated } from 'react-native';
+import { Platform, StyleSheet, View, Keyboard, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -13,7 +13,7 @@ import {
 import { base } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
-
+const {SCREEN_WIDTH} = base
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -22,21 +22,27 @@ class Login extends Component {
     };
   }
   componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow',this.keyboardWillShow)
-    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide',this.keyboardWillHide)
+    this.keyboardWillShowSub = Keyboard.addListener(
+      'keyboardWillShow',
+      this.keyboardWillShow,
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      'keyboardWillHide',
+      this.keyboardWillHide,
+    );
   }
 
   componentDidMount() {
-    this.gradientBK.play();
+    // this.gradientBK.play();
   }
   componentWillUnmount() {
-    this.gradientBK.reset();
-    this.keyboardWillShowSub.remove()
-    this.keyboardWillHideSub.remove()
+    // this.gradientBK.reset();
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
   }
 
   //listener
-  keyboardWillShow = (event) => {
+  keyboardWillShow = event => {
     // Animated.parallel([
     //     Animated.timing(this.keyboardHeight,{
     //         duration: event.duration,
@@ -47,9 +53,9 @@ class Login extends Component {
     //         toValue: IMAGE_HEIGHT_SMALL
     //     })
     // ]).start()
-}
+  };
 
-keyboardWillHide = (event) => {
+  keyboardWillHide = event => {
     // Animated.parallel([
     //     Animated.timing(this.keyboardHeight,{
     //         duration: event.duration,
@@ -60,7 +66,7 @@ keyboardWillHide = (event) => {
     //         toValue: IMAGE_HEIGHT
     //     })
     // ]).start()
-}
+  };
 
   //press
   _goBack = () => {
@@ -73,10 +79,12 @@ keyboardWillHide = (event) => {
   _dismissKeyboard = () => {
     Keyboard.dismiss();
   };
+
   render() {
+    const { username, password } = this.props.state;
     return (
       <View style={styles.container}>
-        <LottieView
+        {/* <LottieView
           ref={r => {
             this.gradientBK = r;
           }}
@@ -84,7 +92,7 @@ keyboardWillHide = (event) => {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-        />
+        /> */}
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}
@@ -94,7 +102,34 @@ keyboardWillHide = (event) => {
         <Touchable withOutFeedback={true} onPress={this._dismissKeyboard}>
           <View style={styles.contentContainer}>
             <View>
-              <TextInput placeholder={'your email'} />
+              <TextInput
+                placeholder={'username'}
+                value={username}
+                onChangeText={value => {
+                  this.props.logic('LOGIN_SET_STATE', {
+                    username: value,
+                  });
+                }}
+                clearText={() =>
+                  this.props.logic('LOGIN_SET_STATE', {
+                    username: '',
+                  })
+                }
+              />
+              <TextInput
+                placeholder={'password'}
+                value={password}
+                onChangeText={value => {
+                  this.props.logic('LOGIN_SET_STATE', {
+                    password: value,
+                  });
+                }}
+                clearText={() =>
+                  this.props.logic('LOGIN_SET_STATE', {
+                    password: '',
+                  })
+                }
+              />
             </View>
             <View style={styles.buttonContainer}>
               <Button title={'Press me to login'} />

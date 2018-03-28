@@ -1,4 +1,7 @@
-const initialState = {};
+const initialState = {
+  username:'',
+  password:''
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
