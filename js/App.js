@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, UIManager } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';
@@ -8,6 +8,8 @@ import { SafeAreaView } from 'react-navigation';
 const store = configureStore();
 
 Setup.preventDoublePress(SimpleApp);
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends Component {
   async componentDidMount() {
     // try to prevent crash n._navigation.state

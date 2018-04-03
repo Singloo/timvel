@@ -5,6 +5,8 @@ import {
   View,
   Image,
   findNodeHandle,
+  Animated,
+  LayoutAnimation,
 } from 'react-native';
 import {
   Button,
@@ -15,9 +17,10 @@ import {
 import { base } from '../../../utils';
 import { BlurView } from 'react-native-blur';
 import PropTypes from 'prop-types';
-const { SCREEN_WIDTH, colors, renderTitle } = base;
+const { SCREEN_WIDTH, colors, renderTitle, realSize } = base;
 const width = SCREEN_WIDTH;
-const height = SCREEN_WIDTH * (4 / 7);
+const height = realSize(200);
+const avatarSize = realSize(80);
 class UserInfo extends Component {
   constructor(props) {
     super(props);
@@ -30,8 +33,25 @@ class UserInfo extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
   render() {
-    const { username, userCoin, userAvatar, userTitle } = this.props;
+    const { username, userCoin, userAvatar, userTitle, shrink } = this.props;
 
+    if (shrink) {
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(
+          300,
+          LayoutAnimation.Types.linear,
+          LayoutAnimation.Properties.opacity,
+        ),
+      );
+    } else {
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(
+          200,
+          LayoutAnimation.Types.linear,
+          LayoutAnimation.Properties.opacity,
+        ),
+      );
+    }
     return (
       <View style={styles.container}>
         <Image
@@ -47,18 +67,33 @@ class UserInfo extends Component {
           blurType={'regular'}
           style={styles.absolute}
         />
-        <View style={styles.infoContainer}>
-          <Icon uri={userAvatar} size={80} isRound={true} />
+        <Animated.View
+          style={shrink ? styles.infoContainerAfter : styles.infoContainer}
+        >
+          {/* <Icon uri={userAvatar} size={80} isRound={false} /> */}
+          <Animated.Image
+            source={{ uri: userAvatar }}
+            style={shrink ? styles.avatarAfter : styles.avatarNormal}
+          />
           <View style={styles.textContainer}>
             <InfiniteText
               text={username + userCoin}
               style={{}}
               textStyle={{ color: colors.white }}
             >
-            {renderTitle(userTitle)}
+              {renderTitle(userTitle)}
+              <View
+                style={{
+                  width: 1,
+                  height: 18,
+                  backgroundColor: colors.white,
+                  marginRight: 4,
+                  alignSelf: 'center',
+                }}
+              />
             </InfiniteText>
           </View>
-        </View>
+        </Animated.View>
       </View>
     );
   }
@@ -76,33 +111,49 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    bottom: 0,
+    bottom: avatarSize / 2,
     right: 0,
   },
   bkImage: {
     position: 'absolute',
     top: 0,
     left: 0,
-    bottom: 0,
+    bottom: avatarSize / 2,
     right: 0,
     width: width,
-    height: height,
+    height: height - avatarSize / 2,
   },
   infoContainer: {
-    // alignSelf:'center',
     justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor:'blue',
-    paddingVertical: 0,
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    marginLeft: 20,
+  },
+  infoContainerAfter: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 20,
+    left: 40,
   },
   textContainer: {
     height: 30,
-    marginTop: 10,
-    // flexDirection:'row',
-    alignItems:'center',
-    alignSelf:'center',
-    justifyContent:'center',
-    marginLeft:40,
+    alignItems: 'center',
+    // alignSelf:'center',
+    justifyContent: 'center',
+    marginLeft: 20,
+  },
+  avatarNormal: {
+    width: avatarSize,
+    height: avatarSize,
+    borderRadius: 0,
+  },
+  avatarAfter: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
   },
 });
 
