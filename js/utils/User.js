@@ -7,6 +7,10 @@ export function init() {
   });
 }
 
+export function isLoggedIn() {
+  return !!AV.User.current();
+}
+
 export function logIn({ username, password }) {
   return AV.User.logIn(username, password);
 }
@@ -39,10 +43,10 @@ export function username() {
 
 export function getUserInfo() {
   var userInfo = {
-    username: AV.User.current.get('username'),
-    userCoin: AV.User.current.get('userCoin'),
-    userAvatar: AV.User.current.get('avatar'),
-    userTitle: AV.User.current.get('title'),
+    username: AV.User.current().get('username'),
+    userCoin: AV.User.current().get('userCoin'),
+    userAvatar: AV.User.current().get('avatar'),
+    userTitle: AV.User.current().get('title'),
   };
 
   return userInfo;

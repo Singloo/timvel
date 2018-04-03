@@ -6,11 +6,11 @@ import {
   Icon,
   InfiniteText,
   Text,
-  
 } from '../../../re-kits/components';
-import { base } from '../../utils';
+import { base, User } from '../../utils';
+import UserProfile from './component/UserProfile';
 
-class User extends Component {
+class UserPage extends Component {
   constructor(props) {
     super(props);
     this.tempLocations = [];
@@ -31,6 +31,8 @@ class User extends Component {
         });
       }
     }
+
+    this.props.logic('USER_GET_USER_STATUS');
   }
 
   componentDidMount() {}
@@ -43,13 +45,13 @@ class User extends Component {
     });
   };
   render() {
-    const { buttonLocations } = this.props.state;
+    const { buttonLocations, isLoggedIn, userInfo } = this.props.state;
     const renderButton =
       buttonLocations &&
       buttonLocations.map((item, index) => {
         return (
           <Button
-          buttonStyle={[styles.loginButton, { left: item.x, top: item.y ,}]}
+            buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
             title={'tap me'}
             onPress={this._onPressLogin}
           />
@@ -57,12 +59,8 @@ class User extends Component {
       });
     return (
       <View style={styles.container}>
-        {renderButton}
-        {/* <Button
-
-          title={'tap me'}
-          onPress={this._onPressLogin}
-        /> */}
+        {!isLoggedIn && renderButton}
+        {isLoggedIn && <UserProfile userInfo={userInfo} />}
       </View>
     );
   }
@@ -78,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default User;
+export default UserPage;

@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, Keyboard, Animated } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Keyboard,
+  Animated,
+  Easing,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -10,16 +17,17 @@ import {
   TextInput,
   Touchable,
 } from '../../../re-kits/components';
-import { base } from '../../utils';
+import { base, User } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
-const {SCREEN_WIDTH} = base
+const { SCREEN_WIDTH, realSize, colors } = base;
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viewRef: null,
     };
+    this.keyboardHeight = new Animated.Value(0);
   }
   componentWillMount() {
     this.keyboardWillShowSub = Keyboard.addListener(
@@ -43,6 +51,10 @@ class Login extends Component {
 
   //listener
   keyboardWillShow = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 400,
+      toValue: realSize(200),
+    }).start();
     // Animated.parallel([
     //     Animated.timing(this.keyboardHeight,{
     //         duration: event.duration,
@@ -56,6 +68,10 @@ class Login extends Component {
   };
 
   keyboardWillHide = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 400,
+      toValue: 0,
+    }).start();
     // Animated.parallel([
     //     Animated.timing(this.keyboardHeight,{
     //         duration: event.duration,
@@ -80,6 +96,37 @@ class Login extends Component {
     Keyboard.dismiss();
   };
 
+  async _login() {
+    const { username, password } = this.props.state;
+    try {
+      await User.logIn(username, password);
+    } catch (error) {
+      console.warn(error);
+      switch (error.code) {
+        case 210:
+          console.warn('用户名和密码不匹配。');
+          break;
+        case 211:
+          console.warn('找不到用户。');
+          break;
+        case 216:
+          console.warn('未验证的邮箱地址。');
+          break;
+
+        case 219:
+          console.warn(
+            '登录失败次数超过限制，请稍候再试，或者通过忘记密码重设密码',
+          );
+          break;
+        default:
+          console.warn('network error' + `${error.code}`);
+          break;
+      }
+    } finally {
+    }
+  }
+
+  _signUp = () => {};
   render() {
     const { username, password } = this.props.state;
     return (
@@ -100,10 +147,17 @@ class Login extends Component {
           blurAmount={20}
         />
         <Touchable withOutFeedback={true} onPress={this._dismissKeyboard}>
-          <View style={styles.contentContainer}>
+          <Animated.View
+            style={[
+              styles.contentContainer,
+              { marginBottom: this.keyboardHeight },
+            ]}
+          >
             <View>
               <TextInput
-                placeholder={'username'}
+                containerStyle={styles.textInputContainer}
+                style={styles.textInput}
+                placeholderText={'username'}
                 value={username}
                 onChangeText={value => {
                   this.props.logic('LOGIN_SET_STATE', {
@@ -117,7 +171,10 @@ class Login extends Component {
                 }
               />
               <TextInput
-                placeholder={'password'}
+                containerStyle={styles.textInputContainer}
+                style={styles.textInput}
+                secureTextEntry={true}
+                placeholderText={'password'}
                 value={password}
                 onChangeText={value => {
                   this.props.logic('LOGIN_SET_STATE', {
@@ -132,10 +189,10 @@ class Login extends Component {
               />
             </View>
             <View style={styles.buttonContainer}>
-              <Button title={'Press me to login'} />
-              <Button title={`Don't have an account?`} />
+              <Button title={'Press me to login'} onPress={this._login} />
+              <Button title={`Don't have an account?`} onPress={this._signUp} />
             </View>
-          </View>
+          </Animated.View>
         </Touchable>
         <NavBar
           uriLeft={'arrow_left'}
@@ -152,7 +209,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   navBar: {
     position: 'absolute',
@@ -172,6 +229,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    // backgroundColor: 'red',
+    // alignItems: 'center',
+  },
+  textInput: {
+    // borderColor:colors.lightGrey
+  },
+  textInputContainer: {
+    marginHorizontal: 30,
   },
 });
 

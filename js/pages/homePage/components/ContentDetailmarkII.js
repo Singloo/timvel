@@ -4,7 +4,7 @@ import { Button, Icon, Text } from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
-const { SCREEN_WIDTH, SCREEN_HEIGHT ,colors} = base;
+const { SCREEN_WIDTH, SCREEN_HEIGHT } = base;
 class ContentDetail extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +36,7 @@ class ContentDetail extends Component {
     const { frameTop, frameLeft, closeModal } = this.props;
     const { animationState } = this.state;
     return (
+      <View>
       <Animated.View
         style={[
           styles.container,
@@ -72,6 +73,7 @@ class ContentDetail extends Component {
           <Text>{'Hello there'}</Text>
         </View>
       </Animated.View>
+      </View>
     );
   }
 }
@@ -80,7 +82,7 @@ ContentDetail.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    backgroundColor: colors.white,
+    backgroundColor: 'red',
   },
 });
 
