@@ -41,6 +41,7 @@ export const colors = {
   depGrey: '#616161',
 };
 
+export const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
 export function renderTitle(title, customStyle) {
   const renderText = style => {
     return <Text style={[styles.qing, style]}>{title}</Text>;

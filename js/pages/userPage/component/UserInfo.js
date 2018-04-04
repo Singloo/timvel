@@ -70,7 +70,6 @@ class UserInfo extends Component {
         <Animated.View
           style={shrink ? styles.infoContainerAfter : styles.infoContainer}
         >
-          {/* <Icon uri={userAvatar} size={80} isRound={false} /> */}
           <Animated.Image
             source={{ uri: userAvatar }}
             style={shrink ? styles.avatarAfter : styles.avatarNormal}
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     top: 20,
-    left: 40,
+    left: SCREEN_WIDTH/4,
   },
   textContainer: {
     height: 30,
