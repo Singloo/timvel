@@ -651,6 +651,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				150A3562207DFDDE000FA7A8 /* Crashlytics.framework */,
+				150A3561207DFDDD000FA7A8 /* Fabric.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				EC0E3CD2E483B9F4B9CF8072 /* libPods-timvel.a */,
 			);
@@ -709,8 +711,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				150A3562207DFDDE000FA7A8 /* Crashlytics.framework */,
-				150A3561207DFDDD000FA7A8 /* Fabric.framework */,
 				13B07FAE1A68108700A75B9A /* timvel */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* timvelTests */,
