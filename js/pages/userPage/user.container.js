@@ -44,25 +44,34 @@ class UserPage extends Component {
       routeName: 'login',
     });
   };
+  _onPressLogout = () => {
+    User.logOut();
+    this.props.logic('USER_SET_STATE', {
+      userInfo: {},
+    });
+  };
   render() {
-    const { buttonLocations, isLoggedIn, userInfo } = this.props.state;
-    const renderButton =
-      buttonLocations &&
-      buttonLocations.map((item, index) => {
-        return (
-          <Button
-            buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
-            title={'tap me'}
-            onPress={this._onPressLogin}
-          />
-        );
-      });
-    return (
-      <View style={styles.container}>
-        {!isLoggedIn && renderButton}
-        {isLoggedIn && <UserProfile userInfo={userInfo} />}
-      </View>
-    );
+    const { buttonLocations, userInfo } = this.props.state;
+    const renderButton = buttonLocations.map((item, index) => {
+      return (
+        <Button
+          key={index}
+          buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
+          title={'tap me'}
+          onPress={this._onPressLogin}
+        />
+      );
+    });
+    if (!User.isLoggedIn()) {
+      return <View style={{ flex: 1 }}>{renderButton}</View>;
+    } else {
+      return (
+        <View style={styles.container}>
+          <UserProfile userInfo={userInfo} />
+          <Button onPress={this._onPressLogout} title={'log out'} />
+        </View>
+      );
+    }
   }
 }
 
@@ -70,6 +79,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    justifyContent: 'center',
+    marginBottom: 48,
   },
   loginButton: {
     position: 'absolute',

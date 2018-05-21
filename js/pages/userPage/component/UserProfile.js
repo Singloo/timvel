@@ -12,7 +12,7 @@ import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';
 import HeaderBar from './HeaderBar';
-const { realSize, colors, SCREEN_WIDTH,PADDING_TOP } = base;
+const { realSize, colors, SCREEN_WIDTH, PADDING_TOP } = base;
 class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +43,6 @@ class UserProfile extends Component {
     const { username, userCoin, userAvatar, userTitle } = userInfo && userInfo;
     return (
       <View style={styles.wrapper}>
-        
         <ScrollView
           style={styles.container}
           // showsVerticalScrollIndicator={false}
@@ -51,27 +50,6 @@ class UserProfile extends Component {
           onScroll={event => this._handleScroll(event)}
           scrollEventThrottle={30}
         >
-          <UserInfo
-            username={username}
-            userCoin={userCoin}
-            userAvatar={userAvatar}
-            userTitle={userTitle}
-            shrink={this.state.beginShrink}
-          />
-          <UserInfo
-            username={username}
-            userCoin={userCoin}
-            userAvatar={userAvatar}
-            userTitle={userTitle}
-            shrink={this.state.beginShrink}
-          />
-          <UserInfo
-            username={username}
-            userCoin={userCoin}
-            userAvatar={userAvatar}
-            userTitle={userTitle}
-            shrink={this.state.beginShrink}
-          />
           <UserInfo
             username={username}
             userCoin={userCoin}

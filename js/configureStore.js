@@ -1,8 +1,18 @@
 import { createStore, applyMiddleware } from 'redux';
+import { Platform } from 'react-native';
 import reducers from './reducers';
 import logics from './logics';
 import { createLogicMiddleware } from 'redux-logic';
 import { User } from './utils';
+import Axios from 'axios';
+import { API_V1 } from './constants';
+const httpClient = Axios.create({
+  baseURL: API_V1,
+  timeout: 20000,
+  headers: {
+    platfrom: Platform.OS,
+  },
+});
 const deps = {
   logic: function(type, payload) {
     return {
@@ -11,6 +21,11 @@ const deps = {
     };
   },
   User,
+  httpClient,
+  navigation: null,
+};
+export const setNavigation = navigation => {
+  deps.navigation = navigation;
 };
 
 export default function configureStore() {

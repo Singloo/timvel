@@ -14,7 +14,7 @@ import ContentDetail from './components/ContentDetail';
 
 class HomePage extends Component {
   componentWillMount() {
-    this.props.logic('INIT_APP');
+    // this.props.logic('INIT_APP');
   }
 
   componentDidMount() {
@@ -22,7 +22,7 @@ class HomePage extends Component {
   }
   //render
   _renderItem = ({ item, index }) => {
-    return <MainCard onPress={this._onPressMainCard} key={index} />;
+    return <MainCard onPress={this._onPressMainCard} />;
   };
 
   //press

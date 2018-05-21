@@ -1,6 +1,5 @@
 const initialState = {
   buttonLocations: [],
-  isLoggedIn:false,
   userInfo:{}
 };
 

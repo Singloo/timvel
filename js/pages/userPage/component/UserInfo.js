@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     width: width,
     height: height,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   absolute: {
     position: 'absolute',

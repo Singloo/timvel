@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, UIManager } from 'react-native';
 import { Provider } from 'react-redux';
-import configureStore from './configureStore';
+import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
 import { Setup, base } from './utils';
 import { SafeAreaView } from 'react-navigation';
@@ -29,6 +29,7 @@ export default class App extends Component {
         <SimpleApp
           ref={navigation => {
             this._navigation = navigation;
+            setNavigation(navigation);
           }}
         />
         {/* </SafeAreaView> */}

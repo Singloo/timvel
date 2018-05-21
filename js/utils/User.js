@@ -42,11 +42,16 @@ export function username() {
 }
 
 export function getUserInfo() {
+  let user = AV.User.current();
   var userInfo = {
-    username: AV.User.current().get('username'),
-    userCoin: AV.User.current().get('userCoin'),
-    userAvatar: AV.User.current().get('avatar'),
-    userTitle: AV.User.current().get('title'),
+    username: user.get('username'),
+    userCoin: user.get('userCoin'),
+    userAvatar: user.get('avatar'),
+    userTitle: user.get('title'),
+    objectId: user.get('objectId'),
+    email: user.get('email'),
+    phoneNumber: user.get('mobilePhoneNumber'),
+    organization: user.get('organization'),
   };
 
   return userInfo;
