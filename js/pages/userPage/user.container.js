@@ -58,6 +58,7 @@ class UserPage extends Component {
           key={index}
           buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
           title={'tap me'}
+          size={'small'}
           onPress={this._onPressLogin}
         />
       );

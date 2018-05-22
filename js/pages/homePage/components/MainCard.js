@@ -5,12 +5,12 @@ import {
   Icon,
   InfiniteText,
   Text,
-  Touchable
+  Touchable,
 } from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
-
+const { Styles } = base;
 import UserInfoBar from './UserInfoBar';
 import TimeBar from './TimeBar';
 const cardWidth = base.SCREEN_WIDTH - 20;
@@ -29,28 +29,26 @@ class MainCard extends Component {
   }
 
   render() {
-    const { imgUri,onPress } = this.props;
+    const { imgUri, onPress } = this.props;
     return (
       <View style={[styles.wrapper]}>
-      <Touchable
-      onPress={onPress&&onPress}
-      >
-        <View style={[styles.container, base.shadow]}>
-          <Image
-            ref={r => {
-              this.backgroundImage = r;
-            }}
-            source={{ uri: 'bk1' }}
-            style={styles.absoluteBK}
-            onLoadEnd={this.imageLoaded.bind(this)}
-          />
-          <BlurView
-            viewRef={this.state.viewRef}
-            blurType={'light'}
-            style={styles.absoluteBK}
-            blurAmount={2}
-          />
-        </View>
+        <Touchable onPress={onPress && onPress}>
+          <View style={[styles.container, Styles.shadow]}>
+            <Image
+              ref={r => {
+                this.backgroundImage = r;
+              }}
+              source={{ uri: 'bk1' }}
+              style={styles.absoluteBK}
+              onLoadEnd={this.imageLoaded.bind(this)}
+            />
+            <BlurView
+              viewRef={this.state.viewRef}
+              blurType={'light'}
+              style={styles.absoluteBK}
+              blurAmount={2}
+            />
+          </View>
         </Touchable>
         <UserInfoBar style={styles.headerBar} />
 

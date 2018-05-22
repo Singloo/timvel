@@ -96,7 +96,7 @@ class Login extends Component {
     Keyboard.dismiss();
   };
 
-  async _login() {
+  async _onPressLogin() {
     const { username, password } = this.props.state;
     try {
       await User.logIn(username, password);
@@ -126,7 +126,7 @@ class Login extends Component {
     }
   }
 
-  _signUp = () => {};
+  _onPressSignUp = () => {};
   render() {
     const { username, password } = this.props.state;
     return (
@@ -189,8 +189,16 @@ class Login extends Component {
               />
             </View>
             <View style={styles.buttonContainer}>
-              <Button title={'Press me to login'} onPress={this._login} />
-              <Button title={`Don't have an account?`} onPress={this._signUp} />
+              <Button
+                title={'Press me to login'}
+                onPress={this._onPressLogin}
+                buttonStyle={styles.button}
+              />
+              <Button
+                title={`Don't have an account?`}
+                onPress={this._onPressSignUp}
+                buttonStyle={styles.button}
+              />
             </View>
           </Animated.View>
         </Touchable>
@@ -224,16 +232,21 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 10,
   },
   contentContainer: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    // backgroundColor: 'red',
-    // alignItems: 'center',
   },
   textInput: {
     // borderColor:colors.lightGrey
+  },
+  button: {
+    width: SCREEN_WIDTH - 60,
+    height: 50,
+    marginTop: 20,
   },
   textInputContainer: {
     marginHorizontal: 30,

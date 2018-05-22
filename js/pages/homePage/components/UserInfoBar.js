@@ -8,7 +8,7 @@ import {
 } from '../../../../re-kits/components';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
-
+const { Styles } = base;
 class UserInfoBar extends Component {
   componentWillMount() {}
 
@@ -21,7 +21,7 @@ class UserInfoBar extends Component {
           size={60}
           // isRound={true}
           resizeMode={'cover'}
-          style={[{}, base.shadow]}
+          style={[{}, Styles.shadow]}
         />
         <View style={styles.headerTextContainer}>
           <InfiniteText

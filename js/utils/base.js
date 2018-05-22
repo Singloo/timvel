@@ -16,16 +16,25 @@ export function randomItem(arr) {
   return arr[i];
 }
 
-export const shadow = isIOS
-  ? {
-      shadowOpacity: 0.4,
-      shadowRadius: 4,
-      shadowOffset: {
-        height: 3,
-        width: 2,
-      },
-    }
-  : { elevation: 4 };
+export const Styles = {
+  absolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  shadow: isIOS
+    ? {
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
+        shadowOffset: {
+          height: 3,
+          width: 2,
+        },
+      }
+    : { elevation: 4 },
+};
 
 export const isIphoneX =
   isIOS &&
