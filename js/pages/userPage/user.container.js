@@ -9,7 +9,7 @@ import {
 } from '../../../re-kits/components';
 import { base, User } from '../../utils';
 import UserProfile from './component/UserProfile';
-
+const { SCREEN_HEIGHT, SCREEN_WIDTH } = base;
 class UserPage extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +17,8 @@ class UserPage extends Component {
   }
   componentWillMount() {
     for (var i = 0; i <= 50; i++) {
-      var x = parseInt(Math.random() * base.SCREEN_WIDTH);
-      var y = parseInt(Math.random() * base.SCREEN_HEIGHT);
+      var x = parseInt(Math.random() * SCREEN_WIDTH);
+      var y = parseInt(Math.random() * SCREEN_HEIGHT);
       var coordinate = {
         x,
         y,

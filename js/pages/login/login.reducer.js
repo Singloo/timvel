@@ -1,6 +1,5 @@
 const initialState = {
-  username:'',
-  password:''
+  onLoginPage: false,
 };
 
 function reducer(state = initialState, action) {

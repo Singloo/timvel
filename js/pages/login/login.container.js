@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   View,
   Keyboard,
   Animated,
   Easing,
+  SafeAreaView,
+  LayoutAnimation,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -20,6 +21,8 @@ import {
 import { base, User } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 const { SCREEN_WIDTH, realSize, colors } = base;
 class Login extends Component {
   constructor(props) {
@@ -96,8 +99,7 @@ class Login extends Component {
     Keyboard.dismiss();
   };
 
-  async _onPressLogin() {
-    const { username, password } = this.props.state;
+  async _onPressLogin(username, password) {
     try {
       await User.logIn(username, password);
     } catch (error) {
@@ -126,9 +128,24 @@ class Login extends Component {
     }
   }
 
+  _onChangeLoginSignup = () => {
+    LayoutAnimation.configureNext(
+      LayoutAnimation.create(
+        400,
+        LayoutAnimation.Types.easeIn,
+        LayoutAnimation.Properties.opacity,
+      ),
+    );
+
+    const { onLoginPage } = this.props.state;
+    this.props.logic('LOGIN_SET_STATE', {
+      onLoginPage: !onLoginPage,
+    });
+  };
+
   _onPressSignUp = () => {};
   render() {
-    const { username, password } = this.props.state;
+    const { onLoginPage } = this.props.state;
     return (
       <View style={styles.container}>
         {/* <LottieView
@@ -153,7 +170,12 @@ class Login extends Component {
               { marginBottom: this.keyboardHeight },
             ]}
           >
-            <View>
+            <LoginPage
+              onPressNew={this._onChangeLoginSignup}
+              onPressLogin={this._onPressLogin}
+              onLoginPage={onLoginPage}
+            />
+            {/* <View>
               <TextInput
                 containerStyle={styles.textInputContainer}
                 style={styles.textInput}
@@ -199,7 +221,7 @@ class Login extends Component {
                 onPress={this._onPressSignUp}
                 buttonStyle={styles.button}
               />
-            </View>
+            </View> */}
           </Animated.View>
         </Touchable>
         <NavBar
