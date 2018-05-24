@@ -5,7 +5,7 @@ import { base, I18n } from '../../../utils';
 const { Styles, NAV_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } = base;
 import PropTypes from 'prop-types';
 
-const LEFT = SCREEN_WIDTH;
+const LEFT = SCREEN_WIDTH * 2;
 class SignUpPage extends React.Component {
   constructor(props) {
     super(props);

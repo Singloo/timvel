@@ -8,7 +8,7 @@ import {
   InfiniteText,
   Text,
 } from '../../../re-kits/components';
-import { base } from '../../utils';
+import { base ,I18n} from '../../utils';
 
 class Sample extends Component {
   componentWillMount() {}

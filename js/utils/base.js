@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
-
+import _ from 'lodash';
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );
@@ -11,9 +11,23 @@ export function realSize(px) {
   return px * SCREEN_WIDTH / 375;
 }
 
-export function randomItem(arr) {
-  var i = Math.floor(Math.random() * arr.length);
-  return arr[i];
+export function randomItem(arr, returnLength) {
+  if (typeof returnLength === 'undefined') {
+    let i = Math.floor(Math.random() * arr.length);
+    return arr[i];
+  } else {
+    let returnArr = [];
+    let flag = 0;
+    for (let i = 0; i++; i < returnLength.length) {
+      let item = randomItem(_.difference(arr, returnArr));
+      if (returnArr.includes(item)) {
+        flag = flag + 1;
+      } else {
+        returnArr.push(item);
+      }
+    }
+    return returnArr;
+  }
 }
 
 export const Styles = {
@@ -24,16 +38,19 @@ export const Styles = {
     bottom: 0,
     right: 0,
   },
+  transparent: {
+    backgroundColor: 'transparent',
+  },
   shadow: isIOS
     ? {
-        shadowOpacity: 0.4,
+        shadowOpacity: 0.3,
         shadowRadius: 4,
         shadowOffset: {
-          height: 3,
-          width: 2,
+          height: 4,
+          width: 3,
         },
       }
-    : { elevation: 4 },
+    : { elevation: 1 },
 };
 
 export const isIphoneX =

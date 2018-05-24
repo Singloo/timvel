@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "leancloud-storage": "^3.6.1",
+    "lodash": "^4.17.10",
     "lottie-react-native": "2.3.2",
     "moment": "^2.21.0",
     "npm": "^5.8.0",

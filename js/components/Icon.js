@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Image,
 } from 'react-native';
 import PropTypes from 'prop-types';

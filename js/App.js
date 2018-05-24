@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
 import { Setup, base } from './utils';
-import { SafeAreaView } from 'react-navigation';
+import * as Connectors from './connectors';
 const store = configureStore();
 
 Setup.preventDoublePress(SimpleApp);
@@ -25,14 +25,15 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        {/* <SafeAreaView style={{ flex: 1 }}> */}
-        <SimpleApp
-          ref={navigation => {
-            this._navigation = navigation;
-            setNavigation(navigation);
-          }}
-        />
-        {/* </SafeAreaView> */}
+        <View style={{ flex: 1 }}>
+          <SimpleApp
+            ref={navigation => {
+              this._navigation = navigation;
+              setNavigation(navigation);
+            }}
+          />
+          <Connectors.global />
+        </View>
       </Provider>
     );
   }

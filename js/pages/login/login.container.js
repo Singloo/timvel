@@ -189,7 +189,7 @@ class Login extends Component {
           style={Styles.absolute}
           blurAmount={20}
         />
-        <Touchable withOutFeedback={true} onPress={this._dismissKeyboard}>
+        <Touchable withoutFeedback={true} onPress={this._dismissKeyboard}>
           <Animated.View
             style={[
               styles.contentContainer,

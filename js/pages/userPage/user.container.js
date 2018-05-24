@@ -38,11 +38,14 @@ class UserPage extends Component {
   componentDidMount() {}
 
   _onPressLogin = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_NAVIGATE', {
-      navigation,
-      routeName: 'login',
+    this.props.logic('GLOBAL_SET_STATE', {
+    snakeBarInfo: 'hello',
     });
+    // const { navigation } = this.props;
+    // this.props.logic('NAVIGATION_NAVIGATE', {
+    //   navigation,
+    //   routeName: 'login',
+    // });
   };
   _onPressLogout = () => {
     User.logOut();

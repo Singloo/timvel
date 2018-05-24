@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import reducers from './reducers';
 import logics from './logics';
 import { createLogicMiddleware } from 'redux-logic';
-import { User } from './utils';
+import { User, I18n } from './utils';
 import Axios from 'axios';
 import { API_V1 } from './constants';
 const httpClient = Axios.create({
@@ -22,6 +22,7 @@ const deps = {
   },
   User,
   httpClient,
+  I18n,
   navigation: null,
 };
 export const setNavigation = navigation => {

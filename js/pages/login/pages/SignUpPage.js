@@ -10,8 +10,7 @@ class SignUpPage extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password1: '',
-      password2: '',
+      password: '',
       email: '',
     };
   }
@@ -24,15 +23,9 @@ class SignUpPage extends React.Component {
         });
         break;
       }
-      case 'password1': {
+      case 'password': {
         this.setState({
-          password1: '',
-        });
-        break;
-      }
-      case 'password2': {
-        this.setState({
-          password2: '',
+          password: '',
         });
         break;
       }
@@ -52,9 +45,9 @@ class SignUpPage extends React.Component {
     });
   };
 
-  _onChangePassword1 = value => {
+  _onChangePassword = value => {
     this.setState({
-      password1: value,
+      password: value,
     });
   };
 
@@ -65,7 +58,7 @@ class SignUpPage extends React.Component {
   };
   render() {
     const { onLoginPage, onPressSignUp } = this.props;
-    const { username, password1, password2, email } = this.state;
+    const { username, password, email } = this.state;
     return (
       <View style={[Styles.absolute, styles.container]}>
         {/* <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}> */}
@@ -99,13 +92,13 @@ class SignUpPage extends React.Component {
           <TextInput
             containerStyle={styles.textInputContainer}
             style={styles.textInput}
-            placeholderText={I18n.t('signUpPassword1')}
-            value={password1}
-            onChangeText={this._onChangePassword1}
-            clearText={() => this._clear('password1')}
+            placeholderText={I18n.t('signUpPassword')}
+            value={password}
+            onChangeText={this._onChangePassword}
+            clearText={() => this._clear('password')}
           />
         </Animated.View>
-        <Animated.View
+        {/* <Animated.View
           style={[
             styles.relative,
             {
@@ -122,12 +115,12 @@ class SignUpPage extends React.Component {
             onChangeText={this._onChangePassword2}
             clearText={() => this._clear('password2')}
           />
-        </Animated.View>
+        </Animated.View> */}
         <Animated.View
           style={[
             styles.relative,
             {
-              right: !onLoginPage ? 0 : -RIGHT - 160 * 3,
+              right: !onLoginPage ? 0 : -RIGHT - 160 * 2,
               bottom: !onLoginPage ? 0 : -50,
             },
           ]}
@@ -148,11 +141,11 @@ class SignUpPage extends React.Component {
             styles.relative,
             {
               top: !onLoginPage ? 0 : SCREEN_HEIGHT,
-              right: !onLoginPage ? 0 : -RIGHT - 160 * 4,
+              right: !onLoginPage ? 0 : -RIGHT - 160 * 3,
             },
           ]}
           onPress={() => {
-            onPressSignUp(username, password2, email);
+            onPressSignUp(username, password, email);
           }}
         />
         {/* </ScrollView> */}
