@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Icon, Text, TextInput } from '../../../../re-kits/components';
-import { base } from '../../../utils';
+import { base, I18n } from '../../../utils';
 const { Styles, NAV_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } = base;
 import PropTypes from 'prop-types';
 
@@ -54,7 +54,7 @@ class SignUpPage extends React.Component {
           <TextInput
             containerStyle={styles.textInputContainer}
             style={styles.textInput}
-            placeholderText={'username'}
+            placeholderText={I18n.t('loginUsername')}
             value={username}
             onChangeText={this._onChangeUsername}
             clearText={this._clearUsername}
@@ -72,7 +72,7 @@ class SignUpPage extends React.Component {
           <TextInput
             containerStyle={styles.textInputContainer}
             style={styles.textInput}
-            placeholderText={'password'}
+            placeholderText={I18n.t('loginPassword')}
             value={password}
             onChangeText={this._onChangePassword}
             clearText={this._clearPassword}

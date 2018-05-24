@@ -16,6 +16,7 @@
     "react": "16.2.0",
     "react-native": "0.53.3",
     "react-native-blur": "^3.2.2",
+    "react-native-i18n": "^2.0.12",
     "react-native-image-crop-picker": "^0.20.0",
     "react-native-image-picker": "^0.26.7",
     "react-native-linear-gradient": "^2.4.0",

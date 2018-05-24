@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Animated, ScrollView } from 'react-native';
 import { Button, Icon, Text, TextInput } from '../../../../re-kits/components';
-import { base } from '../../../utils';
+import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles, SCREEN_WIDTH, NAV_BAR_HEIGHT, SCREEN_HEIGHT } = base;
 const RIGHT = SCREEN_WIDTH;
@@ -69,92 +69,92 @@ class SignUpPage extends React.Component {
     return (
       <View style={[Styles.absolute, styles.container]}>
         {/* <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}> */}
-          <Animated.View
-            style={[
-              styles.relative,
-              {
-                right: !onLoginPage ? 0 : -RIGHT,
-                bottom: !onLoginPage ? 0 : 50,
-              },
-            ]}
-          >
-            <TextInput
-              containerStyle={styles.textInputContainer}
-              style={styles.textInput}
-              placeholderText={'your username'}
-              value={username}
-              onChangeText={this._onChangeUsername}
-              clearText={() => this._clear('username')}
-            />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.relative,
-              {
-                right: !onLoginPage ? 0 : -RIGHT - 160,
-                bottom: !onLoginPage ? 0 : -50,
-              },
-            ]}
-          >
-            <TextInput
-              containerStyle={styles.textInputContainer}
-              style={styles.textInput}
-              placeholderText={'your password'}
-              value={password1}
-              onChangeText={this._onChangePassword1}
-              clearText={() => this._clear('password1')}
-            />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.relative,
-              {
-                right: !onLoginPage ? 0 : -RIGHT - 160 * 2,
-                bottom: !onLoginPage ? 0 : -50,
-              },
-            ]}
-          >
-            <TextInput
-              containerStyle={styles.textInputContainer}
-              style={styles.textInput}
-              placeholderText={'your password again'}
-              value={password2}
-              onChangeText={this._onChangePassword2}
-              clearText={() => this._clear('password2')}
-            />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.relative,
-              {
-                right: !onLoginPage ? 0 : -RIGHT - 160 * 3,
-                bottom: !onLoginPage ? 0 : -50,
-              },
-            ]}
-          >
-            <TextInput
-              containerStyle={styles.textInputContainer}
-              style={styles.textInput}
-              placeholderText={'your email'}
-              value={email}
-              onChangeText={this._onChangeEmail}
-              clearText={() => this._clear('email')}
-            />
-          </Animated.View>
-          <Button
-            title={'Sign up!!'}
-            buttonStyle={[
-              styles.buttonStyle,
-              styles.relative,
-              {
-                top: !onLoginPage ? 0 : SCREEN_HEIGHT,
-                right: !onLoginPage ? 0 : -RIGHT - 160 * 4,
-              },
-            ]}
-            onPress={() => {
-              onPressSignUp(username, password2, email);
-            }}
+        <Animated.View
+          style={[
+            styles.relative,
+            {
+              right: !onLoginPage ? 0 : -RIGHT,
+              bottom: !onLoginPage ? 0 : 50,
+            },
+          ]}
+        >
+          <TextInput
+            containerStyle={styles.textInputContainer}
+            style={styles.textInput}
+            placeholderText={I18n.t('signUpUsername')}
+            value={username}
+            onChangeText={this._onChangeUsername}
+            clearText={() => this._clear('username')}
           />
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.relative,
+            {
+              right: !onLoginPage ? 0 : -RIGHT - 160,
+              bottom: !onLoginPage ? 0 : -50,
+            },
+          ]}
+        >
+          <TextInput
+            containerStyle={styles.textInputContainer}
+            style={styles.textInput}
+            placeholderText={I18n.t('signUpPassword1')}
+            value={password1}
+            onChangeText={this._onChangePassword1}
+            clearText={() => this._clear('password1')}
+          />
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.relative,
+            {
+              right: !onLoginPage ? 0 : -RIGHT - 160 * 2,
+              bottom: !onLoginPage ? 0 : -50,
+            },
+          ]}
+        >
+          <TextInput
+            containerStyle={styles.textInputContainer}
+            style={styles.textInput}
+            placeholderText={I18n.t('signUpPassword2')}
+            value={password2}
+            onChangeText={this._onChangePassword2}
+            clearText={() => this._clear('password2')}
+          />
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.relative,
+            {
+              right: !onLoginPage ? 0 : -RIGHT - 160 * 3,
+              bottom: !onLoginPage ? 0 : -50,
+            },
+          ]}
+        >
+          <TextInput
+            containerStyle={styles.textInputContainer}
+            style={styles.textInput}
+            placeholderText={I18n.t('signUpEmail')}
+            value={email}
+            onChangeText={this._onChangeEmail}
+            clearText={() => this._clear('email')}
+          />
+        </Animated.View>
+        <Button
+          title={'Sign up!!'}
+          buttonStyle={[
+            styles.buttonStyle,
+            styles.relative,
+            {
+              top: !onLoginPage ? 0 : SCREEN_HEIGHT,
+              right: !onLoginPage ? 0 : -RIGHT - 160 * 4,
+            },
+          ]}
+          onPress={() => {
+            onPressSignUp(username, password2, email);
+          }}
+        />
         {/* </ScrollView> */}
       </View>
     );
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: NAV_BAR_HEIGHT,
     justifyContent: 'center',
-    backgroundColor:'transparent'
+    backgroundColor: 'transparent',
   },
   relative: {
     position: 'relative',

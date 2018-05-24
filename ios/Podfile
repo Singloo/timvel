@@ -23,6 +23,7 @@ target 'timvel' do
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
 end
 
 # very important to have, unless you removed React dependencies for Libraries 
