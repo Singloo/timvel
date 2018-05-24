@@ -78,31 +78,21 @@ class SignUpPage extends React.Component {
             clearText={this._clearPassword}
           />
         </Animated.View>
-        <View
-          stylle={[
+
+        <Button
+          title={'Login'}
+          buttonStyle={[
+            styles.buttonStyle,
             styles.relative,
             {
-              top: onLoginPage ? 0 : -SCREEN_HEIGHT,
+              top: onLoginPage ? 0 : SCREEN_HEIGHT,
+              left: onLoginPage ? 0 : -LEFT - 160 * 2,
             },
           ]}
-        >
-          <Button
-            title={'Login'}
-            buttonStyle={styles.buttonStyle}
-            onPress={() => {
-              onPressLogin(username, password);
-            }}
-          />
-          <Button
-            title={'New?'}
-            buttonStyle={[
-              styles.buttonStyle,
-              { backgroundColor: 'transparent', marginTop: 10 },
-            ]}
-            textStyle={{ fontSize: 14 }}
-            onPress={onPressNew}
-          />
-        </View>
+          onPress={() => {
+            onPressLogin(username, password);
+          }}
+        />
       </View>
     );
   }

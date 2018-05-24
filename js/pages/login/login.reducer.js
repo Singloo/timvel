@@ -1,5 +1,6 @@
 const initialState = {
   onLoginPage: false,
+  showSignUpPage: true,
 };
 
 function reducer(state = initialState, action) {

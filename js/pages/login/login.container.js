@@ -23,7 +23,7 @@ import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-const { SCREEN_WIDTH, realSize, colors } = base;
+const { SCREEN_WIDTH, realSize, colors, Styles } = base;
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -47,16 +47,18 @@ class Login extends Component {
     // this.gradientBK.play();
   }
   componentWillUnmount() {
+    this.props.logic('LOGIN_RESET_STATE');
     // this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
+    this.timer1 && clearTimeout(this.timer1);
   }
 
   //listener
   keyboardWillShow = event => {
     Animated.timing(this.keyboardHeight, {
       duration: 400,
-      toValue: realSize(200),
+      toValue: event.endCoordinates.height,
     }).start();
     // Animated.parallel([
     //     Animated.timing(this.keyboardHeight,{
@@ -129,23 +131,47 @@ class Login extends Component {
   }
 
   _onChangeLoginSignup = () => {
-    LayoutAnimation.configureNext(
-      LayoutAnimation.create(
-        400,
-        LayoutAnimation.Types.easeIn,
-        LayoutAnimation.Properties.opacity,
-      ),
-    );
+    this._dismissKeyboard();
 
-    const { onLoginPage } = this.props.state;
-    this.props.logic('LOGIN_SET_STATE', {
-      onLoginPage: !onLoginPage,
-    });
+    const { onLoginPage, showSignUpPage } = this.props.state;
+    if (showSignUpPage) {
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(
+          400,
+          LayoutAnimation.Types.easeIn,
+          LayoutAnimation.Properties.opacity,
+        ),
+      );
+      this.props.logic('LOGIN_SET_STATE', {
+        onLoginPage: !onLoginPage,
+      });
+      this.timer1 = setTimeout(() => {
+        this.props.logic('LOGIN_SET_STATE', {
+          showSignUpPage: !showSignUpPage,
+        });
+      }, 400);
+    } else {
+      this.props.logic('LOGIN_SET_STATE', {
+        showSignUpPage: !showSignUpPage,
+      });
+      setTimeout(() => {
+        LayoutAnimation.configureNext(
+          LayoutAnimation.create(
+            400,
+            LayoutAnimation.Types.easeIn,
+            LayoutAnimation.Properties.opacity,
+          ),
+        );
+        this.props.logic('LOGIN_SET_STATE', {
+          onLoginPage: !onLoginPage,
+        });
+      }, 50);
+    }
   };
 
-  _onPressSignUp = () => {};
+  _onPressSignUp = (username, password, email) => {};
   render() {
-    const { onLoginPage } = this.props.state;
+    const { onLoginPage, showSignUpPage } = this.props.state;
     return (
       <View style={styles.container}>
         {/* <LottieView
@@ -160,7 +186,7 @@ class Login extends Component {
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}
-          style={styles.absoluteBK}
+          style={Styles.absolute}
           blurAmount={20}
         />
         <Touchable withOutFeedback={true} onPress={this._dismissKeyboard}>
@@ -170,60 +196,30 @@ class Login extends Component {
               { marginBottom: this.keyboardHeight },
             ]}
           >
-            <LoginPage
-              onPressNew={this._onChangeLoginSignup}
-              onPressLogin={this._onPressLogin}
-              onLoginPage={onLoginPage}
-            />
-            {/* <View>
-              <TextInput
-                containerStyle={styles.textInputContainer}
-                style={styles.textInput}
-                placeholderText={'username'}
-                value={username}
-                onChangeText={value => {
-                  this.props.logic('LOGIN_SET_STATE', {
-                    username: value,
-                  });
-                }}
-                clearText={() =>
-                  this.props.logic('LOGIN_SET_STATE', {
-                    username: '',
-                  })
-                }
+            <View style={{ flex: 1 }}>
+              <LoginPage
+                onPressNew={this._onChangeLoginSignup}
+                onPressLogin={this._onPressLogin}
+                onLoginPage={onLoginPage}
               />
-              <TextInput
-                containerStyle={styles.textInputContainer}
-                style={styles.textInput}
-                secureTextEntry={true}
-                placeholderText={'password'}
-                value={password}
-                onChangeText={value => {
-                  this.props.logic('LOGIN_SET_STATE', {
-                    password: value,
-                  });
-                }}
-                clearText={() =>
-                  this.props.logic('LOGIN_SET_STATE', {
-                    password: '',
-                  })
-                }
-              />
+              {showSignUpPage && (
+                <SignUpPage
+                  onLoginPage={onLoginPage}
+                  onPressSignUp={this._onPressSignUp}
+                />
+              )}
             </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title={'Press me to login'}
-                onPress={this._onPressLogin}
-                buttonStyle={styles.button}
-              />
-              <Button
-                title={`Don't have an account?`}
-                onPress={this._onPressSignUp}
-                buttonStyle={styles.button}
-              />
-            </View> */}
           </Animated.View>
         </Touchable>
+        <Button
+          title={onLoginPage ? 'New?' : 'Have an account?'}
+          buttonStyle={[
+            styles.buttonStyle,
+            { backgroundColor: 'transparent', marginTop: 10 },
+          ]}
+          textStyle={{ fontSize: 14 }}
+          onPress={this._onChangeLoginSignup}
+        />
         <NavBar
           uriLeft={'arrow_left'}
           onPressLeft={this._goBack}
@@ -245,33 +241,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
   },
-  absoluteBK: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  buttonContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 10,
-  },
   contentContainer: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  textInput: {
-    // borderColor:colors.lightGrey
-  },
-  button: {
+  buttonStyle: {
+    alignSelf: 'center',
+    marginTop: 30,
     width: SCREEN_WIDTH - 60,
-    height: 50,
-    marginTop: 20,
-  },
-  textInputContainer: {
-    marginHorizontal: 30,
   },
 });
 
