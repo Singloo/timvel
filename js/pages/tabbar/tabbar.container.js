@@ -3,10 +3,10 @@ import { Platform, StyleSheet, View, findNodeHandle } from 'react-native';
 import {
   Button,
   NavBar,
-  Icon,
+  Image,
   InfiniteText,
   Text,
-} from '../../../re-kits/components';
+} from '../../../re-kits';
 import { base } from '../../utils';
 import { BlurView } from 'react-native-blur';
 import Tab from './components/Tab';

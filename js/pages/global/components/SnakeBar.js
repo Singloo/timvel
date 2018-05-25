@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, Text, Icon, Touchable } from '../../../../re-kits';
+import { Button, Text, Touchable } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles } = base;
@@ -32,11 +32,12 @@ class SnakeBar extends Component {
     }, duration);
   }
   dismiss() {
-    const { callback } = this.props;
+    const { callback, onPress } = this.props;
     Animated.spring(this.state.animationState, {
       toValue: 0,
       duration: 400,
     }).start();
+    onPress && onPress();
     this.timer1 = setTimeout(() => {
       callback && callback();
     }, 400);
@@ -82,7 +83,7 @@ SnakeBar.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    height: 60,
+    height: 68,
     left: 0,
     right: 0,
     flexDirection: 'row',

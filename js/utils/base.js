@@ -6,7 +6,7 @@ export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
 );
 
 export const isIOS = Platform.OS === 'ios';
-
+export const isAndroid = Platform.OS === 'android';
 export function realSize(px) {
   return px * SCREEN_WIDTH / 375;
 }
@@ -40,6 +40,10 @@ export const Styles = {
   },
   transparent: {
     backgroundColor: 'transparent',
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   shadow: isIOS
     ? {

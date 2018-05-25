@@ -5,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { Button, NavBar, Icon, InfiniteText } from '../../../re-kits/components'
+import { Button, NavBar, Image, InfiniteText } from '../../../re-kits'
 import { base } from '../../utils'
 
 class ShopPage extends Component {

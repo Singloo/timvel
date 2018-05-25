@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Icon, Text } from '../../../../re-kits/components';
+import { Button, Image, Text } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';

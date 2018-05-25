@@ -3,6 +3,7 @@ const initialState = {
   snakeBarInfo: '',
   snakeBarType: 'normal',
   snakeBarDuration: 3000,
+  onPressSnakeBar: null,
 };
 
 function reducer(state = initialState, action) {

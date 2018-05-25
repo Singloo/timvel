@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Button } from '../../../re-kits/components';
+import { Button } from '../../../re-kits';
 import { base } from '../../utils';
 const { Styles } = base;
 import SnakeBar from './components/SnakeBar';
+import LoadingView from './components/LoadingView';
 class Global extends Component {
   componentWillMount() {}
 
@@ -12,11 +13,39 @@ class Global extends Component {
       snakeBarInfo: '',
       snakeBarType: 'normal',
       snakeBarDuration: 3000,
+      onPressSnakeBar: null,
     });
   };
   render() {
-    const { snakeBarInfo, snakeBarType, snakeBarDuration } = this.props.state;
-    if (snakeBarInfo.length > 0) {
+    const {
+      snakeBarInfo,
+      snakeBarType,
+      snakeBarDuration,
+      isLoading,
+      onPressSnakeBar,
+    } = this.props.state;
+    let showLoading = isLoading;
+    let showSnakeBar = snakeBarInfo.length > 0;
+
+    if (showLoading && showSnakeBar) {
+      return (
+        <LoadingView>
+          <View style={styles.snakeBar}>
+            <SnakeBar
+              type={snakeBarType}
+              info={snakeBarInfo}
+              duration={snakeBarDuration}
+              callback={this.snakeBarCallback}
+            />
+          </View>
+        </LoadingView>
+      );
+    }
+
+    if (showLoading) {
+      return <LoadingView />;
+    }
+    if (showSnakeBar) {
       return (
         <View style={styles.snakeBar}>
           <SnakeBar
@@ -24,12 +53,12 @@ class Global extends Component {
             info={snakeBarInfo}
             duration={snakeBarDuration}
             callback={this.snakeBarCallback}
+            onPress={onPressSnakeBar}
           />
         </View>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 }
 
@@ -39,7 +68,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 60,
+    height: 68,
     backgroundColor: 'transparent',
   },
 });

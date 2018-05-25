@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Animated, ScrollView } from 'react-native';
-import { Button, Icon, Text, TextInput } from '../../../../re-kits/components';
+import { Button, Image, Text, TextInput } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles, SCREEN_WIDTH, NAV_BAR_HEIGHT, SCREEN_HEIGHT } = base;

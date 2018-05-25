@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import {
   Button,
   NavBar,
-  Icon,
+  Image,
   InfiniteText,
   Text,
-} from '../../../re-kits/components';
+} from '../../../re-kits';
 
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';

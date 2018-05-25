@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, findNodeHandle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Button,
-  Icon,
+  Image,
   InfiniteText,
   Text,
   Touchable,
-} from '../../../../re-kits/components';
+} from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
-import { BlurView } from 'react-native-blur';
 const { Styles } = base;
 import UserInfoBar from './UserInfoBar';
 import TimeBar from './TimeBar';
@@ -25,7 +24,7 @@ class MainCard extends Component {
   componentWillMount() {}
 
   imageLoaded() {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+    // this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
 
   render() {
@@ -35,18 +34,10 @@ class MainCard extends Component {
         <Touchable onPress={onPress && onPress}>
           <View style={[styles.container, Styles.shadow]}>
             <Image
-              ref={r => {
-                this.backgroundImage = r;
-              }}
               source={{ uri: 'bk1' }}
               style={styles.absoluteBK}
-              onLoadEnd={this.imageLoaded.bind(this)}
-            />
-            <BlurView
-              viewRef={this.state.viewRef}
-              blurType={'light'}
-              style={styles.absoluteBK}
-              blurAmount={2}
+              blur={true}
+              // onLoadEnd={this.imageLoaded.bind(this)}
             />
           </View>
         </Touchable>

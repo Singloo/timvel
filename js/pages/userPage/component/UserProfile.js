@@ -7,7 +7,7 @@ import {
   Animated,
   Image,
 } from 'react-native';
-import { Button, Text, InfiniteText } from '../../../../re-kits/components';
+import { Button, Text, InfiniteText } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';

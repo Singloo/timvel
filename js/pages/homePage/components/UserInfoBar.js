@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import {
-  Button,
-  Icon,
-  InfiniteText,
-  Text,
-} from '../../../../re-kits/components';
+import { StyleSheet, View, Image as Image2 } from 'react-native';
+import { Button, Image, InfiniteText, Text, Assets } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles } = base;
@@ -16,12 +11,10 @@ class UserInfoBar extends Component {
     const { style } = this.props;
     return (
       <View style={[styles.headerBar, style]}>
-        <Icon
-          uri={'bk2'}
-          size={60}
-          // isRound={true}
+        <Image
+          source={Assets.bk2.source}
           resizeMode={'cover'}
-          style={[{}, Styles.shadow]}
+          style={{ width: 60, height: 60, ...Styles.shadow }}
         />
         <View style={styles.headerTextContainer}>
           <InfiniteText
@@ -35,13 +28,19 @@ class UserInfoBar extends Component {
             textStyle={styles.title}
           />
         </View>
-        <View style={{ justifyContent: 'flex-end' }}>
-          <Icon
-            uri={'add'}
+        {/* <View style={{ justifyContent: 'flex-end' }}>
+          <Image
+            source={Assets.add.source}
             tintColor={'white'}
-            style={{ alignSelf: 'flex-end', marginRight: 2 }}
+            size={'small'}
+            style={{
+              alignSelf: 'flex-end',
+              marginRight: 2,
+              width: 24,
+              height: 24,
+            }}
           />
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginLeft: 10,
+    marginHorizontal: 10,
   },
 });
 

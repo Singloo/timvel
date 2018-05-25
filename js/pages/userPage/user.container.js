@@ -3,10 +3,10 @@ import { Platform, StyleSheet, View } from 'react-native';
 import {
   Button,
   NavBar,
-  Icon,
+  Image,
   InfiniteText,
   Text,
-} from '../../../re-kits/components';
+} from '../../../re-kits';
 import { base, User } from '../../utils';
 import UserProfile from './component/UserProfile';
 const { SCREEN_HEIGHT, SCREEN_WIDTH } = base;
@@ -38,14 +38,11 @@ class UserPage extends Component {
   componentDidMount() {}
 
   _onPressLogin = () => {
-    this.props.logic('GLOBAL_SET_STATE', {
-    snakeBarInfo: 'hello',
+    const { navigation } = this.props;
+    this.props.logic('NAVIGATION_NAVIGATE', {
+      navigation,
+      routeName: 'login',
     });
-    // const { navigation } = this.props;
-    // this.props.logic('NAVIGATION_NAVIGATE', {
-    //   navigation,
-    //   routeName: 'login',
-    // });
   };
   _onPressLogout = () => {
     User.logOut();

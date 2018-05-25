@@ -12,12 +12,12 @@ import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
-  Icon,
+  Image,
   InfiniteText,
   Text,
   TextInput,
   Touchable,
-} from '../../../re-kits/components';
+} from '../../../re-kits';
 import { base, User } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
@@ -44,11 +44,20 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    // this.gradientBK.play();
+    this.props.logic('GLOBAL_SET_STATE',{
+      isLoading:true
+    })
+    setTimeout(()=>{
+      this.props.logic('GLOBAL_SET_STATE',{
+        isLoading:false
+      })
+      this.gradientBK&&this.gradientBK.play();
+    },2000)
+    
   }
   componentWillUnmount() {
     this.props.logic('LOGIN_RESET_STATE');
-    // this.gradientBK.reset();
+    this.gradientBK&&this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
     this.timer1 && clearTimeout(this.timer1);
@@ -131,6 +140,9 @@ class Login extends Component {
   }
 
   _onChangeLoginSignup = () => {
+    this.props.logic('GLOBAL_SET_STATE', {
+      snakeBarInfo: '!!!!',
+      });
     this._dismissKeyboard();
 
     const { onLoginPage, showSignUpPage } = this.props.state;
@@ -174,7 +186,7 @@ class Login extends Component {
     const { onLoginPage, showSignUpPage } = this.props.state;
     return (
       <View style={styles.container}>
-        {/* <LottieView
+        <LottieView
           ref={r => {
             this.gradientBK = r;
           }}
@@ -182,7 +194,7 @@ class Login extends Component {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-        /> */}
+        />
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}

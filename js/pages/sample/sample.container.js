@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
-  Icon,
+  Image,
   InfiniteText,
   Text,
-} from '../../../re-kits/components';
+} from '../../../re-kits';
 import { base ,I18n} from '../../utils';
 
 class Sample extends Component {

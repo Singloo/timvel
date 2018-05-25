@@ -3,7 +3,6 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   findNodeHandle,
   Animated,
   LayoutAnimation,
@@ -11,9 +10,9 @@ import {
 import {
   Button,
   Text,
-  Icon,
+  Image,
   InfiniteText,
-} from '../../../../re-kits/components';
+} from '../../../../re-kits';
 import { base } from '../../../utils';
 import { BlurView } from 'react-native-blur';
 import PropTypes from 'prop-types';
@@ -24,14 +23,9 @@ const avatarSize = realSize(80);
 class UserInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      viewRef: null,
-    };
   }
   componentWillMount() {}
-  imageLoaded() {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  }
+
   render() {
     const { username, userCoin, userAvatar, userTitle, shrink } = this.props;
 
@@ -55,17 +49,10 @@ class UserInfo extends Component {
     return (
       <View style={styles.container}>
         <Image
-          ref={r => {
-            this.backgroundImage = r;
-          }}
-          source={{ uri: userAvatar }}
+          uri={userAvatar}
           style={styles.bkImage}
           resizeMode={'cover'}
-        />
-        <BlurView
-          viewRef={this.state.viewRef}
-          blurType={'regular'}
-          style={styles.absolute}
+          blur={true}
         />
         <Animated.View
           style={shrink ? styles.infoContainerAfter : styles.infoContainer}
@@ -135,7 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     top: 20,
-    left: SCREEN_WIDTH/4,
+    left: SCREEN_WIDTH / 4,
   },
   textContainer: {
     height: 30,

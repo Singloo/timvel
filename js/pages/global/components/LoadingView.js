@@ -1,21 +1,50 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text } from '../../../../re-kits/components';
-import { base,I18n } from '../../../utils';
+import { Button, Text, Assets } from '../../../../re-kits';
+import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
+import LottieView from 'lottie-react-native';
+const { Styles, realSize } = base;
 
-class Card extends Component {
+class LoadingView extends Component {
   componentWillMount() {}
+  componentDidMount() {
+    this._lottie && this._lottie.play();
+  }
+
+  componentWillUnmount() {
+    this._lottie && this._lottie.reset();
+  }
 
   render() {
+    const { children } = this.props;
     return (
-      <View style={styles.container}>
-        <Text>{'welcome'}</Text>
+      <View
+        style={[
+          Styles.absolute,
+          Styles.center,
+          { backgroundColor: 'rgba(33,33,33,0.4)' },
+        ]}
+      >
+        <View>
+          <LottieView
+            ref={r => (this._lottie = r)}
+            source={Assets.LoadingDotsDown.source}
+            loop={true}
+            speed={1}
+            style={{
+              width: realSize(375),
+              height: realSize(375),
+              transform: [{ scale: 1 }],
+            }}
+          />
+        </View>
+        {children}
       </View>
     );
   }
 }
-Card.propTypes = {};
+LoadingView.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -24,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default LoadingView;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, Icon, Text } from '../../../../re-kits/components';
+import { Button,Image, Text } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
@@ -68,7 +68,7 @@ class ContentDetail extends Component {
         ]}
       >
         <View style={{ alignSelf: 'center' }}>
-          <Icon uri={'arrow_left'} onPress={this._closeModal} />
+          <Image uri={'arrow_left'} onPress={this._closeModal} />
           <Text>{'Hello there'}</Text>
         </View>
       </Animated.View>

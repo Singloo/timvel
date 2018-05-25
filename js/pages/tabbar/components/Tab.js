@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, TouchableOpacity } from 'react-native';
-// import { Button, Icon } from '../../../components';
-import { Button, Icon, Text } from '../../../../re-kits/components';
+import { Button, Image, Text } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 
@@ -12,7 +11,7 @@ class Tab extends Component {
     const { onPress, uri, tintColor, title, size, style } = this.props;
     return (
       <View style={[styles.container, style]}>
-        <Icon uri={uri} tintColor={tintColor} size={size} onPress={onPress} />
+        <Image uri={uri} tintColor={tintColor} size={size} onPress={onPress} />
         {title && (
           <Text style={[styles.title, { color: tintColor }]}>{title}</Text>
         )}
