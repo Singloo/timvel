@@ -18,12 +18,12 @@ import {
   TextInput,
   Touchable,
 } from '../../../re-kits';
-import { base, User } from '../../utils';
+import { base, User, I18n } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-const { SCREEN_WIDTH, realSize, colors, Styles } = base;
+const { SCREEN_WIDTH, realSize, colors, Styles, EMAIL_REGEX } = base;
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -44,20 +44,11 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.props.logic('GLOBAL_SET_STATE',{
-      isLoading:true
-    })
-    setTimeout(()=>{
-      this.props.logic('GLOBAL_SET_STATE',{
-        isLoading:false
-      })
-      this.gradientBK&&this.gradientBK.play();
-    },2000)
-    
+    // this.gradientBK&&this.gradientBK.play();
   }
   componentWillUnmount() {
     this.props.logic('LOGIN_RESET_STATE');
-    this.gradientBK&&this.gradientBK.reset();
+    this.gradientBK && this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
     this.timer1 && clearTimeout(this.timer1);
@@ -110,39 +101,41 @@ class Login extends Component {
     Keyboard.dismiss();
   };
 
-  async _onPressLogin(username, password) {
-    try {
-      await User.logIn(username, password);
-    } catch (error) {
-      console.warn(error);
-      switch (error.code) {
-        case 210:
-          console.warn('用户名和密码不匹配。');
-          break;
-        case 211:
-          console.warn('找不到用户。');
-          break;
-        case 216:
-          console.warn('未验证的邮箱地址。');
-          break;
+  _onPressLogin(username, password) {
+    this.props.logic('LOGIN', {
+      username,
+      password,
+      callback: this._goBack,
+    });
+    // try {
+    //   User.logIn(username, password);
+    // } catch (error) {
+    //   console.warn(error);
+    //   switch (error.code) {
+    //     case 210:
+    //       console.warn('用户名和密码不匹配。');
+    //       break;
+    //     case 211:
+    //       console.warn('找不到用户。');
+    //       break;
+    //     case 216:
+    //       console.warn('未验证的邮箱地址。');
+    //       break;
 
-        case 219:
-          console.warn(
-            '登录失败次数超过限制，请稍候再试，或者通过忘记密码重设密码',
-          );
-          break;
-        default:
-          console.warn('network error' + `${error.code}`);
-          break;
-      }
-    } finally {
-    }
+    //     case 219:
+    //       console.warn(
+    //         '登录失败次数超过限制，请稍候再试，或者通过忘记密码重设密码',
+    //       );
+    //       break;
+    //     default:
+    //       console.warn('network error' + `${error.code}`);
+    //       break;
+    //   }
+    // } finally {
+    // }
   }
 
   _onChangeLoginSignup = () => {
-    this.props.logic('GLOBAL_SET_STATE', {
-      snakeBarInfo: '!!!!',
-      });
     this._dismissKeyboard();
 
     const { onLoginPage, showSignUpPage } = this.props.state;
@@ -181,7 +174,31 @@ class Login extends Component {
     }
   };
 
-  _onPressSignUp = (username, password, email) => {};
+  _onPressSignUp = (username, password, email) => {
+    if (username.length === 0) {
+      this.props.logic('GLOBAL_SET_STATE', {
+        snakeBarInfo: I18n.t('usernameEmpty'),
+      });
+      return;
+    }
+    if (password.length === 0) {
+      this.props.logic('GLOBAL_SET_STATE', {
+        snakeBarInfo: I18n.t('passwordEmpty'),
+      });
+      return;
+    }
+    if (!EMAIL_REGEX.test(email)) {
+      this.props.logic('GLOBAL_SET_STATE', {
+        snakeBarInfo: I18n.t('emailEmpty'),
+      });
+      return;
+    }
+    this.props.logic('SIGNUP', {
+      username: username,
+      password: password,
+      email: email,
+    });
+  };
   render() {
     const { onLoginPage, showSignUpPage } = this.props.state;
     return (

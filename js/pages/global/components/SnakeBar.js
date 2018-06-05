@@ -45,6 +45,7 @@ class SnakeBar extends Component {
 
   render() {
     const { info } = this.props;
+    console.warn(info)
     return (
       <Touchable
         withoutFeedback={true}

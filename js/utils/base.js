@@ -4,29 +4,80 @@ import _ from 'lodash';
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );
+const getItemPosition = (n, r) => {
+  let f = {
+    x: -sinR(15, r),
+    y: cosR(15, r),
+  };
+  let l = {
+    x: cosR(15, r),
+    y: -sinR(15, r),
+  };
+  const wide = 120;
+  switch (n) {
+    case 1:
+      return [f];
+    case 2:
+      return [f, l];
+    case 3:
+      let s = {
+        x: sinR(60 - 15, r),
+        y: cosR(60 - 15, r),
+      };
+      return [f, s, l];
+    case 4:
+      let ss = {
+        x: sinR(40 - 15, r),
+        y: cosR(40 - 15, r),
+      };
+      let tt = {
+        x: sinR(40 * 2 - 15, r),
+        y: cosR(40 * 2 - 15, r),
+      };
+      return [f, ss, tt, l];
+    default:
+      break;
+  }
+}
 
 export const isIOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
+const toDegrees = angle => {
+  return angle * ( Math.PI / 180);
+};
+export function cosR(degree, r) {
+  let de = toDegrees(degree);
+  return Math.cos(de);
+}
+export function sinR(degree, r) {
+  let de = toDegrees(degree);
+  return Math.sin(de);
+}
 export function realSize(px) {
   return px * SCREEN_WIDTH / 375;
 }
 
-export function randomItem(arr, returnLength) {
-  if (typeof returnLength === 'undefined') {
-    let i = Math.floor(Math.random() * arr.length);
-    return arr[i];
-  } else {
-    let returnArr = [];
-    let flag = 0;
-    for (let i = 0; i++; i < returnLength.length) {
-      let item = randomItem(_.difference(arr, returnArr));
-      if (returnArr.includes(item)) {
-        flag = flag + 1;
-      } else {
-        returnArr.push(item);
-      }
-    }
+export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export function randomItem(arr, returnLength,returnArray) {
+  let returnNum = returnLength || 1;
+  let returnArr = returnArray || [];
+  let i = Math.floor(Math.random() * arr.length);
+  let item = arr[i];
+  if (typeof item === 'undefined') {
     return returnArr;
+  } else {
+    returnArr.push(arr[i]);
+  }
+  if (returnArr.length === returnNum) {
+    if (returnNum === 1) {
+      return returnArr[0];
+    } else {
+      return returnArr;
+    }
+  } else {
+    let newArr = _.difference(arr, returnArr);
+    randomItem(newArr, returnNum, returnArr);
   }
 }
 
