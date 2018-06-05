@@ -14,7 +14,7 @@ import ContentDetail from './components/ContentDetail';
 
 class HomePage extends Component {
   componentWillMount() {
-    // this.props.logic('INIT_APP');
+    this.props.logic('INIT_APP');
   }
 
   componentDidMount() {

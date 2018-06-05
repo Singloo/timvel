@@ -6,10 +6,10 @@ const initApp = createLogic({
   async process({ action, logic, User, httpClient }, dispatch, done) {
     try {
       User.init();
-      const user = await User.logIn({
-        username: '绫波丽',
-        password: 'q1w2e3r4',
-      });
+      // const user = await User.logIn({
+      //   username: '绫波丽',
+      //   password: 'q1w2e3r4',
+      // });
     } catch (error) {
       console.warn(error);
     } finally {

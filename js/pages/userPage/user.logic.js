@@ -5,12 +5,11 @@ const getUserStatus = createLogic({
   latest: true,
   async process({ action, logic, User }, dispatch, done) {
     try {
-      const isLoggedIn = await User.isLoggedIn();
-      if (!isLoggedIn) {
+      if (!User.isLoggedIn()) {
         return;
       }
 
-      const userInfo = await User.getUserInfo();
+      const userInfo = User.getUserInfo();
       dispatch(
         logic('USER_SET_STATE', {
           userInfo,

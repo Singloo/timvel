@@ -1,5 +1,5 @@
 import { createLogic } from 'redux-logic';
-
+import axios from 'axios';
 const login = createLogic({
   type: 'LOGIN',
   latest: true,
@@ -44,6 +44,28 @@ const signUp = createLogic({
         password,
         email,
       });
+      try {
+        // const ipData = await axios.get('https://ipapi.co/json');
+        // const info = {
+        //   ip: ipData.ip,
+        //   city: ipData.city,
+        //   region: ipData.region,
+        //   country_name: ipData.country_name,
+        //   latitude: ipData.latitude,
+        //   longitude: ipData.longitude,
+        //   timezone: ipData.timezone,
+        // };
+        const data = await httpClient.post('/update_user_info', {
+          object_id: user.get('objectId'),
+          username: username,
+          password: password,
+          email: email,
+          // detail: { ...info },
+        });
+        console.warn(data);
+      } catch (error) {
+        console.warn(error);
+      }
     } catch (error) {
       console.warn(error);
       switch (error.code) {

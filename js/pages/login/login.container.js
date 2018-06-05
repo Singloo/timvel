@@ -48,7 +48,7 @@ class Login extends Component {
   }
   componentWillUnmount() {
     this.props.logic('LOGIN_RESET_STATE');
-    this.gradientBK && this.gradientBK.reset();
+    // this.gradientBK && this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
     this.timer1 && clearTimeout(this.timer1);
@@ -188,6 +188,7 @@ class Login extends Component {
       return;
     }
     if (!EMAIL_REGEX.test(email)) {
+      console.warn(EMAIL_REGEX.test(email),email)
       this.props.logic('GLOBAL_SET_STATE', {
         snakeBarInfo: I18n.t('emailEmpty'),
       });
@@ -203,7 +204,7 @@ class Login extends Component {
     const { onLoginPage, showSignUpPage } = this.props.state;
     return (
       <View style={styles.container}>
-        <LottieView
+        {/* <LottieView
           ref={r => {
             this.gradientBK = r;
           }}
@@ -211,7 +212,7 @@ class Login extends Component {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-        />
+        /> */}
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}

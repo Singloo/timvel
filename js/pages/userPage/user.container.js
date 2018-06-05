@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
-} from '../../../re-kits';
+import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
 import { base, User } from '../../utils';
 import UserProfile from './component/UserProfile';
 const { SCREEN_HEIGHT, SCREEN_WIDTH } = base;
@@ -35,7 +29,9 @@ class UserPage extends Component {
     this.props.logic('USER_GET_USER_STATUS');
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.warn(User.current());
+  }
 
   _onPressLogin = () => {
     const { navigation } = this.props;

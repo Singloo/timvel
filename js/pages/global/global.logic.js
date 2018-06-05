@@ -1,5 +1,5 @@
 import { createLogic } from 'redux-logic';
-
+import axios from 'axios';
 const navigate = createLogic({
   type: 'NAVIGATION_NAVIGATE',
   latest: true,
@@ -45,7 +45,17 @@ const updateUserinfoFromLeanCloud = createLogic({
         phone_number,
         organization,
       } = await User.getUserInfo();
-      const data = await httpClient.post('/update_user_info', {
+      const ipData = await axios.get('https://ipapi.co/json');
+      const info = {
+        ip: ipData.ip,
+        city: ipData.city,
+        region: ipData.region,
+        country_name: ipData.country_name,
+        latitude: ipData.latitude,
+        longitude: ipData.longitude,
+        timezone: ipData.timezone,
+      };
+      const { data } = await httpClient.post('/update_user_info', {
         params: {
           user_id,
           object_id,
@@ -55,6 +65,7 @@ const updateUserinfoFromLeanCloud = createLogic({
           email,
           phone_number,
           organization,
+          detail: { ...info },
           password: password || null,
         },
       });
