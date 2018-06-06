@@ -39,84 +39,119 @@ const signUp = createLogic({
   async process({ action, logic, User, httpClient, I18n }, dispatch, done) {
     try {
       const { username, password, email, callback } = action.payload;
-      const user = await User.signUp({
+      let user = await User.signUp({
         username,
         password,
         email,
       });
+      dispatch(
+        logic('GLOBAL_SET_STATE', {
+          isLoading: true,
+        }),
+      );
       try {
-        // const ipData = await axios.get('https://ipapi.co/json');
-        // const info = {
-        //   ip: ipData.ip,
-        //   city: ipData.city,
-        //   region: ipData.region,
-        //   country_name: ipData.country_name,
-        //   latitude: ipData.latitude,
-        //   longitude: ipData.longitude,
-        //   timezone: ipData.timezone,
-        // };
-        const data = await httpClient.post('/update_user_info', {
+        const ipInfo = await axios.get('https://ipapi.co/json');
+
+        const info = {
+          ip: ipInfo.data.ip,
+          city: ipInfo.data.city,
+          region: ipInfo.data.region,
+          country_name: ipInfo.data.country_name,
+          latitude: ipInfo.data.latitude,
+          longitude: ipInfo.data.longitude,
+          timezone: ipInfo.data.timezone,
+        };
+
+        const { data } = await httpClient.post('/update_user_info', {
           object_id: user.get('objectId'),
           username: username,
           password: password,
           email: email,
-          // detail: { ...info },
+          detail: JSON.stringify(info),
         });
-        console.warn(data);
+        user.set('userId', data.userId);
+        user.save();
       } catch (error) {
         console.warn(error);
       }
+      dispatch(
+        logic('GLOBAL_SET_STATE', {
+          isLoading: false,
+        }),
+      );
+      callback && callback();
     } catch (error) {
       console.warn(error);
+      dispatch(
+        logic('GLOBAL_SET_STATE', {
+          isLoading: false,
+        }),
+      );
       switch (error.code) {
         case 125:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('signUpErrorEmailInvalid'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('signUpErrorEmailInvalid'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
         case 125:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('signUpErrorUserIdInvalid'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('signUpErrorUserIdInvalid'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
         case 139:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('signUpErrorUsernameInvalid'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('signUpErrorUsernameInvalid'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
         case 200:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('usernameEmpty'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('usernameEmpty'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
         case 201:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('passwordEmpty'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('passwordEmpty'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
         case 202:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('signUpErrorUsernameOccupied'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('signUpErrorUsernameOccupied'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
         case 203:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('signUpErrorEmailOccupied'),
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('signUpErrorEmailOccupied'),
+              snakeBarType: 'error',
+            }),
+          );
           break;
 
         default:
-          dispatch('GLOBAL_SET_STATE', {
-            snakeBarInfo: I18n.t('signUpErrorDefault') + `${error}`,
-            snakeBarType: 'error',
-          });
+          dispatch(
+            logic('GLOBAL_SET_STATE', {
+              snakeBarInfo: I18n.t('signUpErrorDefault') + `${error}`,
+              snakeBarType: 'error',
+            }),
+          );
           break;
       }
     } finally {

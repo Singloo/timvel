@@ -188,7 +188,7 @@ class Login extends Component {
       return;
     }
     if (!EMAIL_REGEX.test(email)) {
-      console.warn(EMAIL_REGEX.test(email),email)
+      console.warn(EMAIL_REGEX.test(email), email);
       this.props.logic('GLOBAL_SET_STATE', {
         snakeBarInfo: I18n.t('emailEmpty'),
       });
@@ -198,6 +198,15 @@ class Login extends Component {
       username: username,
       password: password,
       email: email,
+      callback: this._signUpCallback,
+    });
+  };
+
+  _signUpCallback = () => {
+    this.props.logic('USER_GET_USER_STATUS');
+    this._goBack();
+    this.props.logic('GLOBAL_SET_STATE', {
+      snakeBarInfo: 'Welcome',
     });
   };
   render() {
