@@ -10,7 +10,7 @@ const MainScreenNavigator = TabNavigator(
   {
     Home: { screen: Connectors.homePage },
     RememberPage: { screen: Connectors.rememberPage },
-    shooPage: { screen: Connectors.shopPage },
+    ShopPage: { screen: Connectors.shopPage },
     UserPage: { screen: Connectors.userPage },
   },
   {

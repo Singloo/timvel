@@ -29,9 +29,7 @@ class UserPage extends Component {
     this.props.logic('USER_GET_USER_STATUS');
   }
 
-  componentDidMount() {
-    console.warn(User.current());
-  }
+  componentDidMount() {}
 
   _onPressLogin = () => {
     const { navigation } = this.props;
@@ -47,7 +45,7 @@ class UserPage extends Component {
     });
   };
   render() {
-    const { buttonLocations, userInfo } = this.props.state;
+    const { buttonLocations, userInfo, isLoggedIn } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
         <Button
@@ -59,7 +57,7 @@ class UserPage extends Component {
         />
       );
     });
-    if (!User.isLoggedIn()) {
+    if (!isLoggedIn) {
       return <View style={{ flex: 1 }}>{renderButton}</View>;
     } else {
       return (

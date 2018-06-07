@@ -6,7 +6,6 @@ import SimpleApp from './Navigators';
 import { Setup, base } from './utils';
 import * as Connectors from './connectors';
 const store = configureStore();
-
 Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);

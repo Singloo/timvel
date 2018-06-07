@@ -101,11 +101,12 @@ class Login extends Component {
     Keyboard.dismiss();
   };
 
-  _onPressLogin(username, password) {
+  _onPressLogin = (username, password) => {
+    console.warn(username, password);
     this.props.logic('LOGIN', {
-      username,
-      password,
-      callback: this._goBack,
+      username: username.trim(),
+      password: password.trim(),
+      callback: this._loginCallback,
     });
     // try {
     //   User.logIn(username, password);
@@ -133,8 +134,12 @@ class Login extends Component {
     //   }
     // } finally {
     // }
-  }
+  };
 
+  _loginCallback = () => {
+    this.props.logic('USER_GET_USER_STATUS');
+    this._goBack();
+  };
   _onChangeLoginSignup = () => {
     this._dismissKeyboard();
 
@@ -195,9 +200,9 @@ class Login extends Component {
       return;
     }
     this.props.logic('SIGNUP', {
-      username: username,
-      password: password,
-      email: email,
+      username: username.trim(),
+      password: password.trim(),
+      email: email.trim(),
       callback: this._signUpCallback,
     });
   };
@@ -206,7 +211,7 @@ class Login extends Component {
     this.props.logic('USER_GET_USER_STATUS');
     this._goBack();
     this.props.logic('GLOBAL_SET_STATE', {
-      snakeBarInfo: 'Welcome',
+      snakeBarInfo: I18n.t('welcome'),
     });
   };
   render() {

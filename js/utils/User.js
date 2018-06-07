@@ -1,12 +1,5 @@
 import AV from 'leancloud-storage';
 
-export function init() {
-  AV.init({
-    appId: 'UYganDzaND6XsvYaL552tlbs-gzGzoHsz',
-    appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
-  });
-}
-
 export function isLoggedIn() {
   return !!AV.User.current();
 }
@@ -30,13 +23,16 @@ export function changeUsername(username) {
 }
 
 export function logOut() {
+  console.warn('logout');
   AV.User.logOut();
 }
 
 export function current() {
   return AV.User.current();
 }
-
+export function currentAsync(){
+  return AV.User.currentAsync()
+}
 export function username() {
   return AV.User.current().get('username');
 }

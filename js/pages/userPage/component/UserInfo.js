@@ -63,9 +63,9 @@ class UserInfo extends Component {
           />
           <View style={styles.textContainer}>
             <InfiniteText
-              text={username + userCoin}
+              text={username + '  '+userCoin}
               style={{}}
-              textStyle={{ color: colors.white }}
+              textStyle={{ color: colors.depGrey }}
             >
               {renderTitle(userTitle)}
               <View

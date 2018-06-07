@@ -1,5 +1,6 @@
 import { createLogic } from 'redux-logic';
 import axios from 'axios';
+import AV from 'leancloud-storage';
 const login = createLogic({
   type: 'LOGIN',
   latest: true,
@@ -11,6 +12,9 @@ const login = createLogic({
           isLoading: true,
         }),
       );
+      // await AV.User.requestPasswordReset('15599028773@163.com')
+      // await AV.User.logIn(username, password);
+
       await User.logIn({ username, password });
 
       dispatch(
@@ -19,7 +23,7 @@ const login = createLogic({
         }),
       );
       callback && callback();
-      dispatch(logic('UPDATE_USERINFO'));
+      // dispatch(logic('UPDATE_USERINFO'));
     } catch (error) {
       dispatch(
         logic('GLOBAL_SET_STATE', {

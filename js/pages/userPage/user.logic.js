@@ -5,14 +5,16 @@ const getUserStatus = createLogic({
   latest: true,
   async process({ action, logic, User }, dispatch, done) {
     try {
-      if (!User.isLoggedIn()) {
+      const user = await User.currentAsync();
+      if (user == null) {
+        done();
         return;
       }
-
       const userInfo = User.getUserInfo();
       dispatch(
         logic('USER_SET_STATE', {
           userInfo,
+          isLoggedIn: true,
         }),
       );
     } catch (error) {

@@ -14,7 +14,8 @@ const loginPage = {
   signUpErrorUserIdInvalid:'User id is invalid ???',
   signUpErrorUsernameInvalid:'Username is invalid,allow number, letter, underline',
   signUpErrorUsernameOccupied:'Username is occupied..',
-  signUpErrorEmailOccupied:'Email is already used..'
+  signUpErrorEmailOccupied:'Email is already used..',
+  welcome:'Welcome to ...'
 };
 
 export default {
