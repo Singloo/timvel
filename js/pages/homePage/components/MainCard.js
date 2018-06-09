@@ -6,6 +6,7 @@ import {
   InfiniteText,
   Text,
   Touchable,
+  Assets,
 } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
@@ -34,8 +35,8 @@ class MainCard extends Component {
         <Touchable onPress={onPress && onPress}>
           <View style={[styles.container, Styles.shadow]}>
             <Image
-              source={{ uri: 'bk1' }}
-              style={styles.absoluteBK}
+              source={Assets.bk1.source}
+              style={{ width: cardWidth, height: cardHeight }}
               blur={true}
               // onLoadEnd={this.imageLoaded.bind(this)}
             />

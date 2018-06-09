@@ -3,6 +3,7 @@ package com.timvel;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -37,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
             new RNI18nPackage(),
             new PickerPackage(),
             new LottiePackage(),

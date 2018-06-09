@@ -26,7 +26,9 @@ class UserPage extends Component {
       }
     }
 
-    this.props.logic('USER_GET_USER_STATUS');
+    if (this.props.state.isLoggedIn === false) {
+      this.props.logic('USER_GET_USER_STATUS');
+    }
   }
 
   componentDidMount() {}
@@ -42,6 +44,7 @@ class UserPage extends Component {
     User.logOut();
     this.props.logic('USER_SET_STATE', {
       userInfo: {},
+      isLoggedIn: false,
     });
   };
   render() {

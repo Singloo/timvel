@@ -38,12 +38,12 @@ const getItemPosition = (n, r) => {
     default:
       break;
   }
-}
+};
 
 export const isIOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
 const toDegrees = angle => {
-  return angle * ( Math.PI / 180);
+  return angle * (Math.PI / 180);
 };
 export function cosR(degree, r) {
   let de = toDegrees(degree);
@@ -59,7 +59,7 @@ export function realSize(px) {
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export function randomItem(arr, returnLength,returnArray) {
+export function randomItem(arr, returnLength, returnArray) {
   let returnNum = returnLength || 1;
   let returnArr = returnArray || [];
   let i = Math.floor(Math.random() * arr.length);

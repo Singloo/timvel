@@ -8,10 +8,10 @@ class Tab extends Component {
   componentWillMount() {}
 
   render() {
-    const { onPress, uri, tintColor, title, size, style } = this.props;
+    const { onPress, source, tintColor, title, size, style } = this.props;
     return (
       <View style={[styles.container, style]}>
-        <Image uri={uri} tintColor={tintColor} size={size} onPress={onPress} />
+        <Image source={source} tintColor={tintColor} size={size} onPress={onPress} />
         {title && (
           <Text style={[styles.title, { color: tintColor }]}>{title}</Text>
         )}

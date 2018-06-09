@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button,Image, Text } from '../../../../re-kits';
+import { Button, Image, Text, Assets } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
-const { SCREEN_WIDTH, SCREEN_HEIGHT ,colors} = base;
+const { SCREEN_WIDTH, SCREEN_HEIGHT, colors } = base;
 class ContentDetail extends Component {
   constructor(props) {
     super(props);
@@ -67,8 +67,14 @@ class ContentDetail extends Component {
           },
         ]}
       >
-        <View style={{ alignSelf: 'center' }}>
-          <Image uri={'arrow_left'} onPress={this._closeModal} />
+        <View
+          style={{
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Image source={Assets.arrow_left.source} onPress={this._closeModal} />
           <Text>{'Hello there'}</Text>
         </View>
       </Animated.View>

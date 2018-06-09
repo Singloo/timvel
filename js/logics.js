@@ -5,6 +5,7 @@ import userPage from './pages/userPage/user.logic';
 import shopPage from './pages/shopPage/shopPage.logic';
 import tabbar from './pages/tabbar/tabbar.logic';
 import login from './pages/login/login.logic';
+import launchPage from './pages/launchPage/launchPage.logic';
 export default [].concat(
   homePage,
   rememberPage,
@@ -13,4 +14,5 @@ export default [].concat(
   shopPage,
   tabbar,
   login,
+  launchPage,
 );

@@ -6,6 +6,7 @@ import {
   Image,
   InfiniteText,
   Text,
+  Assets,
 } from '../../../re-kits';
 import { base } from '../../utils';
 import { BlurView } from 'react-native-blur';
@@ -58,33 +59,27 @@ class Tabbar extends Component {
           blurAmount={10}
         />
         <Tab
-          uri={'eu_bird'}
+          source={Assets.eu_bird.source}
           onPress={jumpToIndex.bind(this, 0)}
           // tintColor={index == 0 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
-          uri={'eu_bosk'}
+          source={Assets.eu_bosk.source}
           onPress={jumpToIndex.bind(this, 1)}
           // tintColor={index == 1 ? activeTintColor : inactiveTintColor}
           // size={'large'}
           // title={'home'}
         />
 
-        {/* <Tab
-          uri={'eu_deer'}
-          size={'large'}
-          style={{position:'relative',backgroundColor:'transparent',borderRadius:30,width:60,height:60,bottom:20}}
-        /> */}
-
         <Tab
-          uri={'eu_cactus'}
+          source={Assets.eu_cactus.source}
           onPress={jumpToIndex.bind(this, 2)}
           // tintColor={index == 2 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
-          uri={'eu_fox'}
+          source={Assets.eu_fox.source}
           onPress={jumpToIndex.bind(this, 3)}
           // tintColor={index == 3 ? activeTintColor : inactiveTintColor}
           // title={'home'}

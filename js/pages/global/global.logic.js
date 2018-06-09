@@ -1,4 +1,5 @@
 import { createLogic } from 'redux-logic';
+import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 const navigate = createLogic({
   type: 'NAVIGATION_NAVIGATE',
@@ -20,6 +21,34 @@ const navigateBack = createLogic({
   async process({ action, navigation }, dispatch, done) {
     navigation.dispatch({
       type: 'Navigation/BACK',
+    });
+    done();
+  },
+});
+
+const navigateReset = createLogic({
+  type: 'NAVIGATION_RESET',
+  latest: true,
+  async process({ action, navigation }, dispatch, done) {
+    const { routeName } = action.payload;
+    const navAction = NavigationActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: routeName })],
+    });
+    navigation.dispatch(navAction);
+    done();
+  },
+});
+
+const navigateReplace = createLogic({
+  type: 'NAVIGATION_REPLACE',
+  latest: true,
+  async process({ action, navigation }, dispatch, done) {
+    const { routeName, params } = action.payload;
+    navigation.dispatch({
+      type: 'Replace',
+      routeName,
+      params: params || {},
     });
     done();
   },
@@ -78,4 +107,10 @@ const updateUserinfoFromLeanCloud = createLogic({
   },
 });
 
-export default [navigate, navigateBack, updateUserinfoFromLeanCloud];
+export default [
+  navigate,
+  navigateBack,
+  updateUserinfoFromLeanCloud,
+  navigateReplace,
+  navigateReset,
+];

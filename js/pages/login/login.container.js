@@ -17,6 +17,7 @@ import {
   Text,
   TextInput,
   Touchable,
+  Assets,
 } from '../../../re-kits';
 import { base, User, I18n } from '../../utils';
 import LottieView from 'lottie-react-native';
@@ -265,7 +266,7 @@ class Login extends Component {
           onPress={this._onChangeLoginSignup}
         />
         <NavBar
-          uriLeft={'arrow_left'}
+          sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           title={'LogIn or SignUp'}
           style={styles.navBar}

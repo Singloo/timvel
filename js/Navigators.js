@@ -33,10 +33,13 @@ const SimpleApp = StackNavigator(
     login: {
       screen: Connectors.login,
     },
+    launchPage: {
+      screen: Connectors.launchPage,
+    },
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Main',
+    initialRouteName: 'launchPage',
   },
 );
 

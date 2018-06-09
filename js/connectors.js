@@ -5,4 +5,14 @@ import userPage from './pages/userPage/user.connect';
 import shopPage from './pages/shopPage/shopPage.connect';
 import tabbar from './pages/tabbar/tabbar.connect';
 import login from './pages/login/login.connect';
-export { homePage, rememberPage, global, userPage, shopPage, tabbar, login };
+import launchPage from './pages/launchPage/launchPage.connect';
+export {
+  homePage,
+  rememberPage,
+  global,
+  userPage,
+  shopPage,
+  tabbar,
+  login,
+  launchPage,
+};

@@ -6,15 +6,14 @@ import {
   Image,
   InfiniteText,
   Text,
+  Assets,
 } from '../../../re-kits';
 
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';
 import ContentDetail from './components/ContentDetail';
-
 class HomePage extends Component {
   componentWillMount() {
-    this.props.logic('INIT_APP');
   }
 
   componentDidMount() {
@@ -51,8 +50,8 @@ class HomePage extends Component {
 
         <NavBar
           title={'hello there'}
-          uriLeft={'eu_flamingo'}
-          uriRight={'nintendo_switch'}
+          sourceLeft={Assets.eu_flamingo.source}
+          sourceRight={Assets.eu_deer.source}
           style={{
             position: 'absolute',
             top: 0,
