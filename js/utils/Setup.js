@@ -54,12 +54,12 @@ export const androidBackButton = function(navigation, store) {
     if (navState.index !== 0) {
       const currentRouteName =
         navState.routes[navState.routes.length - 1].routeName;
-      if (
-        currentRouteName === 'editSubtitles' ||
-        currentRouteName === 'recorderPreview'
-      ) {
-        return true;
-      }
+      // if (
+      //   currentRouteName === 'editSubtitles' ||
+      //   currentRouteName === 'recorderPreview'
+      // ) {
+      //   return true;
+      // }
 
       store.dispatch({
         type: 'NAVIGATION_BACK',
@@ -105,14 +105,14 @@ export const preventDoublePress = function(Navigator) {
       };
     }
 
-    if (state && action.type === 'PopTwice') {
-      const routes = state.routes.slice(0, state.routes.length - 2);
-      return {
-        ...state,
-        routes,
-        index: routes.length - 1,
-      };
-    }
+    // if (state && action.type === 'PopTwice') {
+    //   const routes = state.routes.slice(0, state.routes.length - 2);
+    //   return {
+    //     ...state,
+    //     routes,
+    //     index: routes.length - 1,
+    //   };
+    // }
 
     if (
       action.routeName &&
