@@ -7,14 +7,15 @@ import {
   InfiniteText,
   Text,
   Assets,
+  ActionButton,
 } from '../../../re-kits';
 
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';
 import ContentDetail from './components/ContentDetail';
+const { PADDING_BOTTOM, colors } = base;
 class HomePage extends Component {
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
   componentDidMount() {
     // console.warn(User.current())
@@ -67,6 +68,32 @@ class HomePage extends Component {
             closeModal={this._closeModal}
           />
         )}
+        <ActionButton buttonSource={Assets.add.source}>
+          <ActionButton.Icon
+            title={1}
+            iconStyle={{ backgroundColor: colors.main }}
+            source={Assets.comment.source}
+            onPress={() => {}}
+          />
+          <ActionButton.Icon
+            title={2}
+            iconStyle={{ backgroundColor: colors.main }}
+            source={Assets.comment.source}
+            onPress={() => {}}
+          />
+          <ActionButton.Icon
+            title={3}
+            iconStyle={{ backgroundColor: colors.main }}
+            source={Assets.bk1.source}
+            onPress={() => {}}
+          />
+          <ActionButton.Icon
+            title={4}
+            iconStyle={{ backgroundColor: colors.main }}
+            source={Assets.comment.source}
+            onPress={() => {}}
+          />
+        </ActionButton>
       </View>
     );
   }

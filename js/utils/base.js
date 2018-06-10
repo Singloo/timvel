@@ -47,11 +47,11 @@ const toDegrees = angle => {
 };
 export function cosR(degree, r) {
   let de = toDegrees(degree);
-  return Math.cos(de);
+  return Math.cos(de) * r;
 }
 export function sinR(degree, r) {
   let de = toDegrees(degree);
-  return Math.sin(de);
+  return Math.sin(de) * r;
 }
 export function realSize(px) {
   return px * SCREEN_WIDTH / 375;

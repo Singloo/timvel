@@ -103,38 +103,11 @@ class Login extends Component {
   };
 
   _onPressLogin = (username, password) => {
-    console.warn(username, password);
     this.props.logic('LOGIN', {
       username: username.trim(),
       password: password.trim(),
       callback: this._loginCallback,
     });
-    // try {
-    //   User.logIn(username, password);
-    // } catch (error) {
-    //   console.warn(error);
-    //   switch (error.code) {
-    //     case 210:
-    //       console.warn('用户名和密码不匹配。');
-    //       break;
-    //     case 211:
-    //       console.warn('找不到用户。');
-    //       break;
-    //     case 216:
-    //       console.warn('未验证的邮箱地址。');
-    //       break;
-
-    //     case 219:
-    //       console.warn(
-    //         '登录失败次数超过限制，请稍候再试，或者通过忘记密码重设密码',
-    //       );
-    //       break;
-    //     default:
-    //       console.warn('network error' + `${error.code}`);
-    //       break;
-    //   }
-    // } finally {
-    // }
   };
 
   _loginCallback = () => {
