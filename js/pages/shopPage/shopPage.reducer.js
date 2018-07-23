@@ -1,21 +1,21 @@
 const initialState = {
-
-}
+  showModal: false,
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case 'SHOP_PAGE_SET_STATE': {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case 'SHOP_PAGE_RESET_STATE': {
-      return initialState
-    };
+      return initialState;
+    }
     default:
-      return state
+      return state;
   }
 }
 
-export default reducer
+export default reducer;

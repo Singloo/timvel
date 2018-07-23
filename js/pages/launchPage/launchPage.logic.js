@@ -1,6 +1,6 @@
 import { createLogic } from 'redux-logic';
 
-const waitTime = 3000 * 1.5;
+const waitTime = 300 * 1.5;
 const initApp = createLogic({
   type: 'INIT_APP',
   latest: true,

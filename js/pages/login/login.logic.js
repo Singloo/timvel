@@ -94,66 +94,66 @@ const signUp = createLogic({
       switch (error.code) {
         case 125:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('signUpErrorEmailInvalid'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('signUpErrorEmailInvalid'),
+              type: 'ERROR',
             }),
           );
           break;
         case 125:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('signUpErrorUserIdInvalid'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('signUpErrorUserIdInvalid'),
+              type: 'ERROR',
             }),
           );
           break;
         case 139:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('signUpErrorUsernameInvalid'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('signUpErrorUsernameInvalid'),
+              type: 'ERROR',
             }),
           );
           break;
         case 200:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('usernameEmpty'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('usernameEmpty'),
+              type: 'ERROR',
             }),
           );
           break;
         case 201:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('passwordEmpty'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('passwordEmpty'),
+              type: 'ERROR',
             }),
           );
           break;
         case 202:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('signUpErrorUsernameOccupied'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('signUpErrorUsernameOccupied'),
+              type: 'ERROR',
             }),
           );
           break;
         case 203:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('signUpErrorEmailOccupied'),
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('signUpErrorEmailOccupied'),
+              type: 'ERROR',
             }),
           );
           break;
 
         default:
           dispatch(
-            logic('GLOBAL_SET_STATE', {
-              snakeBarInfo: I18n.t('signUpErrorDefault') + `${error}`,
-              snakeBarType: 'error',
+            logic('SHOW_SNAKE_BAR', {
+              content: I18n.t('signUpErrorDefault') + `${error}`,
+              type: 'ERROR',
             }),
           );
           break;

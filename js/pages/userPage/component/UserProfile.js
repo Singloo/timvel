@@ -16,26 +16,13 @@ const { realSize, colors, SCREEN_WIDTH, PADDING_TOP } = base;
 class UserProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      offsetY: new Animated.Value(0),
-      beginShrink: false,
-      viewRef: null,
-    };
+    this._scrollY = new Animated.Value(0);
+    this._nscrollY = new Animated.Value(0);
+    this._nscrollY.addListener(
+      Animated.event([{ value: this._scrollY }], { useNativeDriver: false }),
+    );
   }
   componentWillMount() {}
-
-  _handleScroll = event => {
-    const { contentOffset } = event.nativeEvent;
-    if (contentOffset.y > realSize(200 - 80 - 44)) {
-      if (this.state.beginShrink == false) {
-        this.setState({ beginShrink: true });
-      }
-    } else {
-      if (this.state.beginShrink == true) {
-        this.setState({ beginShrink: false });
-      }
-    }
-  };
 
   render() {
     const { userInfo } = this.props;
@@ -43,28 +30,26 @@ class UserProfile extends Component {
     const { username, userCoin, userAvatar, userTitle } = userInfo && userInfo;
     return (
       <View style={styles.wrapper}>
-        <ScrollView
+        <Animated.ScrollView
           style={styles.container}
-          // showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 0 }}
-          onScroll={event => this._handleScroll(event)}
-          scrollEventThrottle={30}
+          scrollEventThrottle={16}
+          stickyHeaderIndices={[0]}
+          showsVerticalScrollIndicator={false}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
+            { useNativeDriver: true },
+          )}
         >
           <UserInfo
             username={username}
             userCoin={userCoin}
             userAvatar={userAvatar}
             userTitle={userTitle}
-            shrink={this.state.beginShrink}
+            nScrollY={this._nscrollY}
+            scrollY={this._scrollY}
           />
-        </ScrollView>
-        <HeaderBar
-          username={username}
-          userCoin={userCoin}
-          userAvatar={userAvatar}
-          userTitle={userTitle}
-          shrink={this.state.beginShrink}
-        />
+        </Animated.ScrollView>
       </View>
     );
   }

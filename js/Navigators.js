@@ -4,8 +4,18 @@ import {
   DrawerNavigator,
 } from 'react-navigation';
 import * as Connectors from './connectors';
+import CardStackStyleInterpolator from '../node_modules/react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import { base } from './utils';
-
+//transition : 'forHorizontal' 'forVertical'
+const TransitionConfiguration = () => ({
+  screenInterpolator: sceneProps => {
+    const { scene } = sceneProps;
+    const { route } = scene;
+    const params = route.params || {};
+    const transition = params.transition || 'forHorizontal';
+    return CardStackStyleInterpolator[transition](sceneProps);
+  },
+});
 const MainScreenNavigator = TabNavigator(
   {
     Home: { screen: Connectors.homePage },
@@ -36,10 +46,14 @@ const SimpleApp = StackNavigator(
     launchPage: {
       screen: Connectors.launchPage,
     },
+    createNew: {
+      screen: Connectors.createNew,
+    },
   },
   {
     headerMode: 'none',
     initialRouteName: 'launchPage',
+    transitionConfig: TransitionConfiguration,
   },
 );
 

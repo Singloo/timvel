@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Text, View, StyleSheet, UIManager } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
@@ -9,7 +9,7 @@ const store = configureStore();
 Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-export default class App extends Component {
+export default class App extends React.Component {
   async componentDidMount() {
     // try to prevent crash n._navigation.state
     if (base.isIOS) {
@@ -32,6 +32,7 @@ export default class App extends Component {
             }}
           />
           <Connectors.global />
+          <Connectors.alert />
         </View>
       </Provider>
     );

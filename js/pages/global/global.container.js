@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../../re-kits';
 import { base } from '../../utils';
-const { Styles } = base;
+const { Styles, PADDING_TOP, isAndroid } = base;
 import SnakeBar from './components/SnakeBar';
 import LoadingView from './components/LoadingView';
+const snake_bar_height = 48 + PADDING_TOP + (isAndroid ? 20 : 0);
 class Global extends Component {
   componentWillMount() {}
 
   snakeBarCallback = () => {
     this.props.logic('GLOBAL_SET_STATE', {
       snakeBarInfo: '',
-      snakeBarType: 'normal',
+      snakeBarType: 'NORMAL',
       snakeBarDuration: 3000,
       onPressSnakeBar: null,
     });
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 68,
+    height: snake_bar_height,
     backgroundColor: 'transparent',
   },
 });

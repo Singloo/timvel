@@ -2,45 +2,30 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image as Image2 } from 'react-native';
 import { Button, Image, InfiniteText, Text, Assets } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
+import TimeBar from './TimeBar';
 const { Styles } = base;
 class UserInfoBar extends Component {
   componentWillMount() {}
 
   render() {
-    const { style } = this.props;
+    const { style, textStyle } = this.props;
     return (
       <View style={[styles.headerBar, style]}>
-        <Image
-          source={Assets.bk2.source}
-          resizeMode={'cover'}
-          style={{ width: 60, height: 60, ...Styles.shadow }}
-        />
+        <View style={Styles.shadow}>
+          <Image
+            source={Assets.bk2.source}
+            resizeMode={'cover'}
+            style={{ width: 60, height: 60, marginLeft: 20 }}
+          />
+        </View>
         <View style={styles.headerTextContainer}>
           <InfiniteText
             style={{}}
             text={'Lilith'}
-            textStyle={styles.username}
+            textStyle={StyleSheet.flatten([styles.username, textStyle])}
           />
-          <InfiniteText
-            style={{}}
-            text={'welcome back,how are you today,'}
-            textStyle={styles.title}
-          />
+          <View style={{ height: 30, backgroundColor: 'transparent' }} />
         </View>
-        {/* <View style={{ justifyContent: 'flex-end' }}>
-          <Image
-            source={Assets.add.source}
-            tintColor={'white'}
-            size={'small'}
-            style={{
-              alignSelf: 'flex-end',
-              marginRight: 2,
-              width: 24,
-              height: 24,
-            }}
-          />
-        </View> */}
       </View>
     );
   }
@@ -49,7 +34,6 @@ UserInfoBar.propTypes = {};
 
 const styles = StyleSheet.create({
   headerBar: {
-    paddingLeft: 15,
     flexDirection: 'row',
     height: 60,
   },
@@ -64,9 +48,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   headerTextContainer: {
-    flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     marginHorizontal: 10,
   },
 });

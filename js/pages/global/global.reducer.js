@@ -1,9 +1,11 @@
 const initialState = {
   isLoading: false,
   snakeBarInfo: '',
-  snakeBarType: 'normal',
+  snakeBarType: 'NORMAL',
   snakeBarDuration: 3000,
   onPressSnakeBar: null,
+  tabBarHidden: false,
+  showTabbarAnimation: false,
 };
 
 function reducer(state = initialState, action) {

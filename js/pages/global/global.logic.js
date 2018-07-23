@@ -107,10 +107,27 @@ const updateUserinfoFromLeanCloud = createLogic({
   },
 });
 
+const snakeBar = createLogic({
+  type: 'SHOW_SNAKE_BAR',
+  latest: true,
+  process: ({ logic, action }, dispatch, done) => {
+    const { content, type, duration } = action.payload;
+    dispatch(
+      logic('GLOBAL_SET_STATE', {
+        snakeBarInfo: content,
+        snakeBarType: type || 'NORMAL',
+        snakeBarDuration: duration || 3000,
+      }),
+    );
+    done();
+  },
+});
+
 export default [
   navigate,
   navigateBack,
   updateUserinfoFromLeanCloud,
   navigateReplace,
   navigateReset,
+  snakeBar,
 ];

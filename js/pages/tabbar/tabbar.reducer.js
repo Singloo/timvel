@@ -1,21 +1,19 @@
-const initialState = {
-
-}
+const initialState = {};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'SAMPLE_SET_STATE': {
+    case 'TABBAR_SET_STATE': {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
-    case 'SAMPLE_RESET_STATE': {
-      return initialState
-    };
+    case 'TABBAR_RESET_STATE': {
+      return initialState;
+    }
     default:
-      return state
+      return state;
   }
 }
 
-export default reducer
+export default reducer;

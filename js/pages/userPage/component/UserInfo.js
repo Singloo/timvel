@@ -7,63 +7,146 @@ import {
   Animated,
   LayoutAnimation,
 } from 'react-native';
-import {
-  Button,
-  Text,
-  Image,
-  InfiniteText,
-} from '../../../../re-kits';
+import { Button, Text, Image, InfiniteText } from '../../../../re-kits';
 import { base } from '../../../utils';
 import { BlurView } from 'react-native-blur';
 import PropTypes from 'prop-types';
-const { SCREEN_WIDTH, colors, renderTitle, realSize } = base;
+const {
+  SCREEN_WIDTH,
+  colors,
+  renderTitle,
+  realSize,
+  PADDING_TOP,
+  Styles,
+} = base;
 const width = SCREEN_WIDTH;
-const height = realSize(200);
-const avatarSize = realSize(80);
+const height = 200;
+const avatarSize = 80;
+const avatarSizeSmall = 30;
+const scroll_height = 200 - 44 - PADDING_TOP;
 class UserInfo extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      viewRef: null,
+    };
   }
   componentWillMount() {}
 
   render() {
-    const { username, userCoin, userAvatar, userTitle, shrink } = this.props;
+    const {
+      username,
+      userCoin,
+      userAvatar,
+      userTitle,
+      nScrollY,
+      scrollY,
+    } = this.props;
+    let imgScale = nScrollY.interpolate({
+      inputRange: [-25, 0],
+      outputRange: [1.1, 1],
+      extrapolateRight: 'clamp',
+    });
 
-    if (shrink) {
-      LayoutAnimation.configureNext(
-        LayoutAnimation.create(
-          300,
-          LayoutAnimation.Types.linear,
-          LayoutAnimation.Properties.opacity,
-        ),
-      );
-    } else {
-      LayoutAnimation.configureNext(
-        LayoutAnimation.create(
-          200,
-          LayoutAnimation.Types.linear,
-          LayoutAnimation.Properties.opacity,
-        ),
-      );
-    }
+    let animatedAvatarSize = scrollY.interpolate({
+      inputRange: [0, scroll_height],
+      outputRange: [avatarSize, avatarSizeSmall],
+      extrapolate: 'clamp',
+    });
+    let animatedAavatarBorderRadius = scrollY.interpolate({
+      inputRange: [0, scroll_height],
+      outputRange: [avatarSize / 2, avatarSizeSmall / 2],
+      extrapolate: 'clamp',
+    });
+    let viewY = nScrollY.interpolate({
+      inputRange: [0, scroll_height],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+    });
+    let viewX = nScrollY.interpolate({
+      inputRange: [0, scroll_height, 200],
+      outputRange: [0, 60, 80],
+      extrapolate: 'clamp',
+    });
+
+    let containerY = nScrollY.interpolate({
+      inputRange: [-25, 0, scroll_height],
+      outputRange: [-18, 0, -(scroll_height - 40)],
+      extrapolateRight: 'clamp',
+    });
+    let bkColor = scrollY.interpolate({
+      inputRange: [0, scroll_height - 1, scroll_height],
+      outputRange: [
+        'rgba(33,33,33,0)',
+        'rgba(33,33,33,0)',
+        'rgba(33,33,33,0.1)',
+      ],
+      extrapolate: 'clamp',
+    });
     return (
-      <View style={styles.container}>
-        <Image
-          uri={userAvatar}
-          style={styles.bkImage}
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            transform: [{ translateY: containerY }],
+          },
+        ]}
+      >
+        <Animated.Image
+          source={{ uri: userAvatar }}
+          style={[
+            styles.bkImage,
+            {
+              transform: [
+                {
+                  scale: imgScale,
+                },
+              ],
+            },
+          ]}
           resizeMode={'cover'}
-          blur={true}
         />
         <Animated.View
-          style={shrink ? styles.infoContainerAfter : styles.infoContainer}
+          style={[
+            Styles.absolute,
+            {
+              bottom: 40,
+              backgroundColor: bkColor,
+            },
+          ]}
+        />
+        <Animated.View
+          style={[
+            styles.infoContainer,
+            {
+              zIndex: 5,
+            },
+            {
+              transform: [
+                {
+                  translateY: viewY,
+                },
+                {
+                  translateX: viewX,
+                },
+              ],
+            },
+          ]}
         >
           <Animated.Image
             source={{ uri: userAvatar }}
-            style={shrink ? styles.avatarAfter : styles.avatarNormal}
+            style={[
+              styles.avatarNormal,
+              {
+                width: animatedAvatarSize,
+                height: animatedAvatarSize,
+                borderRadius: animatedAavatarBorderRadius,
+              },
+            ]}
           />
           <View style={styles.textContainer}>
             <InfiniteText
-              text={username + '  '+userCoin}
+              text={username + '  ' + userCoin}
               style={{}}
               textStyle={{ color: colors.depGrey }}
             >
@@ -80,7 +163,7 @@ class UserInfo extends Component {
             </InfiniteText>
           </View>
         </Animated.View>
-      </View>
+      </Animated.View>
     );
   }
 }
@@ -116,13 +199,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     marginLeft: 20,
-  },
-  infoContainerAfter: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 20,
-    left: SCREEN_WIDTH / 4,
+    zIndex: 2,
   },
   textContainer: {
     height: 30,
@@ -135,11 +212,6 @@ const styles = StyleSheet.create({
     width: avatarSize,
     height: avatarSize,
     borderRadius: 0,
-  },
-  avatarAfter: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
   },
 });
 

@@ -6,6 +6,8 @@ import shopPage from './pages/shopPage/shopPage.connect';
 import tabbar from './pages/tabbar/tabbar.connect';
 import login from './pages/login/login.connect';
 import launchPage from './pages/launchPage/launchPage.connect';
+import createNew from './pages/createNew/createNew.connect';
+import alert from './pages/alert/alert.connect';
 export {
   homePage,
   rememberPage,
@@ -15,4 +17,6 @@ export {
   tabbar,
   login,
   launchPage,
+  createNew,
+  alert,
 };

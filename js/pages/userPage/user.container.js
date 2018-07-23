@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View, ScrollView, Animated } from 'react-native';
 import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
 import { base, User } from '../../utils';
 import UserProfile from './component/UserProfile';
@@ -51,17 +51,23 @@ class UserPage extends Component {
     const { buttonLocations, userInfo, isLoggedIn } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
-        <Button
-          key={index}
-          buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
-          title={'tap me'}
-          size={'small'}
-          onPress={this._onPressLogin}
-        />
+        <View style={[styles.loginButton, { left: item.x, top: item.y }]}>
+          <Button
+            key={index}
+            // buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
+            title={'tap me'}
+            size={'small'}
+            onPress={this._onPressLogin}
+          />
+        </View>
       );
     });
     if (!isLoggedIn) {
-      return <View style={{ flex: 1 }}>{renderButton}</View>;
+      return (
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+          {renderButton}
+        </View>
+      );
     } else {
       return (
         <View style={styles.container}>

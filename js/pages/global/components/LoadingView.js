@@ -7,6 +7,9 @@ import LottieView from 'lottie-react-native';
 const { Styles, realSize } = base;
 
 class LoadingView extends Component {
+  constructor(props) {
+    super(props);
+  }
   componentWillMount() {}
   componentDidMount() {
     this._lottie && this._lottie.play();
@@ -23,7 +26,7 @@ class LoadingView extends Component {
         style={[
           Styles.absolute,
           Styles.center,
-          { backgroundColor: 'rgba(33,33,33,0.4)' },
+          { backgroundColor: 'rgba(33,33,33,0.6)' },
         ]}
       >
         <View>

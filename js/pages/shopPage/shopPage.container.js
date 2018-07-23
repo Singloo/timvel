@@ -3,24 +3,67 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  FlatList,
+  ScrollView,
 } from 'react-native';
-import { Button, NavBar, Image, InfiniteText } from '../../../re-kits'
-import { base } from '../../utils'
-
+import { Button, NavBar, Image, InfiniteText } from '../../../re-kits';
+import { base } from '../../utils';
+import ProductCard from './components/ProductCard';
+import ConfirmPurchase from './pages/ConfirmPurchase';
+const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
 class ShopPage extends Component {
   static navigationOptions = {
-    drawerLockMode:'locked-closed'
-  }
+    drawerLockMode: 'locked-closed',
+  };
 
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
+  _openModal = () => {
+    this.props.logic('SHOP_PAGE_SET_STATE', {
+      showModal: true,
+    });
+  };
+
+  _closeModal = () => {
+    this.props.logic('SHOP_PAGE_SET_STATE', {
+      showModal: false,
+    });
+  };
 
   render() {
+    const { showModal } = this.props.state;
+    const renderProduct = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => {
+      return (
+        <ProductCard
+          key={index}
+          onPressPurchase={() => {
+            this._confirmPurchase.open();
+          }}
+        />
+      );
+    });
     return (
       <View style={styles.container}>
-        <Text>{'welcome'}</Text>
+        <ScrollView
+          style={{ flex: 1, backgroundColor: colors.lightGrey }}
+          contentContainerStyle={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            paddingTop: PADDING_TOP + 44,
+            paddingBottom: PADDING_BOTTOM + 48,
+            justifyContent: 'space-between',
+          }}
+        >
+          {renderProduct}
+        </ScrollView>
+        <NavBar title={'Shop'} style={{ position: 'absolute', top: 0 }} />
+        <ConfirmPurchase
+          ref={r => (this._confirmPurchase = r)}
+          show={showModal}
+          openModal={this._openModal}
+          closeModal={this._closeModal}
+        />
       </View>
     );
   }
@@ -29,10 +72,9 @@ class ShopPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center'
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
 
-export default ShopPage
+export default ShopPage;

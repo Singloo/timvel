@@ -9,13 +9,25 @@ const loginPage = {
   usernameEmpty: `Username can't be empty`,
   passwordEmpty: `Password can't be empty`,
   emailEmpty: `Email is invalid...`,
-  signUpErrorDefault:'Failed.. try again?',
-  signUpErrorEmailInvalid:'Email is invalid',
-  signUpErrorUserIdInvalid:'User id is invalid ???',
-  signUpErrorUsernameInvalid:'Username is invalid,allow number, letter, underline',
-  signUpErrorUsernameOccupied:'Username is occupied..',
-  signUpErrorEmailOccupied:'Email is already used..',
-  welcome:'Welcome to ...'
+  signUpErrorDefault: 'Failed.. try again?',
+  signUpErrorEmailInvalid: 'Email is invalid',
+  signUpErrorUserIdInvalid: 'User id is invalid ???',
+  signUpErrorUsernameInvalid:
+    'Username is invalid,allow number, letter, underline',
+  signUpErrorUsernameOccupied: 'Username is occupied..',
+  signUpErrorEmailOccupied: 'Email is already used..',
+  welcome: 'Welcome to ...',
+  placeholder: 'Say something before ...',
+  happenedAt: 'At:',
+  tags: 'Tags',
+  daily: 'daily',
+  popular: 'Popular',
+  current: 'Current',
+  noInterested: 'No Interested?',
+  searchSomething: 'Search something ...',
+  confirm: 'Confirm',
+  cancel: 'Cancel',
+  add: 'Add',
 };
 
 export default {

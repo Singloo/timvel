@@ -1,0 +1,25 @@
+{
+  "name": "aliyun-oss-react-native-sdk",
+  "version": "1.2.0",
+  "summary": "A cross-platform React Native SDK for AliyunOSS Services, providing most of the OSS APIs, like client initialization, uploading & downloading etc.",
+  "authors": {
+    "Vito CHEN": "gameboyvito@gmail.com"
+  },
+  "license": "Apache License 2.0",
+  "homepage": "https://github.com/gameboyVito/aliyun-oss-react-native-sdk#readme",
+  "source": {
+    "git": "https://github.com/gameboyVito/aliyun-oss-react-native-sdk"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "ios/*.{h,m}",
+  "dependencies": {
+    "React": [
+
+    ],
+    "AliyunOSSiOS": [
+      "~> 2.6.2"
+    ]
+  }
+}

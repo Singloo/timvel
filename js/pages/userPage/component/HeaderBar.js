@@ -12,7 +12,9 @@ import { Button, Text, InfiniteText } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
+const { realSize } = base;
 const { SCREEN_WIDTH, colors, renderTitle, PADDING_TOP } = base;
+const scroll_height = 200 - 44 - PADDING_TOP;
 class HeaderBar extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +27,12 @@ class HeaderBar extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
   render() {
-    const { username, userCoin, userAvatar, userTitle, shrink } = this.props;
+    const { username, userCoin, userAvatar, userTitle, nScrollY } = this.props;
+    let y = nScrollY.interpolate({
+      inputRange: [scroll_height, 200],
+      outputRange: [-44 - PADDING_TOP, 0],
+      extrapolate: 'clamp',
+    });
     return (
       <Animated.View
         ref={r => {
@@ -33,10 +40,11 @@ class HeaderBar extends Component {
         }}
         onLayout={this.imageLoaded.bind(this)}
         style={[
-          { position: 'absolute', top: 0, left: 0, right: 0 },
+          { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1 },
           styles.headerBar,
-          { top: shrink ? 0 : -(44 + PADDING_TOP) },
-          { opacity: shrink ? 1 : 0 },
+          {
+            transform: [{ translateY: y }],
+          },
         ]}
       >
         <BlurView
@@ -44,27 +52,6 @@ class HeaderBar extends Component {
           blurType={'xlight'}
           style={styles.absolute}
         />
-        <View style={styles.infoContainerAfter}>
-          <Image source={{ uri: userAvatar }} style={styles.avatarAfter} />
-          <View style={styles.textContainer}>
-            <InfiniteText
-              text={username + userCoin}
-              style={{}}
-              textStyle={{ color: colors.white }}
-            >
-              {renderTitle(userTitle)}
-              <View
-                style={{
-                  width: 1,
-                  height: 18,
-                  backgroundColor: colors.white,
-                  marginRight: 4,
-                  alignSelf: 'center',
-                }}
-              />
-            </InfiniteText>
-          </View>
-        </View>
       </Animated.View>
     );
   }

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, findNodeHandle } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  View,
+  findNodeHandle,
+  Animated,
+} from 'react-native';
 import {
   Button,
   NavBar,
@@ -18,23 +24,63 @@ class Tabbar extends Component {
     this.state = {
       viewRef: null,
     };
+    this.animationState = new Animated.Value(0);
+    this.animationStart = Animated.timing(this.animationState, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true,
+    });
+    this.animationClose = Animated.timing(this.animationState, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true,
+    });
   }
   componentWillMount() {}
-
-  imageLoaded() {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  componentDidUpdate() {
+    const { tabBarHidden, showTabbarAnimation } = this.props.global;
+    if (tabBarHidden && showTabbarAnimation) {
+      this.animationStart.start();
+      return;
+    }
+    if (!tabBarHidden && showTabbarAnimation) {
+      this.animationClose.start(() => {
+        this.props.logic('GLOBAL_SET_STATE', {
+          showTabbarAnimation: false,
+        });
+      });
+      return;
+    }
   }
+  _imageLoaded = () => {
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  };
 
   render() {
     const { navigation, renderIcon, jumpToIndex } = this.props;
+    const { tabBarHidden } = this.props.global;
     const index = navigation.state.index;
     const activeTintColor = base.colors.main;
     const inactiveTintColor = base.colors.midGrey;
+    // if (tabBarHidden) {
+    //   return null;
+    // }
+    let containerY = this.animationState.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 48 + PADDING_BOTTOM],
+    });
     return (
-      <View
+      <Animated.View
         style={[
           styles.container,
           { height: 48 + PADDING_BOTTOM, paddingBottom: PADDING_BOTTOM },
+          {
+            transform: [
+              {
+                translateY: containerY,
+              },
+            ],
+          },
         ]}
       >
         {!base.isIOS && (
@@ -42,7 +88,7 @@ class Tabbar extends Component {
             ref={r => {
               this.backgroundImage = r;
             }}
-            onLayout={this.imageLoaded.bind(this)}
+            onLayout={this._imageLoaded}
             style={{
               position: 'absolute',
               top: 0,
@@ -84,7 +130,7 @@ class Tabbar extends Component {
           // tintColor={index == 3 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
-      </View>
+      </Animated.View>
     );
   }
 }

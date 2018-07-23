@@ -17,6 +17,17 @@ const loginPage = {
   signUpErrorUsernameOccupied: '用户名已经被占用了...?',
   signUpErrorEmailOccupied: '邮箱已经被注册...',
   welcome: '欢迎',
+  placeholder: '说点什么吧...',
+  happenedAt: '发生于:',
+  tags: '标签',
+  daily: '日常',
+  popular: '时下热门',
+  current: '当前',
+  noInterested: '不感兴趣?',
+  searchSomething: '搜索......',
+  confirm: '可以',
+  cancel: '取消',
+  add:'添加'
 };
 
 const homePage = {};

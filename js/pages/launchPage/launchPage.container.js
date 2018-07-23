@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
+import {
+  Button,
+  NavBar,
+  Image,
+  InfiniteText,
+  Text,
+  Assets,
+  AnimatedLogo,
+} from '../../../re-kits';
 import { base, I18n } from '../../utils';
-const { Styles } = base;
+const { Styles, SCREEN_WIDTH } = base;
 import SplashScreen from 'react-native-splash-screen';
 const hello = [
   '你好,人类',
@@ -13,33 +21,45 @@ const hello = [
   'Hallo, Menschen',
   'Bonjour, les humains',
 ];
+// const logo_width = SCREEN_WIDTH * 0.9;
 class LaunchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       textIndex: 0,
     };
-    this.animationState = new Animated.Value(0);
-    this.animation1 = Animated.timing(this.animationState, {
-      toValue: 1,
-      duration: 1500,
-    });
-    this.animation2 = Animated.timing(this.animationState, {
-      toValue: 0,
-      duration: 1500,
-    });
-    this.animation = Animated.sequence([this.animation1, this.animation2]);
+    // this.animationState = new Animated.Value(0);
+    // this.rotateState = new Animated.Value(0);
+    // this.animation1 = Animated.timing(this.animationState, {
+    //   toValue: 1,
+    //   duration: 1500,
+    // });
+    // this.animation2 = Animated.timing(this.animationState, {
+    //   toValue: 0,
+    //   duration: 1500,
+    // });
+    // this.animation3 = Animated.timing(this.rotateState, {
+    //   toValue: 1,
+    //   duration: 15000,
+    // });
+    // this.animation = Animated.sequence([this.animation1, this.animation2]);
   }
-  componentWillMount() {}
+  componentWillMount() {
+    this._init();
+  }
+  _init = () => {
+    // OSS.initOSS();
+  };
   componentDidMount() {
     SplashScreen.hide();
-    Animated.loop(this.animation).start();
-    this.interval = setInterval(() => {
-      const { textIndex } = this.state;
-      this.setState({
-        textIndex: textIndex + 1,
-      });
-    }, 3000);
+    // Animated.loop(this.animation).start();
+    // Animated.loop(this.animation3).start();
+    // this.interval = setInterval(() => {
+    //   const { textIndex } = this.state;
+    //   this.setState({
+    //     textIndex: textIndex + 1,
+    //   });
+    // }, 3000);
     this.props.logic('INIT_APP');
   }
 
@@ -50,15 +70,26 @@ class LaunchPage extends Component {
     });
   };
   componentWillUnmount() {
-    this.interval && clearInterval(this.interval);
+    // this.interval && clearInterval(this.interval);
   }
 
   render() {
     const { textIndex } = this.state;
     const text = hello[textIndex % hello.length];
     return (
-      <View style={[styles.container, Styles.center]}>
-        <Animated.View
+      <Animated.View
+        style={[
+          styles.container,
+          Styles.center,
+          // {
+          //   backgroundColor: this.animationState.interpolate({
+          //     inputRange: [0, 1],
+          //     outputRange: ['rgba(33,33,33,0.2)', 'rgba(250,250,250,0.6)'],
+          //   }),
+          // },
+        ]}
+      >
+        {/* <Animated.View
           style={[
             Styles.absolute,
             {
@@ -68,8 +99,8 @@ class LaunchPage extends Component {
               }),
             },
           ]}
-        />
-        <Animated.Text
+        /> */}
+        {/* <Animated.Text
           style={[
             { fontSize: 20, fontWeight: '100', marginBottom: 80 },
             {
@@ -89,8 +120,9 @@ class LaunchPage extends Component {
           ]}
         >
           {text}
-        </Animated.Text>
-      </View>
+        </Animated.Text> */}
+        <AnimatedLogo />
+      </Animated.View>
     );
   }
 }

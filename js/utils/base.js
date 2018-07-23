@@ -77,7 +77,7 @@ export function randomItem(arr, returnLength, returnArray) {
     }
   } else {
     let newArr = _.difference(arr, returnArr);
-    randomItem(newArr, returnNum, returnArr);
+    return randomItem(newArr, returnNum, returnArr);
   }
 }
 
@@ -88,9 +88,6 @@ export const Styles = {
     left: 0,
     bottom: 0,
     right: 0,
-  },
-  transparent: {
-    backgroundColor: 'transparent',
   },
   center: {
     justifyContent: 'center',
@@ -114,14 +111,52 @@ export const isIphoneX =
     (SCREEN_HEIGHT === 375 && SCREEN_WIDTH === 812));
 
 export const colors = {
-  main: '#00e5ff',
+  main: '#1de9b6',
+  mainLight: '#a7ffeb',
+  mainDep: '#004d40',
   red: '#ff8a80',
+  redDep: '#b71c1c',
+  redLight: '#ffcdd2',
+  green: '#8bc34a',
+  greenDep: '#558b2f',
+  greenLight: '#dcedc8',
+  amber: '#ffc107',
   white: '#fafafa',
+  backgroundGrey: '#f7f7f7',
   lightGrey: '#f5f5f5',
   midGrey: '#9e9e9e',
   depGrey: '#616161',
+  transparent: 'transparent',
+  pink: '#ec407a',
+  purple: '#ab47bc',
+  lightBlue: '#29b6f6',
+  cyan: '#26c6da',
+  teal: '#26a69a',
+  lightGreen: '#9ccc65',
+  lime: '#d4e157',
+  yellow: '#ffee58',
+  orange: '#ffa726',
+  deepOrange: '#ff7043',
+  blueGrey: '#78909c',
+  grey: '#bdbdbd',
 };
+export const colorSets = [
+  colors.pink,
+  colors.purple,
+  colors.lightBlue,
+  colors.cyan,
+  colors.teal,
+  colors.lightGreen,
+  colors.lime,
+  colors.yellow,
+  colors.orange,
+  colors.deepOrange,
+  colors.blueGrey,
+  colors.amber,
+  colors.grey,
+];
 
+export const randomColor = randomItem(colorSets);
 export const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
 export const PADDING_BOTTOM = isIphoneX ? 34 : 0;
 export const NAV_BAR_HEIGHT = isIOS ? (isIphoneX ? 44 + 44 : 20 + 44) : 44;

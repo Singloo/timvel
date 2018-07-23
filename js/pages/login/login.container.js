@@ -155,21 +155,21 @@ class Login extends Component {
 
   _onPressSignUp = (username, password, email) => {
     if (username.length === 0) {
-      this.props.logic('GLOBAL_SET_STATE', {
-        snakeBarInfo: I18n.t('usernameEmpty'),
+      this.props.logic('SHOW_SNAKE_BAR', {
+        content: I18n.t('usernameEmpty'),
       });
       return;
     }
     if (password.length === 0) {
-      this.props.logic('GLOBAL_SET_STATE', {
-        snakeBarInfo: I18n.t('passwordEmpty'),
+      this.props.logic('SHOW_SNAKE_BAR', {
+        content: I18n.t('passwordEmpty'),
       });
       return;
     }
     if (!EMAIL_REGEX.test(email)) {
       console.warn(EMAIL_REGEX.test(email), email);
-      this.props.logic('GLOBAL_SET_STATE', {
-        snakeBarInfo: I18n.t('emailEmpty'),
+      this.props.logic('SHOW_SNAKE_BAR', {
+        content: I18n.t('emailEmpty'),
       });
       return;
     }
@@ -184,8 +184,8 @@ class Login extends Component {
   _signUpCallback = () => {
     this.props.logic('USER_GET_USER_STATUS');
     this._goBack();
-    this.props.logic('GLOBAL_SET_STATE', {
-      snakeBarInfo: I18n.t('welcome'),
+    this.props.logic('SHOW_SNAKE_BAR', {
+      content: I18n.t('welcome'),
     });
   };
   render() {
