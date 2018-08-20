@@ -212,10 +212,61 @@ let darkSkyWeatherType = {
 const post = createLogic({
   type: 'CREATE_NEW_SEND_POST',
   latest: true,
-  async process({ action, logic, httpClient }, dispatch, done) {
+  async process({ action, logic, httpClient, OSS, User }, dispatch, done) {
     try {
+      const { images, content, weatherInfo, tag, date } = action.payload;
+      dispatch(
+        logic('GLOBAL_SET_STATE', {
+          isLoading: true,
+        }),
+      );
+      let imageUrls = [];
+      let urlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
+      for (let image of images) {
+        const filepath = image.path;
+        const imageType = image.mime.replace('image/', '');
+        const timeNow = new Date();
+        let filename = User.username() + timeNow.getTime() + '.' + imageType;
+        filename = filename.trim().toLowerCase();
+        const result = await OSS.upLoadImage(filename, filepath);
+        console.warn(result);
+        imageUrls.push(urlPrefix + filename);
+      }
+
+      await httpClient.post('/create_post', {
+        content: content,
+        image_urls: imageUrls,
+        user_id: 1,
+        weather_info: JSON.stringify(weatherInfo),
+        post_type: 'normal',
+        tag: tag,
+        happened_at: date,
+      });
+      dispatch(
+        logic('GLOBAL_SET_STATE', {
+          isLoading: false,
+        }),
+      );
+      dispatch(logic('NAVIGATION_BACK'));
+      dispatch(
+        logic('SHOW_SNAKE_BAR', {
+          content: '发布成功!',
+          type: 'SUCCESS',
+        }),
+      );
     } catch (error) {
       console.warn(error);
+      dispatch(
+        logic('GLOBAL_SET_STATE', {
+          isLoading: false,
+        }),
+      );
+      dispatch(
+        logic('SHOW_SNAKE_BAR', {
+          content: '网络错误..!',
+          type: 'ERROR',
+        }),
+      );
     } finally {
       done();
     }

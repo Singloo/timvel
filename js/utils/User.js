@@ -30,8 +30,8 @@ export function logOut() {
 export function current() {
   return AV.User.current();
 }
-export function currentAsync(){
-  return AV.User.currentAsync()
+export function currentAsync() {
+  return AV.User.currentAsync();
 }
 export function username() {
   return AV.User.current().get('username');
@@ -40,10 +40,10 @@ export function username() {
 export function getUserInfo() {
   let user = AV.User.current();
   var userInfo = {
+    userId: user.get('userId'),
     username: user.get('username'),
     userCoin: user.get('userCoin'),
     userAvatar: user.get('avatar'),
-    userTitle: user.get('title'),
     objectId: user.get('objectId'),
     email: user.get('email'),
     phoneNumber: user.get('mobilePhoneNumber'),
@@ -51,6 +51,12 @@ export function getUserInfo() {
   };
 
   return userInfo;
+}
+
+export function id() {
+  const user = AV.User.current();
+  const userId = user.get('userId');
+  return userId;
 }
 
 export function updateAvatar(url) {

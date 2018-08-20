@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import { Button, NavBar, Image, InfiniteText } from '../../../re-kits';
+import { Button, NavBar, Image, InfiniteText, Assets } from '../../../re-kits';
 import { base } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
@@ -28,6 +28,12 @@ class ShopPage extends Component {
   _closeModal = () => {
     this.props.logic('SHOP_PAGE_SET_STATE', {
       showModal: false,
+    });
+  };
+
+  _onPressRight = () => {
+    this.props.logic('NAVIGATION_NAVIGATE', {
+      routeName: 'chooseSex',
     });
   };
 
@@ -57,7 +63,12 @@ class ShopPage extends Component {
         >
           {renderProduct}
         </ScrollView>
-        <NavBar title={'Shop'} style={{ position: 'absolute', top: 0 }} />
+        <NavBar
+          title={'Shop'}
+          style={{ position: 'absolute', top: 0 }}
+          sourceRight={Assets.sunny.source}
+          onPressRight={this._onPressRight}
+        />
         <ConfirmPurchase
           ref={r => (this._confirmPurchase = r)}
           show={showModal}

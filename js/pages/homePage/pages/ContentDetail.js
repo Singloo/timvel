@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated, ScrollView } from 'react-native';
-import { Button, Image, Text, Assets } from '../../../../re-kits';
+import {
+  Button,
+  Image,
+  Text,
+  Assets,
+  WeatherInfo,
+  CommentBar,
+} from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
+import BottomInfoBar from '../components/BottomInfoBar';
+
 const {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -12,6 +21,7 @@ const {
   Styles,
   PADDING_TOP,
   isIOS,
+  TAB_BAR_HEIGHT,
 } = base;
 let image_height = SCREEN_WIDTH * 0.6;
 let image_width = SCREEN_WIDTH;
@@ -213,6 +223,7 @@ class ContentDetail extends Component {
         <Animated.ScrollView
           style={[Styles.absolute, styles.container]}
           scrollEventThrottle={16}
+          contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT }}
           // stickyHeaderIndices={[0]}
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event(
@@ -301,6 +312,13 @@ class ContentDetail extends Component {
             </Animated.Text>
           </Animated.View>
         </Animated.ScrollView>
+        <CommentBar
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            opacity: animating ? 0 : 1,
+          }}
+        />
         <Animated.View
           style={{
             height: PADDING_TOP + 44,
@@ -330,6 +348,16 @@ class ContentDetail extends Component {
             tintColor={colors.white}
           />
         </Animated.View>
+        <WeatherInfo
+          weather={'sunny'}
+          temperature={25}
+          style={{
+            opacity: animating ? 0 : 1,
+            position: 'absolute',
+            right: 0,
+            top: PADDING_TOP,
+          }}
+        />
       </Animated.View>
     );
   }

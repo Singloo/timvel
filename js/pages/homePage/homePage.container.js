@@ -91,6 +91,9 @@ class HomePage extends Component {
         cardId={index}
         onPress={this._onPressItem}
         hidden={showDetail && cardId === index}
+        onPressComment={this._onPressComment}
+        onPressAvatar={this._onPressAvatar}
+        onPressEmoji={this._onPressEmoji}
       />
     );
   };
@@ -212,11 +215,33 @@ class HomePage extends Component {
       });
       this.props.logic('GLOBAL_SET_STATE', {
         isLoading: false,
-        snakeBarInfo: 'Welcome to ' + date,
+      });
+      this.props.logic('SHOW_SNAKE_BAR', {
+        content: 'Welcome to ' + date,
       });
     }, 2000);
   };
 
+  _onPressComment = () => {
+    this.props.logic('NAVIGATION_NAVIGATE', {
+      routeName: 'comment',
+    });
+  };
+
+  _onPressAvatar = user => {
+    this.props.logic('NAVIGATION_NAVIGATE', {
+      routeName: 'strangerProfile',
+    });
+  };
+
+  _onPressEmoji = (emoji, postId) => {
+    const { enablePostEmoji } = this.props.state;
+    this.props.logic('HOME_PAGE_PRESS_EMOJI', {
+      emoji,
+      postId,
+      enablePostEmoji,
+    });
+  };
   render() {
     const {
       showDetail,
@@ -238,7 +263,7 @@ class HomePage extends Component {
           style={styles.list}
           renderItem={this._renderItem}
           ListHeaderComponent={this._renderHeader}
-          data={[1, 1, 1]}
+          data={[1, 1, 1, 4, 5, 6, 7, 8, 9, 10]}
           contentContainerStyle={{
             paddingTop: PADDING_TOP + 10,
             // paddingTop: PADDING_TOP + 44,
@@ -251,17 +276,6 @@ class HomePage extends Component {
           showsVerticalScrollIndicator={false}
         />
         <HeaderBar date={date} scrollY={this._nscrollY} />
-        {/* <NavBar
-          title={'hello there'}
-          sourceLeft={Assets.eu_flamingo.source}
-          sourceRight={Assets.eu_deer.source}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-          }}
-        /> */}
         <ActionButton buttonSource={Assets.actionButton.source}>
           <ActionButton.Icon
             // title={'create new'}

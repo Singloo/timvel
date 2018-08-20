@@ -8,6 +8,11 @@ import login from './pages/login/login.connect';
 import launchPage from './pages/launchPage/launchPage.connect';
 import createNew from './pages/createNew/createNew.connect';
 import alert from './pages/alert/alert.connect';
+import snakeBar from './pages/snakeBar/snakeBar.connect';
+import chooseSex from './pages/chooseSex/chooseSex.connect';
+import comment from './pages/comment/comment.connect';
+import strangerProfile from './pages/strangerProfile/strangerProfile.connect';
+import notifPage from './pages/notifPage/notifPage.connect';
 export {
   homePage,
   rememberPage,
@@ -19,4 +24,9 @@ export {
   launchPage,
   createNew,
   alert,
+  snakeBar,
+  chooseSex,
+  comment,
+  strangerProfile,
+  notifPage,
 };

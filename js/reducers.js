@@ -9,6 +9,11 @@ import login from './pages/login/login.reducer';
 import launchPage from './pages/launchPage/launchPage.reducer';
 import createNew from './pages/createNew/createNew.reducer';
 import alert from './pages/alert/alert.reducer';
+import snakeBar from './pages/snakeBar/snakeBar.reducer';
+import chooseSex from './pages/chooseSex/chooseSex.reducer';
+import comment from './pages/comment/comment.reducer';
+import strangerProfile from './pages/strangerProfile/strangerProfile.reducer';
+import notifPage from './pages/notifPage/notifPage.reducer';
 const reducers = combineReducers({
   homePage,
   rememberPage,
@@ -20,6 +25,11 @@ const reducers = combineReducers({
   launchPage,
   createNew,
   alert,
+  snakeBar,
+  chooseSex,
+  comment,
+  strangerProfile,
+  notifPage,
 });
 
 export default reducers;

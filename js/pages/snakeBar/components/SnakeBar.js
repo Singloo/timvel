@@ -45,11 +45,16 @@ class SnakeBar extends Component {
   }
   componentWillMount() {}
   componentDidMount() {
+    if (this.timer1) {
+      clearTimeout(this.timer1);
+      this.animationState.setValue(0);
+    }
     this.show();
   }
+  componentDidUpdate() {}
 
   componentWillUnmount() {
-    this.timer2 && clearTimeout(this.timer2);
+    // this.timer2 && clearTimeout(this.timer2);
     this.timer1 && clearTimeout(this.timer1);
   }
   show() {

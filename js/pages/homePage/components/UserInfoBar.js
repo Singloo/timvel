@@ -8,7 +8,7 @@ class UserInfoBar extends Component {
   componentWillMount() {}
 
   render() {
-    const { style, textStyle } = this.props;
+    const { style, textStyle, onPressAvatar } = this.props;
     return (
       <View style={[styles.headerBar, style]}>
         <View style={Styles.shadow}>
@@ -16,6 +16,7 @@ class UserInfoBar extends Component {
             source={Assets.bk2.source}
             resizeMode={'cover'}
             style={{ width: 60, height: 60, marginLeft: 20 }}
+            onPress={onPressAvatar}
           />
         </View>
         <View style={styles.headerTextContainer}>

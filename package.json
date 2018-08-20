@@ -8,6 +8,7 @@
     "ios": "react-native run-ios"
   },
   "dependencies": {
+    "aliyun-oss-react-native": "^1.0.0-alpha.6",
     "axios": "^0.18.0",
     "leancloud-storage": "^3.6.1",
     "lodash": "^4.17.10",
@@ -19,6 +20,7 @@
     "react-native-blur": "^3.2.2",
     "react-native-calendars": "^1.19.3",
     "react-native-datepicker": "^1.7.2",
+    "react-native-device-info": "^0.22.4",
     "react-native-i18n": "^2.0.12",
     "react-native-image-crop-picker": "^0.20.0",
     "react-native-image-picker": "^0.26.7",

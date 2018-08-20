@@ -33,6 +33,7 @@ export default class App extends React.Component {
           />
           <Connectors.global />
           <Connectors.alert />
+          <Connectors.snakeBar />
         </View>
       </Provider>
     );

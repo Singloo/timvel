@@ -26,6 +26,10 @@ target 'timvel' do
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
   
+  pod 'aliyun-oss-react-native', :path => '../node_modules/aliyun-oss-react-native'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
 end
 
 # very important to have, unless you removed React dependencies for Libraries 

@@ -7,7 +7,7 @@ import {
   Animated,
   Image,
 } from 'react-native';
-import { Button, Text, InfiniteText } from '../../../../re-kits';
+import { Button, Text, InfiniteText, ContentByTag } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';
@@ -49,6 +49,11 @@ class UserProfile extends Component {
             nScrollY={this._nscrollY}
             scrollY={this._scrollY}
           />
+          <ContentByTag />
+          <ContentByTag />
+          <ContentByTag />
+          <ContentByTag />
+          <ContentByTag />
         </Animated.ScrollView>
       </View>
     );

@@ -38,9 +38,17 @@ class Login extends Component {
       'keyboardWillShow',
       this.keyboardWillShow,
     );
+    this.keyboardDidShowSub = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
     this.keyboardWillHideSub = Keyboard.addListener(
       'keyboardWillHide',
       this.keyboardWillHide,
+    );
+    this.keyboardDidHideSub = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
     );
   }
 
@@ -52,6 +60,8 @@ class Login extends Component {
     // this.gradientBK && this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
+    this.keyboardWillShowSub.remove();
+    this.keyboardDidHideSub.remove();
     this.timer1 && clearTimeout(this.timer1);
   }
 
@@ -72,7 +82,12 @@ class Login extends Component {
     //     })
     // ]).start()
   };
-
+  keyboardDidShow = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 400,
+      toValue: event.endCoordinates.height,
+    }).start();
+  };
   keyboardWillHide = event => {
     Animated.timing(this.keyboardHeight, {
       duration: 400,
@@ -89,7 +104,12 @@ class Login extends Component {
     //     })
     // ]).start()
   };
-
+  keyboardDidHide = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 400,
+      toValue: 0,
+    }).start();
+  };
   //press
   _goBack = () => {
     const { navigation } = this.props;

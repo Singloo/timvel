@@ -8,6 +8,8 @@ const initialState = {
   showOneDay: false,
   date: Moment().format('YYYY-MM-DD'),
   carouselIndex: 0,
+  posts: [],
+  enablePostEmoji: true,
 };
 
 function reducer(state = initialState, action) {

@@ -90,14 +90,22 @@ class Alert extends Component {
       NORMAL: {
         title: 'Info',
         color: colors.main,
+        backgroundColor: colors.main,
       },
       WARNING: {
         title: 'Warning',
         color: colors.red,
+        backgroundColor: colors.red,
       },
       NOTIFICATION: {
         title: 'Notification',
         color: colors.green,
+        backgroundColor: colors.greenLight,
+      },
+      FAQ: {
+        title: 'FAQ',
+        color: colors.lime,
+        backgroundColor: colors.lime,
       },
     };
     let alertStyle = alertStyles[type];
@@ -120,7 +128,16 @@ class Alert extends Component {
             },
           ]}
         >
-          <Text style={styles.title}>{alertStyle.title}</Text>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderColor: alertStyle.backgroundColor,
+              paddingBottom: 5,
+              marginLeft: 10,
+            }}
+          >
+            <Text style={[styles.title]}>{alertStyle.title}</Text>
+          </View>
           <View style={styles.contentContainer}>
             <Text style={styles.content}>{content}</Text>
           </View>
@@ -150,7 +167,7 @@ const styles = StyleSheet.create({
     width: card_width,
     height: card_height,
     backgroundColor: colors.white,
-    padding: 10,
+    paddingVertical: 10,
     borderBottomWidth: 3,
     // borderColor: colors.main,
     marginBottom: 50,
@@ -159,6 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: colors.depGrey,
+    // backgroundColor: colors.lightGrey,
   },
   contentContainer: {
     flex: 1,
@@ -175,6 +193,7 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 16,
     fontWeight: '400',
+    flex: 1,
   },
 });
 

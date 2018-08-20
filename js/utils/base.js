@@ -103,6 +103,14 @@ export const Styles = {
         },
       }
     : { elevation: 1 },
+  textShadow: {
+    textShadowColor: '#f5f5f5',
+    textShadowOffset: {
+      width: 1.5,
+      height: 0,
+    },
+    textShadowRadius: 5,
+  },
 };
 
 export const isIphoneX =
@@ -122,6 +130,8 @@ export const colors = {
   greenLight: '#dcedc8',
   amber: '#ffc107',
   white: '#fafafa',
+  pureWhite: 'white',
+  pureBlack: '#212121',
   backgroundGrey: '#f7f7f7',
   lightGrey: '#f5f5f5',
   midGrey: '#9e9e9e',
@@ -156,7 +166,6 @@ export const colorSets = [
   colors.grey,
 ];
 
-export const randomColor = randomItem(colorSets);
 export const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
 export const PADDING_BOTTOM = isIphoneX ? 34 : 0;
 export const NAV_BAR_HEIGHT = isIOS ? (isIphoneX ? 44 + 44 : 20 + 44) : 44;

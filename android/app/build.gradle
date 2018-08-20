@@ -159,6 +159,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-device-info')
+    compile project(':aliyun-oss-react-native')
     compile project(':react-native-splash-screen')
     compile project(':react-native-i18n')
     compile project(':lottie-react-native')

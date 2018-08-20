@@ -1,4 +1,8 @@
 PODS:
+  - aliyun-oss-react-native (1.0.0-alpha.6):
+    - AliyunOSSiOS
+    - React
+  - AliyunOSSiOS (2.9.2)
   - lottie-ios (2.5.0)
   - lottie-react-native (2.3.2):
     - lottie-ios
@@ -8,7 +12,7 @@ PODS:
     - React/Core (= 0.53.3)
   - react-native-image-picker (0.14.3):
     - React
-  - react-native-splash-screen (3.0.7):
+  - react-native-splash-screen (3.0.9):
     - React
   - React/Core (0.53.3):
     - yoga (= 0.53.3.React)
@@ -38,6 +42,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNDeviceInfo (0.21.5):
+    - React
   - RNI18n (2.0.12):
     - React
   - RNImageCropPicker (0.20.0):
@@ -47,6 +53,7 @@ PODS:
   - yoga (0.53.3.React)
 
 DEPENDENCIES:
+  - aliyun-oss-react-native (from `../node_modules/aliyun-oss-react-native`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -62,11 +69,14 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 EXTERNAL SOURCES:
+  aliyun-oss-react-native:
+    :path: ../node_modules/aliyun-oss-react-native
   lottie-ios:
     :path: ../node_modules/lottie-ios
   lottie-react-native:
@@ -77,6 +87,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native-image-picker
   react-native-splash-screen:
     :path: ../node_modules/react-native-splash-screen
+  RNDeviceInfo:
+    :path: ../node_modules/react-native-device-info
   RNI18n:
     :path: ../node_modules/react-native-i18n
   RNImageCropPicker:
@@ -85,17 +97,20 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native/ReactCommon/yoga/yoga.podspec
 
 SPEC CHECKSUMS:
+  aliyun-oss-react-native: 7db2379e4987384f79cb18d2d39254009f634df5
+  AliyunOSSiOS: 0396d0483f7c83edc34e748b0ae17ffa0d7adc8d
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   lottie-react-native: f2e118cc10f478bc9857bbdb5568b6f4a9d30cf7
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: fd20e9486c9d994fb6e40d6e67dbd29c7709889c
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
-  react-native-splash-screen: 8b132e59fc463f31a9d6db6fa42031023147f7a6
+  react-native-splash-screen: cc626c801178f24382f898ea0b4c55384429b9c0
+  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   RNI18n: ee831694f1eaa69b270d345e4617f70735d4cdb9
   RNImageCropPicker: 9ef50df72d7e1c02cbbca043a35456a03200f887
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   yoga: c7c8e64dbc2552b1ceac0b491ff03f5e5128b501
 
-PODFILE CHECKSUM: 62e846b582907dcd1131268a9442e5c70a11191e
+PODFILE CHECKSUM: 4e35f250100643924d752b2236fb39e9786ab298
 
 COCOAPODS: 1.3.1

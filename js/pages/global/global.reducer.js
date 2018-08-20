@@ -1,9 +1,5 @@
 const initialState = {
   isLoading: false,
-  snakeBarInfo: '',
-  snakeBarType: 'NORMAL',
-  snakeBarDuration: 3000,
-  onPressSnakeBar: null,
   tabBarHidden: false,
   showTabbarAnimation: false,
 };

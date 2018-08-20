@@ -5,7 +5,7 @@ import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 const { SCREEN_WIDTH, colors } = base;
 
-const item_width = (SCREEN_WIDTH - 5) / 2;
+const item_width = (SCREEN_WIDTH) / 2;
 const item_height = item_width * 1.1;
 class ProductCard extends React.Component {
   componentWillMount() {}
@@ -56,7 +56,7 @@ ProductCard.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 5,
+    marginBottom: 0,
     // flex: 1,
     // backgroundColor: 'white',
   },

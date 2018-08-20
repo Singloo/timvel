@@ -7,6 +7,7 @@ const initApp = createLogic({
   async process({ logic, navigation }, dispatch, done) {
     try {
       dispatch(logic('USER_GET_USER_STATUS'));
+      dispatch(logic('UPDATE_USERINFO'));
       await new Promise((resolve, reject) => {
         setTimeout(resolve, waitTime);
       });

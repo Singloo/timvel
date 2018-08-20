@@ -19,8 +19,8 @@ const TransitionConfiguration = () => ({
 const MainScreenNavigator = TabNavigator(
   {
     Home: { screen: Connectors.homePage },
-    RememberPage: { screen: Connectors.rememberPage },
     ShopPage: { screen: Connectors.shopPage },
+    NotifPage: { screen: Connectors.notifPage },
     UserPage: { screen: Connectors.userPage },
   },
   {
@@ -48,6 +48,21 @@ const SimpleApp = StackNavigator(
     },
     createNew: {
       screen: Connectors.createNew,
+    },
+    chooseSex: {
+      screen: Connectors.chooseSex,
+    },
+    comment: {
+      screen: Connectors.comment,
+    },
+    strangerProfile: {
+      screen: Connectors.strangerProfile,
+    },
+    notifPage: {
+      screen: Connectors.notifPage,
+    },
+    rememberPage: {
+      screen: Connectors.rememberPage,
     },
   },
   {

@@ -7,12 +7,14 @@ import {
   Text,
   Touchable,
   Assets,
+  WeatherInfo,
 } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles, colors } = base;
 import UserInfoBar from './UserInfoBar';
 import TimeBar from './TimeBar';
+import BottomInfoBar from './BottomInfoBar';
 const cardWidth = base.SCREEN_WIDTH - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 class MainCard extends Component {
@@ -64,7 +66,14 @@ class MainCard extends Component {
   };
 
   render() {
-    const { imgUri, onPress, hidden } = this.props;
+    const {
+      imgUri,
+      onPress,
+      hidden,
+      onPressComment,
+      onPressAvatar,
+      onPressEmoji,
+    } = this.props;
     return (
       <View style={[styles.wrapper]}>
         <TimeBar />
@@ -89,6 +98,11 @@ class MainCard extends Component {
                 }}
                 blur={true}
               />
+              <WeatherInfo
+                weather={'sunny'}
+                temperature={25}
+                style={{ position: 'absolute', right: 0, top: 0 }}
+              />
               <View
                 style={[
                   Styles.absolute,
@@ -111,6 +125,11 @@ class MainCard extends Component {
               </View>
             </View>
           </Touchable>
+          <BottomInfoBar
+            style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
+            onPressComment={onPressComment}
+            onPressEmoji={emoji => onPressEmoji(emoji, 1)}
+          />
           <View
             ref={r => {
               this._userInfoBar = r;
@@ -118,7 +137,8 @@ class MainCard extends Component {
             style={styles.headerBar}
           >
             <UserInfoBar
-            // style={  styles.headerBar}
+              onPressAvatar={onPressAvatar}
+              // style={  styles.headerBar}
             />
           </View>
         </View>

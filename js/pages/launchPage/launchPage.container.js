@@ -10,7 +10,7 @@ import {
   Assets,
   AnimatedLogo,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { base, I18n, OSS } from '../../utils';
 const { Styles, SCREEN_WIDTH } = base;
 import SplashScreen from 'react-native-splash-screen';
 const hello = [
@@ -44,11 +44,13 @@ class LaunchPage extends Component {
     // });
     // this.animation = Animated.sequence([this.animation1, this.animation2]);
   }
-  componentWillMount() {
+  async componentWillMount() {
     this._init();
   }
-  _init = () => {
-    // OSS.initOSS();
+  _init = async () => {
+    try {
+    } catch (error) {
+    }
   };
   componentDidMount() {
     SplashScreen.hide();

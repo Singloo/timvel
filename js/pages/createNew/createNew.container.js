@@ -18,7 +18,7 @@ import ChooseImages from './components/ChooseImages';
 import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
 import AddTag from './components/AddTag';
-import { base, I18n } from '../../utils';
+import { base, I18n, User } from '../../utils';
 const { colors, Styles, isIOS } = base;
 
 class CreateNew extends Component {
@@ -70,11 +70,20 @@ class CreateNew extends Component {
   };
 
   _onPressChooseImages = () => {
+    const { images } = this.props.state;
     ImagePicker.openPicker({
       multiple: true,
-    }).then(images => {
+      maxFiles: Math.min(8 - images.length, 5),
+    }).then(imgs => {
+      if (images.length + imgs.length > 8) {
+        this.props.logic('SHOW_SNAKE_BAR', {
+          type: 'ERROR',
+          content: 'Number of images at most 8',
+        });
+        return;
+      }
       this.props.logic('CREATE_NEW_SET_STATE', {
-        images: images,
+        images: [].concat(images, imgs),
       });
     });
   };
@@ -102,7 +111,16 @@ class CreateNew extends Component {
     Keyboard.dismiss();
   };
 
-  _onPressSend = () => {};
+  _onPressSend = () => {
+    const { images, content, weatherInfo, date } = this.props.state;
+    this.props.logic('CREATE_NEW_SEND_POST', {
+      images,
+      content,
+      weatherInfo,
+      tag: '开发',
+      date,
+    });
+  };
   _addTagController = () => {
     const { showAddTag } = this.props.state;
     this.props.logic('CREATE_NEW_SET_STATE', {
