@@ -20,6 +20,9 @@ export default class App extends React.Component {
     });
     Setup.androidBackButton(this._navigation, store);
   }
+  async componentWillUnmount() {
+    await store.dispatch('UPDATE_USERINFO');
+  }
 
   render() {
     return (

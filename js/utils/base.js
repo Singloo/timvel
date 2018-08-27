@@ -40,6 +40,18 @@ const getItemPosition = (n, r) => {
   }
 };
 
+export const filterPostsByTag = posts => {
+  let returnObj = {};
+
+  posts.forEach(item => {
+    if (typeof returnObj[item.tag] === 'undefined') {
+      returnObj[item.tag] = [];
+    }
+    returnObj[item.tag].push(item);
+  });
+  return returnObj;
+};
+
 export const isIOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
 const toDegrees = angle => {

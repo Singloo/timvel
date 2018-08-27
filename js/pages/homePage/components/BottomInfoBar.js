@@ -15,7 +15,7 @@ const { Styles, colors } = base;
 
 class BottomInfoBar extends React.Component {
   render() {
-    const { style, onPressComment, onPressEmoji } = this.props;
+    const { style, onPressComment, onPressEmoji, nums } = this.props;
     const renderEmojis = ['shock', 'angry', 'nofeeling', 'vomit', 'laugh'].map(
       (item, index) => {
         return (
@@ -25,7 +25,7 @@ class BottomInfoBar extends React.Component {
             onPress={() => {
               onPressEmoji(item);
             }}
-            num={1000}
+            num={nums[item]}
           />
         );
       },
@@ -45,7 +45,7 @@ class BottomInfoBar extends React.Component {
             size={'small'}
             onPress={onPressComment}
           />
-          <Text style={styles.num}>{1000}</Text>
+          <Text style={styles.num}>{nums.numOfComments}</Text>
         </View>
 
         <View style={styles.emojiContainer}>{renderEmojis}</View>

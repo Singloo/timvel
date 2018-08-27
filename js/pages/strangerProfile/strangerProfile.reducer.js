@@ -1,4 +1,7 @@
-const initialState = {};
+const initialState = {
+  postsByTag: {},
+  userInfo: {},
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {

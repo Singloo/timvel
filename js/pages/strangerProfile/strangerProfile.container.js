@@ -19,9 +19,26 @@ class StrangerProfile extends Component {
   constructor(props) {
     super(props);
     this._nScrollY = new Animated.Value(0);
+    this.image_translateY = this._nScrollY.interpolate({
+      inputRange: [-25, 0, scroll_height * 1.6],
+      outputRange: [-18, 0, -scroll_height],
+      extrapolateRight: 'clamp',
+    });
+    this.imgScale = this._nScrollY.interpolate({
+      inputRange: [-25, 0],
+      outputRange: [1.1, 1],
+      extrapolateRight: 'clamp',
+    });
   }
-  componentWillMount() {}
+  componentWillMount() {
+    this.props.logic('STRANGER_PROFILE_FETCH_POSTS', {
+      userId: 4,
+    });
+  }
 
+  componentWillUnmount() {
+    this.props.logic('STRANGER_PROFILE_RESET_STATE');
+  }
   _goBack = () => {
     const { navigation } = this.props;
     this.props.logic('NAVIGATION_BACK', {
@@ -30,15 +47,10 @@ class StrangerProfile extends Component {
   };
 
   render() {
-    let image_translateY = this._nScrollY.interpolate({
-      inputRange: [-25, 0, scroll_height * 1.6],
-      outputRange: [-18, 0, -scroll_height],
-      extrapolateRight: 'clamp',
-    });
-    let imgScale = this._nScrollY.interpolate({
-      inputRange: [-25, 0],
-      outputRange: [1.1, 1],
-      extrapolateRight: 'clamp',
+    const { postsByTag, userInfo } = this.props.state;
+    console.warn(userInfo);
+    const renderCards = Object.keys(postsByTag).map(key => {
+      return <ContentByTag tag={key} posts={postsByTag[key]} />;
     });
     return (
       <View style={styles.container}>
@@ -59,19 +71,16 @@ class StrangerProfile extends Component {
                 width: image_width,
                 transform: [
                   {
-                    translateY: image_translateY,
+                    translateY: this.image_translateY,
                   },
                   {
-                    scale: imgScale,
+                    scale: this.imgScale,
                   },
                 ],
               }}
             />
           </Animated.View>
-          <ContentByTag />
-          <ContentByTag />
-          <ContentByTag />
-          <ContentByTag />
+          {renderCards}
         </Animated.ScrollView>
         <NavBar
           title={'welcome'}

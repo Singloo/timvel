@@ -59,6 +59,12 @@ export function id() {
   return userId;
 }
 
+export function getUserByObjectId(objectId) {
+  const query = new AV.Query('_User');
+
+  return query.get(objectId);
+}
+
 export function updateAvatar(url) {
   return AV.User.current().save({
     avatar: url,

@@ -1,4 +1,6 @@
-const initialState = {};
+const initialState = {
+  comments: [],
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {

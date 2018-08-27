@@ -77,7 +77,9 @@ class HomePage extends Component {
     super(props);
     this._nscrollY = new Animated.Value(0);
   }
-  componentWillMount() {}
+  componentWillMount() {
+    this._fetchPosts();
+  }
 
   componentDidMount() {
     // console.warn(User.current())
@@ -89,6 +91,7 @@ class HomePage extends Component {
       <MainCard
         key={index.toString()}
         cardId={index}
+        post={item}
         onPress={this._onPressItem}
         hidden={showDetail && cardId === index}
         onPressComment={this._onPressComment}
@@ -149,6 +152,13 @@ class HomePage extends Component {
     });
   };
 
+  _fetchPosts = happenedAt => {
+    const { posts, date } = this.props.state;
+    this.props.logic('HOME_PAGE_FETCH_POSTS', {
+      happenedAt: happenedAt || date,
+      offset: posts.length,
+    });
+  };
   _renderCarouselItem = ({ item, index }) => {
     const isOdd = (index + 2) % 2 !== 0;
     return <CarouselCard />;
@@ -222,9 +232,12 @@ class HomePage extends Component {
     }, 2000);
   };
 
-  _onPressComment = () => {
+  _onPressComment = postId => {
     this.props.logic('NAVIGATION_NAVIGATE', {
       routeName: 'comment',
+      params: {
+        postId,
+      },
     });
   };
 
@@ -250,6 +263,7 @@ class HomePage extends Component {
       userInfoPosition,
       showOneDay,
       date,
+      posts,
     } = this.props.state;
     return (
       <View style={styles.container}>
@@ -263,7 +277,7 @@ class HomePage extends Component {
           style={styles.list}
           renderItem={this._renderItem}
           ListHeaderComponent={this._renderHeader}
-          data={[1, 1, 1, 4, 5, 6, 7, 8, 9, 10]}
+          data={posts}
           contentContainerStyle={{
             paddingTop: PADDING_TOP + 10,
             // paddingTop: PADDING_TOP + 44,

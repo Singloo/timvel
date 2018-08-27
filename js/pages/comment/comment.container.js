@@ -14,7 +14,10 @@ import { base, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
 const { colors, NAV_BAR_HEIGHT, TAB_BAR_HEIGHT } = base;
 class Comment extends Component {
-  componentWillMount() {}
+  componentWillMount() {
+    this.postId = this.props.navigation.state.params.postId;
+    this._fetchComments();
+  }
 
   _goBack = () => {
     const { navigation } = this.props;
@@ -24,16 +27,30 @@ class Comment extends Component {
   };
 
   _renderItem = ({ item, index }) => {
-    return <CommentCard key={index} index={index + 1} />;
+    return <CommentCard key={index} comment={item} index={index + 1} />;
   };
 
-  _onPressSend = value => {};
+  _fetchComments = () => {
+    const { comments } = this.props.state;
+    this.props.logic('COMMENT_FETCH_COMMENTS', {
+      postId: this.postId,
+      offset: comments.length,
+    });
+  };
+  _onPressSend = (value, callback) => {
+    this.props.logic('COMMENT_COMMENT_POST', {
+      content: value,
+      postId: this.postId,
+      callback: callback,
+    });
+  };
   render() {
+    const { comments } = this.props.state;
     return (
       <View style={styles.container}>
         <FlatList
           style={{ flex: 1 }}
-          data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+          data={comments}
           renderItem={this._renderItem}
           contentContainerStyle={{
             paddingTop: NAV_BAR_HEIGHT,

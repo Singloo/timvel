@@ -67,13 +67,14 @@ class MainCard extends Component {
 
   render() {
     const {
-      imgUri,
       onPress,
       hidden,
       onPressComment,
       onPressAvatar,
       onPressEmoji,
+      post,
     } = this.props;
+    let coverImageUrl = post.imageUrls[0];
     return (
       <View style={[styles.wrapper]}>
         <TimeBar />
@@ -91,7 +92,7 @@ class MainCard extends Component {
               style={[styles.container, Styles.shadow]}
             >
               <Image
-                source={Assets.bk1.source}
+                source={{ uri: coverImageUrl }}
                 style={{
                   width: cardWidth,
                   height: cardHeight,
@@ -99,8 +100,8 @@ class MainCard extends Component {
                 blur={true}
               />
               <WeatherInfo
-                weather={'sunny'}
-                temperature={25}
+                weather={post.weatherInfo.weather}
+                temperature={post.weatherInfo.temperature}
                 style={{ position: 'absolute', right: 0, top: 0 }}
               />
               <View
@@ -116,10 +117,14 @@ class MainCard extends Component {
                 ]}
               >
                 <View ref={r => (this._content = r)}>
-                  <Text style={styles.content} numberOfLines={5}>
-                    {
-                      'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.'
-                    }
+                  <Text
+                    style={[
+                      styles.content,
+                      !coverImageUrl && { color: colors.pureBlack },
+                    ]}
+                    numberOfLines={5}
+                  >
+                    {post.content}
                   </Text>
                 </View>
               </View>
@@ -127,8 +132,18 @@ class MainCard extends Component {
           </Touchable>
           <BottomInfoBar
             style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
-            onPressComment={onPressComment}
-            onPressEmoji={emoji => onPressEmoji(emoji, 1)}
+            onPressComment={() => {
+              onPressComment(post.postId);
+            }}
+            onPressEmoji={emoji => onPressEmoji(emoji, post.postId)}
+            nums={{
+              numOfComments: post.numOfComments,
+              shock: post.shock,
+              laugh: post.laugh,
+              angry: post.angry,
+              vomit: post.vomit,
+              nofeeling: post.nofeeling,
+            }}
           />
           <View
             ref={r => {
@@ -138,6 +153,8 @@ class MainCard extends Component {
           >
             <UserInfoBar
               onPressAvatar={onPressAvatar}
+              username={post.username}
+              avatar={post.avatar}
               // style={  styles.headerBar}
             />
           </View>
