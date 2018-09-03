@@ -64,6 +64,9 @@ const SimpleApp = StackNavigator(
     rememberPage: {
       screen: Connectors.rememberPage,
     },
+    addTag: {
+      screen: Connectors.addTag,
+    },
   },
   {
     headerMode: 'none',

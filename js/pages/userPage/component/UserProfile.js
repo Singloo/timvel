@@ -25,9 +25,12 @@ class UserProfile extends Component {
   componentWillMount() {}
 
   render() {
-    const { userInfo } = this.props;
+    const { userInfo, userPosts } = this.props;
 
     const { username, userCoin, userAvatar, userTitle } = userInfo && userInfo;
+    const renderCards = Object.keys(userPosts).map(key => {
+      return <ContentByTag tag={key} posts={userPosts[key]} />;
+    });
     return (
       <View style={styles.wrapper}>
         <Animated.ScrollView
@@ -49,11 +52,7 @@ class UserProfile extends Component {
             nScrollY={this._nscrollY}
             scrollY={this._scrollY}
           />
-          <ContentByTag />
-          <ContentByTag />
-          <ContentByTag />
-          <ContentByTag />
-          <ContentByTag />
+          {renderCards}
         </Animated.ScrollView>
       </View>
     );

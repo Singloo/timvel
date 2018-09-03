@@ -14,6 +14,7 @@ import chooseSex from './pages/chooseSex/chooseSex.reducer';
 import comment from './pages/comment/comment.reducer';
 import strangerProfile from './pages/strangerProfile/strangerProfile.reducer';
 import notifPage from './pages/notifPage/notifPage.reducer';
+import addTag from './pages/addTag/addTag.reducer';
 const reducers = combineReducers({
   homePage,
   rememberPage,
@@ -30,6 +31,7 @@ const reducers = combineReducers({
   comment,
   strangerProfile,
   notifPage,
+  addTag,
 });
 
 export default reducers;

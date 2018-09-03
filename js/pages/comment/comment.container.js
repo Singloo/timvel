@@ -18,6 +18,9 @@ class Comment extends Component {
     this.postId = this.props.navigation.state.params.postId;
     this._fetchComments();
   }
+  componentWillUnmount() {
+    this.props.logic('COMMENT_RESET_STATE');
+  }
 
   _goBack = () => {
     const { navigation } = this.props;

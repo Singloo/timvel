@@ -2,6 +2,7 @@ const initialState = {
   buttonLocations: [],
   userInfo: {},
   isLoggedIn: false,
+  userPosts:[]
 };
 
 function reducer(state = initialState, action) {

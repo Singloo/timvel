@@ -9,6 +9,7 @@ const initialState = {
   date: Moment().format('YYYY-MM-DD'),
   carouselIndex: 0,
   posts: [],
+  popularPosts: [],
   enablePostEmoji: true,
 };
 

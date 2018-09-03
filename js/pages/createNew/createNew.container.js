@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, Keyboard } from 'react-native';
+import { StyleSheet, View, Animated, Keyboard, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -17,7 +17,8 @@ import ChooseDate from './components/ChooseDate';
 import ChooseImages from './components/ChooseImages';
 import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
-import AddTag from './components/AddTag';
+// import AddTag from './components/AddTag';
+import AddTag from '../addTag/addTag.connect';
 import { base, I18n, User } from '../../utils';
 const { colors, Styles, isIOS } = base;
 
@@ -40,19 +41,25 @@ class CreateNew extends Component {
   componentDidMount() {
     this._getWeather();
   }
-
+  componentWillUnmount() {
+    this.props.logic('CREATE_NEW_RESET_STATE');
+  }
   keyboardWillShow = event => {
     Animated.timing(this.keyboardHeight, {
       duration: 400,
       toValue: event.endCoordinates.height,
-    }).start();
+    }).start(() => {
+      this._scrollView && this._scrollView.getNode().scrollToEnd();
+    });
   };
 
   keyboardWillHide = event => {
     Animated.timing(this.keyboardHeight, {
       duration: 400,
       toValue: 0,
-    }).start();
+    }).start(() => {
+      this._scrollView && this._scrollView.getNode().scrollToEnd();
+    });
   };
 
   _goBack = () => {
@@ -104,7 +111,7 @@ class CreateNew extends Component {
   };
 
   _onPressAddTag = () => {
-    this._addTag && this._addTag.open();
+    this._addTag && this._addTag.getWrappedInstance().open();
   };
 
   dismissKeyboard = () => {
@@ -121,12 +128,12 @@ class CreateNew extends Component {
       date,
     });
   };
-  _addTagController = () => {
-    const { showAddTag } = this.props.state;
-    this.props.logic('CREATE_NEW_SET_STATE', {
-      showAddTag: !showAddTag,
-    });
-  };
+  // _addTagController = () => {
+  //   const { showAddTag } = this.props.state;
+  //   this.props.logic('CREATE_NEW_SET_STATE', {
+  //     showAddTag: !showAddTag,
+  //   });
+  // };
 
   _getWeather = () => {
     const { date } = this.props.state;
@@ -160,6 +167,12 @@ class CreateNew extends Component {
       weatherInfo: newWeather,
     });
   };
+
+  _onPressKey = ({ nativeEvent }) => {
+    if (nativeEvent.key == 'Enter') {
+      this._scrollView && this._scrollView.getNode().scrollToEnd();
+    }
+  };
   render() {
     const {
       date,
@@ -172,6 +185,7 @@ class CreateNew extends Component {
     } = this.props.state;
     const hasImages = images.length > 0;
     const hasContent = content.length > 0;
+    const ableToPost = hasImages || hasContent;
     return (
       <View style={styles.container}>
         <NavBar
@@ -179,56 +193,77 @@ class CreateNew extends Component {
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           sourceRight={Assets.send.source}
-          rightTint={hasImages || hasContent ? colors.main : colors.midGrey}
-          onPressRight={this._onPressSend}
+          rightTint={ableToPost ? colors.main : colors.midGrey}
+          onPressRight={ableToPost ? this._onPressSend : () => {}}
           style={{ paddingRight: 10 }}
         />
-        <ChooseDate
-          ref={r => (this._chooseDate = r)}
-          date={date}
-          onChangeDate={this._onChangeDate}
-          onPressToday={() => {
-            this._onChangeDate(Moment().format('YYYY-MM-DD'));
-          }}
-        />
-        <View style={{ zIndex: 1 }}>
-          <ChooseWeather
-            weatherInfo={weatherInfo}
-            isLoading={isFetchingWeather}
-            onPressAutoGetWeather={this._getWeather}
-            onChangeWeather={this._onChangeWeather}
-            onChangeTemperature={this._onChangeTemperature}
-          />
-        </View>
-
-        <ChooseTags tags={tags} onPressAddTag={this._onPressAddTag} />
-
-        <ChooseImages
-          onPressChooseImages={this._onPressChooseImages}
-          pickedImages={images}
-          onPressDeleteImage={this._onPressDeleteImage}
-        />
-        <Animated.View
+        <Animated.ScrollView
+          ref={r => (this._scrollView = r)}
+          scrollEventThrottle={16}
           style={{
             flex: 1,
-            backgroundColor: 'white',
-            marginTop: 10,
             marginBottom: this.keyboardHeight,
+            paddingBottom: 20,
           }}
+          keyboardDismissMode={'on-drag'}
+          // contentContainerStyle={{ paddingBottom: this.keyboardHeight }}
         >
-          <MultiLinesTextInput
-            value={content}
-            onChangeText={this._onChangeText}
-            style={{ backgroundColor: 'white', margin: 10, flex: 1 }}
-            placeholder={I18n.t('placeholder')}
-            placeholderTextColor={colors.midGrey}
-          />
-        </Animated.View>
+          <View style={{ flex: 1 }}>
+            <ChooseDate
+              ref={r => (this._chooseDate = r)}
+              date={date}
+              onChangeDate={this._onChangeDate}
+              onPressToday={() => {
+                this._onChangeDate(Moment().format('YYYY-MM-DD'));
+              }}
+            />
+            <View style={{ zIndex: 1 }}>
+              <ChooseWeather
+                weatherInfo={weatherInfo}
+                isLoading={isFetchingWeather}
+                onPressAutoGetWeather={this._getWeather}
+                onChangeWeather={this._onChangeWeather}
+                onChangeTemperature={this._onChangeTemperature}
+              />
+            </View>
+
+            <ChooseTags tags={tags} onPressAddTag={this._onPressAddTag} />
+
+            <ChooseImages
+              onPressChooseImages={this._onPressChooseImages}
+              pickedImages={images}
+              onPressDeleteImage={this._onPressDeleteImage}
+            />
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: colors.pureWhite,
+                marginTop: 10,
+                // marginBottom: this.keyboardHeight,
+              }}
+            >
+              <MultiLinesTextInput
+                value={content}
+                onChangeText={this._onChangeText}
+                style={{
+                  backgroundColor: colors.pureWhite,
+                  margin: 10,
+                  flex: 1,
+                }}
+                onKeyPress={this._onPressKey}
+                placeholder={I18n.t('placeholder')}
+                placeholderTextColor={colors.midGrey}
+              />
+            </View>
+          </View>
+        </Animated.ScrollView>
         <AddTag
-          ref={r => (this._addTag = r)}
-          show={showAddTag}
-          modelController={this._addTagController}
-          tags={tags}
+          ref={r => {
+            this._addTag = r;
+          }}
+          // show={showAddTag}
+          // modelController={this._addTagController}
+          // tags={tags}
         />
       </View>
     );

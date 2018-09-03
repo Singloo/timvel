@@ -10,9 +10,17 @@ class UserPage extends Component {
     this.tempLocations = [];
   }
   componentWillMount() {
+    this.props.logic('USER_PAGE_FETCH_USER_POSTS');
+    this._generateRandomButtons();
+    if (this.props.state.isLoggedIn === false) {
+      this.props.logic('USER_PAGE_GET_USER_INFO');
+    }
+  }
+
+  _generateRandomButtons = () => {
     for (var i = 0; i <= 50; i++) {
-      var x = parseInt(Math.random() * SCREEN_WIDTH);
-      var y = parseInt(Math.random() * SCREEN_HEIGHT);
+      var x = parseInt(Math.random() * SCREEN_WIDTH, 10);
+      var y = parseInt(Math.random() * SCREEN_HEIGHT, 10);
       var coordinate = {
         x,
         y,
@@ -25,12 +33,7 @@ class UserPage extends Component {
         });
       }
     }
-
-    if (this.props.state.isLoggedIn === false) {
-      this.props.logic('USER_GET_USER_STATUS');
-    }
-  }
-
+  };
   componentDidMount() {}
 
   _onPressLogin = () => {
@@ -48,7 +51,12 @@ class UserPage extends Component {
     });
   };
   render() {
-    const { buttonLocations, userInfo, isLoggedIn } = this.props.state;
+    const {
+      buttonLocations,
+      userInfo,
+      isLoggedIn,
+      userPosts,
+    } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
         <View style={[styles.loginButton, { left: item.x, top: item.y }]}>
@@ -71,8 +79,7 @@ class UserPage extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <UserProfile userInfo={userInfo} />
-          <Button onPress={this._onPressLogout} title={'log out'} />
+          <UserProfile userInfo={userInfo} userPosts={userPosts} />
         </View>
       );
     }

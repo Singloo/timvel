@@ -12,6 +12,7 @@ export const connect = function({
   stateMapper,
   actions = {},
   container,
+  withRef = false,
 }) {
   if (!name) {
     throw new Error('connect name is required');
@@ -28,7 +29,9 @@ export const connect = function({
     ...actions,
     logic,
   };
-  return ReactRedux.connect(stateMapper, allActions)(container);
+  return ReactRedux.connect(stateMapper, allActions, null, {
+    withRef: withRef,
+  })(container);
 };
 
 // other setup

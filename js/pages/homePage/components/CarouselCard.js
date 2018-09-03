@@ -12,19 +12,22 @@ import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import LinearGradient from 'react-native-linear-gradient';
+import Moment from 'moment';
 const { Styles, colors, SCREEN_WIDTH } = base;
 const item_width = SCREEN_WIDTH - 40 - 0;
 const item_height = SCREEN_WIDTH * 0.5;
 class CarouselCard extends React.Component {
   render() {
-    const { isOdd } = this.props;
+    const { isOdd, post } = this.props;
+    const formatedDate = Moment(post.happenedAt);
+
     return (
       <View
         style={{ width: item_width, height: item_height + 35, paddingTop: 35 }}
       >
         <Image
           source={{
-            uri: 'http://lc-uygandza.cn-n1.lcfile.com/f522d334852758f4d856.jpg',
+            uri: post.imageUrls[0],
           }}
           // containerStyle={{
           //   width: item_width,
@@ -48,13 +51,15 @@ class CarouselCard extends React.Component {
             colors={['rgba(33,33,33,0)', 'rgba(33,33,33,0.7)']}
           />
           <Text style={{ color: colors.white }} numberOfLines={2}>
-            {'hello'}
+            {post.content}
           </Text>
         </View>
         <View style={[styles.dateContainer, Styles.shadow, Styles.center]}>
           <View>
-            <Text style={styles.year}>{'2018'}</Text>
-            <Text style={styles.month}>{'JUN 24'}</Text>
+            <Text style={styles.year}>{formatedDate.format('YYYY')}</Text>
+            <Text style={styles.month}>
+              {formatedDate.format('MMM') + ' ' + formatedDate.format('DD')}
+            </Text>
           </View>
         </View>
       </View>

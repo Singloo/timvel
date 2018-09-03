@@ -13,6 +13,7 @@ import chooseSex from './pages/chooseSex/chooseSex.connect';
 import comment from './pages/comment/comment.connect';
 import strangerProfile from './pages/strangerProfile/strangerProfile.connect';
 import notifPage from './pages/notifPage/notifPage.connect';
+import addTag from './pages/addTag/addTag.connect';
 export {
   homePage,
   rememberPage,
@@ -29,4 +30,5 @@ export {
   comment,
   strangerProfile,
   notifPage,
+  addTag,
 };

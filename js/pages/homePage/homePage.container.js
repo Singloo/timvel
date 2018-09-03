@@ -78,6 +78,7 @@ class HomePage extends Component {
     this._nscrollY = new Animated.Value(0);
   }
   componentWillMount() {
+    this.props.logic('HOME_PAGE_FETCH_POPULAR_POSTS');
     this._fetchPosts();
   }
 
@@ -102,14 +103,14 @@ class HomePage extends Component {
   };
 
   _renderHeader = ({ item, index }) => {
-    const { carouselIndex } = this.props.state;
+    const { carouselIndex, popularPosts } = this.props.state;
     return (
       <View style={{ alignItems: 'center', backgroundColor: 'transparent' }}>
         <Carousel
           ref={c => {
             this._carousel = c;
           }}
-          data={[1, 2, 3, 4, 5]}
+          data={popularPosts}
           renderItem={this._renderCarouselItem}
           sliderWidth={SCREEN_WIDTH}
           itemWidth={item_width}
@@ -119,7 +120,7 @@ class HomePage extends Component {
           onSnapToItem={this._onSnapToItem}
         />
         <Pagination
-          dotsLength={5}
+          dotsLength={popularPosts.length}
           activeDotIndex={carouselIndex}
           containerStyle={{
             backgroundColor: colors.transparent,
@@ -161,7 +162,7 @@ class HomePage extends Component {
   };
   _renderCarouselItem = ({ item, index }) => {
     const isOdd = (index + 2) % 2 !== 0;
-    return <CarouselCard />;
+    return <CarouselCard post={item} />;
   };
   //press
   _onPressItem = (imagePosition, contentPosition, userInfoPosition, cardId) => {

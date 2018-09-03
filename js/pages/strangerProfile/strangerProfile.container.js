@@ -48,7 +48,6 @@ class StrangerProfile extends Component {
 
   render() {
     const { postsByTag, userInfo } = this.props.state;
-    console.warn(userInfo);
     const renderCards = Object.keys(postsByTag).map(key => {
       return <ContentByTag tag={key} posts={postsByTag[key]} />;
     });

@@ -8,7 +8,7 @@ class ChooseTags extends React.Component {
   render() {
     const { tags, onPressAddTag } = this.props;
     const renderTags = tags.map((item, index) => {
-      return <Tag title={item} key={index.toString()} />;
+      return <Tag title={item.tag} key={index.toString()} />;
     });
     return (
       <View style={styles.container}>
