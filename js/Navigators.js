@@ -67,6 +67,9 @@ const SimpleApp = StackNavigator(
     addTag: {
       screen: Connectors.addTag,
     },
+    publishProduct: {
+      screen: Connectors.publishProduct,
+    },
   },
   {
     headerMode: 'none',

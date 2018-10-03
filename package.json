@@ -10,6 +10,7 @@
   "dependencies": {
     "aliyun-oss-react-native": "^1.0.0-alpha.6",
     "axios": "^0.18.0",
+    "leancloud-installation": "^2.0.1",
     "leancloud-storage": "^3.6.1",
     "lodash": "^4.17.10",
     "lottie-react-native": "2.3.2",
@@ -21,6 +22,7 @@
     "react-native-calendars": "^1.19.3",
     "react-native-datepicker": "^1.7.2",
     "react-native-device-info": "^0.22.4",
+    "react-native-fs": "^2.11.15",
     "react-native-i18n": "^2.0.12",
     "react-native-image-crop-picker": "^0.20.0",
     "react-native-image-picker": "^0.26.7",
@@ -32,6 +34,7 @@
     "react-navigation": "^1.2.1",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
     "redux-logic": "^0.12.3",
     "redux-observable": "^1.0.0",
     "rxjs": "^6.2.2"

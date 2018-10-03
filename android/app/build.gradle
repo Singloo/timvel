@@ -116,7 +116,11 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion 26
     buildToolsVersion "23.0.3"
-
+    //为了解决部分第三方库重复打包了META-INF的问题
+    packagingOptions{
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
     defaultConfig {
         applicationId "com.timvel"
         minSdkVersion 16
@@ -159,6 +163,12 @@ android {
 }
 
 dependencies {
+     // LeanCloud 基础包
+    compile ('cn.leancloud.android:avoscloud-sdk:v4.7.3')
+
+    // 推送与即时通讯需要的包
+    compile ('cn.leancloud.android:avoscloud-push:v4.7.3@aar'){transitive = true}
+    compile project(':react-native-fs')
     compile project(':react-native-device-info')
     compile project(':aliyun-oss-react-native')
     compile project(':react-native-splash-screen')

@@ -4,6 +4,10 @@ buildscript {
     repositories {
         jcenter()
         google()
+         maven {
+            url "http://mvn.leancloud.cn/nexus/content/repositories/public"
+        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -18,6 +22,10 @@ allprojects {
         mavenLocal()
         jcenter()
         maven { url "https://jitpack.io" }
+        //这里是 LeanCloud 的包仓库
+        maven {
+            url "http://mvn.leancloud.cn/nexus/content/repositories/public"
+        }
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"

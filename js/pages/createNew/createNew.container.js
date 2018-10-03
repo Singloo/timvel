@@ -20,7 +20,7 @@ import ChooseWeather from './components/ChooseWeather';
 // import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
 import { base, I18n, User } from '../../utils';
-const { colors, Styles, isIOS } = base;
+const { colors, Styles, isIOS, isAndroid } = base;
 
 class CreateNew extends Component {
   constructor(props) {
@@ -36,6 +36,16 @@ class CreateNew extends Component {
       'keyboardWillHide',
       this.keyboardWillHide,
     );
+    if (isAndroid) {
+      this.keyboardDidShowSub = Keyboard.addListener(
+        'keyboardDidShow',
+        this.keyboardDidShow,
+      );
+      this.keyboardDidHideSub = Keyboard.addListener(
+        'keyboardDidHid',
+        this.keyboardDidHide,
+      );
+    }
   }
 
   componentDidMount() {
@@ -52,8 +62,23 @@ class CreateNew extends Component {
       this._scrollView && this._scrollView.getNode().scrollToEnd();
     });
   };
-
+  keyboardDidShow = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 200,
+      toValue: event.endCoordinates.height,
+    }).start(() => {
+      this._scrollView && this._scrollView.getNode().scrollToEnd();
+    });
+  };
   keyboardWillHide = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 400,
+      toValue: 0,
+    }).start(() => {
+      this._scrollView && this._scrollView.getNode().scrollToEnd();
+    });
+  };
+  keyboardDidHide = event => {
     Animated.timing(this.keyboardHeight, {
       duration: 400,
       toValue: 0,

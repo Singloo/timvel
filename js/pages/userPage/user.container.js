@@ -59,7 +59,10 @@ class UserPage extends Component {
     } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
-        <View style={[styles.loginButton, { left: item.x, top: item.y }]}>
+        <View
+          key={index}
+          style={[styles.loginButton, { left: item.x, top: item.y }]}
+        >
           <Button
             key={index}
             // buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}

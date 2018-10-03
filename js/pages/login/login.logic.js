@@ -73,7 +73,7 @@ const signUp = createLogic({
           email: email,
           detail: JSON.stringify(info),
         });
-        user.set('userId', data.userId);
+        user.set('userId', data.id);
         user.save();
       } catch (error) {
         console.warn(error);

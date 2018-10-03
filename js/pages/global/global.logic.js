@@ -3,6 +3,7 @@ import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
 import { Platform } from 'react-native';
+import AV from 'leancloud-storage';
 const navigate = createLogic({
   type: 'NAVIGATION_NAVIGATE',
   latest: true,
@@ -59,17 +60,25 @@ const navigateReplace = createLogic({
 const updateUserinfoFromLeanCloud = createLogic({
   type: 'UPDATE_USERINFO',
   latest: true,
-  async process({ action, logic, User, httpClient, I18n }, dispatch, done) {
+  async process(
+    { action, logic, User, httpClient, I18n, Network },
+    dispatch,
+    done,
+  ) {
     try {
       const { password } = action.payload;
-      const user = await User.currentAsync();
+      const user = await AV.User.currentAsync();
       if (!user) {
         done();
         return;
       }
-      const { data: ipData } = await axios.get('https://ipapi.co/json');
+      // try {
+      const { data: ipData } = await Network.getIpInfo();
       user.set('city', ipData.city);
-      user.set('country', ipData.country_name);
+      user.set('country', ipData.country);
+      // } catch (err) {
+      //   console.warn(err.message);
+      // }
       const systemVersion = DeviceInfo.getSystemVersion();
       const deviceStorage =
         DeviceInfo.getTotalDiskCapacity() / 1024 / 1024 / 1024;
@@ -86,10 +95,10 @@ const updateUserinfoFromLeanCloud = createLogic({
       const info = {
         ip: ipData.ip,
         city: ipData.city,
-        region: ipData.region,
-        country_name: ipData.country_name,
-        latitude: ipData.latitude,
-        longitude: ipData.longitude,
+        region: ipData.regionName,
+        country_name: ipData.country,
+        latitude: ipData.lat,
+        longitude: ipData.lon,
         timezone: ipData.timezone,
         systemVersion,
         deviceStorage,
@@ -101,7 +110,7 @@ const updateUserinfoFromLeanCloud = createLogic({
         deviceName,
       };
       const user_info = {
-        user_id: user.get('userId'),
+        // user_id: user.get('userId'),
         object_id: user.get('objectId'),
         username: user.get('username'),
         user_coin: user.get('userCoin'),
@@ -118,11 +127,14 @@ const updateUserinfoFromLeanCloud = createLogic({
         password: password,
       });
       if (data.id) {
-        user.set('userId', data.id);
+        if (parseInt(data.id, 10) !== parseInt(user.get('userId'), 10)) {
+          console.warn('userId not equal!!', data.id, user.get('userId'));
+          user.set('userId', data.id);
+        }
       }
       user.save();
     } catch (error) {
-      console.warn(error);
+      console.warn(error.message);
     } finally {
       done();
     }

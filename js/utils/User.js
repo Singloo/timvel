@@ -65,8 +65,13 @@ export function getUserByObjectId(objectId) {
   return query.get(objectId);
 }
 
-export function updateAvatar(url) {
-  return AV.User.current().save({
-    avatar: url,
-  });
+export async function updateAvatar(url) {
+  try {
+    const user = await AV.User.currentAsync();
+    user.set('avatar', url);
+    await user.save();
+  } catch (error) {
+    console.warn(error.message);
+    throw error;
+  }
 }

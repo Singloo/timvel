@@ -1,5 +1,10 @@
 package com.timvel;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.SaveCallback;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; 
 public class MainActivity extends ReactActivity {

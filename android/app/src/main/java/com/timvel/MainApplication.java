@@ -2,7 +2,12 @@ package com.timvel;
 
 import android.app.Application;
 
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.PushService;
 import com.facebook.react.ReactApplication;
+import com.nativeModules.PushHandlerActivity;
+import com.nativeModules.TimvelPackages;
+import com.rnfs.RNFSPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -34,6 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new TimvelPackages(),
+            new RNFSPackage(),
             new RNDeviceInfo(),
             new RNAliyunOssPackage(),
             new SplashScreenReactPackage(),
@@ -63,5 +70,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     Fabric.with(this, new Crashlytics());
+    AVOSCloud.initialize(this,"UYganDzaND6XsvYaL552tlbs-gzGzoHsz","l5ld3QxRSvLCaJ4Rpv6gXbIq");
+    PushService.setDefaultPushCallback(this, PushHandlerActivity.class);
   }
 }

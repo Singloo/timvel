@@ -10,6 +10,10 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
       Observable.create(async observer => {
         try {
           const user = await User.currentAsync();
+          if (user === null) {
+            observer.complete();
+            return;
+          }
           const { data } = await httpClient.get('/fetch_post_with_condition', {
             params: { user_id: user.get('userId') },
           });

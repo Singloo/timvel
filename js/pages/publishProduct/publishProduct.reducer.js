@@ -1,4 +1,11 @@
-const initialState = {};
+const initialState = {
+  title: '',
+  price: '',
+  description: '',
+  productType: '',
+  coverImage: {},
+  keyboardDidShow: false,
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {

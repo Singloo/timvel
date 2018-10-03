@@ -12,6 +12,7 @@ const configuration = {
 
 const END_POINT_HUADONG_1 = 'https://oss-cn-hangzhou.aliyuncs.com';
 const BUCKET_TIMVEL_1 = 'timvel-1';
+const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 export async function initAliyunOSS() {
   try {
     const { data } = await Axios.get(API_V1 + '/get_aliyun_access_key', {
@@ -32,7 +33,20 @@ export async function initAliyunOSS() {
   }
 }
 
-export const upLoadImage = async (filename, filepath) => {
-  await initAliyunOSS();
-  return AliyunOSS.asyncUpload(BUCKET_TIMVEL_1, `images/${filename}`, filepath);
+export const upLoadImage = async image => {
+  try {
+    await initAliyunOSS();
+    const filepath = image.path;
+    const imageType = image.mime.replace('image/', '');
+    let filename = User.username() + Date.now() + '.' + imageType;
+    filename = filename.trim().toLowerCase();
+    await AliyunOSS.asyncUpload(
+      BUCKET_TIMVEL_1,
+      `images/${filename}`,
+      filepath,
+    );
+    return imageUrlPrefix + filename;
+  } catch (error) {
+    throw error;
+  }
 };

@@ -44,6 +44,8 @@ PODS:
     - React/RCTBlob
   - RNDeviceInfo (0.21.5):
     - React
+  - RNFS (2.11.15):
+    - React
   - RNI18n (2.0.12):
     - React
   - RNImageCropPicker (0.20.0):
@@ -70,6 +72,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
@@ -89,6 +92,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native-splash-screen
   RNDeviceInfo:
     :path: ../node_modules/react-native-device-info
+  RNFS:
+    :path: ../node_modules/react-native-fs
   RNI18n:
     :path: ../node_modules/react-native-i18n
   RNImageCropPicker:
@@ -106,11 +111,12 @@ SPEC CHECKSUMS:
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
   react-native-splash-screen: cc626c801178f24382f898ea0b4c55384429b9c0
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
+  RNFS: b359bfc5789c2e68053e40f3781805a278d98d33
   RNI18n: ee831694f1eaa69b270d345e4617f70735d4cdb9
   RNImageCropPicker: 9ef50df72d7e1c02cbbca043a35456a03200f887
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   yoga: c7c8e64dbc2552b1ceac0b491ff03f5e5128b501
 
-PODFILE CHECKSUM: 4e35f250100643924d752b2236fb39e9786ab298
+PODFILE CHECKSUM: 81baf71654825316466604a24f74cf06daa9c2de
 
 COCOAPODS: 1.3.1

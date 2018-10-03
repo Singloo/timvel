@@ -1,16 +1,29 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, UIManager } from 'react-native';
+import { View, UIManager, PushNotificationIOS } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base } from './utils';
+import { Setup, base, Notification } from './utils';
 import * as Connectors from './connectors';
+import AV from 'leancloud-storage';
+AV.init({
+  appId: 'UYganDzaND6XsvYaL552tlbs-gzGzoHsz',
+  appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
+});
+import Installation from 'leancloud-installation';
+Installation(AV);
 const store = configureStore();
 Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends React.Component {
   async componentDidMount() {
+    let notification = new Notification(Installation);
+    if (base.isIOS) {
+      notification.IOSinitPush();
+    } else {
+      notification.AndroidinitPush();
+    }
     // try to prevent crash n._navigation.state
     if (base.isIOS) {
       return;
@@ -21,6 +34,7 @@ export default class App extends React.Component {
     Setup.androidBackButton(this._navigation, store);
   }
   async componentWillUnmount() {
+    PushNotificationIOS.removeEventListener('register');
     await store.dispatch('UPDATE_USERINFO');
   }
 

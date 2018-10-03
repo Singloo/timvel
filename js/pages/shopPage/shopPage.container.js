@@ -12,11 +12,15 @@ import { base } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
 const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
+const product_types = [
+  'avatar',
+  'draw_lots',
+  'sticker',
+  'one_time',
+  'title',
+  'draw_title',
+];
 class ShopPage extends Component {
-  static navigationOptions = {
-    drawerLockMode: 'locked-closed',
-  };
-
   componentWillMount() {}
 
   _openModal = () => {
@@ -33,19 +37,63 @@ class ShopPage extends Component {
 
   _onPressRight = () => {
     this.props.logic('NAVIGATION_NAVIGATE', {
-      routeName: 'chooseSex',
+      routeName: 'publishProduct',
     });
   };
 
+  _onPressPurchase = product => {
+    if (!product_types.includes(product.productType)) {
+      this.props.logic('SHOW_SNAKE_BAR', {
+        type: 'ERROR',
+        content: 'Unknown product type.',
+      });
+      return;
+    }
+    switch (product.productType) {
+      case 'avatar':
+        this._typeAvatar(product);
+        break;
+      case 'draw_lots':
+        this._typeDrawLots(product);
+        break;
+      case 'sticker':
+        this._typeSticker(product);
+        break;
+      case 'one_time':
+        this._typeOnetime(product);
+        break;
+      case 'title':
+        this._typeTitle(product);
+        break;
+      case 'draw_title':
+        this._drawTitle(product);
+        break;
+      default:
+        return;
+    }
+  };
+  _typeAvatar = product => {
+    // this.props.logic('');
+  };
+  _typeDrawLots = product => {};
+  _typeSticker = product => {
+    this.props.logic('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
+      imageUrl: 'http://lc-uygandza.cn-n1.lcfile.com/00906d947703a0db1bcf.jpg',
+    });
+  };
+  _typeOnetime = product => {};
+  _typeTitle = product => {};
+  _drawTitle = product => {};
   render() {
     const { showModal } = this.props.state;
     const renderProduct = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => {
       return (
         <ProductCard
           key={index}
-          onPressPurchase={() => {
-            this._confirmPurchase.open();
-          }}
+          onPressPurchase={this._typeSticker}
+          // onPressPurchase={() => {
+          //   this._confirmPurchase.open();
+          // }}
         />
       );
     });
@@ -66,7 +114,7 @@ class ShopPage extends Component {
         <NavBar
           title={'Shop'}
           style={{ position: 'absolute', top: 0 }}
-          sourceRight={Assets.sunny.source}
+          sourceRight={Assets.add.source}
           onPressRight={this._onPressRight}
         />
         <ConfirmPurchase
