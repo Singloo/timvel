@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Animated, Keyboard } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Animated,
+  Keyboard,
+  LayoutAnimation,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -14,8 +21,9 @@ import {
 } from '../../../re-kits';
 import ImagePicker from 'react-native-image-crop-picker';
 import InputWithTitle from './components/InputWithTitle';
+import CustomTitle from './components/CustomTitle';
 import { base, I18n } from '../../utils';
-const { colors, isAndroid } = base;
+const { colors, isAndroid, lenOfText } = base;
 const product_types = [
   'avatar',
   'draw_lots',
@@ -90,9 +98,18 @@ class Sample extends Component {
     });
   };
 
-  _onChangeText = (type, value) => {
+  _onChangeText = (type, value, limit = null) => {
+    let _value = value;
+    if (limit) {
+      if (lenOfText(_value) > parseInt(limit, 10)) {
+        return;
+      }
+    }
+    if (type === 'customTitle') {
+      _value = _value.trim();
+    }
     this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
-      [type]: value,
+      [type]: _value,
     });
   };
   _checkPrice = price => {
@@ -102,6 +119,21 @@ class Sample extends Component {
     return false;
   };
   _onPressTag = type => {
+    const { productType } = this.props.state;
+    if (type === 'title' || productType === 'title') {
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(
+          300,
+          LayoutAnimation.Types.linear,
+          LayoutAnimation.Properties.opacity,
+        ),
+      );
+    }
+    if (type !== 'title' && productType === 'title') {
+      this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+        customTitle: '',
+      });
+    }
     this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
       productType: type,
     });
@@ -126,13 +158,23 @@ class Sample extends Component {
       description,
       productType,
       coverImage,
+      confirmedCustomTitle,
     } = this.props.state;
     this.props.logic('PUBLISH_PRODUCT_PUBLISH_PRODUCT', {
-      title,
-      price,
-      description,
+      title: title.trim(),
+      price: price.trim(),
+      description: description.trim(),
       productType,
       coverImage,
+      confirmedCustomTitle,
+    });
+  };
+  _onPressConfirmTitle = ({ title, color }) => {
+    this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+      confirmedCustomTitle: {
+        title,
+        color,
+      },
     });
   };
   render() {
@@ -143,12 +185,19 @@ class Sample extends Component {
       productType,
       coverImage,
       keyboardDidShow,
+      customTitle,
+      confirmedCustomTitle,
     } = this.props.state;
     let ableToSend =
       title.length > 0 &&
       price.length > 0 &&
-      coverImage.path &&
+      !!coverImage.path &&
       productType.length > 0;
+    let chooseTitle = productType === 'title';
+    if (chooseTitle) {
+      ableToSend =
+        ableToSend && !!confirmedCustomTitle.color && description.length > 0;
+    }
     const renderTypes = product_types.map((item, index) => {
       return (
         <Tag
@@ -196,12 +245,25 @@ class Sample extends Component {
             onChangeText={this._onChangeText}
             value={price}
             errorHandler={this._checkPrice}
+            textInputProps={{
+              keyboardType: 'number-pad',
+            }}
             errorMessage={'Price format is wrong'}
           />
           <View style={{ marginVertical: 5 }}>
             <Text style={styles.text}>{'Product type'}</Text>
             <View style={styles.tagContainer}>{renderTypes}</View>
           </View>
+          {chooseTitle && (
+            <View style={{ marginVertical: 5 }}>
+              <Text style={styles.text}>{'Custom your title'}</Text>
+              <CustomTitle
+                onChangeText={this._onChangeText}
+                value={customTitle}
+                onPressConfirm={this._onPressConfirmTitle}
+              />
+            </View>
+          )}
           <View style={{ marginVertical: 5 }}>
             <Text style={styles.text}>{'Cover'}</Text>
             <Image
@@ -213,7 +275,9 @@ class Sample extends Component {
             />
           </View>
           <View style={{ marginVertical: 5 }}>
-            <Text style={styles.text}>{'Description (optional)'}</Text>
+            <Text style={styles.text}>
+              {'Description ' + (chooseTitle ? '(needed)' : '(optional)')}
+            </Text>
             <MultiLinesTextInput
               value={description}
               onChangeText={value => {

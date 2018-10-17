@@ -2,7 +2,6 @@ import Axios from 'axios';
 import { CameraRoll } from 'react-native';
 import * as Constants from '../constants';
 import RNFS from 'react-native-fs';
-import Card from '../../re-kits/components/ActionButton/Item';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 const axios = Axios.create({
   timeout: 20000,
@@ -57,16 +56,15 @@ export async function saveImageToAlbum(imageUrl) {
     const result = RNFS.downloadFile(DownloadFileOptions);
     await result.promise;
     await CameraRoll.saveToCameraRoll('file://' + cachedFilepath);
-    // try {
-    //   await RNFS.unlink(cachedFilepath);
-    // } catch (err) {
-    //   console.warn(err.message);
-    //   console.warn('failed to unlink');
-    // }
     console.warn('saved success');
   } catch (error) {
-    await RNFS.unlink(cachedFilepath);
     console.warn(error.message);
     throw error;
+  } finally {
+    RNFS.unlink(cachedFilepath)
+      .then(() => {})
+      .catch(err => {
+        console.warn('unlinke image err', err);
+      });
   }
 }

@@ -5,6 +5,8 @@ const initialState = {
   productType: '',
   coverImage: {},
   keyboardDidShow: false,
+  customTitle: '',
+  confirmedCustomTitle: {},
 };
 
 function reducer(state = initialState, action) {

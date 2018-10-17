@@ -5,24 +5,24 @@ import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 const { SCREEN_WIDTH, colors } = base;
 
-const item_width = (SCREEN_WIDTH) / 2;
-const item_height = item_width * 1.1;
+const item_width = SCREEN_WIDTH / 2;
+const item_height = item_width * 1.2;
 class ProductCard extends React.Component {
   componentWillMount() {}
 
   render() {
-    const { imageUrl, description, onPressPurchase } = this.props;
+    const { product, onPressPurchase } = this.props;
     return (
       <View style={styles.container}>
         <Image
-          source={Assets.bk2.source}
+          source={{ uri: product.imageUrl }}
           style={{ height: item_height, width: item_width }}
           resizeMode={'cover'}
         />
         <View style={styles.textContainer}>
           <View style={{ flex: 1 }}>
-            <Text style={{ color: colors.depGrey }}>
-              {'this is earth radio'}
+            <Text style={{ color: colors.depGrey }} numberOfLines={2}>
+              {product.description}
             </Text>
           </View>
           <View
@@ -40,7 +40,7 @@ class ProductCard extends React.Component {
                 style={{ width: 18, height: 18 }}
               />
               <Text style={{ color: colors.redDep, marginLeft: 2 }}>
-                {'10'}
+                {product.price}
               </Text>
             </View>
             <Text style={{ color: colors.mainDep }} onPress={onPressPurchase}>
@@ -56,7 +56,6 @@ ProductCard.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 0,
     // flex: 1,
     // backgroundColor: 'white',
   },
@@ -64,8 +63,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'rgba(250,250,250,0.8)',
     left: 0,
-    bottom: 0,
     right: 0,
+    bottom: 0,
     paddingHorizontal: 10,
     paddingVertical: 10,
   },

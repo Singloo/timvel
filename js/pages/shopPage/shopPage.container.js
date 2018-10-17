@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Button, NavBar, Image, InfiniteText, Assets } from '../../../re-kits';
-import { base } from '../../utils';
+import { base, User } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
 const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
@@ -21,7 +21,13 @@ const product_types = [
   'draw_title',
 ];
 class ShopPage extends Component {
-  componentWillMount() {}
+  componentWillMount() {
+    this._fetchProducts();
+  }
+
+  _fetchProducts = () => {
+    this.props.logic('SHOP_PAGE_FETCH_PRODUCTS');
+  };
 
   _openModal = () => {
     this.props.logic('SHOP_PAGE_SET_STATE', {
@@ -72,28 +78,47 @@ class ShopPage extends Component {
         return;
     }
   };
-  _typeAvatar = product => {
-    // this.props.logic('');
+
+  //change avatar
+  _typeAvatar = async product => {
+    try {
+      await User.updateAvatar(product.imageUrl);
+      this.props.logic('SHOW_SNAKE_BAR', {
+        content: 'Avatar updated!',
+      });
+    } catch (error) {
+      console.warn(error);
+    }
   };
+  //
   _typeDrawLots = product => {};
+
+  //save to album
   _typeSticker = product => {
     this.props.logic('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
       imageUrl: 'http://lc-uygandza.cn-n1.lcfile.com/00906d947703a0db1bcf.jpg',
     });
   };
+
+  //show image one time
   _typeOnetime = product => {};
+
+  //buy a title
   _typeTitle = product => {};
+
+  //draw a title
   _drawTitle = product => {};
   render() {
-    const { showModal } = this.props.state;
-    const renderProduct = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => {
+    const { showModal, products } = this.props.state;
+    const renderProduct = products.map((item, index) => {
+      console.warn(item);
       return (
         <ProductCard
           key={index}
-          onPressPurchase={this._typeSticker}
-          // onPressPurchase={() => {
-          //   this._confirmPurchase.open();
-          // }}
+          product={item}
+          onPressPurchase={() => {
+            this._confirmPurchase.open();
+          }}
         />
       );
     });

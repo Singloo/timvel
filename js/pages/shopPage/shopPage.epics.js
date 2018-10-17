@@ -61,4 +61,25 @@ const saveImageToAlbum = (action$, state$, { Network }) =>
       }),
     ),
   );
-export default [changeAvatar, saveImageToAlbum];
+
+const fetchProducts = (action$, state$, { httpClient, logic }) =>
+  action$.pipe(
+    ofType('SHOP_PAGE_FETCH_PRODUCTS'),
+    mergeMap(action =>
+      Observable.create(async observer => {
+        try {
+          const { data } = await httpClient.get('/fetch_products');
+          observer.next(
+            logic('SHOP_PAGE_SET_STATE', {
+              products: data,
+            }),
+          );
+        } catch (error) {
+          console.warn(error);
+        } finally {
+          observer.complete();
+        }
+      }),
+    ),
+  );
+export default [changeAvatar, saveImageToAlbum, fetchProducts];

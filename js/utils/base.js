@@ -93,6 +93,18 @@ export function randomItem(arr, returnLength, returnArray) {
   }
 }
 
+export function lenOfText(text) {
+  let len = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text.charCodeAt(i) > 127 || text.charCodeAt(i) == 94) {
+      len += 2;
+    } else {
+      len++;
+    }
+  }
+  return len;
+}
+
 export const Styles = {
   absolute: {
     position: 'absolute',

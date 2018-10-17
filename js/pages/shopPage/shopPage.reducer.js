@@ -1,5 +1,6 @@
 const initialState = {
   showModal: false,
+  products: [],
 };
 
 function reducer(state = initialState, action) {
