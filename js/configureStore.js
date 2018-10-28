@@ -16,13 +16,20 @@ const httpClient = Axios.create({
     platfrom: Platform.OS,
   },
 });
+const logic = (type, payload) => ({
+  type,
+  payload: payload || {},
+});
+const snakeBar = (content, type = 'NORMAL') =>
+  logic('SHOW_SNAKE_BAR', { content, type });
+const loading = (isLoading = true) =>
+  logic('GLOBAL_SET_STATE', {
+    isLoading: isLoading,
+  });
 const deps = {
-  logic: function(type, payload) {
-    return {
-      type,
-      payload: payload || {},
-    };
-  },
+  logic,
+  snakeBar,
+  loading,
   User,
   httpClient,
   I18n,

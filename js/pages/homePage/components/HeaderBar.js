@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View,Animated } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
@@ -29,6 +29,12 @@ class HeaderBar extends Component {
     let backgroundColor = scrollY.interpolate({
       inputRange: [scroll_height, scroll_height + NAV_BAR_HEIGHT],
       outputRange: ['rgba(33,33,33,0)', 'rgba(33,33,33,0.5)'],
+      extrapolate: 'clamp',
+    });
+
+    let opacity = scrollY.interpolate({
+      inputRange: [scroll_height, scroll_height + NAV_BAR_HEIGHT],
+      outputRange: [0, 0.8],
       extrapolate: 'clamp',
     });
     return (

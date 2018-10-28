@@ -10,6 +10,7 @@ const showAlert = createLogic({
       done();
       return;
     }
+    //choices [{title,onPress,color}]
     dispatch(
       logic('ALERT_SET_STATE', {
         show: true,

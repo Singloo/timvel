@@ -141,24 +141,24 @@ const updateUserinfoFromLeanCloud = createLogic({
   },
 });
 
-const snakeBar = createLogic({
-  type: 'SHOW_SNAKE_BAR',
-  latest: true,
-  process: ({ logic, action, getState }, dispatch, done) => {
-    const { content, type, duration } = action.payload;
-    //type:'NORMAL' 'ERROR' 'SUCCESS'
-    // const { show } = getState().snakebar;
-    dispatch(
-      logic('SNAKE_BAR_SET_STATE', {
-        // show: true,
-        snakeBarInfo: content,
-        snakeBarType: type || 'NORMAL',
-        snakeBarDuration: duration || 3000,
-      }),
-    );
-    done();
-  },
-});
+// const snakeBar = createLogic({
+//   type: 'SHOW_SNAKE_BAR',
+//   latest: true,
+//   process: ({ logic, action, getState }, dispatch, done) => {
+//     const { content, type, duration } = action.payload;
+//     //type:'NORMAL' 'ERROR' 'SUCCESS'
+//     // const { show } = getState().snakebar;
+//     dispatch(
+//       logic('SNAKE_BAR_SET_STATE', {
+//         // show: true,
+//         snakeBarInfo: content,
+//         snakeBarType: type || 'NORMAL',
+//         snakeBarDuration: duration || 3000,
+//       }),
+//     );
+//     done();
+//   },
+// });
 
 export default [
   navigate,
@@ -166,5 +166,5 @@ export default [
   updateUserinfoFromLeanCloud,
   navigateReplace,
   navigateReset,
-  snakeBar,
+  // snakeBar,
 ];

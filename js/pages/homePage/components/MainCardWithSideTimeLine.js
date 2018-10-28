@@ -11,12 +11,15 @@ import {
 } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
-const { Styles, colors } = base;
+const { Styles, colors, DateFormatter } = base;
 import UserInfoBar from './UserInfoBar';
 import TimeBar from './TimeBar';
 import BottomInfoBar from './BottomInfoBar';
-const cardWidth = base.SCREEN_WIDTH - 20;
+import LinearGradient from 'react-native-linear-gradient';
+const cardWidth = base.SCREEN_WIDTH - 20 - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
+const TIME_BAR_HEIGHT = 40;
+const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
 class MainCard extends Component {
   constructor(props) {
     super(props);
@@ -54,15 +57,6 @@ class MainCard extends Component {
         });
       });
     });
-
-    // this._content.measure((x, y, width, height, pageX, pageY) => {
-    //     contentPosition = {
-    //       width,
-    //       height,
-    //       x: pageX,
-    //       y: pageY,
-    //     };
-    //   });
   };
 
   render() {
@@ -73,17 +67,27 @@ class MainCard extends Component {
       onPressAvatar,
       onPressEmoji,
       post,
+      gradientColors,
     } = this.props;
     let coverImageUrl = post.imageUrls[0];
+    const happenedAt = new DateFormatter(post.happenedAt);
     return (
       <View style={[styles.wrapper]}>
-        <TimeBar />
+        <View style={{ marginHorizontal: 10 }}>
+          <LinearGradient
+            style={{ width: 3, flex: 1 }}
+            colors={gradientColors}
+          />
+        </View>
         <View
           style={{
             paddingTop: 30,
+            paddingBottom: TIME_BAR_HEIGHT,
+            marginVertical: 10,
             alignItems: 'center',
             justifyContent: 'flex-end',
             opacity: hidden ? 0 : 1,
+            // backgroundColor: 'yellow',
           }}
         >
           <Touchable onPress={this._onPressItem}>
@@ -131,7 +135,12 @@ class MainCard extends Component {
             </View>
           </Touchable>
           <BottomInfoBar
-            style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: TIME_BAR_HEIGHT,
+            }}
             onPressComment={() => {
               onPressComment(post.postId);
             }}
@@ -159,9 +168,53 @@ class MainCard extends Component {
             />
           </View>
         </View>
+        <View
+          style={{
+            position: 'absolute',
+            height: TIME_BAR_HEIGHT,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            flexDirection: 'row',
+            // backgroundColor: 'red',
+            marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
+            alignItems: 'center',
+          }}
+        >
+          {this.renderTimeBarDot()}
+          <Text style={styles.dateTime}>{happenedAt.yearMonthDayTime()}</Text>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
+            {happenedAt.fromNow()}
+          </Text>
+        </View>
       </View>
     );
   }
+  renderTimeBarDot = () => {
+    return (
+      <View
+        style={{
+          width: 15,
+          height: 15,
+          borderRadius: 7.5,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderColor: 'white',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <View
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: 3,
+            backgroundColor: 'white',
+          }}
+        />
+      </View>
+    );
+  };
 }
 MainCard.propTypes = {};
 
@@ -169,8 +222,9 @@ const styles = StyleSheet.create({
   wrapper: {
     // width: cardWidth,
     // height: cardHeight + 30,
-    marginVertical: 10,
-    marginHorizontal: 10,
+    // marginVertical: 10,
+    marginRight: 10,
+    flexDirection: 'row',
   },
   container: {
     width: cardWidth,
@@ -201,6 +255,10 @@ const styles = StyleSheet.create({
       height: 0,
     },
     textShadowRadius: 5,
+  },
+  dateTime: {
+    fontSize: 18,
+    marginLeft: 12,
   },
 });
 

@@ -78,7 +78,6 @@ class SnakeBar extends Component {
     return (
       <Touchable
         withoutFeedback={true}
-        style={{ backgroundColor: colors.white }}
         onPress={() => {
           this.animationShow.stop();
           this.dismiss();

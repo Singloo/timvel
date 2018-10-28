@@ -52,17 +52,18 @@ class Alert extends Component {
       this._show();
     }
   }
+  _onPressChoices = onPress => () => {
+    this._dismiss();
+    onPress && onPress();
+  };
   _renderChoices = () => {
     const { choices } = this.props.state;
     return choices.map((item, index) => {
       return (
         <Text
           key={index}
-          style={[styles.choices, item.textColor && { color: item.textColor }]}
-          onPress={() => {
-            this._dismiss();
-            item.onPress && item.onPress();
-          }}
+          style={[styles.choices, item.color && { color: item.color }]}
+          onPress={this._onPressChoices(item.onPress)}
         >
           {item.title}
         </Text>
@@ -76,9 +77,7 @@ class Alert extends Component {
   };
   _dismiss = () => {
     this.animationDismiss.start(() => {
-      this.props.logic('ALERT_SET_STATE', {
-        ...initialState,
-      });
+      this.props.logic('ALERT_RESET_STATE');
     });
   };
   render() {
@@ -144,10 +143,7 @@ class Alert extends Component {
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
             <Text
               style={styles.choices}
-              onPress={() => {
-                this._dismiss();
-                onCancel && onCancel();
-              }}
+              onPress={this._onPressChoices(onCancel)}
             >
               {cancelTitle || 'No'}
             </Text>
@@ -165,11 +161,10 @@ const styles = StyleSheet.create({
   },
   card: {
     width: card_width,
-    height: card_height,
+    minHeight: card_height,
     backgroundColor: colors.white,
     paddingVertical: 10,
     borderBottomWidth: 3,
-    // borderColor: colors.main,
     marginBottom: 50,
   },
   title: {

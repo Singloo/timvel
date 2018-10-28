@@ -231,12 +231,16 @@ class ContentDetail extends Component {
             { useNativeDriver: true },
           )}
         >
-          <View style={{ backgroundColor: 'transparent' }}>
+          <View
+            style={{
+              backgroundColor: 'transparent',
+              minHeight: SCREEN_HEIGHT,
+              minWidth: SCREEN_WIDTH,
+            }}
+          >
             <View
               style={{
                 zIndex: animating ? 0 : 1,
-                minHeight: SCREEN_HEIGHT,
-                minWidth: SCREEN_WIDTH,
               }}
             >
               <Animated.Image
@@ -249,7 +253,7 @@ class ContentDetail extends Component {
                         height: imageHeight,
                         left: imageLeft,
                         top: imageTop,
-                        transform: [{ scale: scale }],
+                        transform: [{ scale: scale }, { perspective: 1000 }],
                       }
                     : {
                         width: image_width,
@@ -261,6 +265,7 @@ class ContentDetail extends Component {
                           {
                             translateY: imageY,
                           },
+                          { perspective: 1000 },
                         ],
                       },
                 ]}
@@ -336,6 +341,7 @@ class ContentDetail extends Component {
               {
                 translateY: headerY,
               },
+              { perspective: 1000 },
             ],
           }}
         />

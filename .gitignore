@@ -29,7 +29,13 @@ build/
 .gradle
 local.properties
 *.iml
-
+android/app/.project
+android/app/src/main/res/
+#ios
+ios/Pods
+ios/Podfile.lock
+ios/main.jsbundle
+ios/main.jsbundle.meta
 # node.js
 #
 node_modules/

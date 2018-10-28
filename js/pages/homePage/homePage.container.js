@@ -12,11 +12,15 @@ import {
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { base, User } from '../../utils';
 import MainCard from './components/MainCard';
+import MainCard2 from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
-import ContentDetail from './pages/ContentDetail';
+import ContentDetailIos from './pages/ContentDetail';
+import ContentDetailAndroid from './pages/ContentDetail.android';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import Moment from 'moment';
+import { Observable, Subject } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 const {
   PADDING_BOTTOM,
   colors,
@@ -25,73 +29,65 @@ const {
   isAndroid,
   TAB_BAR_HEIGHT,
   NAV_BAR_HEIGHT,
+  isIOS,
+  colorSets,
+  randomItem,
+  getRandomDate,
 } = base;
+const cardHeight = base.SCREEN_WIDTH * 0.618;
+const ContentDetail = isIOS ? ContentDetailIos : ContentDetailAndroid;
 const item_width = SCREEN_WIDTH - 40 - 0;
-const days31 = [1, 3, 5, 7, 8, 10, 12];
-const days30 = [4, 6, 9, 11];
-const randomNumber = (n, m) => {
-  const c = m - n + 1;
-  return parseInt(Math.random() * c + n, 10);
-};
-
-const getRandomDate = () => {
-  let date = Moment();
-  let year = 2018;
-  if (Math.random() > 0.1) {
-    year = randomNumber(1990, 2030);
-  } else {
-    year = randomNumber(1000, 2077);
-  }
-  let leepYear = false;
-  if (year % 4 === 0) {
-    leepYear = true;
-  }
-
-  const month = randomNumber(1, 12);
-  date.year(year);
-  date.month(month);
-  if (days31.includes(month)) {
-    const day = randomNumber(1, 31);
-    date.date(day);
-
-    return date.format('YYYY-MM-DD');
-  } else if (days30.includes(month)) {
-    const day = randomNumber(1, 30);
-    date.date(day);
-    return date.format('YYYY-MM-DD');
-  }
-  if (leepYear && month === 2) {
-    const day = randomNumber(1, 29);
-    date.date(day);
-    return date.format('YYYY-MM-DD');
-  } else if (month === 2) {
-    const day = randomNumber(1, 28);
-    date.date(day);
-    return date.format('YYYY-MM-DD');
-  } else {
-    return getRandomDate();
-  }
-};
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this._nscrollY = new Animated.Value(0);
+    this.colorsSets = [];
+    this.pressEmoji$ = new Subject();
   }
   componentWillMount() {
-    this.props.logic('HOME_PAGE_FETCH_POPULAR_POSTS');
-    this._fetchPosts();
+    this._initFeeds();
+    this._initSubscription();
   }
 
   componentDidMount() {
     // console.warn(User.current())
   }
+  componentWillUnmount() {}
+
+  /**
+   *
+   *
+   * @memberof HomePage
+   * fetch feed
+   */
+  _initFeeds = () => {
+    this.props.logic('HOME_PAGE_FETCH_POPULAR_POSTS');
+    this._fetchPosts();
+  };
+
+  /**
+   *initialize scbscription
+   *
+   */
+  _initSubscription = () => {
+    this.pressEmoji$.pipe(throttleTime(500)).subscribe(({ emoji, postId }) =>
+      this.props.logic('HOME_PAGE_PRESS_EMOJI', {
+        emoji,
+        postId,
+      }),
+    );
+  };
   //render
   _renderItem = ({ item, index }) => {
-    const { showDetail, cardId } = this.props.state;
+    const { showDetail, cardId, posts } = this.props.state;
+    if (this.colorsSets.length === 0) {
+      this.colorsSets = randomItem(colorSets, posts.length + 1);
+    }
     return (
-      <MainCard
+      <MainCard2
         key={index.toString()}
         cardId={index}
+        gradientColors={[this.colorsSets[index], this.colorsSets[index + 1]]}
         post={item}
         onPress={this._onPressItem}
         hidden={showDetail && cardId === index}
@@ -249,12 +245,16 @@ class HomePage extends Component {
   };
 
   _onPressEmoji = (emoji, postId) => {
-    const { enablePostEmoji } = this.props.state;
-    this.props.logic('HOME_PAGE_PRESS_EMOJI', {
+    this.pressEmoji$.next({
       emoji,
       postId,
-      enablePostEmoji,
     });
+    // const { enablePostEmoji } = this.props.state;
+    // this.props.logic('HOME_PAGE_PRESS_EMOJI', {
+    //   emoji,
+    //   postId,
+    //   enablePostEmoji,
+    // });
   };
   render() {
     const {
@@ -266,6 +266,7 @@ class HomePage extends Component {
       date,
       posts,
     } = this.props.state;
+    // const ContentDetail = isIOS ? ContentDetailIos : ContentDetailAndroid;
     return (
       <View style={styles.container}>
         {isAndroid && (
@@ -279,6 +280,13 @@ class HomePage extends Component {
           renderItem={this._renderItem}
           ListHeaderComponent={this._renderHeader}
           data={posts}
+          scrollEventThrottle={6}
+          initialNumToRender={5}
+          // getItemLayout={(data, index) => ({
+          //   length: cardHeight,
+          //   offset: cardHeight * index,
+          //   index,
+          // })}
           contentContainerStyle={{
             paddingTop: PADDING_TOP + 10,
             // paddingTop: PADDING_TOP + 44,
@@ -291,34 +299,7 @@ class HomePage extends Component {
           showsVerticalScrollIndicator={false}
         />
         <HeaderBar date={date} scrollY={this._nscrollY} />
-        <ActionButton buttonSource={Assets.actionButton.source}>
-          <ActionButton.Icon
-            // title={'create new'}
-            iconStyle={{ backgroundColor: colors.main }}
-            source={Assets.comment.source}
-            onPress={this._onPressCreateNew}
-          />
-          <ActionButton.Icon
-            // title={2}
-            iconStyle={{ backgroundColor: colors.main }}
-            source={Assets.comment.source}
-            onPress={() => {
-              this._oneDay.open();
-            }}
-          />
-          <ActionButton.Icon
-            // title={3}
-            iconStyle={{ backgroundColor: colors.main }}
-            source={Assets.bk1.source}
-            onPress={this._timeTravel}
-          />
-          <ActionButton.Icon
-            // title={4}
-            iconStyle={{ backgroundColor: colors.main }}
-            source={Assets.comment.source}
-            onPress={() => {}}
-          />
-        </ActionButton>
+        {this._renderActionButton()}
         <OneDay
           ref={r => (this._oneDay = r)}
           show={showOneDay}
@@ -339,6 +320,39 @@ class HomePage extends Component {
       </View>
     );
   }
+
+  _renderActionButton = () => {
+    return (
+      <ActionButton buttonSource={Assets.actionButton.source}>
+        <ActionButton.Icon
+          // title={'create new'}
+          iconStyle={{ backgroundColor: colors.main }}
+          source={Assets.comment.source}
+          onPress={this._onPressCreateNew}
+        />
+        <ActionButton.Icon
+          // title={2}
+          iconStyle={{ backgroundColor: colors.main }}
+          source={Assets.comment.source}
+          onPress={() => {
+            this._oneDay.open();
+          }}
+        />
+        <ActionButton.Icon
+          // title={3}
+          iconStyle={{ backgroundColor: colors.main }}
+          source={Assets.bk1.source}
+          onPress={this._timeTravel}
+        />
+        <ActionButton.Icon
+          // title={4}
+          iconStyle={{ backgroundColor: colors.main }}
+          source={Assets.comment.source}
+          onPress={() => {}}
+        />
+      </ActionButton>
+    );
+  };
 }
 
 const styles = StyleSheet.create({

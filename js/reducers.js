@@ -16,7 +16,9 @@ import strangerProfile from './pages/strangerProfile/strangerProfile.reducer';
 import notifPage from './pages/notifPage/notifPage.reducer';
 import addTag from './pages/addTag/addTag.reducer';
 import publishProduct from './pages/publishProduct/publishProduct.reducer';
+import testPage from './pages/testPage/testPage.reducer';
 const reducers = combineReducers({
+  testPage,
   publishProduct,
   homePage,
   rememberPage,

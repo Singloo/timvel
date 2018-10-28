@@ -19,6 +19,7 @@ const TransitionConfiguration = () => ({
 const MainScreenNavigator = TabNavigator(
   {
     Home: { screen: Connectors.homePage },
+    // Home: { screen: Connectors.testPage },
     ShopPage: { screen: Connectors.shopPage },
     NotifPage: { screen: Connectors.notifPage },
     UserPage: { screen: Connectors.userPage },

@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, throttleTime } from 'rxjs/operators';
 
 const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
   action$.pipe(
@@ -58,42 +58,29 @@ const pressEmoji = (action$, state$, { logic, httpClient }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
-          const { emoji, postId, enablePostEmoji } = action.payload;
-          let { posts } = state$().value.homePage;
-          posts.forEach(item => {
-            if (item.postId === postId) {
-              item[emoji] = item[emoji] + 1;
+          const { emoji, postId } = action.payload;
+          const { posts } = state$.value.homePage;
+          const fixedPosts = posts.map(o => {
+            if (o.postId === postId) {
+              return {
+                ...o,
+                [emoji]: o[emoji] + 1,
+              };
             }
+            return o;
           });
-          if (enablePostEmoji === false) {
-            observer.complete();
-            return;
-          }
           observer.next(
             logic('HOME_PAGE_SET_STATE', {
-              enablePostEmoji: false,
+              posts: fixedPosts,
             }),
           );
           const data = await httpClient.post('/post_emojis', {
             emoji,
             post_id: postId,
           });
-          // await new Promise((resolve, reject) => {
-          //   setTimeout(resolve, 500);
-          // });
-          observer.next(
-            logic('HOME_PAGE_SET_STATE', {
-              enablePostEmoji: true,
-            }),
-          );
           console.warn('success');
         } catch (error) {
-          console.warn(error);
-          observer.next(
-            logic('HOME_PAGE_SET_STATE', {
-              enablePostEmoji: true,
-            }),
-          );
+          console.warn(error.message);
         } finally {
           observer.complete();
         }

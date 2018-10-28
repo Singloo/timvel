@@ -1,21 +1,14 @@
-const initialState = {
-  show: false,
-  content: '',
-  type: 'NORMAL',
-  duration: 3000,
-  onPress: null,
-  queue: [],
-};
+const initialState = {};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'SNAKE_BAR_SET_STATE': {
+    case 'TEST_PAGE_SET_STATE': {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case 'SNAKE_BAR_RESET_STATE': {
+    case 'TEST_PAGE_RESET_STATE': {
       return initialState;
     }
     default:

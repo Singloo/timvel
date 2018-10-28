@@ -1,12 +1,15 @@
 import * as ReactRedux from 'react-redux';
 import { BackHandler, ToastAndroid } from 'react-native';
-const logic = function(type, payload) {
-  return {
-    type,
-    payload,
-  };
-};
-
+const logic = (type, payload) => ({
+  type,
+  payload,
+});
+const snakeBar = (content, type = 'NORMAL') =>
+  logic('SHOW_SNAKE_BAR', { content, type });
+const loading = (isLoading = true) =>
+  logic('GLOBAL_SET_STATE', {
+    isLoading: isLoading,
+  });
 export const connect = function({
   name,
   stateMapper,
@@ -28,6 +31,8 @@ export const connect = function({
   const allActions = {
     ...actions,
     logic,
+    snakeBar,
+    loading,
   };
   return ReactRedux.connect(stateMapper, allActions, null, {
     withRef: withRef,
@@ -48,10 +53,7 @@ export const androidBackButton = function(navigation, store) {
     // solution: add a 500ms sleep
     const navState = navigation.state.nav;
     const { isLoading } = store.getState().global;
-    const { share: { isShowing } } = store.getState().modal;
-    const { showAlert } = store.getState().alert;
-    const { isRecording } = store.getState().recorder;
-    if (isLoading || isShowing || showAlert || isRecording) {
+    if (isLoading) {
       return true;
     }
     if (navState.index !== 0) {

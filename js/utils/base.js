@@ -1,6 +1,7 @@
 // import * as React from 'react';
 import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
 import _ from 'lodash';
+import Moment from 'moment';
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );
@@ -40,6 +41,93 @@ const getItemPosition = (n, r) => {
   }
 };
 
+const days31 = [1, 3, 5, 7, 8, 10, 12];
+const days30 = [4, 6, 9, 11];
+
+const randomNumber = (n, m) => {
+  const c = m - n + 1;
+  return parseInt(Math.random() * c + n, 10);
+};
+
+export const getRandomDate = () => {
+  let date = Moment();
+  let year = 2018;
+  if (Math.random() > 0.1) {
+    year = randomNumber(1990, 2030);
+  } else {
+    year = randomNumber(1000, 2077);
+  }
+  let leepYear = false;
+  if (year % 4 === 0) {
+    leepYear = true;
+  }
+
+  const month = randomNumber(1, 12);
+  date.year(year);
+  date.month(month);
+  if (days31.includes(month)) {
+    const day = randomNumber(1, 31);
+    date.date(day);
+
+    return date.format('YYYY-MM-DD');
+  } else if (days30.includes(month)) {
+    const day = randomNumber(1, 30);
+    date.date(day);
+    return date.format('YYYY-MM-DD');
+  }
+  if (leepYear && month === 2) {
+    const day = randomNumber(1, 29);
+    date.date(day);
+    return date.format('YYYY-MM-DD');
+  } else if (month === 2) {
+    const day = randomNumber(1, 28);
+    date.date(day);
+    return date.format('YYYY-MM-DD');
+  } else {
+    return getRandomDate();
+  }
+};
+
+export class DateFormatter {
+  constructor(date) {
+    if (!date) {
+      throw 'Init failed, date needed';
+    }
+    this.date = Moment(date);
+  }
+  isToday = () => {
+    return Moment().format('YYYY-MM-DD') === this.date.format('YYYY-MM-DD');
+  };
+  year = () => {
+    return this.date.format('YYYY');
+  };
+  mon = () => {
+    return this.date.format('MMM');
+  };
+  month = () => {
+    return this.date.format('MMMM');
+  };
+
+  day = () => {
+    return this.date.format('DD');
+  };
+
+  hourMinSecond = () => {
+    return this.date.format('hh:mm:ss');
+  };
+
+  yearMonthDayTime = () => {
+    if (this.isToday()) {
+      return 'Today ' + this.hourMinSecond();
+    }
+    return this.date.format('YYYY MMM DD h:mm:ss a');
+  };
+
+  fromNow = () => {
+    return Moment(this.date).fromNow();
+  };
+}
+
 export const filterPostsByTag = posts => {
   let returnObj = {};
 
@@ -71,7 +159,7 @@ export function realSize(px) {
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export function randomItem(arr, returnLength, returnArray) {
+export function randomItem(arr, returnLength = 1, returnArray = []) {
   let returnNum = returnLength || 1;
   let returnArr = returnArray || [];
   let i = Math.floor(Math.random() * arr.length);

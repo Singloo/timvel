@@ -1,38 +1,53 @@
-import React, { Component } from 'react';
+import React, { Component, cloneElement } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../../re-kits';
 import { base } from '../../utils';
+import { clone, cloneDeep } from 'lodash';
 const { Styles, PADDING_TOP, isAndroid } = base;
 import SnakeBar from './components/SnakeBar';
 const snake_bar_height = 48 + PADDING_TOP + (isAndroid ? 20 : 0);
 class Global extends Component {
   componentWillMount() {}
 
+  componentDidUpdate() {
+    const { queue, show } = this.props.state;
+    if (show) {
+      return;
+    }
+    if (queue.length > 0) {
+      this.props.logic('SNAKE_BAR_SET_STATE', {
+        show: true,
+        ...queue[0],
+      });
+    }
+  }
   snakeBarCallback = () => {
+    const { queue } = this.props.state;
+    const fixedQueue = clone(queue);
+    if (queue.length > 0) {
+      fixedQueue.splice(0, 1);
+    }
     this.props.logic('SNAKE_BAR_SET_STATE', {
-      snakeBarInfo: '',
-      snakeBarType: 'NORMAL',
-      snakeBarDuration: 3000,
-      onPressSnakeBar: null,
+      show: false,
+      content: '',
+      type: 'NORMAL',
+      duration: 3000,
+      onPress: null,
+      queue: fixedQueue,
     });
   };
   render() {
-    const {
-      snakeBarInfo,
-      snakeBarType,
-      snakeBarDuration,
-      onPressSnakeBar,
-    } = this.props.state;
-    let showSnakeBar = snakeBarInfo.length > 0;
+    const { content, type, duration, onPress } = this.props.state;
+    let showSnakeBar = content.length > 0;
     if (showSnakeBar) {
       return (
         <View style={styles.snakeBar}>
           <SnakeBar
-            type={snakeBarType}
-            info={snakeBarInfo}
-            duration={snakeBarDuration}
+            type={type}
+            info={content}
+            duration={duration}
             callback={this.snakeBarCallback}
-            onPress={onPressSnakeBar}
+            onPress={onPress}
           />
         </View>
       );

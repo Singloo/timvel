@@ -32,6 +32,8 @@ target 'timvel' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'Interactable', :path => '../node_modules/react-native-interactable'
+
 end
 
 # very important to have, unless you removed React dependencies for Libraries 

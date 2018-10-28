@@ -163,6 +163,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-interactable')
      // LeanCloud 基础包
     compile ('cn.leancloud.android:avoscloud-sdk:v4.7.3')
 

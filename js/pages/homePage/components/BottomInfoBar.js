@@ -44,6 +44,7 @@ class BottomInfoBar extends React.Component {
             tintColor={colors.white}
             size={'small'}
             onPress={onPressComment}
+            resizeMode={'contain'}
           />
           <Text style={styles.num}>{nums.numOfComments}</Text>
         </View>

@@ -70,7 +70,7 @@ export default class Notification {
   AndroidInstallation = () => {
     AndroidNotification.saveInstaillation(installationId => {
       if (installationId) {
-        console.warn('Android installation', installationId);
+        // console.warn('Android installation', installationId);
         DeviceEventEmitter.addListener(
           AndroidNotification.ON_RECEIVE,
           notification => {

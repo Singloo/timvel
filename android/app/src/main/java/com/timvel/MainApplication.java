@@ -5,6 +5,7 @@ import android.app.Application;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.PushService;
 import com.facebook.react.ReactApplication;
+import com.wix.interactable.Interactable;
 import com.nativeModules.PushHandlerActivity;
 import com.nativeModules.TimvelPackages;
 import com.rnfs.RNFSPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new Interactable(),
             new TimvelPackages(),
             new RNFSPackage(),
             new RNDeviceInfo(),

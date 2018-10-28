@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "ios": "react-native run-ios"
+    "ios": "react-native run-ios",
+    "bundle:ios": "react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ./ios/main.jsbundle --assets-dest ios/timvel/Images.xcassets/",
+    "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/"
   },
   "dependencies": {
     "aliyun-oss-react-native": "^1.0.0-alpha.6",
@@ -26,6 +28,7 @@
     "react-native-i18n": "^2.0.12",
     "react-native-image-crop-picker": "^0.20.0",
     "react-native-image-picker": "^0.26.7",
+    "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-snap-carousel": "^3.7.2",
     "react-native-splash-screen": "^3.0.7",
