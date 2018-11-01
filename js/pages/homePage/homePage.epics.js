@@ -19,7 +19,7 @@ const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
             }),
           );
         } catch (error) {
-          console.warn(error);
+          console.warn(error.message);
         } finally {
           observer.complete();
         }

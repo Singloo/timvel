@@ -10,31 +10,31 @@ class Global extends Component {
   componentWillMount() {}
 
   componentDidUpdate() {
-    const { queue, show } = this.props.state;
-    if (show) {
-      return;
-    }
-    if (queue.length > 0) {
-      this.props.logic('SNAKE_BAR_SET_STATE', {
-        show: true,
-        ...queue[0],
-      });
-    }
+    // const { queue, show } = this.props.state;
+    // if (show) {
+    //   return;
+    // }
+    // if (queue.length > 0) {
+    //   this.props.logic('SNAKE_BAR_SET_STATE', {
+    //     show: true,
+    //     ...queue[0],
+    //   });
+    // }
   }
   snakeBarCallback = () => {
-    const { queue } = this.props.state;
-    const fixedQueue = clone(queue);
-    if (queue.length > 0) {
-      fixedQueue.splice(0, 1);
-    }
-    this.props.logic('SNAKE_BAR_SET_STATE', {
-      show: false,
-      content: '',
-      type: 'NORMAL',
-      duration: 3000,
-      onPress: null,
-      queue: fixedQueue,
-    });
+    // const { queue } = this.props.state;
+    // const fixedQueue = clone(queue);
+    // if (queue.length > 0) {
+    //   fixedQueue.splice(0, 1);
+    // }
+    // this.props.logic('SNAKE_BAR_SET_STATE', {
+    //   show: false,
+    //   content: '',
+    //   type: 'NORMAL',
+    //   duration: 2000,
+    //   onPress: null,
+      // queue: fixedQueue,
+    // });
   };
   render() {
     const { content, type, duration, onPress } = this.props.state;
@@ -46,7 +46,7 @@ class Global extends Component {
             type={type}
             info={content}
             duration={duration}
-            callback={this.snakeBarCallback}
+            // callback={this.snakeBarCallback}
             onPress={onPress}
           />
         </View>

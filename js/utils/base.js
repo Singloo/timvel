@@ -213,8 +213,9 @@ export const Styles = {
           height: 4,
           width: 3,
         },
+        backgroundColor: 'white',
       }
-    : { elevation: 1 },
+    : { elevation: 1, backgroundColor: 'white' },
   textShadow: {
     textShadowColor: '#f5f5f5',
     textShadowOffset: {

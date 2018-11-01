@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { base,I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 
-class CardWithoutImg extends Component {
+class Card extends Component {
   componentWillMount() {}
 
   render() {
-    return <View style={styles.container} />;
+    return (
+      <View style={styles.container}>
+        <Text>{'welcome'}</Text>
+      </View>
+    );
   }
 }
-CardWithoutImg.propTypes = {};
+Card.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -20,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CardWithoutImg;
+export default Card;

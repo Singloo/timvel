@@ -11,8 +11,10 @@ import {
 } from '../../../re-kits';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { base, User } from '../../utils';
-import MainCard from './components/MainCard';
-import MainCard2 from './components/MainCardWithSideTimeLine';
+import Wrapper from './components/MainCardWithSideTimeLine';
+import Normal from './components/CardNormal';
+import MoreText from './components/CardWithMoreText';
+import MoreImage from './components/CardWithMoreImages';
 import CarouselCard from './components/CarouselCard';
 import ContentDetailIos from './pages/ContentDetail';
 import ContentDetailAndroid from './pages/ContentDetail.android';
@@ -34,6 +36,38 @@ const {
   randomItem,
   getRandomDate,
 } = base;
+const enhanced = Comp => {
+  return class extends React.Component {
+    render() {
+      const {
+        onPress,
+        cardId,
+        hidden,
+        post,
+        gradientColors,
+        onPressComment,
+        onPressEmoji,
+        ...childProps
+      } = this.props;
+      return (
+        <Wrapper
+          onPress={onPress}
+          cardId={cardId}
+          hidden={hidden}
+          post={post}
+          gradientColors={gradientColors}
+          onPressComment={onPressComment}
+          onPressEmoji={onPressEmoji}
+        >
+          <Comp post={post} {...childProps} />
+        </Wrapper>
+      );
+    }
+  };
+};
+const CardNormal = enhanced(Normal);
+const CardText = enhanced(MoreText);
+const CardImage = enhanced(MoreImage);
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 const ContentDetail = isIOS ? ContentDetailIos : ContentDetailAndroid;
 const item_width = SCREEN_WIDTH - 40 - 0;
@@ -83,19 +117,29 @@ class HomePage extends Component {
     if (this.colorsSets.length === 0) {
       this.colorsSets = randomItem(colorSets, posts.length + 1);
     }
-    return (
-      <MainCard2
-        key={index.toString()}
-        cardId={index}
-        gradientColors={[this.colorsSets[index], this.colorsSets[index + 1]]}
-        post={item}
-        onPress={this._onPressItem}
-        hidden={showDetail && cardId === index}
-        onPressComment={this._onPressComment}
-        onPressAvatar={this._onPressAvatar}
-        onPressEmoji={this._onPressEmoji}
-      />
-    );
+    const moreImages = item.imageUrls.length > 3;
+    const moreTexts = item.content.length > 100;
+    let ItemComp = CardNormal;
+    let cardProps = {
+      key: index,
+      cardId: index,
+      gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
+      post: item,
+      onPress: this._onPressItem,
+      hidden: showDetail && cardId === index,
+      onPressComment: this._onPressComment,
+      onPressAvatar: this._onPressAvatar,
+      onPressEmoji: this._onPressEmoji,
+    };
+    if (moreTexts) {
+      ItemComp = CardText;
+    }
+    if (moreImages) {
+      ItemComp = CardImage;
+      cardProps.onPress = null;
+      cardProps.onPressItem = this._onPressItem;
+    }
+    return <ItemComp {...cardProps} />;
   };
 
   _renderHeader = ({ item, index }) => {
@@ -229,7 +273,7 @@ class HomePage extends Component {
     }, 2000);
   };
 
-  _onPressComment = postId => {
+  _onPressComment = postId => () => {
     this.props.logic('NAVIGATION_NAVIGATE', {
       routeName: 'comment',
       params: {
@@ -244,7 +288,7 @@ class HomePage extends Component {
     });
   };
 
-  _onPressEmoji = (emoji, postId) => {
+  _onPressEmoji = postId => emoji => () => {
     this.pressEmoji$.next({
       emoji,
       postId,
@@ -326,29 +370,46 @@ class HomePage extends Component {
       <ActionButton buttonSource={Assets.actionButton.source}>
         <ActionButton.Icon
           // title={'create new'}
-          iconStyle={{ backgroundColor: colors.main }}
-          source={Assets.comment.source}
+          iconStyle={{ backgroundColor: colors.white }}
+          iconProps={{
+            style: { backgroundColor: colors.white },
+            resizeMode: 'contain',
+          }}
+          source={Assets.edit.source}
           onPress={this._onPressCreateNew}
         />
         <ActionButton.Icon
           // title={2}
-          iconStyle={{ backgroundColor: colors.main }}
+          // iconStyle={{ backgroundColor: colors.main }}
           source={Assets.comment.source}
+          iconProps={{
+            style: { backgroundColor: colors.white },
+            resizeMode: 'contain',
+          }}
           onPress={() => {
             this._oneDay.open();
           }}
         />
         <ActionButton.Icon
           // title={3}
-          iconStyle={{ backgroundColor: colors.main }}
+          // iconStyle={{ backgroundColor: colors.white }}
           source={Assets.bk1.source}
           onPress={this._timeTravel}
+          iconProps={{
+            style: { backgroundColor: colors.white },
+            resizeMode: 'contain',
+          }}
         />
         <ActionButton.Icon
           // title={4}
-          iconStyle={{ backgroundColor: colors.main }}
+          // iconStyle={{ backgroundColor: colors.white }}
           source={Assets.comment.source}
           onPress={() => {}}
+          iconProps={{
+            style: { backgroundColor: colors.white, margin: 4 },
+            // resizeMode: 'contain',
+            // size: 'micro',
+          }}
         />
       </ActionButton>
     );

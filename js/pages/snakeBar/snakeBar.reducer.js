@@ -2,9 +2,9 @@ const initialState = {
   show: false,
   content: '',
   type: 'NORMAL',
-  duration: 3000,
+  duration: 2000,
   onPress: null,
-  queue: [],
+  // queue: [],
 };
 
 function reducer(state = initialState, action) {

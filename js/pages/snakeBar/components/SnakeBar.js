@@ -34,12 +34,12 @@ class SnakeBar extends Component {
     this.animationState = new Animated.Value(0);
     this.animationShow = Animated.spring(this.animationState, {
       toValue: 1,
-      duration: 500,
+      duration: 400,
       useNativeDriver: true,
     });
     this.animationEnd = Animated.spring(this.animationState, {
       toValue: 0,
-      duration: 400,
+      duration: 300,
       useNativeDriver: true,
     });
   }
@@ -67,7 +67,7 @@ class SnakeBar extends Component {
   dismiss() {
     const { callback, onPress } = this.props;
     this.animationEnd.start(() => {
-      callback && callback();
+      // callback && callback();
     });
     onPress && onPress();
   }
@@ -88,7 +88,8 @@ class SnakeBar extends Component {
             styles.container,
             Styles.shadow,
             {
-              backgroundColor: typeStyle.bkColor,
+              backgroundColor: 'white',
+              // backgroundColor: typeStyle.bkColor,
               shadowColor: typeStyle.textColor,
               transform: [
                 {

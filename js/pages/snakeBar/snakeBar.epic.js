@@ -9,45 +9,59 @@ import {
   bufferWhen,
   switchMap,
   tap,
+  concatMap,
 } from 'rxjs/operators';
 const snakeBar = (action$, state$, { logic }) =>
   action$.pipe(
     ofType('SHOW_SNAKE_BAR'),
-    switchMap(({ payload }) =>
+    tap(action => {
+      console.warn(action);
+    }),
+    concatMap(({ payload }) =>
       Observable.create(observer => {
         const { queue } = state$.value.snakeBar;
         const {
           type = 'NORMAL',
           content,
-          duration = 3000,
+          duration = 2000,
           immediate = false,
           onPress = null,
         } = payload;
-        //type:'NORMAL' 'ERROR' 'SUCCESS'
-        let fixedQueue = queue.concat([
-          {
-            type,
-            content,
-            duration,
-            onPress,
-          },
-        ]);
-        if (immediate) {
-          fixedQueue = [
-            {
-              type,
-              content,
-              duration,
-              onPress,
-            },
-          ].concat(queue);
-        }
+        // console.warn(content, duration);
         observer.next(
           logic('SNAKE_BAR_SET_STATE', {
-            queue: fixedQueue,
+            ...payload,
           }),
         );
-        observer.complete();
+        setTimeout(() => {
+          observer.next(logic('SNAKE_BAR_RESET_STATE'));
+          observer.complete();
+        }, duration + 300);
+        //type:'NORMAL' 'ERROR' 'SUCCESS'
+        // let fixedQueue = queue.concat([
+        //   {
+        //     type,
+        //     content,
+        //     duration,
+        //     onPress,
+        //   },
+        // ]);
+        // if (immediate) {
+        //   fixedQueue = [
+        //     {
+        //       type,
+        //       content,
+        //       duration,
+        //       onPress,
+        //     },
+        //   ].concat(queue);
+        // }
+        // observer.next(
+        //   logic('SNAKE_BAR_SET_STATE', {
+        //     queue: fixedQueue,
+        //   }),
+        // );
+        // observer.complete();
       }),
     ),
   );

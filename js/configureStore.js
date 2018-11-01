@@ -9,6 +9,7 @@ import Axios from 'axios';
 import { API_V1 } from './constants';
 import { createEpicMiddleware } from 'redux-observable';
 import logger from 'redux-logger';
+import { of, throwError } from 'rxjs';
 const httpClient = Axios.create({
   baseURL: API_V1,
   timeout: 20000,
@@ -26,6 +27,8 @@ const loading = (isLoading = true) =>
   logic('GLOBAL_SET_STATE', {
     isLoading: isLoading,
   });
+const retryTimes = (times = 3) => (error, index) =>
+  index === times ? throwError(error) : of(null);
 const deps = {
   logic,
   snakeBar,
@@ -35,6 +38,7 @@ const deps = {
   I18n,
   Network,
   OSS,
+  retryTimes,
   navigation: null,
 };
 export const setNavigation = navigation => {

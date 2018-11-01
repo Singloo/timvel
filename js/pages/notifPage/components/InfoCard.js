@@ -22,8 +22,9 @@ class Card extends Component {
           <Text style={styles.text}>{title}</Text>
           <Image
             source={Assets.arrow_right.source}
-            size={'small'}
+            size={'verySmall'}
             tintColor={this.tintColor}
+            resizeMode={'contain'}
           />
         </View>
       </Touchable>

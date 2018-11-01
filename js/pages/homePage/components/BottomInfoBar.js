@@ -22,9 +22,7 @@ class BottomInfoBar extends React.Component {
           <EmojiItem
             key={index}
             source={Assets[item].source}
-            onPress={() => {
-              onPressEmoji(item);
-            }}
+            onPress={onPressEmoji(item)}
             num={nums[item]}
           />
         );

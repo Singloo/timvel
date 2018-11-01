@@ -56,6 +56,10 @@ class Tabbar extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
+  _onPressTab = index => () => {
+    const { jumpToIndex } = this.props;
+    jumpToIndex(index);
+  };
   render() {
     const { navigation, renderIcon, jumpToIndex } = this.props;
     const { tabBarHidden } = this.props.global;
@@ -106,13 +110,13 @@ class Tabbar extends Component {
         />
         <Tab
           source={Assets.eu_bird.source}
-          onPress={jumpToIndex.bind(this, 0)}
+          onPress={this._onPressTab(0)}
           // tintColor={index == 0 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
           source={Assets.eu_bosk.source}
-          onPress={jumpToIndex.bind(this, 1)}
+          onPress={this._onPressTab(1)}
           // tintColor={index == 1 ? activeTintColor : inactiveTintColor}
           // size={'large'}
           // title={'home'}
@@ -120,13 +124,13 @@ class Tabbar extends Component {
 
         <Tab
           source={Assets.eu_cactus.source}
-          onPress={jumpToIndex.bind(this, 2)}
+          onPress={this._onPressTab(2)}
           // tintColor={index == 2 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
           source={Assets.eu_fox.source}
-          onPress={jumpToIndex.bind(this, 3)}
+          onPress={this._onPressTab(3)}
           // tintColor={index == 3 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />

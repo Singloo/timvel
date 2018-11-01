@@ -38,6 +38,15 @@ class MainCard extends Component {
         x: pageX,
         y: pageY,
       };
+      this._userInfoBar.measure((x3, y3, width3, height3, pageX3, pageY3) => {
+        userInfoPosition = {
+          width: width3,
+          height: height3,
+          x: pageX3,
+          y: pageY3,
+        };
+        onPress(imagePosition, contentPosition, userInfoPosition, cardId);
+      });
       this._content.measure((x2, y2, width2, height2, pageX2, pageY2) => {
         contentPosition = {
           width: width2,
@@ -45,151 +54,177 @@ class MainCard extends Component {
           x: pageX2,
           y: pageY2,
         };
-
-        this._userInfoBar.measure((x3, y3, width3, height3, pageX3, pageY3) => {
-          userInfoPosition = {
-            width: width3,
-            height: height3,
-            x: pageX3,
-            y: pageY3,
-          };
-          onPress(imagePosition, contentPosition, userInfoPosition, cardId);
-        });
       });
     });
   };
 
   render() {
-    const {
-      onPress,
-      hidden,
-      onPressComment,
-      onPressAvatar,
-      onPressEmoji,
-      post,
-      gradientColors,
-    } = this.props;
-    let coverImageUrl = post.imageUrls[0];
-    const happenedAt = new DateFormatter(post.happenedAt);
+    const { hidden } = this.props;
     return (
       <View style={[styles.wrapper]}>
-        <View style={{ marginHorizontal: 10 }}>
-          <LinearGradient
-            style={{ width: 3, flex: 1 }}
-            colors={gradientColors}
-          />
-        </View>
+        {this.renderSideLinearBar()}
         <View
           style={{
             paddingTop: 30,
             paddingBottom: TIME_BAR_HEIGHT,
             marginVertical: 10,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
             opacity: hidden ? 0 : 1,
-            // backgroundColor: 'yellow',
           }}
         >
-          <Touchable onPress={this._onPressItem}>
-            <View
-              ref={r => (this._image = r)}
-              style={[styles.container, Styles.shadow]}
-            >
-              <Image
-                source={{ uri: coverImageUrl }}
-                style={{
-                  width: cardWidth,
-                  height: cardHeight,
-                }}
-                blur={true}
-              />
-              <WeatherInfo
-                weather={post.weatherInfo.weather}
-                temperature={post.weatherInfo.temperature}
-                style={{ position: 'absolute', right: 0, top: 0 }}
-              />
-              <View
-                style={[
-                  Styles.absolute,
-                  {
-                    marginTop: 0,
-                    justifyContent: 'center',
-                    marginLeft: 20,
-                    marginRight: 10,
-                    // backgroundColor:'red'
-                  },
-                ]}
-              >
-                <View ref={r => (this._content = r)}>
-                  <Text
-                    style={[
-                      styles.content,
-                      !coverImageUrl && { color: colors.pureBlack },
-                    ]}
-                    numberOfLines={5}
-                  >
-                    {post.content}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </Touchable>
-          <BottomInfoBar
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: TIME_BAR_HEIGHT,
-            }}
-            onPressComment={() => {
-              onPressComment(post.postId);
-            }}
-            onPressEmoji={emoji => onPressEmoji(emoji, post.postId)}
-            nums={{
-              numOfComments: post.numOfComments,
-              shock: post.shock,
-              laugh: post.laugh,
-              angry: post.angry,
-              vomit: post.vomit,
-              nofeeling: post.nofeeling,
-            }}
-          />
-          <View
-            ref={r => {
-              this._userInfoBar = r;
-            }}
-            style={styles.headerBar}
-          >
-            <UserInfoBar
-              onPressAvatar={onPressAvatar}
-              username={post.username}
-              avatar={post.avatar}
-              // style={  styles.headerBar}
-            />
-          </View>
+          {this.renderChildren()}
+          {this.renderBottomBar()}
+          {this.renderWeather()}
+          {this.renderUserInfoBar()}
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            height: TIME_BAR_HEIGHT,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            flexDirection: 'row',
-            // backgroundColor: 'red',
-            marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
-            alignItems: 'center',
-          }}
-        >
-          {this.renderTimeBarDot()}
-          <Text style={styles.dateTime}>{happenedAt.yearMonthDayTime()}</Text>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
-            {happenedAt.fromNow()}
-          </Text>
-        </View>
+        {this.renderTimeBar()}
       </View>
     );
   }
+
+  renderChildren = () => {
+    const { children, onPress } = this.props;
+    const Wrapper = onPress ? Touchable : View;
+    return (
+      <Wrapper
+        ref={r => (this._image = r)}
+        style={[styles.container, Styles.shadow]}
+        onPress={this._onPressItem}
+      >
+        {children}
+      </Wrapper>
+    );
+  };
+  // defaultChild = () => {
+  //   const { post } = this.props;
+  //   let coverImageUrl = post.imageUrls[0];
+  //   return (
+  //     <Touchable onPress={this._onPressItem}>
+  //       <View style={[styles.container, Styles.shadow]}>
+  //         <Image
+  //           source={{ uri: coverImageUrl }}
+  //           style={{
+  //             width: cardWidth,
+  //             height: cardHeight,
+  //           }}
+  //           blur={true}
+  //         />
+
+  //         <View
+  //           style={[
+  //             Styles.absolute,
+  //             {
+  //               marginTop: 0,
+  //               justifyContent: 'center',
+  //               marginLeft: 20,
+  //               marginRight: 10,
+  //               // backgroundColor:'red'
+  //             },
+  //           ]}
+  //         >
+  //           <View ref={r => (this._content = r)}>
+  //             <Text
+  //               style={[
+  //                 styles.content,
+  //                 !coverImageUrl && { color: colors.pureBlack },
+  //               ]}
+  //               numberOfLines={5}
+  //             >
+  //               {post.content}
+  //             </Text>
+  //           </View>
+  //         </View>
+  //       </View>
+  //     </Touchable>
+  //   );
+  // };
+
+  renderWeather = () => {
+    const { post } = this.props;
+    return (
+      <WeatherInfo
+        weather={post.weatherInfo.weather}
+        temperature={post.weatherInfo.temperature}
+        style={{ position: 'absolute', right: 0, top: 30 }}
+      />
+    );
+  };
+  renderSideLinearBar = () => {
+    const { gradientColors } = this.props;
+    return (
+      <View style={{ marginHorizontal: 10 }}>
+        <LinearGradient style={{ width: 3, flex: 1 }} colors={gradientColors} />
+      </View>
+    );
+  };
+  renderUserInfoBar = () => {
+    const { onPressAvatar, post } = this.props;
+    return (
+      <View
+        ref={r => {
+          this._userInfoBar = r;
+        }}
+        style={styles.headerBar}
+      >
+        <UserInfoBar
+          onPressAvatar={onPressAvatar}
+          username={post.username}
+          avatar={post.avatar}
+          weatherInfo={post.weatherInfo}
+          // style={  styles.headerBar}
+        />
+      </View>
+    );
+  };
+
+  renderBottomBar = () => {
+    const { onPressComment, onPressEmoji, post } = this.props;
+    return (
+      <BottomInfoBar
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: TIME_BAR_HEIGHT,
+        }}
+        onPressComment={onPressComment(post.postId)}
+        onPressEmoji={onPressEmoji(post.postId)}
+        nums={{
+          numOfComments: post.numOfComments,
+          shock: post.shock,
+          laugh: post.laugh,
+          angry: post.angry,
+          vomit: post.vomit,
+          nofeeling: post.nofeeling,
+        }}
+      />
+    );
+  };
+
+  renderTimeBar = () => {
+    const { post } = this.props;
+    const happenedAt = new DateFormatter(post.happenedAt);
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          height: TIME_BAR_HEIGHT,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          flexDirection: 'row',
+          // backgroundColor: 'red',
+          marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
+          alignItems: 'center',
+        }}
+      >
+        {this.renderTimeBarDot()}
+        <Text style={styles.dateTime}>{happenedAt.yearMonthDayTime()}</Text>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
+          {happenedAt.fromNow()}
+        </Text>
+      </View>
+    );
+  };
   renderTimeBarDot = () => {
     return (
       <View

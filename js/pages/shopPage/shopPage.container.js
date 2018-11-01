@@ -7,7 +7,14 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import { Button, NavBar, Image, InfiniteText, Assets } from '../../../re-kits';
+import {
+  Button,
+  NavBar,
+  Image,
+  InfiniteText,
+  Assets,
+  BasicView,
+} from '../../../re-kits';
 import { base, User } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
@@ -21,7 +28,7 @@ const product_types = [
   'draw_title',
 ];
 class ShopPage extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this._fetchProducts();
   }
 
@@ -79,63 +86,89 @@ class ShopPage extends Component {
     }
   };
 
-  //change avatar
+  /**
+   *
+   *
+   * @memberof ShopPage
+   * change avatar
+   */
   _typeAvatar = async product => {
     try {
       await User.updateAvatar(product.imageUrl);
-      this.props.logic('SHOW_SNAKE_BAR', {
-        content: 'Avatar updated!',
-      });
+      this.props.snakeBar('Avatar updated!');
     } catch (error) {
       console.warn(error);
     }
   };
-  //
-  _typeDrawLots = product => {};
 
-  //save to album
-  _typeSticker = product => {
+  /**
+   *
+   *
+   * @memberof ShopPage
+   * add data to database
+   * then draw one manually
+   */
+  _typeDrawLots = product => () => {};
+
+  /**
+   *
+   *
+   * @memberof ShopPage
+   * save to album
+   */
+  _typeSticker = product => () => {
     this.props.logic('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
       imageUrl: 'http://lc-uygandza.cn-n1.lcfile.com/00906d947703a0db1bcf.jpg',
     });
   };
 
-  //show image one time
-  _typeOnetime = product => {};
+  /**
+   *
+   *
+   * @memberof ShopPage
+   * show image one time
+   */
+  _typeOnetime = product => () => {};
 
-  //buy a title
-  _typeTitle = product => {};
+  /**
+   *
+   *
+   * @memberof ShopPage
+   * buy a title
+   */
+  _typeTitle = product => () => {};
 
-  //draw a title
-  _drawTitle = product => {};
+  /**
+   *
+   *
+   * @memberof ShopPage
+   * draw a title
+   */
+  _drawTitle = product => () => {};
+
   render() {
-    const { showModal, products } = this.props.state;
-    const renderProduct = products.map((item, index) => {
-      console.warn(item);
-      return (
-        <ProductCard
-          key={index}
-          product={item}
-          onPressPurchase={() => {
-            this._confirmPurchase.open();
-          }}
-        />
-      );
-    });
+    const { showModal, products, isLoading, isError } = this.props.state;
+    const renderProducts = products.map(this.renderItem);
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={{ flex: 1, backgroundColor: colors.lightGrey }}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            paddingTop: PADDING_TOP + 44,
-            paddingBottom: PADDING_BOTTOM + 48,
-            justifyContent: 'space-between',
-          }}
+        <BasicView
+          isLoading={isLoading}
+          isError={isError}
+          onPressError={this._fetchProducts}
         >
-          {renderProduct}
-        </ScrollView>
+          <ScrollView
+            style={{ flex: 1, backgroundColor: colors.lightGrey }}
+            contentContainerStyle={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              paddingTop: PADDING_TOP + 44,
+              paddingBottom: PADDING_BOTTOM + 48,
+              justifyContent: 'space-between',
+            }}
+          >
+            {renderProducts}
+          </ScrollView>
+        </BasicView>
         <NavBar
           title={'Shop'}
           style={{ position: 'absolute', top: 0 }}
@@ -151,6 +184,18 @@ class ShopPage extends Component {
       </View>
     );
   }
+
+  renderItem = (item, index) => {
+    return (
+      <ProductCard
+        key={index}
+        product={item}
+        onPressPurchase={() => {
+          this._confirmPurchase.open();
+        }}
+      />
+    );
+  };
 }
 
 const styles = StyleSheet.create({

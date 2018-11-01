@@ -1,19 +1,14 @@
-const initialState = {
-  showModal: false,
-  products: [],
-  isLoading: false,
-  isError: false,
-};
+const initialState = {};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'SHOP_PAGE_SET_STATE': {
+    case 'SAMPLE_SET_STATE': {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case 'SHOP_PAGE_RESET_STATE': {
+    case 'SAMPLE_RESET_STATE': {
       return initialState;
     }
     default:
