@@ -18,12 +18,13 @@ const item_width = SCREEN_WIDTH - 40 - 0;
 const item_height = SCREEN_WIDTH * 0.5;
 class CarouselCard extends React.Component {
   render() {
-    const { isOdd, post } = this.props;
+    const { isOdd, post, onPress } = this.props;
     const formatedDate = Moment(post.happenedAt);
 
     return (
-      <View
+      <Touchable
         style={{ width: item_width, height: item_height + 35, paddingTop: 35 }}
+        onPress={onPress}
       >
         <Image
           source={{
@@ -62,7 +63,7 @@ class CarouselCard extends React.Component {
             </Text>
           </View>
         </View>
-      </View>
+      </Touchable>
     );
   }
 }

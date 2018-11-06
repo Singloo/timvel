@@ -2,13 +2,13 @@ const initialState = {};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'SAMPLE_SET_STATE': {
+    case 'POST_DETAIL_SET_STATE': {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case 'SAMPLE_RESET_STATE': {
+    case 'POST_DETAIL_RESET_STATE': {
       return initialState;
     }
     default:

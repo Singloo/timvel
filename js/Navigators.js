@@ -71,6 +71,9 @@ const SimpleApp = StackNavigator(
     publishProduct: {
       screen: Connectors.publishProduct,
     },
+    postDetail: {
+      screen: Connectors.postDetail,
+    },
   },
   {
     headerMode: 'none',

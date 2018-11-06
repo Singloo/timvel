@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -8,12 +8,17 @@ import {
   InfiniteText,
   Text,
   Assets,
+  CommentBar,
 } from '../../../re-kits';
 import { base, I18n } from '../../utils';
 
 class Sample extends Component {
+  constructor(props) {
+    super(props);
+    this.post = this.props.navigation.getParam('post', {});
+  }
   componentWillMount() {}
-
+  componentDidMount() {}
   _goBack = () => {
     const { navigation } = this.props;
     this.props.logic('NAVIGATION_BACK', {
@@ -28,8 +33,14 @@ class Sample extends Component {
           title={'welcome'}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
+          style={{ backgroundColor: 'transparent' }}
         />
-        <Text>{'welcome'}</Text>
+        <ScrollView style={{ flex: 1 }}>
+          <View>
+            <Text>{this.post.content}</Text>
+          </View>
+        </ScrollView>
+        <CommentBar />
       </View>
     );
   }

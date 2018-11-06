@@ -202,7 +202,9 @@ class HomePage extends Component {
   };
   _renderCarouselItem = ({ item, index }) => {
     const isOdd = (index + 2) % 2 !== 0;
-    return <CarouselCard post={item} />;
+    return (
+      <CarouselCard post={item} onPress={this._onPressCarouselItem(item)} />
+    );
   };
   //press
   _onPressItem = (imagePosition, contentPosition, userInfoPosition, cardId) => {
@@ -213,6 +215,14 @@ class HomePage extends Component {
       cardId,
     });
     this._contentDetail.open();
+  };
+  _onPressCarouselItem = post => () => {
+    this.props.logic('NAVIGATION_NAVIGATE', {
+      routeName: 'postDetail',
+      params: {
+        post,
+      },
+    });
   };
   _onPressCreateNew = () => {
     this.props.logic('NAVIGATION_NAVIGATE', {

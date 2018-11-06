@@ -17,7 +17,9 @@ import notifPage from './pages/notifPage/notifPage.reducer';
 import addTag from './pages/addTag/addTag.reducer';
 import publishProduct from './pages/publishProduct/publishProduct.reducer';
 import testPage from './pages/testPage/testPage.reducer';
+import postDetail from './pages/postDetail/postDetail.reducer';
 const reducers = combineReducers({
+  postDetail,
   testPage,
   publishProduct,
   homePage,

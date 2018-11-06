@@ -30,6 +30,7 @@
     "react-native-image-picker": "^0.26.7",
     "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
+    "react-native-motion": "^0.2.0",
     "react-native-snap-carousel": "^3.7.2",
     "react-native-splash-screen": "^3.0.7",
     "react-native-swiper": "^1.5.13",

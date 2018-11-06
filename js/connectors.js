@@ -16,7 +16,9 @@ import notifPage from './pages/notifPage/notifPage.connect';
 import addTag from './pages/addTag/addTag.connect';
 import publishProduct from './pages/publishProduct/publishProduct.connect';
 import testPage from './pages/testPage/testPage.connect';
+import postDetail from './pages/postDetail/postDetail.connect';
 export {
+  postDetail,
   testPage,
   publishProduct,
   homePage,
