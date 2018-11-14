@@ -1,4 +1,4 @@
-// import * as React from 'react';
+import * as React from 'react';
 import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
 import _ from 'lodash';
 import Moment from 'moment';
@@ -20,13 +20,14 @@ const getItemPosition = (n, r) => {
       return [f];
     case 2:
       return [f, l];
-    case 3:
+    case 3: {
       let s = {
         x: sinR(60 - 15, r),
         y: cosR(60 - 15, r),
       };
       return [f, s, l];
-    case 4:
+    }
+    case 4: {
       let ss = {
         x: sinR(40 - 15, r),
         y: cosR(40 - 15, r),
@@ -36,6 +37,7 @@ const getItemPosition = (n, r) => {
         y: cosR(40 * 2 - 15, r),
       };
       return [f, ss, tt, l];
+    }
     default:
       break;
   }
@@ -44,7 +46,7 @@ const getItemPosition = (n, r) => {
 const days31 = [1, 3, 5, 7, 8, 10, 12];
 const days30 = [4, 6, 9, 11];
 
-const randomNumber = (n, m) => {
+export const randomNumber = (n, m) => {
   const c = m - n + 1;
   return parseInt(Math.random() * c + n, 10);
 };

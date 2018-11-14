@@ -47,6 +47,7 @@ const enhanced = Comp => {
         gradientColors,
         onPressComment,
         onPressEmoji,
+        onPressAvatar,
         ...childProps
       } = this.props;
       return (
@@ -55,6 +56,7 @@ const enhanced = Comp => {
           cardId={cardId}
           hidden={hidden}
           post={post}
+          onPressAvatar={onPressAvatar}
           gradientColors={gradientColors}
           onPressComment={onPressComment}
           onPressEmoji={onPressEmoji}
@@ -121,14 +123,18 @@ class HomePage extends Component {
     const moreTexts = item.content.length > 100;
     let ItemComp = CardNormal;
     let cardProps = {
-      key: index,
+      // key: index,
       cardId: index,
       gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
       post: item,
       onPress: this._onPressItem,
       hidden: showDetail && cardId === index,
       onPressComment: this._onPressComment,
-      onPressAvatar: this._onPressAvatar,
+      onPressAvatar: this._onPressAvatar({
+        userId: item.userId,
+        username: item.username,
+        avatar: item.avatar,
+      }),
       onPressEmoji: this._onPressEmoji,
     };
     if (moreTexts) {
@@ -203,7 +209,11 @@ class HomePage extends Component {
   _renderCarouselItem = ({ item, index }) => {
     const isOdd = (index + 2) % 2 !== 0;
     return (
-      <CarouselCard post={item} onPress={this._onPressCarouselItem(item)} />
+      <CarouselCard
+        key={'hpc' + index}
+        post={item}
+        onPress={this._onPressCarouselItem(item)}
+      />
     );
   };
   //press
@@ -292,9 +302,12 @@ class HomePage extends Component {
     });
   };
 
-  _onPressAvatar = user => {
+  _onPressAvatar = user => () => {
     this.props.logic('NAVIGATION_NAVIGATE', {
       routeName: 'strangerProfile',
+      params: {
+        user: user,
+      },
     });
   };
 
@@ -336,6 +349,7 @@ class HomePage extends Component {
           data={posts}
           scrollEventThrottle={6}
           initialNumToRender={5}
+          keyExtractor={(item, index) => 'hpi' + index}
           // getItemLayout={(data, index) => ({
           //   length: cardHeight,
           //   offset: cardHeight * index,

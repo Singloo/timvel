@@ -1,6 +1,10 @@
 const initialState = {
   postsByTag: {},
   userInfo: {},
+  flowers: [],
+  shits: [],
+  hide: false,
+  showModal: false,
 };
 
 function reducer(state = initialState, action) {

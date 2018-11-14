@@ -39,6 +39,30 @@ export const connect = function({
   })(container);
 };
 
+export const connect2 = (
+  name,
+  { stateMapper, actions = {}, withRef = false },
+) => {
+  if (!name) {
+    throw new Error('connect name is required');
+  }
+  if (!stateMapper) {
+    stateMapper = state => ({
+      state: state[name],
+      global: state.global,
+    });
+  }
+  const allActions = {
+    ...actions,
+    logic,
+    snakeBar,
+    loading,
+  };
+  return container =>
+    ReactRedux.connect(stateMapper, allActions, null, { withRef: withRef })(
+      container,
+    );
+};
 // other setup
 
 /**
