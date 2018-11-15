@@ -164,7 +164,6 @@ class StrangerProfile extends Component {
         <Animated.Image
           source={Assets.bk2.source}
           style={{
-            position: 'absolute',
             height: image_height,
             width: image_width,
             transform: [

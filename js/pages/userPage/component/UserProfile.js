@@ -28,8 +28,10 @@ class UserProfile extends Component {
     const { userInfo, userPosts } = this.props;
 
     const { username, userCoin, userAvatar, userTitle } = userInfo && userInfo;
-    const renderCards = Object.keys(userPosts).map(key => {
-      return <ContentByTag tag={key} posts={userPosts[key]} />;
+    const renderCards = Object.keys(userPosts).map((key, index) => {
+      return (
+        <ContentByTag key={'up' + index} tag={key} posts={userPosts[key]} />
+      );
     });
     return (
       <View style={styles.wrapper}>

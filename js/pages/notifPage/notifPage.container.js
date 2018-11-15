@@ -11,7 +11,6 @@ import {
 } from '../../../re-kits';
 import { base, I18n } from '../../utils';
 import InfoCard from './components/InfoCard';
-import Test from './aa';
 const { colors, TAB_BAR_HEIGHT, NAV_BAR_HEIGHT } = base;
 class NotifPage extends Component {
   componentWillMount() {}
@@ -24,7 +23,6 @@ class NotifPage extends Component {
   };
 
   render() {
-    return <Test />;
     return (
       <View style={styles.container}>
         <ScrollView
