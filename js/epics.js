@@ -7,7 +7,9 @@ import publishProduct from './pages/publishProduct/publishProduct.epics';
 import testPage from './pages/testPage/testPage.epics';
 import snakeBar from './pages/snakeBar/snakeBar.epic';
 import postDetail from './pages/postDetail/postDetail.epics';
+import strangerProfile from './pages/strangerProfile/strangerProfile.epic';
 const epics = [].concat(
+  strangerProfile,
   postDetail,
   snakeBar,
   addTag,

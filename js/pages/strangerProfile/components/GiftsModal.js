@@ -8,6 +8,7 @@ import {
   createSelectableItem,
   Assets,
   Separator,
+  PriceTag,
 } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
@@ -17,6 +18,19 @@ const priceTag = {
   1: 100,
   2: 200,
 };
+const flowerPatterns = [
+  Assets.flower1.source,
+  Assets.flower2.source,
+  Assets.flower3.source,
+  Assets.flower4.source,
+];
+const shitPatterns = [
+  Assets.shit1.source,
+  Assets.shit2.source,
+  Assets.shit3.source,
+  Assets.shit4.source,
+  Assets.shit5.source,
+];
 class Card extends React.Component {
   state = {
     currentGift: null,
@@ -36,6 +50,12 @@ class Card extends React.Component {
     this.setState({
       currentGift: gift,
     });
+  };
+
+  _onPressConfirm = () => {
+    const { onPressConfirm, dismiss } = this.props;
+    onPressConfirm();
+    dismiss();
   };
   render() {
     return (
@@ -57,7 +77,10 @@ class Card extends React.Component {
             : 'Send this will cost you:'}
         </Text>
         {isSelect && (
-          <Text style={styles.subText}>{priceTag[currentGift]}</Text>
+          <PriceTag
+            price={currentGift > 4 ? 200 : 100}
+            style={{ marginLeft: 10, marginTop: 5 }}
+          />
         )}
         <Separator style={{ marginTop: 10 }} />
       </View>
@@ -67,16 +90,24 @@ class Card extends React.Component {
     const { currentGift } = this.state;
     return (
       <View style={styles.giftContainer}>
-        <SelectableItem
-          source={Assets.flower1.source}
-          onPress={this._onPressGift(1)}
-          selected={currentGift === 1}
-        />
-        <SelectableItem
-          source={Assets.shit1.source}
-          onPress={this._onPressGift(2)}
-          selected={currentGift === 2}
-        />
+        {flowerPatterns.map((source, index) => (
+          <SelectableItem
+            key={'f' + index}
+            source={source}
+            style={{ margin: 5 }}
+            onPress={this._onPressGift(index + 1)}
+            selected={currentGift === index + 1}
+          />
+        ))}
+        {shitPatterns.map((source, index) => (
+          <SelectableItem
+            key={'s' + index}
+            source={source}
+            style={{ margin: 5 }}
+            onPress={this._onPressGift(index + 5)}
+            selected={currentGift === index + 5}
+          />
+        ))}
       </View>
     );
   };
@@ -93,7 +124,7 @@ class Card extends React.Component {
         />
         <Button
           title={'Confirm'}
-          onPress={dismiss}
+          onPress={this._onPressConfirm}
           enable={currentGift !== null}
           buttonStyle={{ width: (SCREEN_WIDTH - 60) / 2 }}
         />
@@ -107,7 +138,9 @@ const styles = StyleSheet.create({
   container: { backgroundColor: colors.white, width: SCREEN_WIDTH - 60 },
   giftContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 20,
+    flexWrap: 'wrap',
   },
   buttonContainer: {
     flexDirection: 'row',

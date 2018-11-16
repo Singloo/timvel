@@ -11,8 +11,17 @@ import {
   ContentByTag,
 } from '../../../re-kits';
 import { base, I18n } from '../../utils';
-import { interval, Subject } from 'rxjs';
-import { take, concatMap, map, tap, multicast, publish } from 'rxjs/operators';
+import { connect2 } from '../../utils/Setup';
+import { interval, Subject, of, from } from 'rxjs';
+import {
+  take,
+  concatMap,
+  map,
+  tap,
+  multicast,
+  publish,
+  debounceTime,
+} from 'rxjs/operators';
 import GiftsModal from './components/GiftsModal';
 const {
   SCREEN_WIDTH,
@@ -38,6 +47,8 @@ const shitPatterns = [
   Assets.shit5.source,
 ];
 const fs_size = 20;
+
+@connect2('strangerProfile')
 class StrangerProfile extends Component {
   constructor(props) {
     super(props);
@@ -64,13 +75,13 @@ class StrangerProfile extends Component {
     this.addFS$ && this.addFS$.unsubscribe();
   }
   componentDidMount() {
-    // setTimeout(() => {
-    //   this._connect(50, 60);
-    // }, 3000);
+    setTimeout(() => {
+      this._connect(5, 1);
+    }, 1000);
   }
 
   _startRenderFS = (flowerAmount = 0, shitAmount = 0) => {
-    this.source$ = interval(300).pipe(
+    let source$ = interval(300).pipe(
       take(Math.max(flowerAmount, shitAmount)),
       map(() => {
         const { flowers, shits } = this.props.state;
@@ -80,6 +91,7 @@ class StrangerProfile extends Component {
                 x: randomNumber(0, SCREEN_WIDTH - fs_size),
                 y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
                 source: randomItem(flowerPatterns),
+                size: fs_size,
               }
             : null;
         let shit =
@@ -88,6 +100,7 @@ class StrangerProfile extends Component {
                 x: randomNumber(0, SCREEN_WIDTH - fs_size),
                 y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
                 source: randomItem(shitPatterns),
+                size: fs_size,
               }
             : null;
         return {
@@ -95,19 +108,25 @@ class StrangerProfile extends Component {
           shit,
         };
       }),
-      publish(),
     );
-    return this.source$.subscribe(({ flower, shit }) => {
-      const { flowers, shits } = this.props.state;
-      this.props.logic('STRANGER_PROFILE_SET_STATE', {
-        flowers: flower ? flowers.concat([flower]) : flowers,
-        shits: shit ? shits.concat([shit]) : shits,
-      });
+    this.giftSubject$ = new Subject();
+    source$.subscribe(value => this.giftSubject$.next(value));
+    return this.giftSubject$.subscribe({
+      next: ({ flower, shit }) => {
+        const { flowers, shits } = this.props.state;
+        this.props.logic('STRANGER_PROFILE_SET_STATE', {
+          flowers: flower ? flowers.concat([flower]) : flowers,
+          shits: shit ? shits.concat([shit]) : shits,
+        });
+      },
+      complete: () => {
+        console.warn('complete');
+      },
     });
   };
   _connect = (f, s) => {
+    console.warn('connect');
     this.addFS$ = this._startRenderFS(f, s);
-    this.source$.connect();
   };
   _goBack = () => {
     const { navigation } = this.props;
@@ -119,6 +138,22 @@ class StrangerProfile extends Component {
   _modalController = bool => () => {
     this.props.logic('STRANGER_PROFILE_SET_STATE', {
       showModal: bool,
+    });
+  };
+
+  _onConfirmSendGift = type => {
+    this.giftSubject$.next({
+      flower: {
+        x: randomNumber(0, SCREEN_WIDTH - fs_size),
+        y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
+        source: randomItem(flowerPatterns),
+        size: 40,
+      },
+      shit: null,
+    });
+    this.props.logic('STRANGER_PROFILE_SEND_GIFT', {
+      receiver: 1,
+      giftType: 1,
     });
   };
 
@@ -145,9 +180,9 @@ class StrangerProfile extends Component {
           onPressLeft={this._goBack}
           style={{ position: 'absolute', top: 0 }}
         />
-        {this.renderGiftsModal()}
         {this.renderFS(flowers)}
         {this.renderFS(shits)}
+        {this.renderGiftsModal()}
       </View>
     );
   }
@@ -155,7 +190,11 @@ class StrangerProfile extends Component {
   renderGiftsModal = () => {
     const { showModal } = this.props.state;
     return (
-      <GiftsModal show={showModal} modalController={this._modalController} />
+      <GiftsModal
+        show={showModal}
+        modalController={this._modalController}
+        onPressConfirm={this._onConfirmSendGift}
+      />
     );
   };
   renderUserInfo = () => {
@@ -195,22 +234,20 @@ class StrangerProfile extends Component {
     if (hide) {
       return null;
     }
-    return data.map((item, index) => {
-      return (
-        <Image
-          key={'f' + index}
-          source={item.source}
-          style={{
-            width: fs_size,
-            height: fs_size,
-            position: 'absolute',
-            left: item.x,
-            top: item.y,
-          }}
-          resizeMode={'contain'}
-        />
-      );
-    });
+    return data.map((item, index) => (
+      <Image
+        key={'f' + index}
+        source={item.source}
+        style={{
+          width: item.size,
+          height: item.size,
+          position: 'absolute',
+          left: item.x,
+          top: item.y,
+        }}
+        resizeMode={'contain'}
+      />
+    ));
   };
 }
 StrangerProfile.propTypes = {};

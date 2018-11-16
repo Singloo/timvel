@@ -41,7 +41,7 @@ export const connect = function({
 
 export const connect2 = (
   name,
-  { stateMapper, actions = {}, withRef = false },
+  { stateMapper, actions = {}, withRef = false } = {},
 ) => {
   if (!name) {
     throw new Error('connect name is required');

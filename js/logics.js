@@ -7,7 +7,6 @@ import createNew from './pages/createNew/createNew.logic';
 import alert from './pages/alert/alert.logics';
 import chooseSex from './pages/chooseSex/chooseSex.logic';
 import comment from './pages/comment/comment.logic';
-import strangerProfile from './pages/strangerProfile/strangerProfile.logic';
 import notifPage from './pages/notifPage/notifPage.logic';
 export default [].concat(
   rememberPage,
@@ -19,6 +18,5 @@ export default [].concat(
   alert,
   chooseSex,
   comment,
-  strangerProfile,
   notifPage,
 );
