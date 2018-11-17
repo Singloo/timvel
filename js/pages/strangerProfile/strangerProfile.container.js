@@ -69,16 +69,16 @@ class StrangerProfile extends Component {
     this.props.logic('STRANGER_PROFILE_FETCH_POSTS', {
       userId: this.user.userId,
     });
+    this.props.logic('STRANGER_PROFILE_FETCH_USER_INFOS', {
+      userId: this.user.userId,
+      callback: this._connect,
+    });
   }
   componentWillUnmount() {
     this.props.logic('STRANGER_PROFILE_RESET_STATE');
     this.addFS$ && this.addFS$.unsubscribe();
   }
-  componentDidMount() {
-    setTimeout(() => {
-      this._connect(5, 1);
-    }, 1000);
-  }
+  componentDidMount() {}
 
   _startRenderFS = (flowerAmount = 0, shitAmount = 0) => {
     let source$ = interval(300).pipe(

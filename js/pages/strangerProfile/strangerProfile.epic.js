@@ -24,16 +24,9 @@ const fetchUserPosts = (action$, state, { httpClient, logic, User }) =>
             params: { user_id: userId },
           });
           const postsByTag = filterPostsByTag(data);
-          const user = await User.getUserByObjectId('5a005c211579a3004584970b');
-          let userInfo = {
-            username: user.get('username'),
-            avatar: user.get('avatar'),
-            userCoin: user.get('userCoin'),
-          };
           observer.next(
             logic('STRANGER_PROFILE_SET_STATE', {
               postsByTag,
-              userInfo,
             }),
           );
         } catch (error) {
@@ -59,10 +52,41 @@ const sendGift = (action$, state, { httpClient, logic, User, retryTimes }) =>
         map(_ => {
           return {
             type: 'SHOW_SNAKE_BAR',
-            payload: { content: 'Success' },
+            payload: { content: 'Sent gift' },
           };
         }),
         retryWhen(error => error.pipe(delay(1000), concatMap(retryTimes(2)))),
+        catchError(error => {
+          console.warn(error.message);
+          return of({
+            type: 'SHOW_SNAKE_BAR',
+            payload: { type: 'ERROR', content: '' },
+          });
+        }),
+      ),
+    ),
+  );
+
+const fetchUserInfos = (
+  action$,
+  state$,
+  { httpClient, logic, Network, retryTimes },
+) =>
+  action$.pipe(
+    ofType('STRANGER_PROFILE_FETCH_USER_INFOS'),
+    switchMap(({ payload }) =>
+      from(Network.getUserInfo(payload.userId)).pipe(
+        map(({ data }) => {
+          const { callback } = payload;
+          callback(data.flowers, data.shits);
+          return {
+            type: 'STRANGER_PROFILE_SET_STATE',
+            payload: {
+              userInfo: data,
+            },
+          };
+        }),
+        retryWhen(error => error.pipe(delay(1000), concatMap(retryTimes(3)))),
         catchError(error => {
           console.warn(error.message);
           return of({
@@ -74,4 +98,4 @@ const sendGift = (action$, state, { httpClient, logic, User, retryTimes }) =>
     ),
   );
 
-export default [fetchUserPosts, sendGift];
+export default [fetchUserPosts, sendGift, fetchUserInfos];

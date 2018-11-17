@@ -2,9 +2,14 @@ import Axios from 'axios';
 import { CameraRoll } from 'react-native';
 import * as Constants from '../constants';
 import RNFS from 'react-native-fs';
+import { API_V1 } from '../constants';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 const axios = Axios.create({
   timeout: 20000,
+});
+const HOST_AXIOS = Axios.create({
+  timeout: 20000,
+  baseURL: API_V1,
 });
 export async function getIpInfo() {
   return axios.get('http://ip-api.com/json');
@@ -68,3 +73,10 @@ export async function saveImageToAlbum(imageUrl) {
       });
   }
 }
+export const getUserInfo = user_id => {
+  return HOST_AXIOS.get('/get_user_info', {
+    params: {
+      user_id,
+    },
+  });
+};
