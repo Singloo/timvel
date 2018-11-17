@@ -65,6 +65,14 @@
   dependencies:
     "@babel/types" "^7.0.0"
 
+"@babel/helper-builder-binary-assignment-operator-visitor@^7.1.0":
+  version "7.1.0"
+  resolved "http://registry.npm.taobao.org/@babel/helper-builder-binary-assignment-operator-visitor/download/@babel/helper-builder-binary-assignment-operator-visitor-7.1.0.tgz#6b69628dfe4087798e0c4ed98e3d4a6b2fbd2f5f"
+  integrity sha1-a2lijf5Ah3mODE7Zjj1Kay+9L18=
+  dependencies:
+    "@babel/helper-explode-assignable-expression" "^7.1.0"
+    "@babel/types" "^7.0.0"
+
 "@babel/helper-builder-react-jsx@^7.0.0":
   version "7.0.0"
   resolved "http://registry.npm.taobao.org/@babel/helper-builder-react-jsx/download/@babel/helper-builder-react-jsx-7.0.0.tgz#fa154cb53eb918cf2a9a7ce928e29eb649c5acdb"
@@ -90,6 +98,14 @@
     "@babel/helper-function-name" "^7.1.0"
     "@babel/types" "^7.0.0"
     lodash "^4.17.10"
+
+"@babel/helper-explode-assignable-expression@^7.1.0":
+  version "7.1.0"
+  resolved "http://registry.npm.taobao.org/@babel/helper-explode-assignable-expression/download/@babel/helper-explode-assignable-expression-7.1.0.tgz#537fa13f6f1674df745b0c00ec8fe4e99681c8f6"
+  integrity sha1-U3+hP28WdN90WwwA7I/k6ZaByPY=
+  dependencies:
+    "@babel/traverse" "^7.1.0"
+    "@babel/types" "^7.0.0"
 
 "@babel/helper-function-name@7.0.0-beta.44":
   version "7.0.0-beta.44"
@@ -253,11 +269,6 @@
   resolved "http://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.1.6.tgz#16e97aca1ec1062324a01c5a6a7d0df8dd189854"
   integrity sha1-Ful6yh7BBiMkoBxaan0N+N0YmFQ=
 
-"@babel/plugin-check-constants@^7.0.0-beta":
-  version "7.0.0-beta.38"
-  resolved "http://registry.npm.taobao.org/@babel/plugin-check-constants/download/@babel/plugin-check-constants-7.0.0-beta.38.tgz#bbda6306d45a4f097ccb416c0b52d6503f6502cf"
-  integrity sha1-u9pjBtRaTwl8y0FsC1LWUD9lAs8=
-
 "@babel/plugin-external-helpers@^7.0.0-beta":
   version "7.0.0"
   resolved "http://registry.npm.taobao.org/@babel/plugin-external-helpers/download/@babel/plugin-external-helpers-7.0.0.tgz#61ee7ba5dba27d7cad72a13d46bec23c060b762e"
@@ -361,6 +372,14 @@
   resolved "http://registry.npm.taobao.org/@babel/plugin-transform-destructuring/download/@babel/plugin-transform-destructuring-7.1.3.tgz#e69ff50ca01fac6cb72863c544e516c2b193012f"
   integrity sha1-5p/1DKAfrGy3KGPFROUWwrGTAS8=
   dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+
+"@babel/plugin-transform-exponentiation-operator@^7.0.0-beta":
+  version "7.1.0"
+  resolved "http://registry.npm.taobao.org/@babel/plugin-transform-exponentiation-operator/download/@babel/plugin-transform-exponentiation-operator-7.1.0.tgz#9c34c2ee7fd77e02779cfa37e403a2e1003ccc73"
+  integrity sha1-nDTC7n/XfgJ3nPo35AOi4QA8zHM=
+  dependencies:
+    "@babel/helper-builder-binary-assignment-operator-visitor" "^7.1.0"
     "@babel/helper-plugin-utils" "^7.0.0"
 
 "@babel/plugin-transform-flow-strip-types@^7.0.0-beta":
@@ -470,6 +489,19 @@
   dependencies:
     "@babel/helper-annotate-as-pure" "^7.0.0"
     "@babel/helper-plugin-utils" "^7.0.0"
+
+"@babel/register@^7.0.0-beta":
+  version "7.0.0"
+  resolved "http://registry.npm.taobao.org/@babel/register/download/@babel/register-7.0.0.tgz#fa634bae1bfa429f60615b754fc1f1d745edd827"
+  integrity sha1-+mNLrhv6Qp9gYVt1T8Hx10Xt2Cc=
+  dependencies:
+    core-js "^2.5.7"
+    find-cache-dir "^1.0.0"
+    home-or-tmp "^3.0.0"
+    lodash "^4.17.10"
+    mkdirp "^0.5.1"
+    pirates "^4.0.0"
+    source-map-support "^0.5.9"
 
 "@babel/runtime@^7.1.2":
   version "7.1.5"
@@ -2261,6 +2293,11 @@ commander@~2.17.1:
   resolved "http://registry.npm.taobao.org/commander/download/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha1-vXerfebelCBc6sxy8XFtKfIKd78=
 
+commondir@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/commondir/download/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
+  integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
+
 complex.js@2.0.11:
   version "2.0.11"
   resolved "http://registry.npm.taobao.org/complex.js/download/complex.js-2.0.11.tgz#09a873fbf15ffd8c18c9c2201ccef425c32b8bf1"
@@ -2375,7 +2412,7 @@ core-js@^1.0.0:
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
+core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.7:
   version "2.5.7"
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
   integrity sha1-+XJgj/DOrWi4QaFqky0LGDeRgU4=
@@ -2834,6 +2871,18 @@ eslint-plugin-prettier@^2.6.0:
     fast-diff "^1.1.1"
     jest-docblock "^21.0.0"
 
+eslint-plugin-react-native-globals@^0.1.1:
+  version "0.1.2"
+  resolved "http://registry.npm.taobao.org/eslint-plugin-react-native-globals/download/eslint-plugin-react-native-globals-0.1.2.tgz#ee1348bc2ceb912303ce6bdbd22e2f045ea86ea2"
+  integrity sha1-7hNIvCzrkSMDzmvb0i4vBF6obqI=
+
+eslint-plugin-react-native@^3.2.1:
+  version "3.5.0"
+  resolved "http://registry.npm.taobao.org/eslint-plugin-react-native/download/eslint-plugin-react-native-3.5.0.tgz#78a5d6aadb11f85d1b114488d1fddfa2bf4fc1fb"
+  integrity sha1-eKXWqtsR+F0bEUSI0f3for9Pwfs=
+  dependencies:
+    eslint-plugin-react-native-globals "^0.1.1"
+
 eslint-plugin-react@^7.11.1:
   version "7.11.1"
   resolved "http://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.11.1.tgz#c01a7af6f17519457d6116aa94fc6d2ccad5443c"
@@ -3252,6 +3301,15 @@ finalhandler@1.1.0:
     parseurl "~1.3.2"
     statuses "~1.3.1"
     unpipe "~1.0.0"
+
+find-cache-dir@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/find-cache-dir/download/find-cache-dir-1.0.0.tgz#9288e3e9e3cc3748717d39eade17cf71fc30ee6f"
+  integrity sha1-kojj6ePMN0hxfTnq3hfPcfww7m8=
+  dependencies:
+    commondir "^1.0.1"
+    make-dir "^1.0.0"
+    pkg-dir "^2.0.0"
 
 find-npm-prefix@^1.0.2:
   version "1.0.2"
@@ -3688,6 +3746,11 @@ home-or-tmp@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.1"
+
+home-or-tmp@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/home-or-tmp/download/home-or-tmp-3.0.0.tgz#57a8fe24cf33cdd524860a15821ddc25c86671fb"
+  integrity sha1-V6j+JM8zzdUkhgoVgh3cJchmcfs=
 
 hosted-git-info@^2.1.4, hosted-git-info@^2.6.0:
   version "2.7.1"
@@ -5203,58 +5266,58 @@ methods@^1.1.1:
   resolved "http://registry.npm.taobao.org/methods/download/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
-metro-babylon7@0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro-babylon7/download/metro-babylon7-0.28.0.tgz#cf9701ffdc1992d1562b4cb667d9692164950df4"
-  integrity sha1-z5cB/9wZktFWK0y2Z9lpIWSVDfQ=
+metro-babylon7@0.30.2:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro-babylon7/download/metro-babylon7-0.30.2.tgz#73784a958916bf5541b6a930598b62460fc376f5"
+  integrity sha1-c3hKlYkWv1VBtqkwWYtiRg/DdvU=
   dependencies:
     babylon "^7.0.0-beta"
 
-metro-cache@0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro-cache/download/metro-cache-0.28.0.tgz#c5164a361985fc0294059fccdf4ea824e3173c1d"
-  integrity sha1-xRZKNhmF/AKUBZ/M306oJOMXPB0=
+metro-cache@0.30.2:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro-cache/download/metro-cache-0.30.2.tgz#1fb1ff92d3d8c596fd8cddc1635a9cb1c26e4cba"
+  integrity sha1-H7H/ktPYxZb9jN3BY1qcscJuTLo=
   dependencies:
     jest-serializer "^22.4.0"
     mkdirp "^0.5.1"
 
-metro-core@0.28.0, metro-core@^0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro-core/download/metro-core-0.28.0.tgz#e1ced4cf07ca8fb5196a6e5ca853b5d893f06038"
-  integrity sha1-4c7UzwfKj7UZam5cqFO12JPwYDg=
+metro-core@0.30.2, metro-core@^0.30.0:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro-core/download/metro-core-0.30.2.tgz#380ae13cceee29e5be166df7acca9f1daa19fd7e"
+  integrity sha1-OArhPM7uKeW+Fm33rMqfHaoZ/X4=
   dependencies:
     lodash.throttle "^4.1.1"
+    wordwrap "^1.0.0"
 
-metro-minify-uglify@0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro-minify-uglify/download/metro-minify-uglify-0.28.0.tgz#c9aecb8e893430d2fd58e00cf799c00b99dc0f79"
-  integrity sha1-ya7Ljok0MNL9WOAM95nAC5ncD3k=
+metro-minify-uglify@0.30.2:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro-minify-uglify/download/metro-minify-uglify-0.30.2.tgz#7299a0376ad6340e9acf415912d54b5309702040"
+  integrity sha1-cpmgN2rWNA6az0FZEtVLUwlwIEA=
   dependencies:
     uglify-es "^3.1.9"
 
-metro-resolver@0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro-resolver/download/metro-resolver-0.28.0.tgz#813802d60fc762772927c81d02e01c7eec84bad8"
-  integrity sha1-gTgC1g/HYncpJ8gdAuAcfuyEutg=
+metro-resolver@0.30.2:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro-resolver/download/metro-resolver-0.30.2.tgz#c26847e59cdc6a8ab1fb4b92d765165ec06946dd"
+  integrity sha1-wmhH5Zzcaoqx+0uS12UWXsBpRt0=
   dependencies:
     absolute-path "^0.0.0"
 
-metro-source-map@0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro-source-map/download/metro-source-map-0.28.0.tgz#ec8c3161d8516ad3c4e7149f2c3d4802f4fd6fa2"
-  integrity sha1-7IwxYdhRatPE5xSfLD1IAvT9b6I=
+metro-source-map@0.30.2:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro-source-map/download/metro-source-map-0.30.2.tgz#4ac056642a2c521d974d42a617c8731d094365bb"
+  integrity sha1-SsBWZCosUh2XTUKmF8hzHQlDZbs=
   dependencies:
     source-map "^0.5.6"
 
-metro@^0.28.0:
-  version "0.28.0"
-  resolved "http://registry.npm.taobao.org/metro/download/metro-0.28.0.tgz#22999c96c3129682a76acd4e1f2adc17f7d77cac"
-  integrity sha1-IpmclsMSloKnas1OHyrcF/fXfKw=
+metro@^0.30.0:
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/metro/download/metro-0.30.2.tgz#e722e0eb106530f6d5bcf8de1f50353a0732cfb3"
+  integrity sha1-5yLg6xBlMPbVvPjeH1A1Ogcyz7M=
   dependencies:
     "@babel/core" "^7.0.0-beta"
     "@babel/generator" "^7.0.0-beta"
     "@babel/helper-remap-async-to-generator" "^7.0.0-beta"
-    "@babel/plugin-check-constants" "^7.0.0-beta"
     "@babel/plugin-external-helpers" "^7.0.0-beta"
     "@babel/plugin-proposal-class-properties" "^7.0.0-beta"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0-beta"
@@ -5264,6 +5327,7 @@ metro@^0.28.0:
     "@babel/plugin-transform-classes" "^7.0.0-beta"
     "@babel/plugin-transform-computed-properties" "^7.0.0-beta"
     "@babel/plugin-transform-destructuring" "^7.0.0-beta"
+    "@babel/plugin-transform-exponentiation-operator" "^7.0.0-beta"
     "@babel/plugin-transform-flow-strip-types" "^7.0.0-beta"
     "@babel/plugin-transform-for-of" "^7.0.0-beta"
     "@babel/plugin-transform-function-name" "^7.0.0-beta"
@@ -5278,6 +5342,7 @@ metro@^0.28.0:
     "@babel/plugin-transform-shorthand-properties" "^7.0.0-beta"
     "@babel/plugin-transform-spread" "^7.0.0-beta"
     "@babel/plugin-transform-template-literals" "^7.0.0-beta"
+    "@babel/register" "^7.0.0-beta"
     "@babel/template" "^7.0.0-beta"
     "@babel/traverse" "^7.0.0-beta"
     "@babel/types" "^7.0.0-beta"
@@ -5286,10 +5351,13 @@ metro@^0.28.0:
     babel-core "^6.24.1"
     babel-generator "^6.26.0"
     babel-plugin-external-helpers "^6.22.0"
+    babel-plugin-react-transform "^3.0.0"
+    babel-plugin-transform-flow-strip-types "^6.21.0"
     babel-preset-es2015-node "^6.1.1"
     babel-preset-fbjs "^2.1.4"
     babel-preset-react-native "^4.0.0"
     babel-register "^6.24.1"
+    babel-template "^6.24.1"
     babylon "^6.18.0"
     chalk "^1.1.1"
     concat-stream "^1.6.0"
@@ -5310,15 +5378,16 @@ metro@^0.28.0:
     left-pad "^1.1.3"
     lodash.throttle "^4.1.1"
     merge-stream "^1.0.1"
-    metro-babylon7 "0.28.0"
-    metro-cache "0.28.0"
-    metro-core "0.28.0"
-    metro-minify-uglify "0.28.0"
-    metro-resolver "0.28.0"
-    metro-source-map "0.28.0"
+    metro-babylon7 "0.30.2"
+    metro-cache "0.30.2"
+    metro-core "0.30.2"
+    metro-minify-uglify "0.30.2"
+    metro-resolver "0.30.2"
+    metro-source-map "0.30.2"
     mime-types "2.1.11"
     mkdirp "^0.5.1"
-    request "^2.79.0"
+    node-fetch "^1.3.3"
+    resolve "^1.5.0"
     rimraf "^2.5.4"
     serialize-error "^2.1.0"
     source-map "^0.5.6"
@@ -5638,7 +5707,12 @@ node-int64@^0.4.0:
   resolved "http://registry.npm.taobao.org/node-int64/download/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-notifier@^5.1.2, node-notifier@^5.2.1:
+node-modules-regexp@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/node-modules-regexp/download/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
+  integrity sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
+
+node-notifier@^5.2.1:
   version "5.3.0"
   resolved "http://registry.npm.taobao.org/node-notifier/download/node-notifier-5.3.0.tgz#c77a4a7b84038733d5fb351aafd8a268bfe19a01"
   integrity sha1-x3pKe4QDhzPV+zUar9iiaL/hmgE=
@@ -6347,6 +6421,13 @@ pinkie@^2.0.0:
   resolved "http://registry.npm.taobao.org/pinkie/download/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
+pirates@^4.0.0:
+  version "4.0.0"
+  resolved "http://registry.npm.taobao.org/pirates/download/pirates-4.0.0.tgz#850b18781b4ac6ec58a43c9ed9ec5fe6796addbd"
+  integrity sha1-hQsYeBtKxuxYpDye2exf5nlq3b0=
+  dependencies:
+    node-modules-regexp "^1.0.0"
+
 pkg-dir@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/pkg-dir/download/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
@@ -6805,10 +6886,10 @@ react-native-vector-icons@^4.5.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@0.54.4:
-  version "0.54.4"
-  resolved "http://registry.npm.taobao.org/react-native/download/react-native-0.54.4.tgz#19c6c598f6acf04f1c032fe9a1812f0c640fa8b7"
-  integrity sha1-GcbFmPas8E8cAy/poYEvDGQPqLc=
+react-native@0.55.4:
+  version "0.55.4"
+  resolved "http://registry.npm.taobao.org/react-native/download/react-native-0.55.4.tgz#eecffada3750a928e2ddd07cf11d857ae9751c30"
+  integrity sha1-7s/62jdQqSji3dB88R2Feul1HDA=
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -6831,6 +6912,7 @@ react-native@0.54.4:
     denodeify "^1.2.1"
     envinfo "^3.0.0"
     errorhandler "^1.5.0"
+    eslint-plugin-react-native "^3.2.1"
     event-target-shim "^1.0.5"
     fbjs "^0.8.14"
     fbjs-scripts "^0.8.1"
@@ -6839,14 +6921,14 @@ react-native@0.54.4:
     graceful-fs "^4.1.3"
     inquirer "^3.0.6"
     lodash "^4.17.5"
-    metro "^0.28.0"
-    metro-core "^0.28.0"
+    metro "^0.30.0"
+    metro-core "^0.30.0"
     mime "^1.3.4"
     minimist "^1.2.0"
     mkdirp "^0.5.1"
     morgan "^1.9.0"
     node-fetch "^1.3.3"
-    node-notifier "^5.1.2"
+    node-notifier "^5.2.1"
     npmlog "^2.0.4"
     opn "^3.0.2"
     optimist "^0.6.1"
@@ -6926,15 +7008,15 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@^16.3.0-alpha.1:
-  version "16.6.3"
-  resolved "http://registry.npm.taobao.org/react/download/react-16.6.3.tgz#25d77c91911d6bbdd23db41e70fb094cc1e0871c"
-  integrity sha1-Jdd8kZEda73SPbQecPsJTMHghxw=
+react@16.3.1:
+  version "16.3.1"
+  resolved "http://registry.npm.taobao.org/react/download/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
+  integrity sha1-Si2kM9RxJRxptgM62jDi7RICz9g=
   dependencies:
+    fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.11.2"
+    prop-types "^15.6.0"
 
 read-cmd-shim@^1.0.1, read-cmd-shim@~1.0.1:
   version "1.0.1"
@@ -7216,7 +7298,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request@^2.74.0, request@^2.79.0, request@^2.85.0, request@^2.87.0:
+request@^2.74.0, request@^2.85.0, request@^2.87.0:
   version "2.88.0"
   resolved "http://registry.npm.taobao.org/request/download/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha1-nC/KT301tZLv5Xx/ClXoEFIST+8=
@@ -7292,7 +7374,7 @@ resolve@1.1.7:
   resolved "http://registry.npm.taobao.org/resolve/download/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
   integrity sha1-IDEU2CrSxe2ejgQRs5ModeiJ6Xs=
 
-resolve@^1.3.2:
+resolve@^1.3.2, resolve@^1.5.0:
   version "1.8.1"
   resolved "http://registry.npm.taobao.org/resolve/download/resolve-1.8.1.tgz#82f1ec19a423ac1fbd080b0bab06ba36e84a7a26"
   integrity sha1-gvHsGaQjrB+9CAsLqwa6NuhKeiY=
@@ -7426,14 +7508,6 @@ sax@~1.1.1:
   version "1.1.6"
   resolved "http://registry.npm.taobao.org/sax/download/sax-1.1.6.tgz#5d616be8a5e607d54e114afae55b7eaf2fcc3240"
   integrity sha1-XWFr6KXmB9VOEUr65Vt+ry/MMkA=
-
-scheduler@^0.11.2:
-  version "0.11.2"
-  resolved "http://registry.npm.taobao.org/scheduler/download/scheduler-0.11.2.tgz#a8db5399d06eba5abac51b705b7151d2319d33d3"
-  integrity sha1-qNtTmdBuulq6xRtwW3FR0jGdM9M=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 seed-random@2.2.0:
   version "2.2.0"
@@ -7695,7 +7769,7 @@ source-map-support@^0.4.15:
   dependencies:
     source-map "^0.5.6"
 
-source-map-support@^0.5.0:
+source-map-support@^0.5.0, source-map-support@^0.5.9:
   version "0.5.9"
   resolved "http://registry.npm.taobao.org/source-map-support/download/source-map-support-0.5.9.tgz#41bc953b2534267ea2d605bccfa7bfa3111ced5f"
   integrity sha1-QbyVOyU0Jn6i1gW8z6e/oxEc7V8=
