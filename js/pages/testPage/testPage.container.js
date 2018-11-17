@@ -8,11 +8,11 @@ import {
   InfiniteText,
   Text,
   Assets,
+  PriceTag,
 } from '../../../re-kits';
 import { base, I18n } from '../../utils';
 
 class Sample extends Component {
-  time = 0;
   componentWillMount() {}
 
   _goBack = () => {
@@ -21,14 +21,8 @@ class Sample extends Component {
       navigation,
     });
   };
-  _onPressShowSnakeBar = () => {
-    // const arr = [1];
-    // arr.splice(0, 1);
-    // console.warn(arr);
-    this.props.logic('SHOW_SNAKE_BAR', {
-      content: 'asd' + this.time,
-    });
-    this.time = this.time + 1;
+  _onPress = amount => () => {
+    this._priceTag.toValue(amount, 17);
   };
 
   render() {
@@ -39,11 +33,10 @@ class Sample extends Component {
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
         />
+        <PriceTag ref={r => (this._priceTag = r)} price={100} />
         <View>
-          <Button
-            title={'show snake bar'}
-            onPress={this._onPressShowSnakeBar}
-          />
+          <Button title={'add'} onPress={this._onPress(1000)} />
+          <Button title={'minus'} onPress={this._onPress(0)} />
         </View>
       </View>
     );
