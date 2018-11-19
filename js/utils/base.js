@@ -156,20 +156,28 @@ export function sinR(degree, r) {
   return Math.sin(de) * r;
 }
 export function realSize(px) {
-  return px * SCREEN_WIDTH / 375;
+  return (px * SCREEN_WIDTH) / 375;
 }
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export function randomItem(arr, returnLength = 1, returnArray = []) {
+//if arr is object, just support return 1 item
+export function randomItem(arr = [], returnLength = 1, returnArray = []) {
   let returnNum = returnLength || 1;
   let returnArr = returnArray || [];
   let i = Math.floor(Math.random() * arr.length);
+  // let item;
+  // if (Array.isArray(arr)) {
   let item = arr[i];
+  // }
+  // if (typeof arr === 'object') {
+  //   const keys = Object.keys(arr);
+  //   item = item[keys[i]];
+  // }
   if (typeof item === 'undefined') {
     return returnArr;
   } else {
-    returnArr.push(arr[i]);
+    returnArr.push(item);
   }
   if (returnArr.length === returnNum) {
     if (returnNum === 1) {
@@ -178,8 +186,14 @@ export function randomItem(arr, returnLength = 1, returnArray = []) {
       return returnArr;
     }
   } else {
+    // if (Array.isArray(arr)) {
     let newArr = _.difference(arr, returnArr);
     return randomItem(newArr, returnNum, returnArr);
+    // }
+    // if (Object.isObject(arr)) {
+    //   const keys = Object.keys(arr);
+    //   item = item[keys[i]];
+    // }
   }
 }
 

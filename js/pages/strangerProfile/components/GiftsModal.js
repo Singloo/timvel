@@ -12,32 +12,20 @@ import {
 } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
+import { flowerPatterns, shitPatterns } from '../data/gifts';
 const { colors, SCREEN_WIDTH } = base;
 const SelectableItem = createSelectableItem(Item);
 const priceTag = {
   1: 100,
   2: 200,
 };
-const flowerPatterns = [
-  Assets.flower1.source,
-  Assets.flower2.source,
-  Assets.flower3.source,
-  Assets.flower4.source,
-];
-const shitPatterns = [
-  Assets.shit1.source,
-  Assets.shit2.source,
-  Assets.shit3.source,
-  Assets.shit4.source,
-  Assets.shit5.source,
-];
 class Card extends React.Component {
   state = {
     currentGift: null,
   };
-  _onPressGift = gift => () => {
+  _onPressGift = key => () => {
     const { currentGift } = this.state;
-    if (currentGift === gift) {
+    if (currentGift === key) {
       return;
     }
     LayoutAnimation.configureNext(
@@ -48,13 +36,14 @@ class Card extends React.Component {
       ),
     );
     this.setState({
-      currentGift: gift,
+      currentGift: key,
     });
   };
 
   _onPressConfirm = () => {
     const { onPressConfirm, dismiss } = this.props;
-    onPressConfirm();
+    const { currentGift } = this.state;
+    onPressConfirm(currentGift);
     dismiss();
   };
   render() {
@@ -78,7 +67,7 @@ class Card extends React.Component {
         </Text>
         {isSelect && (
           <PriceTag
-            price={currentGift > 4 ? 200 : 100}
+            price={parseInt(currentGift) > 100 ? 200 : 100}
             style={{ marginLeft: 10, marginTop: 5 }}
           />
         )}
@@ -90,24 +79,30 @@ class Card extends React.Component {
     const { currentGift } = this.state;
     return (
       <View style={styles.giftContainer}>
-        {flowerPatterns.map((source, index) => (
-          <SelectableItem
-            key={'f' + index}
-            source={source}
-            style={{ margin: 5 }}
-            onPress={this._onPressGift(index + 1)}
-            selected={currentGift === index + 1}
-          />
-        ))}
-        {shitPatterns.map((source, index) => (
-          <SelectableItem
-            key={'s' + index}
-            source={source}
-            style={{ margin: 5 }}
-            onPress={this._onPressGift(index + 5)}
-            selected={currentGift === index + 5}
-          />
-        ))}
+        {Object.keys(flowerPatterns).map((key, index) => {
+          const source = flowerPatterns[key];
+          return (
+            <SelectableItem
+              key={'f' + index}
+              source={source}
+              style={{ margin: 5 }}
+              onPress={this._onPressGift(key)}
+              selected={currentGift === key}
+            />
+          );
+        })}
+        {Object.keys(shitPatterns).map((key, index) => {
+          const source = shitPatterns[key];
+          return (
+            <SelectableItem
+              key={'s' + index}
+              source={source}
+              style={{ margin: 5 }}
+              onPress={this._onPressGift(key)}
+              selected={currentGift === key}
+            />
+          );
+        })}
       </View>
     );
   };

@@ -83,5 +83,6 @@ export const getUserInfo = user_id => {
 };
 export const ableToBuy = async amount => {
   const user = await AV.User.currentAsync();
-  return user.get('userCoin') > parseInt(amount);
+  const _user = await user.fetch();
+  return _user.get('userCoin') >= parseInt(amount);
 };

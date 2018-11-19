@@ -12,6 +12,7 @@ import {
 } from '../../../re-kits';
 import { base, I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
+import { ableToBuy } from '../../utils/Network';
 import { interval, Subject, of, from } from 'rxjs';
 import {
   take,
@@ -23,6 +24,7 @@ import {
   debounceTime,
 } from 'rxjs/operators';
 import GiftsModal from './components/GiftsModal';
+import { flowerPatterns, shitPatterns } from './data/gifts';
 const {
   SCREEN_WIDTH,
   NAV_BAR_HEIGHT,
@@ -33,20 +35,28 @@ const {
 const image_width = SCREEN_WIDTH;
 const image_height = SCREEN_WIDTH * 0.7;
 const scroll_height = image_height - NAV_BAR_HEIGHT;
-const flowerPatterns = [
-  Assets.flower1.source,
-  Assets.flower2.source,
-  Assets.flower3.source,
-  Assets.flower4.source,
-];
-const shitPatterns = [
-  Assets.shit1.source,
-  Assets.shit2.source,
-  Assets.shit3.source,
-  Assets.shit4.source,
-  Assets.shit5.source,
-];
 const fs_size = 20;
+const getRandomFS = (isF = true, giftType = null, size = fs_size) => {
+  return isF
+    ? {
+        x: randomNumber(0, SCREEN_WIDTH - fs_size),
+        y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
+        source:
+          flowerPatterns[
+            giftType ? giftType : randomItem(Object.keys(flowerPatterns))
+          ],
+        size: size,
+      }
+    : {
+        x: randomNumber(0, SCREEN_WIDTH - fs_size),
+        y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
+        source:
+          shitPatterns[
+            giftType ? giftType : Object.keys(randomItem(shitPatterns))
+          ],
+        size: size,
+      };
+};
 
 @connect2('strangerProfile')
 class StrangerProfile extends Component {
@@ -85,24 +95,8 @@ class StrangerProfile extends Component {
       take(Math.max(flowerAmount, shitAmount)),
       map(() => {
         const { flowers, shits } = this.props.state;
-        let flower =
-          flowers.length < flowerAmount
-            ? {
-                x: randomNumber(0, SCREEN_WIDTH - fs_size),
-                y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
-                source: randomItem(flowerPatterns),
-                size: fs_size,
-              }
-            : null;
-        let shit =
-          shits.length < shitAmount
-            ? {
-                x: randomNumber(0, SCREEN_WIDTH - fs_size),
-                y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
-                source: randomItem(shitPatterns),
-                size: fs_size,
-              }
-            : null;
+        let flower = flowers.length < flowerAmount ? getRandomFS(true) : null;
+        let shit = shits.length < shitAmount ? getRandomFS(false) : null;
         return {
           flower,
           shit,
@@ -141,20 +135,25 @@ class StrangerProfile extends Component {
     });
   };
 
-  _onConfirmSendGift = type => {
-    this.giftSubject$.next({
-      flower: {
-        x: randomNumber(0, SCREEN_WIDTH - fs_size),
-        y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
-        source: randomItem(flowerPatterns),
-        size: 40,
-      },
-      shit: null,
-    });
-    this.props.logic('STRANGER_PROFILE_SEND_GIFT', {
-      receiver: 1,
-      giftType: 1,
-    });
+  _onConfirmSendGift = async giftType => {
+    try {
+      const bool = await ableToBuy(giftType > 100 ? 200 : 100);
+      if (!bool) {
+        this.props.snakeBar('No coins..', 'ERROR');
+        return;
+      }
+      this.giftSubject$.next({
+        flower: giftType < 100 ? getRandomFS(true, giftType, 40) : null,
+        shit: giftType > 100 ? getRandomFS(false, giftType, 40) : null,
+      });
+      this.props.logic('STRANGER_PROFILE_SEND_GIFT', {
+        receiver: this.user.userId,
+        giftType: giftType,
+      });
+    } catch (error) {
+      console.warn(error.message);
+      this.props.snakeBar('Network error', 'ERROR');
+    }
   };
 
   render() {

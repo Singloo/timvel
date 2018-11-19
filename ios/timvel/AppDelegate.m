@@ -11,7 +11,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "SplashScreen.h"
+#import "RNSplashScreen.h"
 #import <React/RCTPushNotificationManager.h>
 @implementation AppDelegate
 
@@ -38,7 +38,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [Fabric with:@[[Crashlytics class]]];
-  [SplashScreen show];
+  [RNSplashScreen show];
   return YES;
 }
 
