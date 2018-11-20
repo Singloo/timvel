@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, FlatList, StatusBar, Animated } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  StatusBar,
+  Animated,
+  Easing,
+} from 'react-native';
 import {
   Button,
   NavBar,
@@ -20,9 +27,9 @@ import ContentDetailIos from './pages/ContentDetail';
 import ContentDetailAndroid from './pages/ContentDetail.android';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
-import Moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
+import { SharedElementRenderer, SharedElement } from 'react-native-motion';
 const {
   PADDING_BOTTOM,
   colors,
@@ -79,6 +86,7 @@ class HomePage extends Component {
     this._nscrollY = new Animated.Value(0);
     this.colorsSets = [];
     this.pressEmoji$ = new Subject();
+    this.sharedElementRefs = {};
   }
   componentWillMount() {
     this._initFeeds();
@@ -127,7 +135,7 @@ class HomePage extends Component {
       cardId: index,
       gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
       post: item,
-      onPress: this._onPressItem,
+      onPress: this._onPressItem(item),
       hidden: showDetail && cardId === index,
       onPressComment: this._onPressComment,
       onPressAvatar: this._onPressAvatar({
@@ -145,7 +153,14 @@ class HomePage extends Component {
       cardProps.onPress = null;
       cardProps.onPressItem = this._onPressItem;
     }
-    return <ItemComp {...cardProps} />;
+    return (
+      <SharedElement
+        id={'mainCard'}
+        ref={r => (this.sharedElementRefs[`${index}mc`] = r)}
+      >
+        <ItemComp {...cardProps} />
+      </SharedElement>
+    );
   };
 
   _renderHeader = ({ item, index }) => {
@@ -217,13 +232,12 @@ class HomePage extends Component {
     );
   };
   //press
-  _onPressItem = (imagePosition, contentPosition, userInfoPosition, cardId) => {
+  _onPressItem = currentPost => cardId => {
     this.props.logic('HOME_PAGE_SET_STATE', {
-      imagePosition,
-      contentPosition,
-      userInfoPosition,
+      currentPost,
       cardId,
     });
+    this.sharedElementRefs[`${0}mc`].moveToDestination();
     this._contentDetail.open();
   };
   _onPressCarouselItem = post => () => {
@@ -332,6 +346,7 @@ class HomePage extends Component {
       showOneDay,
       date,
       posts,
+      currentPost,
     } = this.props.state;
     // const ContentDetail = isIOS ? ContentDetailIos : ContentDetailAndroid;
     return (
@@ -346,7 +361,7 @@ class HomePage extends Component {
           style={styles.list}
           renderItem={this._renderItem}
           ListHeaderComponent={this._renderHeader}
-          data={posts}
+          data={posts.length > 0 ? [posts[0]] : []}
           scrollEventThrottle={6}
           initialNumToRender={5}
           keyExtractor={(item, index) => 'hpi' + index}
@@ -382,6 +397,7 @@ class HomePage extends Component {
           contentPosition={contentPosition}
           userInfoPosition={userInfoPosition}
           show={showDetail}
+          currentPost={currentPost}
           openModal={this._openContentDetailModal}
           closeModal={this._closeContentDetailModal}
         />

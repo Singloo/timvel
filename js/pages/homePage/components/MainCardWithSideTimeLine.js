@@ -16,6 +16,7 @@ import UserInfoBar from './UserInfoBar';
 import TimeBar from './TimeBar';
 import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
+import { SharedElement } from 'react-native-motion';
 const cardWidth = base.SCREEN_WIDTH - 20 - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 const TIME_BAR_HEIGHT = 40;
@@ -31,31 +32,32 @@ class MainCard extends Component {
     let imagePosition = {};
     let contentPosition = {};
     let userInfoPosition = {};
-    this._image.measure((x, y, width, height, pageX, pageY) => {
-      imagePosition = {
-        width: width,
-        height: height,
-        x: pageX,
-        y: pageY,
-      };
-      this._userInfoBar.measure((x3, y3, width3, height3, pageX3, pageY3) => {
-        userInfoPosition = {
-          width: width3,
-          height: height3,
-          x: pageX3,
-          y: pageY3,
-        };
-        onPress(imagePosition, contentPosition, userInfoPosition, cardId);
-      });
-      this._content.measure((x2, y2, width2, height2, pageX2, pageY2) => {
-        contentPosition = {
-          width: width2,
-          height: height2,
-          x: pageX2,
-          y: pageY2,
-        };
-      });
-    });
+    onPress(imagePosition, contentPosition, userInfoPosition, cardId);
+    // this._image.measure((x, y, width, height, pageX, pageY) => {
+    //   imagePosition = {
+    //     width: width,
+    //     height: height,
+    //     x: pageX,
+    //     y: pageY,
+    //   };
+    //   this._userInfoBar.measure((x3, y3, width3, height3, pageX3, pageY3) => {
+    //     userInfoPosition = {
+    //       width: width3,
+    //       height: height3,
+    //       x: pageX3,
+    //       y: pageY3,
+    //     };
+    //     onPress(imagePosition, contentPosition, userInfoPosition, cardId);
+    //   });
+    //   this._content.measure((x2, y2, width2, height2, pageX2, pageY2) => {
+    //     contentPosition = {
+    //       width: width2,
+    //       height: height2,
+    //       x: pageX2,
+    //       y: pageY2,
+    //     };
+    //   });
+    // });
   };
 
   render() {

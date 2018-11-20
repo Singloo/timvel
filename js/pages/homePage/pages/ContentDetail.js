@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
-
+import { SharedElement, SharedElementRenderer } from 'react-native-motion';
 const {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -31,7 +31,7 @@ class ContentDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      animating: true,
+      animating: false,
     };
     this.animationState = new Animated.Value(0);
     this.animationOpen = Animated.timing(this.animationState, {
@@ -45,7 +45,12 @@ class ContentDetail extends Component {
     this._nscrollY = new Animated.Value(0);
   }
   componentWillMount() {}
-
+  componentWillReceiveProps(nextProps) {
+    // if (nextProps.currentPost !== null) {
+    //   this.sharedElement.moveToDestination();
+    // }
+  }
+  componentDidUpdate(prevProps, prevState) {}
   componentDidMount() {}
   componentWillUnmount() {
     // this.timer1 && clearTimeout(this.timer1);
@@ -57,11 +62,11 @@ class ContentDetail extends Component {
       return;
     }
     openModal();
-    this.animationOpen.start(() => {
-      this.setState({
-        animating: false,
-      });
-    });
+    // this.animationOpen.start(() => {
+    //   this.setState({
+    //     animating: false,
+    //   });
+    // });
   }
 
   close() {
@@ -69,157 +74,24 @@ class ContentDetail extends Component {
     if (!show) {
       return;
     }
-    this.animationOpen.stop();
-    this.setState({
-      animating: true,
-    });
-    this.animationClose.start(() => {
-      this._nscrollY.setValue(0);
-      closeModal();
-    });
+    // this.animationOpen.stop();
+    // this.setState({
+    //   animating: true,
+    // });
+    // this.animationClose.start(() => {
+    //   this._nscrollY.setValue(0);
+    closeModal();
+    // });
   }
 
   render() {
-    const {
-      show,
-      imagePosition,
-      contentPosition,
-      userInfoPosition,
-    } = this.props;
+    const { show, currentPost } = this.props;
     const { animating } = this.state;
     if (show === false) {
       return null;
     }
-    let opacity = this.animationState.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [0, 0, 1],
-    });
-    let imageWidth = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [
-        imagePosition.width,
-        imagePosition.width,
-        imagePosition.width,
-        image_width,
-      ],
-    });
-    let imageHeight = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [
-        imagePosition.height,
-        imagePosition.height,
-        imagePosition.height,
-        image_height,
-      ],
-    });
-    let imageLeft = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [imagePosition.x, imagePosition.x, imagePosition.x, 0],
-    });
-    let imageTop = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [
-        imagePosition.y,
-        imagePosition.y - 20,
-        imagePosition.y - 20,
-        0,
-      ],
-    });
-
-    let userInfoLeft = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [
-        userInfoPosition.x,
-        userInfoPosition.x,
-        userInfoPosition.x,
-        0,
-      ],
-    });
-    let userInfoTop = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [
-        userInfoPosition.y,
-        userInfoPosition.y - 20,
-        image_height + 10,
-        // userInfoPosition.y - 20,
-        image_height + 10,
-      ],
-    });
-    let contentWidth = this.animationState.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [
-        contentPosition.width,
-        contentPosition.width,
-        content_width,
-      ],
-    });
-    let contentHeight = this.animationState.interpolate({
-      inputRange: [0, 1],
-      outputRange: [contentPosition.height, SCREEN_HEIGHT - image_height],
-    });
-    let contentLeft = this.animationState.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [contentPosition.x, contentPosition.x, 20],
-    });
-    let contentTop = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [
-        contentPosition.y,
-        contentPosition.y - 20,
-        contentPosition.y - 20,
-        image_height + 10 + 60 + 5,
-      ],
-    });
-    let contentColor = this.animationState.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [
-        'rgba(250,250,250,1)',
-        'rgba(250,250,250,1)',
-        'rgba(97,97,97,1)',
-      ],
-    });
-    let contentNumberOfLines = this.animationState.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [5, 5, 9999],
-    });
-    let containerBackgroundColor = this.animationState.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [
-        'rgba(250,250,250,0)',
-        'rgba(250,250,250,0)',
-        'rgba(250,250,250,1)',
-      ],
-    });
-    let scale = this.animationState.interpolate({
-      inputRange: [0, 0.1, 0.8, 1],
-      outputRange: [1, 1, 1.1, 1],
-    });
-    //after animation
-    let imgScale = this._nscrollY.interpolate({
-      inputRange: [-25, 0],
-      outputRange: [1.1, 1],
-      extrapolateRight: 'clamp',
-    });
-    let imageY = this._nscrollY.interpolate({
-      inputRange: [-25, 0, scrollY / 0.4],
-      outputRange: [-13, 0, scrollY],
-      // extrapolateLeft: 'clamp',
-    });
-
-    let headerY = this._nscrollY.interpolate({
-      inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
-      outputRange: [-(PADDING_TOP + 44), -(PADDING_TOP + 44), 0],
-      extrapolate: 'clamp',
-    });
-    let headerOpacity = this._nscrollY.interpolate({
-      inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
-      outputRange: [0, 0, 1],
-      extrapolate: 'clamp',
-    });
     return (
-      <Animated.View
-        style={[Styles.absolute, { backgroundColor: containerBackgroundColor }]}
-      >
+      <Animated.View style={[Styles.absolute, { backgroundColor: 'white' }]}>
         <Animated.ScrollView
           style={[styles.container]}
           scrollEventThrottle={16}
@@ -231,94 +103,9 @@ class ContentDetail extends Component {
             { useNativeDriver: true },
           )}
         >
-          <View style={{ backgroundColor: 'transparent' }}>
-            <View
-              style={{
-                zIndex: animating ? 0 : 1,
-                minHeight: SCREEN_HEIGHT,
-                minWidth: SCREEN_WIDTH,
-              }}
-            >
-              <Animated.Image
-                source={Assets.bk1.source}
-                style={[
-                  animating
-                    ? {
-                        position: 'absolute',
-                        width: imageWidth,
-                        height: imageHeight,
-                        left: imageLeft,
-                        top: imageTop,
-                        transform: [{ scale: scale }],
-                      }
-                    : {
-                        width: image_width,
-                        height: image_height,
-                        transform: [
-                          {
-                            scale: imgScale,
-                          },
-                          {
-                            translateY: imageY,
-                          },
-                        ],
-                      },
-                ]}
-              />
-            </View>
-            <Animated.View
-              style={[
-                animating
-                  ? {
-                      position: 'absolute',
-                      left: userInfoLeft,
-                      top: userInfoTop,
-                    }
-                  : {
-                      zIndex: animating ? 1 : 0,
-                      marginTop: 10,
-                    },
-              ]}
-            >
-              <UserInfoBar />
-            </Animated.View>
-            <Animated.View
-              style={[
-                animating
-                  ? {
-                      position: 'absolute',
-                      width: contentWidth,
-                      height: contentHeight,
-                      left: contentLeft,
-                      top: contentTop,
-                      alignSelf: 'center',
-                      // transform: [{ scale: scale }],
-                    }
-                  : {
-                      zIndex: animating ? 1 : 0,
-                      alignSelf: 'center',
-                      width: content_width,
-                      marginTop: 5,
-                    },
-              ]}
-            >
-              <Animated.Text
-                style={[
-                  styles.content,
-                  {
-                    zIndex: 2,
-                    color: contentColor,
-                  },
-                ]}
-                numberOfLines={animating ? 5 : 1000}
-              >
-                {'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
-                  'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
-                  'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
-                  'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.'}
-              </Animated.Text>
-            </Animated.View>
-          </View>
+          {this.renderImage()}
+          {this.renderContent()}
+          <UserInfoBar />
         </Animated.ScrollView>
         <CommentBar
           style={{
@@ -327,11 +114,103 @@ class ContentDetail extends Component {
             opacity: animating ? 0 : 1,
           }}
         />
+        {this.renderHeader()}
+      </Animated.View>
+    );
+  }
+
+  renderImage = () => {
+    //after animation
+    let imgScale = this._nscrollY.interpolate({
+      inputRange: [-25, 0],
+      outputRange: [1.1, 1],
+      extrapolateRight: 'clamp',
+    });
+    let imageY = this._nscrollY.interpolate({
+      inputRange: [-25, 0, scrollY / 0.4],
+      outputRange: [-13, 0, scrollY],
+      // extrapolateLeft: 'clamp',
+    });
+    return (
+      <Animated.Image
+        source={Assets.bk1.source}
+        style={[
+          {
+            width: image_width,
+            height: image_height,
+            transform: [
+              {
+                scale: imgScale,
+              },
+              {
+                translateY: imageY,
+              },
+            ],
+          },
+        ]}
+      />
+    );
+  };
+
+  renderContent = () => {
+    return (
+      <Animated.Text
+        style={[
+          styles.content,
+          {
+            zIndex: 2,
+            color: 'black',
+            // color: contentColor,
+          },
+        ]}
+        // numberOfLines={animating ? 5 : 1000}
+      >
+        {'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
+          'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
+          'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
+          'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.'}
+      </Animated.Text>
+    );
+  };
+
+  renderHeader = () => {
+    let headerY = this._nscrollY.interpolate({
+      inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
+      outputRange: [-(PADDING_TOP + 44), -(PADDING_TOP + 44), 0],
+      extrapolate: 'clamp',
+    });
+    let headerOpacity = this._nscrollY.interpolate({
+      inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
+      outputRange: [0, 0, 1],
+      extrapolate: 'clamp',
+    });
+    return (
+      <View
+        style={[
+          {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+          },
+          {
+            height: PADDING_TOP + 44,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingTop: PADDING_TOP,
+            justifyContent: 'space-between',
+          },
+        ]}
+      >
         <Animated.View
           style={{
             height: PADDING_TOP + 44,
             backgroundColor: 'rgba(33,33,33,0.4)',
             opacity: headerOpacity,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
             transform: [
               {
                 translateY: headerY,
@@ -339,36 +218,27 @@ class ContentDetail extends Component {
             ],
           }}
         />
-        <Animated.View
-          style={[
-            styles.close,
-            {
-              opacity: opacity,
-            },
-          ]}
-        >
-          <Image
-            source={Assets.close.source}
-            onPress={() => {
-              this.close();
-            }}
-            style={{ alignSelf: 'center' }}
-            tintColor={colors.white}
-          />
-        </Animated.View>
+        <Image
+          source={Assets.close.source}
+          onPress={() => {
+            this.close();
+          }}
+          style={{ marginLeft: 20 }}
+          tintColor={colors.white}
+          size={'small'}
+        />
         <WeatherInfo
           weather={'sunny'}
           temperature={25}
-          style={{
-            opacity: animating ? 0 : 1,
-            position: 'absolute',
-            right: 0,
-            top: PADDING_TOP,
-          }}
+          style={
+            {
+              // opacity: animating ? 0 : 1,
+            }
+          }
         />
-      </Animated.View>
+      </View>
     );
-  }
+  };
 }
 ContentDetail.propTypes = {};
 

@@ -11,6 +11,7 @@ const initialState = {
   posts: [],
   popularPosts: [],
   enablePostEmoji: true,
+  currentPost: null,
 };
 
 function reducer(state = initialState, action) {
