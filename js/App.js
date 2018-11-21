@@ -11,7 +11,6 @@ AV.init({
   appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
 });
 import Installation from 'leancloud-installation';
-import { SharedElementRenderer } from 'react-native-motion';
 Installation(AV);
 const store = configureStore();
 Setup.preventDoublePress(SimpleApp);
@@ -42,7 +41,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <SharedElementRenderer style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <SimpleApp
             ref={navigation => {
               this._navigation = navigation;
@@ -52,7 +51,7 @@ export default class App extends React.Component {
           <Connectors.global />
           <Connectors.alert />
           <Connectors.snakeBar />
-        </SharedElementRenderer>
+        </View>
       </Provider>
     );
   }

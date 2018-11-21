@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, ScrollView } from 'react-native';
+import { StyleSheet, View, Animated, ScrollView, Easing } from 'react-native';
 import {
   Button,
   Image,
@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
-import { SharedElement, SharedElementRenderer } from 'react-native-motion';
+import { SharedElement } from 'react-native-motion';
 const {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -46,22 +46,26 @@ class ContentDetail extends Component {
   }
   componentWillMount() {}
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.currentPost !== null) {
+    // if (nextProps.currentPost !== null && this.props.currentPost === null) {
     //   this.sharedElement.moveToDestination();
     // }
   }
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currentPost === null && this.props.currentPost !== null) {
+      // this._sharedElement.moveToSource();
+    }
+  }
   componentDidMount() {}
   componentWillUnmount() {
     // this.timer1 && clearTimeout(this.timer1);
   }
 
   open() {
-    const { openModal, show } = this.props;
+    const { modalController, show } = this.props;
     if (show) {
       return;
     }
-    openModal();
+    modalController(true)();
     // this.animationOpen.start(() => {
     //   this.setState({
     //     animating: false,
@@ -70,7 +74,7 @@ class ContentDetail extends Component {
   }
 
   close() {
-    const { closeModal, show } = this.props;
+    const { modalController, show } = this.props;
     if (!show) {
       return;
     }
@@ -80,18 +84,31 @@ class ContentDetail extends Component {
     // });
     // this.animationClose.start(() => {
     //   this._nscrollY.setValue(0);
-    closeModal();
+    modalController(false)();
     // });
   }
+
+  _onMoveToSourceWillStar = () => {
+    this.setState({
+      animating: true,
+    });
+  };
+  _onMoveToDestinationDidFinish = () => {
+    this.setState({
+      animating: false,
+    });
+  };
 
   render() {
     const { show, currentPost } = this.props;
     const { animating } = this.state;
-    if (show === false) {
+    if (!show) {
       return null;
     }
     return (
-      <Animated.View style={[Styles.absolute, { backgroundColor: 'white' }]}>
+      <Animated.View
+        style={[Styles.absolute, { backgroundColor: 'transparent' }]}
+      >
         <Animated.ScrollView
           style={[styles.container]}
           scrollEventThrottle={16}
@@ -104,8 +121,8 @@ class ContentDetail extends Component {
           )}
         >
           {this.renderImage()}
-          {this.renderContent()}
-          <UserInfoBar />
+          {/* <UserInfoBar />
+          {this.renderContent()} */}
         </Animated.ScrollView>
         <CommentBar
           style={{
@@ -120,6 +137,8 @@ class ContentDetail extends Component {
   }
 
   renderImage = () => {
+    const { cardId, onSharedElementMovedToSource } = this.props;
+    const { animating } = this.state;
     //after animation
     let imgScale = this._nscrollY.interpolate({
       inputRange: [-25, 0],
@@ -132,23 +151,36 @@ class ContentDetail extends Component {
       // extrapolateLeft: 'clamp',
     });
     return (
-      <Animated.Image
-        source={Assets.bk1.source}
-        style={[
-          {
-            width: image_width,
-            height: image_height,
-            transform: [
-              {
-                scale: imgScale,
-              },
-              {
-                translateY: imageY,
-              },
-            ],
-          },
-        ]}
-      />
+      <SharedElement
+        easing={Easing.in(Easing.back())}
+        sourceId={`maincard${cardId}`}
+        ref={r => {
+          this._sharedElement = r;
+        }}
+        onMoveToDestinationDidFinish={this._onMoveToDestinationDidFinish}
+        onMoveToSourceWillStart={this._onMoveToSourceWillStart}
+        onMoveToSourceDidFinish={onSharedElementMovedToSource}
+      >
+        <Image
+          source={Assets.bk1.source}
+          style={[
+            {
+              width: image_width,
+              height: image_height,
+              zIndex: 2,
+              opacity: animating ? 0 : 1,
+              // transform: [
+              //   {
+              //     scale: imgScale,
+              //   },
+              //   {
+              //     translateY: imageY,
+              //   },
+              // ],
+            },
+          ]}
+        />
+      </SharedElement>
     );
   };
 
@@ -254,6 +286,7 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     flex: 1,
     textShadowRadius: 5,
+    marginHorizontal: 10,
   },
   close: {
     position: 'absolute',

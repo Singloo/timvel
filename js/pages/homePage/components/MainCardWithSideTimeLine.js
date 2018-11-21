@@ -22,42 +22,9 @@ const cardHeight = base.SCREEN_WIDTH * 0.618;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
 class MainCard extends Component {
-  constructor(props) {
-    super(props);
-  }
-  componentWillMount() {}
-
   _onPressItem = () => {
-    const { onPress, cardId } = this.props;
-    let imagePosition = {};
-    let contentPosition = {};
-    let userInfoPosition = {};
-    onPress(imagePosition, contentPosition, userInfoPosition, cardId);
-    // this._image.measure((x, y, width, height, pageX, pageY) => {
-    //   imagePosition = {
-    //     width: width,
-    //     height: height,
-    //     x: pageX,
-    //     y: pageY,
-    //   };
-    //   this._userInfoBar.measure((x3, y3, width3, height3, pageX3, pageY3) => {
-    //     userInfoPosition = {
-    //       width: width3,
-    //       height: height3,
-    //       x: pageX3,
-    //       y: pageY3,
-    //     };
-    //     onPress(imagePosition, contentPosition, userInfoPosition, cardId);
-    //   });
-    //   this._content.measure((x2, y2, width2, height2, pageX2, pageY2) => {
-    //     contentPosition = {
-    //       width: width2,
-    //       height: height2,
-    //       x: pageX2,
-    //       y: pageY2,
-    //     };
-    //   });
-    // });
+    const { onPress } = this.props;
+    onPress();
   };
 
   render() {
@@ -88,7 +55,6 @@ class MainCard extends Component {
     const Wrapper = onPress ? Touchable : View;
     return (
       <Wrapper
-        ref={r => (this._image = r)}
         style={[styles.container, Styles.shadow]}
         onPress={this._onPressItem}
       >
@@ -162,9 +128,6 @@ class MainCard extends Component {
     const { onPressAvatar, post } = this.props;
     return (
       <View
-        ref={r => {
-          this._userInfoBar = r;
-        }}
         style={styles.headerBar}
       >
         <UserInfoBar

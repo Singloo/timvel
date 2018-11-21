@@ -12,6 +12,7 @@ const initialState = {
   popularPosts: [],
   enablePostEmoji: true,
   currentPost: null,
+  phase: 'phase-0',
 };
 
 function reducer(state = initialState, action) {

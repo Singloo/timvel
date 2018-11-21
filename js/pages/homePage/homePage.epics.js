@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
-import { mergeMap, throttleTime } from 'rxjs/operators';
+import { mergeMap, throttleTime, concatMap } from 'rxjs/operators';
 
 const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
   action$.pipe(
@@ -55,7 +55,8 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
 const pressEmoji = (action$, state$, { logic, httpClient }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI'),
-    mergeMap(action =>
+    throttleTime(500),
+    concatMap(action =>
       Observable.create(async observer => {
         try {
           const { emoji, postId } = action.payload;
