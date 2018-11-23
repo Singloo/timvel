@@ -30,6 +30,7 @@ import HeaderBar from './components/HeaderBar';
 import { Observable, Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 import { SharedElementRenderer, SharedElement } from 'react-native-motion';
+import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   PADDING_BOTTOM,
   colors,
@@ -143,27 +144,9 @@ class HomePage extends Component {
       cardProps.onPress = null;
       cardProps.onPressItem = this._onPressItem;
     }
-    return (
-      <SharedElement
-        easing={Easing.in(Easing.back())}
-        id={`maincard${index}`}
-        ref={r => {
-          this.sharedElementRefs[`maincard${index}`] = r;
-        }}
-        onMoveToDestinationWillStart={this._onMoveToDestinationWillStart}
-        onMoveToSourceDidFinish={this._onMoveToSourceDidFinish}
-        getNode={this.getSharedNode}
-      >
-        <ItemComp {...cardProps} />
-      </SharedElement>
-    );
+    return <ItemComp {...cardProps} />;
   };
 
-  getSharedNode = props => {
-    return (
-      <Image style={{ width: 300, height: 200 }} source={Assets.bk1.source} />
-    );
-  };
   _onMoveToDestinationWillStart = () => {
     this.props.logic('HOME_PAGE_SET_STATE', {
       phase: 'phase-1',
@@ -267,7 +250,6 @@ class HomePage extends Component {
       cardId,
     });
     this._contentDetail.open();
-    this.sharedElementRefs[`maincard${cardId}`].moveToDestination();
   };
   _onPressCarouselItem = post => () => {
     this.props.logic('NAVIGATION_NAVIGATE', {

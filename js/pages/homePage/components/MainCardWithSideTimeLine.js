@@ -16,7 +16,7 @@ import UserInfoBar from './UserInfoBar';
 import TimeBar from './TimeBar';
 import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
-import { SharedElement } from 'react-native-motion';
+import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 const cardWidth = base.SCREEN_WIDTH - 20 - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 const TIME_BAR_HEIGHT = 40;
@@ -51,15 +51,22 @@ class MainCard extends Component {
   }
 
   renderChildren = () => {
-    const { children, onPress } = this.props;
+    const { children, onPress, cardId } = this.props;
     const Wrapper = onPress ? Touchable : View;
     return (
-      <Wrapper
-        style={[styles.container, Styles.shadow]}
-        onPress={this._onPressItem}
+      <AnimatedWrapper
+        id={`maincard${cardId}`}
+        type={AnimatedWrapper.types.from}
       >
-        {children}
-      </Wrapper>
+        <View>
+          <Wrapper
+            style={[styles.container, Styles.shadow]}
+            onPress={this._onPressItem}
+          >
+            {children}
+          </Wrapper>
+        </View>
+      </AnimatedWrapper>
     );
   };
   // defaultChild = () => {
@@ -127,9 +134,7 @@ class MainCard extends Component {
   renderUserInfoBar = () => {
     const { onPressAvatar, post } = this.props;
     return (
-      <View
-        style={styles.headerBar}
-      >
+      <View style={styles.headerBar}>
         <UserInfoBar
           onPressAvatar={onPressAvatar}
           username={post.username}

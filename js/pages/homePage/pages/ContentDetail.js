@@ -14,6 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { SharedElement } from 'react-native-motion';
+import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 const {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -50,11 +51,7 @@ class ContentDetail extends Component {
     //   this.sharedElement.moveToDestination();
     // }
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.currentPost === null && this.props.currentPost !== null) {
-      // this._sharedElement.moveToSource();
-    }
-  }
+  componentDidUpdate(prevProps, prevState) {}
   componentDidMount() {}
   componentWillUnmount() {
     // this.timer1 && clearTimeout(this.timer1);
@@ -88,12 +85,12 @@ class ContentDetail extends Component {
     // });
   }
 
-  _onMoveToSourceWillStar = () => {
+  _onStart = () => {
     this.setState({
       animating: true,
     });
   };
-  _onMoveToDestinationDidFinish = () => {
+  _onEnd = () => {
     this.setState({
       animating: false,
     });
@@ -151,36 +148,34 @@ class ContentDetail extends Component {
       // extrapolateLeft: 'clamp',
     });
     return (
-      <SharedElement
-        easing={Easing.in(Easing.back())}
-        sourceId={`maincard${cardId}`}
-        ref={r => {
-          this._sharedElement = r;
-        }}
-        onMoveToDestinationDidFinish={this._onMoveToDestinationDidFinish}
-        onMoveToSourceWillStart={this._onMoveToSourceWillStart}
-        onMoveToSourceDidFinish={onSharedElementMovedToSource}
+      <AnimatedWrapper
+        id={`maincard${cardId}`}
+        type={AnimatedWrapper.types.to}
+        onStart={this._onStart}
+        onEnd={this._onEnd}
       >
-        <Image
-          source={Assets.bk1.source}
-          style={[
-            {
-              width: image_width,
-              height: image_height,
-              zIndex: 2,
-              opacity: animating ? 0 : 1,
-              // transform: [
-              //   {
-              //     scale: imgScale,
-              //   },
-              //   {
-              //     translateY: imageY,
-              //   },
-              // ],
-            },
-          ]}
-        />
-      </SharedElement>
+        <View>
+          <Animated.Image
+            source={Assets.bk1.source}
+            style={[
+              {
+                width: image_width,
+                height: image_height,
+                zIndex: 2,
+                opacity: animating ? 0 : 1,
+                transform: [
+                  {
+                    scale: imgScale,
+                  },
+                  {
+                    translateY: imageY,
+                  },
+                ],
+              },
+            ]}
+          />
+        </View>
+      </AnimatedWrapper>
     );
   };
 
