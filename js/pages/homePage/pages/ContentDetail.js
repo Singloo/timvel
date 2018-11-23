@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, ScrollView, Easing } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Animated,
+  ScrollView,
+  Easing,
+  LayoutAnimation,
+} from 'react-native';
 import {
   Button,
   Image,
@@ -13,7 +20,6 @@ import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
-import { SharedElement } from 'react-native-motion';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 const {
   SCREEN_WIDTH,
@@ -32,7 +38,7 @@ class ContentDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      animating: false,
+      animating: true,
     };
     this.animationState = new Animated.Value(0);
     this.animationOpen = Animated.timing(this.animationState, {
@@ -75,25 +81,39 @@ class ContentDetail extends Component {
     if (!show) {
       return;
     }
+    this._anmiatedWrapper.onStart(false, modalController(false));
     // this.animationOpen.stop();
     // this.setState({
     //   animating: true,
     // });
     // this.animationClose.start(() => {
     //   this._nscrollY.setValue(0);
-    modalController(false)();
+    // modalController(false)();
     // });
   }
 
   _onStart = () => {
+    if (this.state.animating) {
+      return;
+    }
     this.setState({
       animating: true,
     });
   };
   _onEnd = () => {
+    if (!this.state.animating) {
+      return;
+    }
     this.setState({
       animating: false,
     });
+    LayoutAnimation.configureNext(
+      LayoutAnimation.create(
+        400,
+        LayoutAnimation.Types.linear,
+        LayoutAnimation.Properties.opacity,
+      ),
+    );
   };
 
   render() {
@@ -149,6 +169,7 @@ class ContentDetail extends Component {
     });
     return (
       <AnimatedWrapper
+        ref={r => (this._anmiatedWrapper = r)}
         id={`maincard${cardId}`}
         type={AnimatedWrapper.types.to}
         onStart={this._onStart}

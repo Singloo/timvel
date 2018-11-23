@@ -29,7 +29,6 @@ import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { Observable, Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
-import { SharedElementRenderer, SharedElement } from 'react-native-motion';
 import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   PADDING_BOTTOM,
@@ -355,7 +354,7 @@ class HomePage extends Component {
       cardId,
     } = this.props.state;
     return (
-      <SharedElementRenderer style={styles.container}>
+      <View style={styles.container}>
         {isAndroid && (
           <StatusBar
             backgroundColor={colors.mainDep}
@@ -410,7 +409,7 @@ class HomePage extends Component {
             this._onSharedElementMovedToDestination
           }
         />
-      </SharedElementRenderer>
+      </View>
     );
   }
 
