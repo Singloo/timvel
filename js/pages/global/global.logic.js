@@ -1,8 +1,7 @@
 import { createLogic } from 'redux-logic';
-import { NavigationActions } from 'react-navigation';
-import axios from 'axios';
+import { NavigationActions, StackActions } from 'react-navigation';
+// import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
-import { Platform } from 'react-native';
 import AV from 'leancloud-storage';
 const navigate = createLogic({
   type: 'NAVIGATION_NAVIGATE',
@@ -22,9 +21,10 @@ const navigateBack = createLogic({
   type: 'NAVIGATION_BACK',
   latest: true,
   async process({ action, navigation }, dispatch, done) {
-    navigation.dispatch({
-      type: 'Navigation/BACK',
+    const popAction = StackActions.pop({
+      n: 1,
     });
+    navigation.dispatch(popAction);
     done();
   },
 });
@@ -34,11 +34,12 @@ const navigateReset = createLogic({
   latest: true,
   async process({ action, navigation }, dispatch, done) {
     const { routeName } = action.payload;
-    const navAction = NavigationActions.reset({
+    const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: routeName })],
+      actions: [NavigationActions.navigate({ routeName })],
     });
-    navigation.dispatch(navAction);
+
+    navigation.dispatch(resetAction);
     done();
   },
 });
@@ -48,11 +49,11 @@ const navigateReplace = createLogic({
   latest: true,
   async process({ action, navigation }, dispatch, done) {
     const { routeName, params } = action.payload;
-    navigation.dispatch({
-      type: 'Replace',
+    const replaceAction = StackActions.replace({
       routeName,
       params: params || {},
     });
+    navigation.dispatch(replaceAction);
     done();
   },
 });
@@ -88,7 +89,9 @@ const updateUserinfoFromLeanCloud = createLogic({
       try {
         batteryLevel = await DeviceInfo.getBatteryLevel();
         batteryLevel = (batteryLevel * 100).toFixed(1);
-      } catch (error) {}
+      } catch (error) {
+        console.warn('error');
+      }
       const deviceCountry = DeviceInfo.getDeviceCountry();
       const brand = DeviceInfo.getBrand();
       const deviceName = DeviceInfo.getDeviceName();
@@ -140,25 +143,6 @@ const updateUserinfoFromLeanCloud = createLogic({
     }
   },
 });
-
-// const snakeBar = createLogic({
-//   type: 'SHOW_SNAKE_BAR',
-//   latest: true,
-//   process: ({ logic, action, getState }, dispatch, done) => {
-//     const { content, type, duration } = action.payload;
-//     //type:'NORMAL' 'ERROR' 'SUCCESS'
-//     // const { show } = getState().snakebar;
-//     dispatch(
-//       logic('SNAKE_BAR_SET_STATE', {
-//         // show: true,
-//         snakeBarInfo: content,
-//         snakeBarType: type || 'NORMAL',
-//         snakeBarDuration: duration || 3000,
-//       }),
-//     );
-//     done();
-//   },
-// });
 
 export default [
   navigate,

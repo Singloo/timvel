@@ -56,16 +56,16 @@ class Tabbar extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
-  _onPressTab = index => () => {
-    const { jumpToIndex } = this.props;
-    jumpToIndex(index);
+  _onPressTab = key => () => {
+    const { jumpTo } = this.props;
+    jumpTo(key);
   };
   render() {
-    const { navigation, renderIcon, jumpToIndex } = this.props;
-    const { tabBarHidden } = this.props.global;
-    const index = navigation.state.index;
-    const activeTintColor = base.colors.main;
-    const inactiveTintColor = base.colors.midGrey;
+    const { navigation } = this.props;
+    // const { tabBarHidden } = this.props.global;
+    // const index = navigation.state.index;
+    // const activeTintColor = base.colors.main;
+    // const inactiveTintColor = base.colors.midGrey;
     // if (tabBarHidden) {
     //   return null;
     // }
@@ -110,13 +110,13 @@ class Tabbar extends Component {
         />
         <Tab
           source={Assets.eu_bird.source}
-          onPress={this._onPressTab(0)}
+          onPress={this._onPressTab('Home')}
           // tintColor={index == 0 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
           source={Assets.eu_bosk.source}
-          onPress={this._onPressTab(1)}
+          onPress={this._onPressTab('ShopPage')}
           // tintColor={index == 1 ? activeTintColor : inactiveTintColor}
           // size={'large'}
           // title={'home'}
@@ -124,13 +124,13 @@ class Tabbar extends Component {
 
         <Tab
           source={Assets.eu_cactus.source}
-          onPress={this._onPressTab(2)}
+          onPress={this._onPressTab('NotifPage')}
           // tintColor={index == 2 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
           source={Assets.eu_fox.source}
-          onPress={this._onPressTab(3)}
+          onPress={this._onPressTab('UserPage')}
           // tintColor={index == 3 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />

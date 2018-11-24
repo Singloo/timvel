@@ -1,22 +1,10 @@
 import {
-  TabNavigator,
-  StackNavigator,
-  DrawerNavigator,
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer,
 } from 'react-navigation';
 import * as Connectors from './connectors';
-import CardStackStyleInterpolator from '../node_modules/react-navigation/src/views/CardStack/CardStackStyleInterpolator';
-import { base } from './utils';
-//transition : 'forHorizontal' 'forVertical'
-const TransitionConfiguration = () => ({
-  screenInterpolator: sceneProps => {
-    const { scene } = sceneProps;
-    const { route } = scene;
-    const params = route.params || {};
-    const transition = params.transition || 'forHorizontal';
-    return CardStackStyleInterpolator[transition](sceneProps);
-  },
-});
-const MainScreenNavigator = TabNavigator(
+const MainScreenNavigator = createBottomTabNavigator(
   {
     Home: { screen: Connectors.homePage },
     // Home: { screen: Connectors.testPage },
@@ -33,7 +21,7 @@ const MainScreenNavigator = TabNavigator(
   },
 );
 
-const SimpleApp = StackNavigator(
+const SimpleApp = createStackNavigator(
   {
     Main: {
       screen: MainScreenNavigator,
@@ -78,19 +66,8 @@ const SimpleApp = StackNavigator(
   {
     headerMode: 'none',
     initialRouteName: 'launchPage',
-    transitionConfig: TransitionConfiguration,
+    // transitionConfig: TransitionConfiguration,
   },
 );
 
-// const Drawer = DrawerNavigator(
-//   {
-//     Home: { screen: SimpleApp },
-//     UserPage: { screen: Connectors.userPage }
-//   },
-//   {
-//     initialRouteName:'Home',
-//     contentComponent:Connectors.userPage
-//   }
-// )
-
-export default SimpleApp;
+export default createAppContainer(SimpleApp);
