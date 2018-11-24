@@ -17,39 +17,36 @@ import {
 import { base } from '../../utils';
 import { BlurView } from 'react-native-blur';
 import Tab from './components/Tab';
-const PADDING_BOTTOM = base.isIphoneX ? 34 : 0;
+const { PADDING_BOTTOM, TAB_BAR_HEIGHT } = base;
+const goingToHidden = (prev, curr) =>
+  !prev.global.isTabBarHidden && curr.global.isTabBarHidden;
+const goingToShow = (prev, curr) =>
+  prev.global.isTabBarHidden && !curr.global.isTabBarHidden;
 class Tabbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viewRef: null,
+      animationState: new Animated.Value(0),
     };
-    this.animationState = new Animated.Value(0);
-    this.animationStart = Animated.timing(this.animationState, {
-      toValue: 1,
+    this.animationStart = Animated.timing(this.state.animationState, {
+      toValue: TAB_BAR_HEIGHT,
       duration: 200,
       useNativeDriver: true,
     });
-    this.animationClose = Animated.timing(this.animationState, {
+    this.animationClose = Animated.timing(this.state.animationState, {
       toValue: 0,
       duration: 100,
       useNativeDriver: true,
     });
   }
   componentWillMount() {}
-  componentDidUpdate() {
-    const { tabBarHidden, showTabbarAnimation } = this.props.global;
-    if (tabBarHidden && showTabbarAnimation) {
+  componentDidUpdate(prevProps) {
+    if (goingToHidden(prevProps, this.props)) {
       this.animationStart.start();
-      return;
     }
-    if (!tabBarHidden && showTabbarAnimation) {
-      this.animationClose.start(() => {
-        this.props.logic('GLOBAL_SET_STATE', {
-          showTabbarAnimation: false,
-        });
-      });
-      return;
+    if (goingToShow(prevProps, this.props)) {
+      this.animationClose.start();
     }
   }
   _imageLoaded = () => {
@@ -61,27 +58,19 @@ class Tabbar extends Component {
     jumpTo(key);
   };
   render() {
-    const { navigation } = this.props;
-    // const { tabBarHidden } = this.props.global;
-    // const index = navigation.state.index;
-    // const activeTintColor = base.colors.main;
-    // const inactiveTintColor = base.colors.midGrey;
-    // if (tabBarHidden) {
-    //   return null;
-    // }
-    let containerY = this.animationState.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 48 + PADDING_BOTTOM],
-    });
+    // let containerY = this.state.animationState.interpolate({
+    //   inputRange: [0, 1],
+    //   outputRange: [0, TAB_BAR_HEIGHT],
+    // });
     return (
       <Animated.View
         style={[
           styles.container,
-          { height: 48 + PADDING_BOTTOM, paddingBottom: PADDING_BOTTOM },
+          { height: TAB_BAR_HEIGHT, paddingBottom: PADDING_BOTTOM },
           {
             transform: [
               {
-                translateY: containerY,
+                translateY: this.state.animationState,
               },
             ],
           },
@@ -146,7 +135,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 30,
-    height: 48,
     position: 'absolute',
     bottom: 0,
     left: 0,

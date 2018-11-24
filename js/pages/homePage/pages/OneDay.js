@@ -36,15 +36,15 @@ class OneDay extends React.Component {
   }
 
   open() {
-    const { openModal } = this.props;
+    const { modalContronller } = this.props;
     LayoutAnimation.configureNext(this.animtion);
-    openModal();
+    modalContronller(true)();
   }
 
   close() {
-    const { closeModal } = this.props;
+    const { modalContronller } = this.props;
     LayoutAnimation.configureNext(this.animtion);
-    closeModal();
+    modalContronller(false)();
   }
   render() {
     const { show, onChooseDate } = this.props;
@@ -54,7 +54,11 @@ class OneDay extends React.Component {
     }
     let markedDates = {};
     markedDates[date] = { selected: true, color: 'green', textColor: 'white' };
-    markedDates['2018-7-15'] =  { selected: true, color: 'green', textColor: 'white' };
+    markedDates['2018-7-15'] = {
+      selected: true,
+      color: 'green',
+      textColor: 'white',
+    };
     return (
       <View style={[Styles.absolute, styles.container]}>
         {isIOS && (

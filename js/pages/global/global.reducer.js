@@ -1,7 +1,6 @@
 const initialState = {
   isLoading: false,
-  tabBarHidden: false,
-  showTabbarAnimation: false,
+  isTabBarHidden: false,
 };
 
 function reducer(state = initialState, action) {

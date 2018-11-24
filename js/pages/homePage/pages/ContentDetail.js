@@ -34,11 +34,20 @@ let image_height = SCREEN_WIDTH * 0.6;
 let image_width = SCREEN_WIDTH;
 let content_width = SCREEN_WIDTH - 40;
 let scrollY = image_height - PADDING_TOP - 44;
+const goingToOpen = (prev, curr) => {
+  return !prev.show && curr.show;
+};
+const goingToClose = (prev, curr) => {
+  return prev.show && !curr.show;
+};
 class ContentDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       animating: true,
+      show: false,
+      currentPost: {},
+      cardId: null,
     };
     this.animationState = new Animated.Value(0);
     this.animationOpen = Animated.timing(this.animationState, {
@@ -52,45 +61,27 @@ class ContentDetail extends Component {
     this._nscrollY = new Animated.Value(0);
   }
   componentWillMount() {}
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.currentPost !== null && this.props.currentPost === null) {
-    //   this.sharedElement.moveToDestination();
-    // }
+  componentDidUpdate(prevProps, prevState) {
+    if (goingToOpen(prevProps, this.props)) {
+      const { currentPost, cardId } = this.props;
+
+      this.setState({
+        show: true,
+        currentPost,
+        cardId,
+      });
+    }
+    if (goingToClose(prevProps, this.props)) {
+      //do something
+      this.setState({
+        show: false,
+        cardId: null,
+        currentPost: {},
+      });
+    }
   }
-  componentDidUpdate(prevProps, prevState) {}
   componentDidMount() {}
-  componentWillUnmount() {
-    // this.timer1 && clearTimeout(this.timer1);
-  }
-
-  open() {
-    const { modalController, show } = this.props;
-    if (show) {
-      return;
-    }
-    modalController(true)();
-    // this.animationOpen.start(() => {
-    //   this.setState({
-    //     animating: false,
-    //   });
-    // });
-  }
-
-  close() {
-    const { modalController, show } = this.props;
-    if (!show) {
-      return;
-    }
-    this._anmiatedWrapper.onStart(false, modalController(false));
-    // this.animationOpen.stop();
-    // this.setState({
-    //   animating: true,
-    // });
-    // this.animationClose.start(() => {
-    //   this._nscrollY.setValue(0);
-    // modalController(false)();
-    // });
-  }
+  componentWillUnmount() {}
 
   _onStart = () => {
     if (this.state.animating) {
@@ -115,22 +106,33 @@ class ContentDetail extends Component {
       ),
     );
   };
+  _onPressClose = () => {
+    const { modalController } = this.props;
+    this.setState({
+      animating: true,
+    });
+    this._anmiatedWrapper.moveBack(() => {
+      modalController(false)();
+    });
+  };
 
   render() {
-    const { show, currentPost } = this.props;
-    const { animating } = this.state;
+    const { currentPost } = this.props;
+    const { animating, show } = this.state;
     if (!show) {
       return null;
     }
     return (
       <Animated.View
-        style={[Styles.absolute, { backgroundColor: 'transparent' }]}
+        style={[
+          Styles.absolute,
+          { backgroundColor: animating ? 'transparent' : 'white' },
+        ]}
       >
         <Animated.ScrollView
           style={[styles.container]}
-          scrollEventThrottle={16}
+          scrollEventThrottle={8}
           contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT }}
-          // stickyHeaderIndices={[0]}
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
@@ -138,8 +140,8 @@ class ContentDetail extends Component {
           )}
         >
           {this.renderImage()}
-          {/* <UserInfoBar />
-          {this.renderContent()} */}
+          <UserInfoBar style={{ opacity: animating ? 0 : 1 }} />
+          {this.renderContent()}
         </Animated.ScrollView>
         <CommentBar
           style={{
@@ -154,8 +156,7 @@ class ContentDetail extends Component {
   }
 
   renderImage = () => {
-    const { cardId, onSharedElementMovedToSource } = this.props;
-    const { animating } = this.state;
+    const { animating, cardId } = this.state;
     //after animation
     let imgScale = this._nscrollY.interpolate({
       inputRange: [-25, 0],
@@ -175,32 +176,30 @@ class ContentDetail extends Component {
         onStart={this._onStart}
         onEnd={this._onEnd}
       >
-        <View>
-          <Animated.Image
-            source={Assets.bk1.source}
-            style={[
-              {
-                width: image_width,
-                height: image_height,
-                zIndex: 2,
-                opacity: animating ? 0 : 1,
-                transform: [
-                  {
-                    scale: imgScale,
-                  },
-                  {
-                    translateY: imageY,
-                  },
-                ],
-              },
-            ]}
-          />
-        </View>
+        <Animated.Image
+          source={Assets.bk1.source}
+          style={[
+            {
+              width: image_width,
+              height: image_height,
+              zIndex: 2,
+              opacity: animating ? 0 : 1,
+              transform: [
+                {
+                  scale: imgScale,
+                },
+                {
+                  translateY: imageY,
+                },
+              ],
+            },
+          ]}
+        />
       </AnimatedWrapper>
     );
   };
-
   renderContent = () => {
+    const { animating } = this.state;
     return (
       <Animated.Text
         style={[
@@ -208,10 +207,9 @@ class ContentDetail extends Component {
           {
             zIndex: 2,
             color: 'black',
-            // color: contentColor,
+            opacity: animating ? 0 : 1,
           },
         ]}
-        // numberOfLines={animating ? 5 : 1000}
       >
         {'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
           'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
@@ -268,9 +266,7 @@ class ContentDetail extends Component {
         />
         <Image
           source={Assets.close.source}
-          onPress={() => {
-            this.close();
-          }}
+          onPress={this._onPressClose}
           style={{ marginLeft: 20 }}
           tintColor={colors.white}
           size={'small'}

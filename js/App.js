@@ -1,10 +1,16 @@
 import * as React from 'react';
-import { View, UIManager, PushNotificationIOS } from 'react-native';
+import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
 import { Setup, base, Notification } from './utils';
 import * as Connectors from './connectors';
+
+//ignore isMounted is deprecated, this warning fixed in higher version
+YellowBox.ignoreWarnings([
+  'Warning: isMounted(...) is deprecated',
+  'Module RCTImageLoader',
+]);
 import AV from 'leancloud-storage';
 AV.init({
   appId: 'UYganDzaND6XsvYaL552tlbs-gzGzoHsz',

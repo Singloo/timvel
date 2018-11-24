@@ -25,6 +25,11 @@ class MainCard extends Component {
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
+    this.moveTo();
+  };
+
+  moveTo = () => {
+    this._animatedWrapper && this._animatedWrapper.moveTo();
   };
 
   render() {
@@ -57,15 +62,16 @@ class MainCard extends Component {
       <AnimatedWrapper
         id={`maincard${cardId}`}
         type={AnimatedWrapper.types.from}
+        ref={r => (this._animatedWrapper = r)}
       >
-        <View>
+        {/* <View> */}
           <Wrapper
             style={[styles.container, Styles.shadow]}
             onPress={this._onPressItem}
           >
             {children}
           </Wrapper>
-        </View>
+        {/* </View> */}
       </AnimatedWrapper>
     );
   };

@@ -29,7 +29,7 @@ import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { Observable, Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
-import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
+// import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   PADDING_BOTTOM,
   colors,
@@ -84,7 +84,6 @@ class HomePage extends Component {
     super(props);
     this._nscrollY = new Animated.Value(0);
     this.colorsSets = [];
-    this.sharedElementRefs = {};
   }
   componentWillMount() {
     this._initFeeds();
@@ -146,34 +145,6 @@ class HomePage extends Component {
     return <ItemComp {...cardProps} />;
   };
 
-  _onMoveToDestinationWillStart = () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
-      phase: 'phase-1',
-    });
-  };
-
-  _onMoveToSourceDidFinish = () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
-      phase: 'phase-2',
-    });
-  };
-
-  _onSharedElementMovedToDestination = () => {
-    InteractionManager.runAfterInteractions(() => {
-      this.props.logic('HOME_PAGE_SET_STATE', {
-        phase: 'phase-3',
-      });
-    });
-  };
-  _onSharedElementMovedToSource = () => {
-    InteractionManager.runAfterInteractions(() => {
-      this.props.logic('HOME_PAGE_SET_STATE', {
-        // selectedItem: null,
-        phase: 'phase-0',
-      });
-    });
-  };
-
   _renderHeader = ({ item, index }) => {
     const { carouselIndex, popularPosts } = this.props.state;
     return (
@@ -233,7 +204,7 @@ class HomePage extends Component {
     });
   };
   _renderCarouselItem = ({ item, index }) => {
-    const isOdd = (index + 2) % 2 !== 0;
+    // const isOdd = (index + 2) % 2 !== 0;
     return (
       <CarouselCard
         key={'hpc' + index}
@@ -248,7 +219,7 @@ class HomePage extends Component {
       currentPost,
       cardId,
     });
-    this._contentDetail.open();
+    this._contentDetailModalController(true)();
   };
   _onPressCarouselItem = post => () => {
     this.props.logic('NAVIGATION_NAVIGATE', {
@@ -269,8 +240,7 @@ class HomePage extends Component {
         showDetail: true,
       });
       this.props.logic('GLOBAL_SET_STATE', {
-        tabBarHidden: true,
-        showTabbarAnimation: true,
+        isTabBarHidden: true,
       });
     } else {
       this.props.logic('HOME_PAGE_SET_STATE', {
@@ -278,21 +248,15 @@ class HomePage extends Component {
         cardId: null,
       });
       this.props.logic('GLOBAL_SET_STATE', {
-        tabBarHidden: false,
+        isTabBarHidden: false,
       });
     }
   };
-  _openOneDayModal = () => {
+  _oneDayModalController = bool => () => {
     this.props.logic('HOME_PAGE_SET_STATE', {
-      showOneDay: true,
+      showOneDay: bool,
     });
   };
-  _closeOneDayModal = () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
-      showOneDay: false,
-    });
-  };
-
   _onChooseDate = date => {
     this.props.logic('HOME_PAGE_SET_STATE', {
       date,
@@ -344,9 +308,6 @@ class HomePage extends Component {
   render() {
     const {
       showDetail,
-      imagePosition,
-      contentPosition,
-      userInfoPosition,
       showOneDay,
       date,
       posts,
@@ -391,23 +352,14 @@ class HomePage extends Component {
           ref={r => (this._oneDay = r)}
           show={showOneDay}
           date={date}
-          openModal={this._openOneDayModal}
-          closeModal={this._closeOneDayModal}
+          modalContronller={this._oneDayModalController}
           onChooseDate={this._onChooseDate}
         />
         <ContentDetail
-          ref={r => (this._contentDetail = r)}
-          imagePosition={imagePosition}
-          contentPosition={contentPosition}
-          userInfoPosition={userInfoPosition}
           show={showDetail}
           currentPost={currentPost}
           cardId={cardId}
           modalController={this._contentDetailModalController}
-          onSharedElementMovedToSource={this._onSharedElementMovedToSource}
-          onSharedElementMovedToDestination={
-            this._onSharedElementMovedToDestination
-          }
         />
       </View>
     );
@@ -417,7 +369,6 @@ class HomePage extends Component {
     return (
       <ActionButton buttonSource={Assets.actionButton.source}>
         <ActionButton.Icon
-          // title={'create new'}
           iconStyle={{ backgroundColor: colors.white }}
           iconProps={{
             style: { backgroundColor: colors.white },
@@ -427,8 +378,6 @@ class HomePage extends Component {
           onPress={this._onPressCreateNew}
         />
         <ActionButton.Icon
-          // title={2}
-          // iconStyle={{ backgroundColor: colors.main }}
           source={Assets.comment.source}
           iconProps={{
             style: { backgroundColor: colors.white },
@@ -439,8 +388,6 @@ class HomePage extends Component {
           }}
         />
         <ActionButton.Icon
-          // title={3}
-          // iconStyle={{ backgroundColor: colors.white }}
           source={Assets.bk1.source}
           onPress={this._timeTravel}
           iconProps={{
@@ -449,14 +396,10 @@ class HomePage extends Component {
           }}
         />
         <ActionButton.Icon
-          // title={4}
-          // iconStyle={{ backgroundColor: colors.white }}
           source={Assets.comment.source}
           onPress={() => {}}
           iconProps={{
             style: { backgroundColor: colors.white, margin: 4 },
-            // resizeMode: 'contain',
-            // size: 'micro',
           }}
         />
       </ActionButton>

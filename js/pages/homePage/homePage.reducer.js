@@ -1,9 +1,6 @@
 import Moment from 'moment';
 const initialState = {
   showDetail: false,
-  imagePosition: {},
-  contentPosition: {},
-  userInfoPosition: {},
   cardId: null,
   showOneDay: false,
   date: Moment().format('YYYY-MM-DD'),
@@ -12,7 +9,6 @@ const initialState = {
   popularPosts: [],
   enablePostEmoji: true,
   currentPost: null,
-  phase: 'phase-0',
 };
 
 function reducer(state = initialState, action) {
