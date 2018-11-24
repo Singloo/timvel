@@ -21,6 +21,7 @@ allprojects {
     repositories {
         mavenLocal()
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
         //这里是 LeanCloud 的包仓库
         maven {
@@ -30,7 +31,6 @@ allprojects {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
-        google()
     }
 }
 subprojects {
