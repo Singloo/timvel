@@ -13,15 +13,25 @@ import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles, colors, DateFormatter } = base;
 import UserInfoBar from './UserInfoBar';
-import TimeBar from './TimeBar';
 import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
+import * as Animatable from 'react-native-animatable';
+const AnimatableBottomInfo = Animatable.createAnimatableComponent(
+  BottomInfoBar,
+);
+const AnimatableWeacherInfo = Animatable.createAnimatableComponent(WeatherInfo);
 const cardWidth = base.SCREEN_WIDTH - 20 - 20;
 const cardHeight = base.SCREEN_WIDTH * 0.618;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
 class MainCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hidden: false,
+    };
+  }
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
@@ -30,6 +40,29 @@ class MainCard extends Component {
 
   moveTo = () => {
     this._animatedWrapper && this._animatedWrapper.moveTo();
+  };
+  componentDidUpdate = prevProps => {
+    if (!prevProps.hidden && this.props.hidden) {
+      // this.setState({
+      //   hidden:true
+      // })
+      this.fadeOut();
+    }
+    if (prevProps.hidden && !this.props.hidden) {
+      this.fadeIn();
+    }
+  };
+  fadeIn = () => {
+    this._userInfo.animate('fadeInLeft', 500, 0);
+    this._weatherInfo.animate('fadeInRight', 500, 50);
+    this._bottomInfo.animate('fadeInRight', 500, 100);
+    this._timebar.animate('fadeInLeft', 500, 100);
+  };
+  fadeOut = () => {
+    this._userInfo.animate('fadeOutLeft', 500, 0);
+    this._weatherInfo.animate('fadeOutRight', 500, 50);
+    this._bottomInfo.animate('fadeOutRight', 500, 100);
+    this._timebar.animate('fadeOutLeft', 500, 100);
   };
 
   render() {
@@ -42,7 +75,6 @@ class MainCard extends Component {
             paddingTop: 30,
             paddingBottom: TIME_BAR_HEIGHT,
             marginVertical: 10,
-            opacity: hidden ? 0 : 1,
           }}
         >
           {this.renderChildren()}
@@ -56,7 +88,7 @@ class MainCard extends Component {
   }
 
   renderChildren = () => {
-    const { children, onPress, cardId } = this.props;
+    const { children, onPress, cardId, hidden } = this.props;
     const Wrapper = onPress ? Touchable : View;
     return (
       <AnimatedWrapper
@@ -64,65 +96,21 @@ class MainCard extends Component {
         type={AnimatedWrapper.types.from}
         ref={r => (this._animatedWrapper = r)}
       >
-        {/* <View> */}
-          <Wrapper
-            style={[styles.container, Styles.shadow]}
-            onPress={this._onPressItem}
-          >
-            {children}
-          </Wrapper>
-        {/* </View> */}
+        <Wrapper
+          style={[styles.container, Styles.shadow, { opacity: hidden ? 0 : 1 }]}
+          onPress={this._onPressItem}
+        >
+          {children}
+        </Wrapper>
       </AnimatedWrapper>
     );
   };
-  // defaultChild = () => {
-  //   const { post } = this.props;
-  //   let coverImageUrl = post.imageUrls[0];
-  //   return (
-  //     <Touchable onPress={this._onPressItem}>
-  //       <View style={[styles.container, Styles.shadow]}>
-  //         <Image
-  //           source={{ uri: coverImageUrl }}
-  //           style={{
-  //             width: cardWidth,
-  //             height: cardHeight,
-  //           }}
-  //           blur={true}
-  //         />
-
-  //         <View
-  //           style={[
-  //             Styles.absolute,
-  //             {
-  //               marginTop: 0,
-  //               justifyContent: 'center',
-  //               marginLeft: 20,
-  //               marginRight: 10,
-  //               // backgroundColor:'red'
-  //             },
-  //           ]}
-  //         >
-  //           <View ref={r => (this._content = r)}>
-  //             <Text
-  //               style={[
-  //                 styles.content,
-  //                 !coverImageUrl && { color: colors.pureBlack },
-  //               ]}
-  //               numberOfLines={5}
-  //             >
-  //               {post.content}
-  //             </Text>
-  //           </View>
-  //         </View>
-  //       </View>
-  //     </Touchable>
-  //   );
-  // };
-
   renderWeather = () => {
     const { post } = this.props;
     return (
-      <WeatherInfo
+      <AnimatableWeacherInfo
+        useNativeDriver={true}
+        ref={r => (this._weatherInfo = r)}
         weather={post.weatherInfo.weather}
         temperature={post.weatherInfo.temperature}
         style={{ position: 'absolute', right: 0, top: 30 }}
@@ -140,22 +128,27 @@ class MainCard extends Component {
   renderUserInfoBar = () => {
     const { onPressAvatar, post } = this.props;
     return (
-      <View style={styles.headerBar}>
+      <Animatable.View
+        style={styles.headerBar}
+        ref={r => (this._userInfo = r)}
+        useNativeDriver={true}
+      >
         <UserInfoBar
           onPressAvatar={onPressAvatar}
           username={post.username}
           avatar={post.avatar}
           weatherInfo={post.weatherInfo}
-          // style={  styles.headerBar}
         />
-      </View>
+      </Animatable.View>
     );
   };
 
   renderBottomBar = () => {
     const { onPressComment, onPressEmoji, post } = this.props;
     return (
-      <BottomInfoBar
+      <AnimatableBottomInfo
+        useNativeDriver={true}
+        ref={r => (this._bottomInfo = r)}
         style={{
           position: 'absolute',
           left: 0,
@@ -180,7 +173,9 @@ class MainCard extends Component {
     const { post } = this.props;
     const happenedAt = new DateFormatter(post.happenedAt);
     return (
-      <View
+      <Animatable.View
+        useNativeDriver={true}
+        ref={r => (this._timebar = r)}
         style={{
           position: 'absolute',
           height: TIME_BAR_HEIGHT,
@@ -198,7 +193,7 @@ class MainCard extends Component {
         <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
           {happenedAt.fromNow()}
         </Text>
-      </View>
+      </Animatable.View>
     );
   };
   renderTimeBarDot = () => {

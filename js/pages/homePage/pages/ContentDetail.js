@@ -21,6 +21,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
+import * as Animatable from 'react-native-animatable';
+const AnimatableUserInfoBar = Animatable.createAnimatableComponent(UserInfoBar);
+const AnimatableCommentBar = Animatable.createAnimatableComponent(CommentBar);
 const {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -39,6 +42,9 @@ const goingToOpen = (prev, curr) => {
 };
 const goingToClose = (prev, curr) => {
   return prev.show && !curr.show;
+};
+const sleep = duration => {
+  return new Promise(resolve => setTimeout(resolve, duration));
 };
 class ContentDetail extends Component {
   constructor(props) {
@@ -64,8 +70,8 @@ class ContentDetail extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (goingToOpen(prevProps, this.props)) {
       const { currentPost, cardId } = this.props;
-
       this.setState({
+        animating: true,
         show: true,
         currentPost,
         cardId,
@@ -74,6 +80,7 @@ class ContentDetail extends Component {
     if (goingToClose(prevProps, this.props)) {
       //do something
       this.setState({
+        animating: false,
         show: false,
         cardId: null,
         currentPost: {},
@@ -98,22 +105,24 @@ class ContentDetail extends Component {
     this.setState({
       animating: false,
     });
-    LayoutAnimation.configureNext(
-      LayoutAnimation.create(
-        400,
-        LayoutAnimation.Types.linear,
-        LayoutAnimation.Properties.opacity,
-      ),
-    );
   };
-  _onPressClose = () => {
+  _onPressClose = async () => {
     const { modalController } = this.props;
+    this._fadeAnimation();
+    await sleep(350);
     this.setState({
       animating: true,
     });
     this._anmiatedWrapper.moveBack(() => {
       modalController(false)();
     });
+  };
+
+  _fadeAnimation = () => {
+    this._commentBar.animate('fadeOutDown', 500, 0);
+    this._header.animate('fadeOutUp', 500, 0);
+    this._content.animate('fadeOutDown', 500, 50);
+    this._userInfo.animate('fadeOutDown', 500, 100);
   };
 
   render() {
@@ -139,17 +148,13 @@ class ContentDetail extends Component {
             { useNativeDriver: true },
           )}
         >
-          {this.renderImage()}
-          <UserInfoBar style={{ opacity: animating ? 0 : 1 }} />
-          {this.renderContent()}
+          <View style={{ zIndex: 2 }}>{this.renderImage()}</View>
+          <View style={{ zIndex: 1 }}>
+            {this.renderUserInfo()}
+            {this.renderContent()}
+          </View>
         </Animated.ScrollView>
-        <CommentBar
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            opacity: animating ? 0 : 1,
-          }}
-        />
+        {this.renderCommentBar()}
         {this.renderHeader()}
       </Animated.View>
     );
@@ -168,6 +173,7 @@ class ContentDetail extends Component {
       outputRange: [-13, 0, scrollY],
       // extrapolateLeft: 'clamp',
     });
+    // console.warn(animating);
     return (
       <AnimatedWrapper
         ref={r => (this._anmiatedWrapper = r)}
@@ -175,6 +181,9 @@ class ContentDetail extends Component {
         type={AnimatedWrapper.types.to}
         onStart={this._onStart}
         onEnd={this._onEnd}
+        animationProps={{
+          easing: Easing.back(),
+        }}
       >
         <Animated.Image
           source={Assets.bk1.source}
@@ -182,7 +191,6 @@ class ContentDetail extends Component {
             {
               width: image_width,
               height: image_height,
-              zIndex: 2,
               opacity: animating ? 0 : 1,
               transform: [
                 {
@@ -198,24 +206,48 @@ class ContentDetail extends Component {
       </AnimatedWrapper>
     );
   };
+
+  renderUserInfo = () => {
+    return (
+      <AnimatableUserInfoBar
+        ref={r => (this._userInfo = r)}
+        animation={'fadeInUp'}
+        delay={300}
+        useNativeDriver={true}
+        // style={{ zIndex: 1 }}
+      />
+    );
+  };
   renderContent = () => {
     const { animating } = this.state;
     return (
-      <Animated.Text
-        style={[
-          styles.content,
-          {
-            zIndex: 2,
-            color: 'black',
-            opacity: animating ? 0 : 1,
-          },
-        ]}
+      <Animatable.Text
+        ref={r => (this._content = r)}
+        animation={'fadeInUp'}
+        // useNativeDriver={true}
+        delay={350}
+        style={[styles.content]}
       >
         {'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
           'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
           'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
           'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.'}
-      </Animated.Text>
+      </Animatable.Text>
+    );
+  };
+
+  renderCommentBar = () => {
+    return (
+      <AnimatableCommentBar
+        ref={r => (this._commentBar = r)}
+        animation={'fadeInUp'}
+        useNativeDriver={true}
+        delay={400}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+        }}
+      />
     );
   };
 
@@ -231,7 +263,11 @@ class ContentDetail extends Component {
       extrapolate: 'clamp',
     });
     return (
-      <View
+      <Animatable.View
+        animation={'fadeInDown'}
+        ref={r => (this._header = r)}
+        useNativeDriver={true}
+        delay={100}
         style={[
           {
             position: 'absolute',
@@ -280,7 +316,7 @@ class ContentDetail extends Component {
             }
           }
         />
-      </View>
+      </Animatable.View>
     );
   };
 }
@@ -293,10 +329,10 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: 18,
-    color: colors.white,
+    color: colors.depGrey,
     fontWeight: '200',
     lineHeight: 25,
-    flex: 1,
+    // flex: 1,
     textShadowRadius: 5,
     marginHorizontal: 10,
   },

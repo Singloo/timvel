@@ -17,16 +17,14 @@ class BottomInfoBar extends React.Component {
   render() {
     const { style, onPressComment, onPressEmoji, nums } = this.props;
     const renderEmojis = ['shock', 'angry', 'nofeeling', 'vomit', 'laugh'].map(
-      (item, index) => {
-        return (
-          <EmojiItem
-            key={index}
-            source={Assets[item].source}
-            onPress={onPressEmoji(item)}
-            num={nums[item]}
-          />
-        );
-      },
+      (item, index) => (
+        <EmojiItem
+          key={index}
+          source={Assets[item].source}
+          onPress={onPressEmoji(item)}
+          num={nums[item]}
+        />
+      ),
     );
     return (
       <View style={[styles.container, style]}>
@@ -35,6 +33,7 @@ class BottomInfoBar extends React.Component {
             flexDirection: 'row',
             alignItems: 'flex-end',
             marginLeft: 10,
+            marginBottom: 5,
           }}
         >
           <Image
