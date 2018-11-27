@@ -9,6 +9,7 @@ const initialState = {
   popularPosts: [],
   enablePostEmoji: true,
   currentPost: null,
+  contentDetailIsAnimating: true,
 };
 
 function reducer(state = initialState, action) {

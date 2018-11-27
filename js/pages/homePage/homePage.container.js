@@ -55,6 +55,7 @@ const enhanced = Comp => {
         onPressComment,
         onPressEmoji,
         onPressAvatar,
+        onStart,
         ...childProps
       } = this.props;
       return (
@@ -67,6 +68,7 @@ const enhanced = Comp => {
           gradientColors={gradientColors}
           onPressComment={onPressComment}
           onPressEmoji={onPressEmoji}
+          onStart={onStart}
         >
           <Comp post={post} {...childProps} />
         </Wrapper>
@@ -252,6 +254,11 @@ class HomePage extends Component {
       });
     }
   };
+  _contentDetailAnimatingController = bool => () => {
+    this.props.logic('HOME_PAGE_SET_STATE', {
+      contentDetailIsAnimating: bool,
+    });
+  };
   _oneDayModalController = bool => () => {
     this.props.logic('HOME_PAGE_SET_STATE', {
       showOneDay: bool,
@@ -306,14 +313,6 @@ class HomePage extends Component {
     });
   };
   render() {
-    const {
-      showDetail,
-      showOneDay,
-      date,
-      posts,
-      currentPost,
-      cardId,
-    } = this.props.state;
     return (
       <View style={styles.container}>
         {isAndroid && (
@@ -322,45 +321,11 @@ class HomePage extends Component {
             barStyle={'light-content'}
           />
         )}
-        <FlatList
-          style={styles.list}
-          renderItem={this._renderItem}
-          ListHeaderComponent={this._renderHeader}
-          data={posts}
-          scrollEventThrottle={6}
-          initialNumToRender={5}
-          keyExtractor={(item, index) => 'hpi' + index}
-          // getItemLayout={(data, index) => ({
-          //   length: cardHeight,
-          //   offset: cardHeight * index,
-          //   index,
-          // })}
-          contentContainerStyle={{
-            paddingTop: PADDING_TOP + 10,
-            // paddingTop: PADDING_TOP + 44,
-            paddingBottom: TAB_BAR_HEIGHT,
-          }}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
-            { useNativeDriver: false },
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-        <HeaderBar date={date} scrollY={this._nscrollY} />
+        {this._renderFeeds()}
+        {this._renderHeaderBar()}
         {this._renderActionButton()}
-        <OneDay
-          ref={r => (this._oneDay = r)}
-          show={showOneDay}
-          date={date}
-          modalContronller={this._oneDayModalController}
-          onChooseDate={this._onChooseDate}
-        />
-        <ContentDetail
-          show={showDetail}
-          currentPost={currentPost}
-          cardId={cardId}
-          modalController={this._contentDetailModalController}
-        />
+        {this._renderOneday()}
+        {this._renderContentDetail()}
       </View>
     );
   }
@@ -403,6 +368,72 @@ class HomePage extends Component {
           }}
         />
       </ActionButton>
+    );
+  };
+
+  _renderHeaderBar = () => {
+    const { date } = this.props.state;
+    return <HeaderBar date={date} scrollY={this._nscrollY} />;
+  };
+  _renderFeeds = () => {
+    const { posts } = this.props.state;
+    return (
+      <FlatList
+        style={styles.list}
+        renderItem={this._renderItem}
+        ListHeaderComponent={this._renderHeader}
+        data={posts}
+        scrollEventThrottle={6}
+        initialNumToRender={5}
+        keyExtractor={(_, index) => 'hpi' + index}
+        // getItemLayout={(data, index) => ({
+        //   length: cardHeight,
+        //   offset: cardHeight * index,
+        //   index,
+        // })}
+        contentContainerStyle={{
+          paddingTop: PADDING_TOP + 10,
+          // paddingTop: PADDING_TOP + 44,
+          paddingBottom: TAB_BAR_HEIGHT,
+        }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
+          { useNativeDriver: false },
+        )}
+        showsVerticalScrollIndicator={false}
+      />
+    );
+  };
+
+  _renderOneday = () => {
+    const { showOneDay, date } = this.props.state;
+    return (
+      <OneDay
+        ref={r => (this._oneDay = r)}
+        show={showOneDay}
+        date={date}
+        modalContronller={this._oneDayModalController}
+        onChooseDate={this._onChooseDate}
+      />
+    );
+  };
+  _renderContentDetail = () => {
+    const {
+      contentDetailIsAnimating,
+      showDetail,
+      currentPost,
+      cardId,
+    } = this.props.state;
+    return (
+      <ContentDetail
+        show={showDetail}
+        currentPost={currentPost}
+        cardId={cardId}
+        onStart={this._contentDetailAnimatingController(true)}
+        onEnd={this._contentDetailAnimatingController(false)}
+        modalController={this._contentDetailModalController}
+        isAnimating={contentDetailIsAnimating}
+      />
     );
   };
 }

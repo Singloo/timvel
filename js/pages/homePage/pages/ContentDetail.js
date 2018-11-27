@@ -50,11 +50,11 @@ class ContentDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      animating: true,
       show: false,
       currentPost: {},
       cardId: null,
     };
+    this.goingToShow = true;
     this.animationState = new Animated.Value(0);
     this.animationOpen = Animated.timing(this.animationState, {
       toValue: 1,
@@ -71,7 +71,6 @@ class ContentDetail extends Component {
     if (goingToOpen(prevProps, this.props)) {
       const { currentPost, cardId } = this.props;
       this.setState({
-        // animating: false,
         show: true,
         currentPost,
         cardId,
@@ -80,7 +79,6 @@ class ContentDetail extends Component {
     if (goingToClose(prevProps, this.props)) {
       //do something
       this.setState({
-        // animating: true,
         show: false,
         cardId: null,
         currentPost: {},
@@ -90,39 +88,31 @@ class ContentDetail extends Component {
   componentDidMount() {}
   componentWillUnmount() {}
 
-  _onStart = () => {
-    // if (this.state.animating) {
-    //   return;
-    // }
-    // console.warn('start');
-    // this.setState({
-    //   animating: true,
-    // });
-  };
-  _onEnd = () => {
-    // console.warn('end');
-    // if (!this.state.animating) {
-    //   return;
-    // }
-    this.setState({
-      animating: true,
-    });
-  };
   _onPressClose = async () => {
-    const { modalController } = this.props;
+    const { modalController, onStart } = this.props;
     this._fadeAnimation();
     await sleep(350);
-    // this.setState({
-    //   animating: true,
-    // });
+    onStart();
     this._anmiatedWrapper.moveBack(() => {
-      // this.setState({
-      //   animating: true,
-      // });
       modalController(false)();
     });
   };
+  _onStart = () => {
+    // if (!this.goingToShow) {
+    //   this.goingToShow = true;
+    // }
+    const { onStart } = this.props;
+    onStart();
+  };
 
+  _onEnd = () => {
+    // if (!this.goingToShow) {
+    //   return;
+    // }
+    const { onEnd } = this.props;
+    // this.goingToShow = false;
+    onEnd();
+  };
   _fadeAnimation = () => {
     this._commentBar.animate('fadeOutDown', 500, 0);
     this._header.animate('fadeOutUp', 500, 0);
@@ -131,8 +121,8 @@ class ContentDetail extends Component {
   };
 
   render() {
-    const { currentPost } = this.props;
-    const { animating, show } = this.state;
+    const { isAnimating } = this.props;
+    const { show } = this.state;
     if (!show) {
       return null;
     }
@@ -140,7 +130,7 @@ class ContentDetail extends Component {
       <Animated.View
         style={[
           Styles.absolute,
-          { backgroundColor: animating ? 'transparent' : 'white' },
+          { backgroundColor: isAnimating ? 'transparent' : 'white' },
         ]}
       >
         <Animated.ScrollView
@@ -166,7 +156,8 @@ class ContentDetail extends Component {
   }
 
   renderImage = () => {
-    const { animating, cardId } = this.state;
+    const { cardId } = this.state;
+    const { isAnimating, onEnd } = this.props;
     //after animation
     let imgScale = this._nscrollY.interpolate({
       inputRange: [-25, 0],
@@ -178,7 +169,6 @@ class ContentDetail extends Component {
       outputRange: [-13, 0, scrollY],
       // extrapolateLeft: 'clamp',
     });
-    // console.warn(animating);
     return (
       <AnimatedWrapper
         ref={r => (this._anmiatedWrapper = r)}
@@ -196,7 +186,7 @@ class ContentDetail extends Component {
             {
               width: image_width,
               height: image_height,
-              opacity: animating ? 0 : 1,
+              opacity: isAnimating ? 0 : 1,
               transform: [
                 {
                   scale: imgScale,
@@ -224,7 +214,6 @@ class ContentDetail extends Component {
     );
   };
   renderContent = () => {
-    const { animating } = this.state;
     return (
       <Animatable.Text
         ref={r => (this._content = r)}
@@ -312,15 +301,7 @@ class ContentDetail extends Component {
           tintColor={colors.white}
           size={'small'}
         />
-        <WeatherInfo
-          weather={'sunny'}
-          temperature={25}
-          style={
-            {
-              // opacity: animating ? 0 : 1,
-            }
-          }
-        />
+        <WeatherInfo weather={'sunny'} temperature={25} />
       </Animatable.View>
     );
   };
