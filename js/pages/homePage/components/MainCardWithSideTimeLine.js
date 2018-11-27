@@ -26,12 +26,12 @@ const cardHeight = base.SCREEN_WIDTH * 0.618;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
 class MainCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hidden: false,
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     hidden: false,
+  //   };
+  // }
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
@@ -66,7 +66,7 @@ class MainCard extends Component {
   };
 
   render() {
-    const { hidden } = this.props;
+    // const { hidden } = this.props;
     return (
       <View style={[styles.wrapper]}>
         {this.renderSideLinearBar()}

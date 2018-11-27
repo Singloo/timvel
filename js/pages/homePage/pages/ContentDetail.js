@@ -71,7 +71,7 @@ class ContentDetail extends Component {
     if (goingToOpen(prevProps, this.props)) {
       const { currentPost, cardId } = this.props;
       this.setState({
-        animating: true,
+        // animating: false,
         show: true,
         currentPost,
         cardId,
@@ -80,7 +80,7 @@ class ContentDetail extends Component {
     if (goingToClose(prevProps, this.props)) {
       //do something
       this.setState({
-        animating: false,
+        // animating: true,
         show: false,
         cardId: null,
         currentPost: {},
@@ -91,29 +91,34 @@ class ContentDetail extends Component {
   componentWillUnmount() {}
 
   _onStart = () => {
-    if (this.state.animating) {
-      return;
-    }
-    this.setState({
-      animating: true,
-    });
+    // if (this.state.animating) {
+    //   return;
+    // }
+    // console.warn('start');
+    // this.setState({
+    //   animating: true,
+    // });
   };
   _onEnd = () => {
-    if (!this.state.animating) {
-      return;
-    }
+    // console.warn('end');
+    // if (!this.state.animating) {
+    //   return;
+    // }
     this.setState({
-      animating: false,
+      animating: true,
     });
   };
   _onPressClose = async () => {
     const { modalController } = this.props;
     this._fadeAnimation();
     await sleep(350);
-    this.setState({
-      animating: true,
-    });
+    // this.setState({
+    //   animating: true,
+    // });
     this._anmiatedWrapper.moveBack(() => {
+      // this.setState({
+      //   animating: true,
+      // });
       modalController(false)();
     });
   };
