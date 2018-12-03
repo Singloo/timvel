@@ -3,9 +3,9 @@ import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base, Notification } from './utils';
+import { Setup, base, Notification, OSS } from './utils';
 import * as Connectors from './connectors';
-
+import Axios from 'axios';
 //ignore isMounted is deprecated, this warning fixed in higher version
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -17,6 +17,7 @@ AV.init({
   appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
 });
 import Installation from 'leancloud-installation';
+import AliyunOSS from 'aliyun-oss-react-native';
 Installation(AV);
 const store = configureStore();
 Setup.preventDoublePress(SimpleApp);
@@ -25,6 +26,16 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class App extends React.Component {
   async componentDidMount() {
     let notification = new Notification(Installation);
+    await OSS.initAliyunOSS();
+    Axios.get(
+      'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/origami1537602469249.jpeg',
+    )
+      .then(re => {
+        console.warn(re);
+      })
+      .catch(err => {
+        console.warn('errr', err);
+      });
     if (base.isIOS) {
       notification.IOSinitPush();
     } else {

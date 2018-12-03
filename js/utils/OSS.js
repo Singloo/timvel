@@ -10,7 +10,8 @@ const configuration = {
   timeoutIntervalForResource: 24 * 60 * 60,
 };
 
-const END_POINT_HUADONG_1 = 'https://oss-cn-hangzhou.aliyuncs.com';
+const END_POINT_HUADONG_1 = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com'
+// 'https://oss-cn-hangzhou.aliyuncs.com';
 const BUCKET_TIMVEL_1 = 'timvel-1';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 export async function initAliyunOSS() {

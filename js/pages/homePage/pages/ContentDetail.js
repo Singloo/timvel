@@ -14,10 +14,9 @@ import {
   Assets,
   WeatherInfo,
   CommentBar,
+  ImageSwiper,
 } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
-import LinearGradient from 'react-native-linear-gradient';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
@@ -156,7 +155,7 @@ class ContentDetail extends Component {
   }
 
   renderImage = () => {
-    const { cardId } = this.state;
+    const { cardId, currentPost } = this.state;
     const { isAnimating, onEnd } = this.props;
     //after animation
     let imgScale = this._nscrollY.interpolate({
@@ -169,6 +168,31 @@ class ContentDetail extends Component {
       outputRange: [-13, 0, scrollY],
       // extrapolateLeft: 'clamp',
     });
+    const ImageComp =
+      currentPost.imageUrls.length === 1 ? Animated.Image : ImageSwiper;
+    const imageProps =
+      currentPost.imageUrls.length === 1
+        ? {
+            source: { uri: currentPost.imageUrls[0] },
+            style: [
+              {
+                width: image_width,
+                height: image_height,
+                opacity: isAnimating ? 0 : 1,
+                transform: [
+                  {
+                    scale: imgScale,
+                  },
+                  {
+                    translateY: imageY,
+                  },
+                ],
+              },
+            ],
+          }
+        : {
+            imageUrls: currentPost.imageUrls,
+          };
     return (
       <AnimatedWrapper
         ref={r => (this._anmiatedWrapper = r)}
@@ -180,24 +204,7 @@ class ContentDetail extends Component {
           easing: Easing.back(),
         }}
       >
-        <Animated.Image
-          source={Assets.bk1.source}
-          style={[
-            {
-              width: image_width,
-              height: image_height,
-              opacity: isAnimating ? 0 : 1,
-              transform: [
-                {
-                  scale: imgScale,
-                },
-                {
-                  translateY: imageY,
-                },
-              ],
-            },
-          ]}
-        />
+        <ImageComp {...imageProps} />
       </AnimatedWrapper>
     );
   };
@@ -214,6 +221,7 @@ class ContentDetail extends Component {
     );
   };
   renderContent = () => {
+    const { currentPost } = this.state;
     return (
       <Animatable.Text
         ref={r => (this._content = r)}
@@ -222,10 +230,7 @@ class ContentDetail extends Component {
         delay={350}
         style={[styles.content]}
       >
-        {'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
-          'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
-          'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.' +
-          'Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light,\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.'}
+        {currentPost.content}
       </Animatable.Text>
     );
   };
@@ -246,6 +251,7 @@ class ContentDetail extends Component {
   };
 
   renderHeader = () => {
+    const { currentPost } = this.state;
     let headerY = this._nscrollY.interpolate({
       inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
       outputRange: [-(PADDING_TOP + 44), -(PADDING_TOP + 44), 0],
@@ -301,7 +307,10 @@ class ContentDetail extends Component {
           tintColor={colors.white}
           size={'small'}
         />
-        <WeatherInfo weather={'sunny'} temperature={25} />
+        <WeatherInfo
+          weather={currentPost.weatherInfo.weather}
+          temperature={currentPost.weatherInfo.temperature}
+        />
       </Animatable.View>
     );
   };
