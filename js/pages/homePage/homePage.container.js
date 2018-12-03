@@ -27,8 +27,7 @@ import CarouselCard from './components/CarouselCard';
 import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
-import { Observable, Subject } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { queryNew } from '../../utils/observable';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   PADDING_BOTTOM,
@@ -112,7 +111,11 @@ class HomePage extends Component {
    *initialize scbscription
    *
    */
-  _initSubscription = () => {};
+  _initSubscription = () => {
+    // queryNew.subscribe(result => {
+    //   console.warn('result', result);
+    // });
+  };
   //render
   _renderItem = ({ item, index }) => {
     const { showDetail, cardId, posts } = this.props.state;
