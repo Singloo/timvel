@@ -17,7 +17,6 @@ AV.init({
   appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
 });
 import Installation from 'leancloud-installation';
-import AliyunOSS from 'aliyun-oss-react-native';
 Installation(AV);
 const store = configureStore();
 Setup.preventDoublePress(SimpleApp);
@@ -34,7 +33,7 @@ export default class App extends React.Component {
         console.warn(re);
       })
       .catch(err => {
-        console.warn('errr', err);
+        console.warn('errr', err.message);
       });
     if (base.isIOS) {
       notification.IOSinitPush();
@@ -45,7 +44,7 @@ export default class App extends React.Component {
     if (base.isIOS) {
       return;
     }
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       setTimeout(resolve, 500);
     });
     Setup.androidBackButton(this._navigation, store);

@@ -6814,15 +6814,15 @@ react-native-i18n@^2.0.12:
   dependencies:
     i18n-js "3.0.11"
 
-react-native-image-crop-picker@^0.20.0:
-  version "0.20.3"
-  resolved "http://registry.npm.taobao.org/react-native-image-crop-picker/download/react-native-image-crop-picker-0.20.3.tgz#565d69c1764e96abef23871fe4d6d58b1ee35e18"
-  integrity sha1-Vl1pwXZOlqvvI4cf5NbVix7jXhg=
+react-native-image-crop-picker@^0.21.3:
+  version "0.21.3"
+  resolved "https://registry.npmjs.org/react-native-image-crop-picker/-/react-native-image-crop-picker-0.21.3.tgz#04457a3f2a888949f51be4a670dcf2520b9994f8"
+  integrity sha512-qzY8aSYZxH4L9XYRk4V1n8x1gfq+ykNG0Kc0a9ne+JWwAQkf2P8aTKeNd4noNFZEOSJBiD4XXE/pbX55dQ5F3g==
 
-react-native-image-picker@^0.26.7:
-  version "0.26.10"
-  resolved "http://registry.npm.taobao.org/react-native-image-picker/download/react-native-image-picker-0.26.10.tgz#0bb9ab928984948c67aee0b9e64216bee007a9fc"
-  integrity sha1-C7mrkomElIxnruC55kIWvuAHqfw=
+react-native-image-picker@^0.27.1:
+  version "0.27.1"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-0.27.1.tgz#32877c667e8c2713466fe178a6c7dd648e6cb5d3"
+  integrity sha512-LuEt5I9TFe3+lfN8E9geuN2OOgnld0QmeHRPTCV+mzkT5zASsoibNIUItt6WQBWG4nXC/90aufQYZn92i3lTxw==
 
 react-native-interactable@^0.1.10:
   version "0.1.10"
