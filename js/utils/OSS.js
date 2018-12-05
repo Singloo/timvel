@@ -21,18 +21,18 @@ export async function initAliyunOSS() {
         user_id: 1,
       },
     });
-    AliyunOSS.initWithPlainTextAccessKey(
-      'LTAIqxYu6RVsr6g8',
-      'SzuIV5P7h9R3suM9ITpCtBXdaD2u0X',
-      END_POINT_HUADONG_1,
-    );
-    // AliyunOSS.initWithSecurityToken(
-    //   data.securityToken,
-    //   data.accessKeyId,
-    //   data.accessKeySecret,
+    // AliyunOSS.initWithPlainTextAccessKey(
+    //   'LTAIqxYu6RVsr6g8',
+    //   'SzuIV5P7h9R3suM9ITpCtBXdaD2u0X',
     //   END_POINT_HUADONG_1,
-    //   configuration,
     // );
+    AliyunOSS.initWithSecurityToken(
+      data.securityToken,
+      data.accessKeyId,
+      data.accessKeySecret,
+      END_POINT_HUADONG_1,
+      configuration,
+    );
     console.warn('aliyun oss initialized');
   } catch (error) {
     throw error;

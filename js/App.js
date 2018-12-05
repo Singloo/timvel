@@ -3,9 +3,8 @@ import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base, Notification, OSS } from './utils';
+import { Setup, base, Notification } from './utils';
 import * as Connectors from './connectors';
-import Axios from 'axios';
 //ignore isMounted is deprecated, this warning fixed in higher version
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -25,16 +24,6 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class App extends React.Component {
   async componentDidMount() {
     let notification = new Notification(Installation);
-    await OSS.initAliyunOSS();
-    Axios.get(
-      'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/origami1537602469249.jpeg',
-    )
-      .then(re => {
-        console.warn(re);
-      })
-      .catch(err => {
-        console.warn('errr', err.message);
-      });
     if (base.isIOS) {
       notification.IOSinitPush();
     } else {
