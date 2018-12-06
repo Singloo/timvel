@@ -23,16 +23,10 @@ const AnimatableBottomInfo = Animatable.createAnimatableComponent(
 );
 const AnimatableWeacherInfo = Animatable.createAnimatableComponent(WeatherInfo);
 const cardWidth = base.SCREEN_WIDTH - 20 - 20;
-const cardHeight = cardWidth - 40;
+const cardHeight = cardWidth - 60;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
 class MainCard extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     hidden: false,
-  //   };
-  // }
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
@@ -44,9 +38,6 @@ class MainCard extends Component {
   };
   componentDidUpdate = prevProps => {
     if (!prevProps.hidden && this.props.hidden) {
-      // this.setState({
-      //   hidden:true
-      // })
       this.fadeOut();
     }
     if (prevProps.hidden && !this.props.hidden) {
@@ -96,11 +87,13 @@ class MainCard extends Component {
             type={AnimatedWrapper.types.from}
             ref={r => (this._animatedWrapper = r)}
           >
-            <ImageSwiper
-              imageUrls={post.imageUrls}
-              style={{ width: cardWidth, height: cardHeight }}
-              imageStyle={{ width: cardWidth, height: cardHeight }}
-            />
+            <View style={{ flex: 1 }}>
+              <ImageSwiper
+                imageUrls={[...post.imageUrls, ...post.imageUrls]}
+                style={{ width: cardWidth, height: cardHeight }}
+                imageStyle={{ width: cardWidth, height: cardHeight }}
+              />
+            </View>
           </AnimatedWrapper>
           {this.renderBottomBar()}
         </View>
@@ -111,7 +104,7 @@ class MainCard extends Component {
             // backgroundColor: 'red',
             paddingVertical: 5,
             paddingHorizontal: 10,
-            height: 50,
+            height: 60,
           }}
         >
           <Text numberOfLines={2}>{post.content}</Text>
