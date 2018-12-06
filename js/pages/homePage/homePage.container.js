@@ -19,66 +19,23 @@ import {
 } from '../../../re-kits';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { base, User } from '../../utils';
-import Wrapper from './components/MainCardWithSideTimeLine';
-import Normal from './components/CardNormal';
-import MoreText from './components/CardWithMoreText';
-import MoreImage from './components/CardWithMoreImages';
+import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
 import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
-import { queryNew } from '../../utils/observable';
+// import { queryNew } from '../../utils/observable';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
-  PADDING_BOTTOM,
   colors,
   PADDING_TOP,
   SCREEN_WIDTH,
   isAndroid,
   TAB_BAR_HEIGHT,
-  NAV_BAR_HEIGHT,
-  isIOS,
   colorSets,
   randomItem,
   getRandomDate,
 } = base;
-const enhanced = Comp => {
-  return class extends React.Component {
-    render() {
-      const {
-        onPress,
-        cardId,
-        hidden,
-        post,
-        gradientColors,
-        onPressComment,
-        onPressEmoji,
-        onPressAvatar,
-        onStart,
-        ...childProps
-      } = this.props;
-      return (
-        <Wrapper
-          onPress={onPress}
-          cardId={cardId}
-          hidden={hidden}
-          post={post}
-          onPressAvatar={onPressAvatar}
-          gradientColors={gradientColors}
-          onPressComment={onPressComment}
-          onPressEmoji={onPressEmoji}
-          onStart={onStart}
-        >
-          <Comp post={post} {...childProps} />
-        </Wrapper>
-      );
-    }
-  };
-};
-const CardNormal = enhanced(Normal);
-const CardText = enhanced(MoreText);
-const CardImage = enhanced(MoreImage);
-const cardHeight = base.SCREEN_WIDTH * 0.618;
 const item_width = SCREEN_WIDTH - 40 - 0;
 class HomePage extends Component {
   constructor(props) {
@@ -122,9 +79,6 @@ class HomePage extends Component {
     if (this.colorsSets.length === 0) {
       this.colorsSets = randomItem(colorSets, posts.length + 1);
     }
-    const moreImages = item.imageUrls.length > 3;
-    const moreTexts = item.content.length > 100;
-    let ItemComp = CardNormal;
     let cardProps = {
       cardId: index,
       gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
@@ -139,15 +93,7 @@ class HomePage extends Component {
       }),
       onPressEmoji: this._onPressEmoji,
     };
-    if (moreTexts) {
-      ItemComp = CardText;
-    }
-    if (moreImages) {
-      ItemComp = CardImage;
-      cardProps.onPress = null;
-      cardProps.onPressItem = this._onPressItem;
-    }
-    return <ItemComp {...cardProps} />;
+    return <MainCard {...cardProps} />;
   };
 
   _renderHeader = ({ item, index }) => {

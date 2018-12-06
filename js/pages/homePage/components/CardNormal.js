@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, Image, Assets } from '../../../../re-kits';
+import { Text, Image, Assets } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
 const { Styles } = base;
 class CardWithoutImg extends Component {
   componentWillMount() {}

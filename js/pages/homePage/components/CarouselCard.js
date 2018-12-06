@@ -9,8 +9,6 @@ import {
   Assets,
 } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
-import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import LinearGradient from 'react-native-linear-gradient';
 import Moment from 'moment';
 const { Styles, colors, SCREEN_WIDTH } = base;
@@ -30,16 +28,11 @@ class CarouselCard extends React.Component {
           source={{
             uri: post.imageUrls[0],
           }}
-          // containerStyle={{
-          //   width: item_width,
-          //   height: item_height,
-          // }}
+          processType={'post'}
           style={{
             width: item_width,
             height: item_height,
           }}
-          // showSpinner={false}
-          // {...parallaxProps}
         />
         <View
           style={[

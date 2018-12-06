@@ -8,6 +8,7 @@ import {
   Touchable,
   Assets,
   WeatherInfo,
+  ImageSwiper,
 } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
@@ -22,7 +23,7 @@ const AnimatableBottomInfo = Animatable.createAnimatableComponent(
 );
 const AnimatableWeacherInfo = Animatable.createAnimatableComponent(WeatherInfo);
 const cardWidth = base.SCREEN_WIDTH - 20 - 20;
-const cardHeight = base.SCREEN_WIDTH * 0.618;
+const cardHeight = cardWidth - 40;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
 class MainCard extends Component {
@@ -66,7 +67,6 @@ class MainCard extends Component {
   };
 
   render() {
-    // const { hidden } = this.props;
     return (
       <View style={[styles.wrapper]}>
         {this.renderSideLinearBar()}
@@ -78,7 +78,6 @@ class MainCard extends Component {
           }}
         >
           {this.renderChildren()}
-          {this.renderBottomBar()}
           {this.renderWeather()}
           {this.renderUserInfoBar()}
         </View>
@@ -88,21 +87,36 @@ class MainCard extends Component {
   }
 
   renderChildren = () => {
-    const { children, onPress, cardId, hidden } = this.props;
-    const Wrapper = onPress ? Touchable : View;
+    const { cardId, hidden, post } = this.props;
     return (
-      <AnimatedWrapper
-        id={`maincard${cardId}`}
-        type={AnimatedWrapper.types.from}
-        ref={r => (this._animatedWrapper = r)}
-      >
-        <Wrapper
-          style={[styles.container, Styles.shadow, { opacity: hidden ? 0 : 1 }]}
+      <View style={[{ backgroundColor: 'white' }, Styles.shadow]}>
+        <View style={[styles.container, { opacity: hidden ? 0 : 1 }]}>
+          <AnimatedWrapper
+            id={`maincard${cardId}`}
+            type={AnimatedWrapper.types.from}
+            ref={r => (this._animatedWrapper = r)}
+          >
+            <ImageSwiper
+              imageUrls={post.imageUrls}
+              style={{ width: cardWidth, height: cardHeight }}
+              imageStyle={{ width: cardWidth, height: cardHeight }}
+            />
+          </AnimatedWrapper>
+          {this.renderBottomBar()}
+        </View>
+
+        <Touchable
           onPress={this._onPressItem}
+          style={{
+            // backgroundColor: 'red',
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+            height: 50,
+          }}
         >
-          {children}
-        </Wrapper>
-      </AnimatedWrapper>
+          <Text numberOfLines={2}>{post.content}</Text>
+        </Touchable>
+      </View>
     );
   };
   renderWeather = () => {
@@ -153,7 +167,7 @@ class MainCard extends Component {
           position: 'absolute',
           left: 0,
           right: 0,
-          bottom: TIME_BAR_HEIGHT,
+          bottom: 0,
         }}
         onPressComment={onPressComment(post.postId)}
         onPressEmoji={onPressEmoji(post.postId)}
@@ -198,26 +212,8 @@ class MainCard extends Component {
   };
   renderTimeBarDot = () => {
     return (
-      <View
-        style={{
-          width: 15,
-          height: 15,
-          borderRadius: 7.5,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          borderColor: 'white',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <View
-          style={{
-            width: 6,
-            height: 6,
-            borderRadius: 3,
-            backgroundColor: 'white',
-          }}
-        />
+      <View style={styles.dotWrapper}>
+        <View style={styles.dotKernel} />
       </View>
     );
   };
@@ -226,16 +222,12 @@ MainCard.propTypes = {};
 
 const styles = StyleSheet.create({
   wrapper: {
-    // width: cardWidth,
-    // height: cardHeight + 30,
-    // marginVertical: 10,
     marginRight: 10,
     flexDirection: 'row',
   },
   container: {
     width: cardWidth,
     height: cardHeight,
-    backgroundColor: 'white',
   },
   headerBar: {
     position: 'absolute',
@@ -265,6 +257,22 @@ const styles = StyleSheet.create({
   dateTime: {
     fontSize: 18,
     marginLeft: 12,
+  },
+  dotWrapper: {
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dotKernel: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'white',
   },
 });
 
