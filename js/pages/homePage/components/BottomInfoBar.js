@@ -23,6 +23,9 @@ class BottomInfoBar extends React.Component {
           source={Assets[item].source}
           onPress={onPressEmoji(item)}
           num={nums[item]}
+          textStyle={{
+            color: colors.depGrey,
+          }}
         />
       ),
     );
@@ -38,7 +41,7 @@ class BottomInfoBar extends React.Component {
         >
           <Image
             source={Assets.comment.source}
-            tintColor={colors.white}
+            tintColor={colors.depGrey}
             size={'small'}
             onPress={onPressComment}
             resizeMode={'contain'}
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   num: {
-    color: colors.white,
+    color: colors.depGrey,
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: 2,

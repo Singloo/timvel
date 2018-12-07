@@ -23,6 +23,7 @@ import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 import * as Animatable from 'react-native-animatable';
 const AnimatableUserInfoBar = Animatable.createAnimatableComponent(UserInfoBar);
 const AnimatableCommentBar = Animatable.createAnimatableComponent(CommentBar);
+const AnimatedImageSwiper = Animated.createAnimatedComponent(ImageSwiper);
 const {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -169,9 +170,9 @@ class ContentDetail extends Component {
       // extrapolateLeft: 'clamp',
     });
     const ImageComp =
-      currentPost.imageUrls.length === 1 ? Animated.Image : ImageSwiper;
+      currentPost.imageUrls.length <= 1 ? Animated.Image : AnimatedImageSwiper;
     const imageProps =
-      currentPost.imageUrls.length === 1
+      currentPost.imageUrls.length <= 1
         ? {
             source: { uri: currentPost.imageUrls[0] },
             style: [
@@ -192,6 +193,20 @@ class ContentDetail extends Component {
           }
         : {
             imageUrls: currentPost.imageUrls,
+            imageStyle: { width: SCREEN_WIDTH, height: 200 },
+            style: [
+              {
+                opacity: isAnimating ? 0 : 1,
+                transform: [
+                  {
+                    scale: imgScale,
+                  },
+                  {
+                    translateY: imageY,
+                  },
+                ],
+              },
+            ],
           };
     return (
       <AnimatedWrapper

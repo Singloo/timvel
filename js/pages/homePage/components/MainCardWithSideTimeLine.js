@@ -89,27 +89,32 @@ class MainCard extends Component {
           >
             <View style={{ flex: 1 }}>
               <ImageSwiper
-                imageUrls={[...post.imageUrls, ...post.imageUrls]}
+                imageUrls={post.imageUrls}
                 style={{ width: cardWidth, height: cardHeight }}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
               />
             </View>
           </AnimatedWrapper>
-          {this.renderBottomBar()}
         </View>
-
-        <Touchable
-          onPress={this._onPressItem}
-          style={{
-            // backgroundColor: 'red',
-            paddingVertical: 5,
-            paddingHorizontal: 10,
-            height: 60,
-          }}
-        >
-          <Text numberOfLines={2}>{post.content}</Text>
-        </Touchable>
+        {this.renderBottomBar()}
+        {post.content.length > 0 && this._renderText()}
       </View>
+    );
+  };
+  _renderText = () => {
+    const { post } = this.props;
+    return (
+      <Touchable
+        onPress={this._onPressItem}
+        style={{
+          // backgroundColor: 'red',
+          paddingVertical: 5,
+          paddingHorizontal: 10,
+          height: 60,
+        }}
+      >
+        <Text numberOfLines={2}>{post.content}</Text>
+      </Touchable>
     );
   };
   renderWeather = () => {
@@ -156,12 +161,14 @@ class MainCard extends Component {
       <AnimatableBottomInfo
         useNativeDriver={true}
         ref={r => (this._bottomInfo = r)}
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
+        style={
+          {
+            // position: 'absolute',
+            // left: 0,
+            // right: 0,
+            // bottom: 0,
+          }
+        }
         onPressComment={onPressComment(post.postId)}
         onPressEmoji={onPressEmoji(post.postId)}
         nums={{
@@ -190,7 +197,6 @@ class MainCard extends Component {
           right: 0,
           bottom: 0,
           flexDirection: 'row',
-          // backgroundColor: 'red',
           marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
           alignItems: 'center',
         }}

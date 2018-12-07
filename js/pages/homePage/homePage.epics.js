@@ -1,6 +1,13 @@
 import { ofType } from 'redux-observable';
-import { Observable } from 'rxjs';
-import { mergeMap, throttleTime, concatMap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import {
+  mergeMap,
+  throttleTime,
+  concatMap,
+  catchError,
+  tap,
+  map,
+} from 'rxjs/operators';
 
 const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
   action$.pipe(
@@ -52,41 +59,54 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
     ),
   );
 
-const pressEmoji = (action$, state$, { logic, httpClient }) =>
+const pressEmoji = (action$, state$, { logic }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI'),
-    throttleTime(500),
-    concatMap(action =>
-      Observable.create(async observer => {
-        try {
-          const { emoji, postId } = action.payload;
-          const { posts } = state$.value.homePage;
-          const fixedPosts = posts.map(o => {
-            if (o.postId === postId) {
-              return {
-                ...o,
-                [emoji]: o[emoji] + 1,
-              };
-            }
-            return o;
-          });
-          observer.next(
-            logic('HOME_PAGE_SET_STATE', {
-              posts: fixedPosts,
-            }),
-          );
-          const data = await httpClient.post('/post_emojis', {
-            emoji,
-            post_id: postId,
-          });
-          console.warn('success');
-        } catch (error) {
-          console.warn(error.message);
-        } finally {
-          observer.complete();
+    concatMap(action => {
+      const { emoji, postId } = action.payload;
+      const { posts } = state$.value.homePage;
+      const fixedPosts = posts.map(o => {
+        if (o.postId === postId) {
+          return {
+            ...o,
+            [emoji]: o[emoji] + 1,
+          };
         }
-      }),
+        return o;
+      });
+      return of(
+        logic('HOME_PAGE_SET_STATE', {
+          posts: fixedPosts,
+        }),
+        logic('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST', action.payload),
+      );
+    }),
+  );
+
+export const onPressEmojiRequest = (action$, state$, { httpClient }) =>
+  action$.pipe(
+    ofType('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST'),
+    throttleTime(500),
+    concatMap(({ payload }) =>
+      from(
+        httpClient.post('/post_emojis', {
+          emoji: payload.emoji,
+          post_id: payload.postId,
+        }),
+      ).pipe(
+        tap(_ => console.warn('success')),
+        map(_ => ({ type: 'null' })),
+        catchError(err => {
+          console.warn(err.message);
+          return of(null);
+        }),
+      ),
     ),
   );
 
-export default [fetchMostPopularPosts, fetchPosts, pressEmoji];
+export default [
+  fetchMostPopularPosts,
+  fetchPosts,
+  pressEmoji,
+  onPressEmojiRequest,
+];
