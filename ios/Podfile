@@ -34,6 +34,8 @@ target 'timvel' do
 
   pod 'Interactable', :path => '../node_modules/react-native-interactable'
 
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
 end
 
 # very important to have, unless you removed React dependencies for Libraries 

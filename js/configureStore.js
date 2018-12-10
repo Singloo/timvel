@@ -21,6 +21,10 @@ const logic = (type, payload) => ({
   type,
   payload: payload || {},
 });
+const dispatch = (type, payload) => ({
+  type,
+  payload: payload || {},
+});
 const snakeBar = (content, type = 'NORMAL') =>
   logic('SHOW_SNAKE_BAR', { content, type });
 const loading = (isLoading = true) =>
@@ -30,6 +34,7 @@ const loading = (isLoading = true) =>
 const retryTimes = (times = 3) => (error, index) =>
   index === times ? throwError(error) : of(null);
 const deps = {
+  dispatch,
   logic,
   snakeBar,
   loading,

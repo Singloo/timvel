@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { StyleSheet, View, Animated, Keyboard, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -19,10 +19,11 @@ import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
 // import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
-import { base, I18n, User } from '../../utils';
-const { colors, Styles, isIOS, isAndroid } = base;
+import { base, I18n, connect2 } from '../../utils';
+const { colors, isAndroid } = base;
 
-class CreateNew extends Component {
+@connect2('createNew')
+class CreateNew extends React.Component {
   constructor(props) {
     super(props);
     this.keyboardHeight = new Animated.Value(0);

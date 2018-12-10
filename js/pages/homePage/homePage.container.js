@@ -1,13 +1,5 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  StatusBar,
-  Animated,
-  Easing,
-  InteractionManager,
-} from 'react-native';
+import * as React from 'react';
+import { StyleSheet, View, FlatList, StatusBar, Animated } from 'react-native';
 import {
   Button,
   NavBar,
@@ -16,6 +8,7 @@ import {
   Text,
   Assets,
   ActionButton,
+  RFlatList,
 } from '../../../re-kits';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { base, User } from '../../utils';
@@ -37,7 +30,7 @@ const {
   getRandomDate,
 } = base;
 const item_width = SCREEN_WIDTH - 40 - 0;
-class HomePage extends Component {
+class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this._nscrollY = new Animated.Value(0);
@@ -153,6 +146,10 @@ class HomePage extends Component {
       happenedAt: happenedAt || date,
       offset: posts.length,
     });
+  };
+
+  _fetchMorePosts = () => {
+    this.props.dispatch('HOME_PAGE_FETCH_MORE_POSTS');
   };
   _renderCarouselItem = ({ item, index }) => {
     // const isOdd = (index + 2) % 2 !== 0;
@@ -325,9 +322,13 @@ class HomePage extends Component {
     return <HeaderBar date={date} scrollY={this._nscrollY} />;
   };
   _renderFeeds = () => {
-    const { posts } = this.props.state;
+    const { posts, isFooterLoading, isHeaderLoading } = this.props.state;
     return (
-      <FlatList
+      <RFlatList
+        onHeaderRefresh={this._initFeeds}
+        isHeaderLoading={isHeaderLoading}
+        onFooterRefresh={this._fetchMorePosts}
+        isFooterLoading={isFooterLoading}
         style={styles.list}
         renderItem={this._renderItem}
         ListHeaderComponent={this._renderHeader}

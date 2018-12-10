@@ -6,7 +6,7 @@ import shopPage from './pages/shopPage/shopPage.connect';
 import tabbar from './pages/tabbar/tabbar.connect';
 import login from './pages/login/login.connect';
 import launchPage from './pages/launchPage/launchPage.connect';
-import createNew from './pages/createNew/createNew.connect';
+import createNew from './pages/createNew/createNew.container';
 import alert from './pages/alert/alert.connect';
 import snakeBar from './pages/snakeBar/snakeBar.connect';
 import chooseSex from './pages/chooseSex/chooseSex.connect';

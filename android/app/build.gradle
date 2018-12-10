@@ -165,6 +165,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fast-image')
     compile project(':react-native-gesture-handler')
     compile project(':react-native-interactable')
      // LeanCloud 基础包

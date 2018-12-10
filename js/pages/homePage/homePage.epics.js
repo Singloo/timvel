@@ -7,6 +7,9 @@ import {
   catchError,
   tap,
   map,
+  switchMap,
+  startWith,
+  delay,
 } from 'rxjs/operators';
 
 const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
@@ -41,6 +44,11 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
       Observable.create(async observer => {
         try {
           const { happenedAt, offset } = action.payload;
+          observer.next(
+            logic('HOME_PAGE_SET_STATE', {
+              isHeaderLoading: true,
+            }),
+          );
           const { data } = await httpClient.get('/fetch_posts', {
             happened_at: happenedAt,
             offset,
@@ -48,6 +56,7 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
           observer.next(
             logic('HOME_PAGE_SET_STATE', {
               posts: data,
+              isHeaderLoading: false,
             }),
           );
         } catch (error) {
@@ -59,6 +68,26 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
     ),
   );
 
+const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
+  action$.pipe(
+    ofType('HOME_PAGE_FETCH_MORE_POSTS'),
+    switchMap(({ payload }) =>
+      from([1]).pipe(
+        map(_ => {
+          return dispatch('HOME_PAGE_SET_STATE', {
+            isFooterLoading: false,
+          });
+        }),
+        delay(3000),
+        startWith({
+          type: 'HOME_PAGE_SET_STATE',
+          payload: {
+            isFooterLoading: true,
+          },
+        }),
+      ),
+    ),
+  );
 const pressEmoji = (action$, state$, { logic }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI'),
@@ -109,4 +138,5 @@ export default [
   fetchPosts,
   pressEmoji,
   onPressEmojiRequest,
+  fetchMorePosts,
 ];

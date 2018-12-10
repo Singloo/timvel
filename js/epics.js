@@ -8,6 +8,7 @@ import testPage from './pages/testPage/testPage.epics';
 import snakeBar from './pages/snakeBar/snakeBar.epic';
 import postDetail from './pages/postDetail/postDetail.epics';
 import strangerProfile from './pages/strangerProfile/strangerProfile.epic';
+import createNew from './pages/createNew/createNew.epic';
 const epics = [].concat(
   strangerProfile,
   postDetail,
@@ -18,5 +19,6 @@ const epics = [].concat(
   shopPage,
   publishProduct,
   testPage,
+  createNew,
 );
 export default combineEpics(...epics);

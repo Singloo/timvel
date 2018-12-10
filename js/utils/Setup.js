@@ -4,6 +4,10 @@ const logic = (type, payload) => ({
   type,
   payload,
 });
+const dispatch = (type, payload) => ({
+  type,
+  payload,
+});
 const snakeBar = (content, type = 'NORMAL') =>
   logic('SHOW_SNAKE_BAR', { content, type });
 const loading = (isLoading = true) =>
@@ -31,12 +35,18 @@ export const connect = function({
   const allActions = {
     ...actions,
     logic,
+    dispatch,
     snakeBar,
     loading,
   };
-  return ReactRedux.connect(stateMapper, allActions, null, {
-    withRef: withRef,
-  })(container);
+  return ReactRedux.connect(
+    stateMapper,
+    allActions,
+    null,
+    {
+      withRef: withRef,
+    },
+  )(container);
 };
 
 export const connect2 = (
@@ -59,9 +69,12 @@ export const connect2 = (
     loading,
   };
   return container =>
-    ReactRedux.connect(stateMapper, allActions, null, { withRef: withRef })(
-      container,
-    );
+    ReactRedux.connect(
+      stateMapper,
+      allActions,
+      null,
+      { withRef: withRef },
+    )(container);
 };
 // other setup
 
