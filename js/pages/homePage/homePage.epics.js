@@ -60,7 +60,7 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
             }),
           );
         } catch (error) {
-          console.warn(error);
+          console.warn(error.message);
         } finally {
           observer.complete();
         }
@@ -112,7 +112,7 @@ const pressEmoji = (action$, state$, { logic }) =>
     }),
   );
 
-export const onPressEmojiRequest = (action$, state$, { httpClient }) =>
+export const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST'),
     throttleTime(500),
@@ -121,6 +121,7 @@ export const onPressEmojiRequest = (action$, state$, { httpClient }) =>
         httpClient.post('/post_emojis', {
           emoji: payload.emoji,
           post_id: payload.postId,
+          user_id: User.id(),
         }),
       ).pipe(
         tap(_ => console.warn('success')),

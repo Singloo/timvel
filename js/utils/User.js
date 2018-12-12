@@ -55,6 +55,9 @@ export function getUserInfo() {
 
 export function id() {
   const user = AV.User.current();
+  if (!user) {
+    return null;
+  }
   const userId = user.get('userId');
   return userId;
 }
@@ -68,6 +71,9 @@ export function getUserByObjectId(objectId) {
 export async function updateAvatar(url) {
   try {
     const user = await AV.User.currentAsync();
+    if (!user) {
+      return;
+    }
     user.set('avatar', url);
     await user.save();
   } catch (error) {
