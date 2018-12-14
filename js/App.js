@@ -5,6 +5,7 @@ import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
 import { Setup, base, Notification } from './utils';
 import * as Connectors from './connectors';
+import CoinIncrease from './components/CoinIncrease';
 //ignore isMounted is deprecated, this warning fixed in higher version
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -33,7 +34,7 @@ export default class App extends React.Component {
     if (base.isIOS) {
       return;
     }
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 500);
     });
     Setup.androidBackButton(this._navigation, store);
@@ -53,9 +54,11 @@ export default class App extends React.Component {
               setNavigation(navigation);
             }}
           />
+
           <Connectors.global />
           <Connectors.alert />
           <Connectors.snakeBar />
+          <CoinIncrease edge={15} />
         </View>
       </Provider>
     );
