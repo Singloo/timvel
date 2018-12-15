@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  LayoutAnimation,
+} from 'react-native';
 import { Text, createMoveableComp, PriceTag } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { interval } from 'rxjs';
@@ -52,7 +57,8 @@ const COIN = [
   10,
   15,
 ];
-class CoinIncrease extends React.Component {
+const deleteObject = (obj, key) => () => delete obj[key];
+class CoinIncrease extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,16 +89,6 @@ class CoinIncrease extends React.Component {
 
   _onPressBubble = (id, coin) => () => {
     this._destroyBubble(id);
-    // let index = null;
-    // this.bubblePool.forEach((item, i) => {
-    //   if (item.id === id) {
-    //     index = i;
-    //   }
-    // });
-    // console.warn(index);
-    // if (index) {
-    //   this._destroyBubble(index);
-    // }
   };
   _createBubble = () => {};
 
@@ -102,21 +98,17 @@ class CoinIncrease extends React.Component {
       if (keys.length === 0) {
         return;
       }
-      this.bubblePool[keys[0]].rootView.destroy(() => {
-        delete this.bubblePool[id];
-      });
+      this._destroyBubble(keys[0]);
       return;
     }
-    this.bubblePool[id].rootView.destroy(() => {
-      delete this.bubblePool[id];
-    });
+    this.bubblePool[id].rootView.destroy(deleteObject(this.bubblePool, id));
   };
 
-  _createRootView = callback => {
+  _createRootView = () => {
     const top = randomNumber(0, SCREEN_HEIGHT - BUBBLE_SIZE - NAV_BAR_HEIGHT);
     const left = randomNumber(0, SCREEN_WIDTH - BUBBLE_SIZE);
     const coin = randomItem(COIN);
-    const delay = randomNumber(1, 100);
+    const delay = randomItem([100, 200, 300, 400]);
     const id = Date.now();
     const style = {
       position: 'absolute',
@@ -125,7 +117,6 @@ class CoinIncrease extends React.Component {
       width: BUBBLE_SIZE + 10,
       height: BUBBLE_SIZE + 10,
       padding: 5,
-      // backgroundColor: 'red',
     };
     const comp = (
       <View style={style}>
@@ -177,7 +168,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function CoinBubble({ style, price, onPress, delay }) {
+function CoinBubble({ style, price, onPress, delay = 0 }) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <Animatable.View

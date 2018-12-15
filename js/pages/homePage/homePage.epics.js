@@ -61,6 +61,11 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
           );
         } catch (error) {
           console.warn(error.message);
+          observer.next(
+            logic('HOME_PAGE_SET_STATE', {
+              isHeaderLoading: false,
+            }),
+          );
         } finally {
           observer.complete();
         }

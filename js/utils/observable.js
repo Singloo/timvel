@@ -34,8 +34,4 @@ export const queryNew = range(1, 20).pipe(
   ),
 );
 
-export const minuteReward = interval(1000).pipe(
-  tap(x => console.warn(x)),
-  bufferTime(60 * 1000),
-);
 // interval(1000).subscribe(queryNew);
