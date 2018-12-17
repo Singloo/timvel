@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 import { Text, createMoveableComp, PriceTag } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
-import { interval } from 'rxjs';
-import { bufferCount, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { base } from '../utils';
 const {
   colors,
@@ -21,42 +20,14 @@ const {
 } = base;
 import * as Animatable from 'react-native-animatable';
 // import Moment from 'moment'
-const ITEM_SIZE = 80;
-const BUBBLE_SIZE = 60;
-const COIN = [
-  3,
-  3,
-  3,
-  3,
-  3,
-  3,
-  3,
-  3,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  4,
-  6,
-  6,
-  6,
-  7,
-  7,
-  7,
-  7,
-  8,
-  8,
-  9,
-  10,
-  15,
-];
+import { ITEM_SIZE, COIN, BUBBLE_SIZE } from './CoinIncreaseConstants';
+import {
+  $sourceSecond,
+  $sourceOneMinue,
+  $sourceTenSeconds,
+  $CENTER,
+  $TYPES,
+} from '../utils/$observable';
 const deleteObject = (obj, key) => () => delete obj[key];
 class CoinIncrease extends React.PureComponent {
   constructor(props) {
@@ -64,22 +35,20 @@ class CoinIncrease extends React.PureComponent {
     this.state = {
       second: 0,
     };
-    this.observable$;
     this.rootSibling;
     this.bubblePool = {};
   }
   componentDidMount() {
-    this.observable$ = interval(1000).pipe(
-      map(_ => {
-        this.setState({
-          second: _ + 1,
-        });
-        return _ + 1;
-      }),
-      bufferCount(10),
-    );
-    this.observable$.subscribe(this._renderCoinBubble);
+    this._init();
   }
+  _init = () => {
+    $sourceSecond.pipe(map(_ => _ + 1)).subscribe(second =>
+      this.setState({
+        second,
+      }),
+    );
+    $sourceTenSeconds.subscribe(this._renderCoinBubble);
+  };
   _renderCoinBubble = () => {
     if (Object.keys(this.bubblePool).length > 4) {
       this._destroyBubble();
@@ -89,6 +58,12 @@ class CoinIncrease extends React.PureComponent {
 
   _onPressBubble = (id, coin) => () => {
     this._destroyBubble(id);
+    $CENTER.next({
+      type: $TYPES.coinTransaction,
+      payload: {
+        transaction: coin,
+      },
+    });
   };
   _createBubble = () => {};
 
@@ -120,13 +95,11 @@ class CoinIncrease extends React.PureComponent {
     };
     const comp = (
       <View style={style}>
-        {
-          <CoinBubble
-            onPress={this._onPressBubble(id, coin)}
-            price={coin}
-            delay={delay}
-          />
-        }
+        <CoinBubble
+          onPress={this._onPressBubble(id, coin)}
+          price={coin}
+          delay={delay}
+        />
       </View>
     );
     const bubbleObj = {

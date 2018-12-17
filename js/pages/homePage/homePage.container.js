@@ -17,7 +17,7 @@ import CarouselCard from './components/CarouselCard';
 import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
-import { queryNew, minuteReward } from '../../utils/observable';
+import { $queryNew } from '../../utils/$observable';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   colors,

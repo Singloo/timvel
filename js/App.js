@@ -6,6 +6,7 @@ import SimpleApp from './Navigators';
 import { Setup, base, Notification } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
+import CoinTransaction from './components/CoinTransactionAnimation';
 //ignore isMounted is deprecated, this warning fixed in higher version
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -24,6 +25,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends React.Component {
   async componentDidMount() {
+    this._init();
     let notification = new Notification(Installation);
     if (base.isIOS) {
       notification.IOSinitPush();
@@ -43,6 +45,10 @@ export default class App extends React.Component {
     PushNotificationIOS.removeEventListener('register');
     await store.dispatch('UPDATE_USERINFO');
   }
+
+  _init = () => {
+    CoinTransaction.init();
+  };
 
   render() {
     return (
