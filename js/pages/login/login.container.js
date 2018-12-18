@@ -131,7 +131,6 @@ class Login extends Component {
   };
 
   _loginCallback = () => {
-    this.props.logic('USER_PAGE_GET_USER_INFO');
     this._goBack();
   };
   _onChangeLoginSignup = () => {
@@ -202,7 +201,6 @@ class Login extends Component {
   };
 
   _signUpCallback = () => {
-    this.props.logic('USER_PAGE_GET_USER_INFO');
     this._goBack();
     this.props.logic('SHOW_SNAKE_BAR', {
       content: I18n.t('welcome'),

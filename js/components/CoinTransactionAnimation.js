@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
 import { $coinTransaction } from '../utils/$observable';
-import { base } from '../utils';
+import { base, User } from '../utils';
 const { SCREEN_WIDTH, colors, Styles } = base;
 import { PriceTag, Touchable } from '../../re-kits';
 import { timer } from 'rxjs';
@@ -12,7 +12,7 @@ const ITEM_HEIGHT = 40;
 class CoinTransactionAnimation {
   constructor() {
     this.transactionSequence = [];
-    this.userCoin = 0;
+    this.userCoin = null;
     this.rootView;
   }
 
@@ -20,11 +20,22 @@ class CoinTransactionAnimation {
     $coinTransaction.subscribe({
       next: ({ transaction }) => {
         this.transactionSequence.push(parseInt(transaction, 10));
+        if (this.userCoin === null) {
+          this._getCurrentUserCoin();
+          return;
+        }
         this._renderComp();
       },
     });
   };
-  _getCurrentUserCoin = () => {};
+  _getCurrentUserCoin = async () => {
+    const coin = User.userCoin();
+    if (!coin) {
+      return;
+    }
+    this.userCoin = coin;
+    this._renderComp();
+  };
 
   _renderComp = () => {
     if (this.rootView) {

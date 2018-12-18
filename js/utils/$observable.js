@@ -48,6 +48,7 @@ const $CENTER = new Subject();
 
 const $TYPES = {
   coinTransaction: 'coinTransaction',
+  init:'init'
 };
 $CENTER.subscribe({
   // command = {
@@ -57,6 +58,9 @@ $CENTER.subscribe({
   //   }
   // }
   next: command => {
+    if(command.type === $TYPES.init){
+      // $all.coinTransaction.next({})
+    }
     const $next = $all[command.type];
     if (!$next) {
       return;

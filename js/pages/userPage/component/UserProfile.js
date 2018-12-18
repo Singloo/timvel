@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { Button, Text, InfiniteText, ContentByTag } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { base, User } from '../../../utils';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';
 import HeaderBar from './HeaderBar';
@@ -25,9 +25,8 @@ class UserProfile extends Component {
   componentWillMount() {}
 
   render() {
-    const { userInfo, userPosts } = this.props;
+    const { userPosts } = this.props;
 
-    const { username, userCoin, userAvatar, userTitle } = userInfo && userInfo;
     const renderCards = Object.keys(userPosts).map((key, index) => {
       return (
         <ContentByTag key={'up' + index} tag={key} posts={userPosts[key]} />
@@ -47,10 +46,10 @@ class UserProfile extends Component {
           )}
         >
           <UserInfo
-            username={username}
-            userCoin={userCoin}
-            userAvatar={userAvatar}
-            userTitle={userTitle}
+            username={User.username()}
+            userCoin={User.userCoin()}
+            userAvatar={User.avatar()}
+            userTitle={''}
             nScrollY={this._nscrollY}
             scrollY={this._scrollY}
           />

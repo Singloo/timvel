@@ -12,9 +12,6 @@ class UserPage extends Component {
   componentWillMount() {
     this.props.logic('USER_PAGE_FETCH_USER_POSTS');
     this._generateRandomButtons();
-    if (this.props.state.isLoggedIn === false) {
-      this.props.logic('USER_PAGE_GET_USER_INFO');
-    }
   }
 
   _generateRandomButtons = () => {
@@ -45,18 +42,9 @@ class UserPage extends Component {
   };
   _onPressLogout = () => {
     User.logOut();
-    this.props.logic('USER_SET_STATE', {
-      userInfo: {},
-      isLoggedIn: false,
-    });
   };
   render() {
-    const {
-      buttonLocations,
-      userInfo,
-      isLoggedIn,
-      userPosts,
-    } = this.props.state;
+    const { buttonLocations, userPosts } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
         <View
@@ -73,7 +61,7 @@ class UserPage extends Component {
         </View>
       );
     });
-    if (!isLoggedIn) {
+    if (!User.isLoggedIn()) {
       return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
           {renderButton}
@@ -82,7 +70,7 @@ class UserPage extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <UserProfile userInfo={userInfo} userPosts={userPosts} />
+          <UserProfile userPosts={userPosts} />
         </View>
       );
     }

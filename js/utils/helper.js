@@ -1,3 +1,3 @@
-const invoke = (...funcs) => funcs.forEach(func => func && func());
+const invoke = (...funcs) => () => funcs.forEach(func => func && func());
 
 export { invoke };

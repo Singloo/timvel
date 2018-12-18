@@ -3,7 +3,7 @@ import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore, { setNavigation } from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base, Notification } from './utils';
+import { Setup, base, Notification, User } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
 import CoinTransaction from './components/CoinTransactionAnimation';
@@ -47,6 +47,7 @@ export default class App extends React.Component {
   }
 
   _init = () => {
+    User.init();
     CoinTransaction.init();
   };
 

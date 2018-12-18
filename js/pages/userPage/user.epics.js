@@ -9,13 +9,13 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
-          const user = await User.currentAsync();
-          if (user === null) {
+          const userId = User.userId();
+          if (userId === null) {
             observer.complete();
             return;
           }
           const { data } = await httpClient.get('/fetch_post_with_condition', {
-            params: { user_id: user.get('userId') },
+            params: { user_id: userId },
           });
           const postsByTag = filterPostsByTag(data);
           observer.next(
@@ -24,7 +24,7 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
             }),
           );
         } catch (error) {
-          console.warn(error);
+          console.warn(error.message);
         } finally {
           observer.complete();
         }
@@ -32,31 +32,30 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
     ),
   );
 
-const getUserInfo = (action$, state$, { User, logic }) =>
-  action$.pipe(
-    ofType('USER_PAGE_GET_USER_INFO'),
-    mergeMap(action =>
-      Observable.create(async observer => {
-        try {
-          const user = await User.currentAsync();
-          if (user == null) {
-            observer.complete();
-            return;
-          }
-          const userInfo = User.getUserInfo();
-          observer.next(
-            logic('USER_SET_STATE', {
-              userInfo,
-              isLoggedIn: true,
-            }),
-          );
-        } catch (error) {
-          console.warn(error);
-        } finally {
-          observer.complete();
-        }
-      }),
-    ),
-  );
+// const getUserInfo = (action$, state$, { User, logic }) =>
+//   action$.pipe(
+//     ofType('USER_PAGE_GET_USER_INFO'),
+//     mergeMap(action =>
+//       Observable.create(async observer => {
+//         try {
+//           if (!User.isLoggedIn()) {
+//             observer.complete();
+//             return;
+//           }
+//           const userInfo = User.getUserInfo();
+//           observer.next(
+//             logic('USER_SET_STATE', {
+//               userInfo,
+//               isLoggedIn: true,
+//             }),
+//           );
+//         } catch (error) {
+//           console.warn(error.message);
+//         } finally {
+//           observer.complete();
+//         }
+//       }),
+//     ),
+//   );
 
-export default [fetchUserPosts, getUserInfo];
+export default [fetchUserPosts];

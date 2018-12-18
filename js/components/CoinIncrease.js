@@ -8,7 +8,7 @@ import {
 import { Text, createMoveableComp, PriceTag } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map } from 'rxjs/operators';
-import { base } from '../utils';
+import { base, User } from '../utils';
 const {
   colors,
   Styles,
@@ -64,6 +64,7 @@ class CoinIncrease extends React.PureComponent {
         transaction: coin,
       },
     });
+    User.increaseCoin(coin);
   };
   _createBubble = () => {};
 
@@ -112,7 +113,6 @@ class CoinIncrease extends React.PureComponent {
   };
   render() {
     const { second } = this.state;
-    // const {} = this.props;
     const minute = Math.floor(second / 60);
     let seconds = second % 60;
     seconds = seconds.toString().length === 1 ? `0${seconds}` : seconds;
