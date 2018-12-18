@@ -41,9 +41,9 @@ export default class App extends React.Component {
     });
     Setup.androidBackButton(this._navigation, store);
   }
-  async componentWillUnmount() {
+  componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');
-    await store.dispatch('UPDATE_USERINFO');
+    store.dispatch({ type: 'UPDATE_USERINFO' });
   }
 
   _init = () => {

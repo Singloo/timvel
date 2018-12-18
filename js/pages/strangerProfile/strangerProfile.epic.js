@@ -38,7 +38,11 @@ const fetchUserPosts = (action$, state, { httpClient, logic, User }) =>
     ),
   );
 
-const sendGift = (action$, state, { httpClient, logic, User, retryTimes }) =>
+const sendGift = (
+  action$,
+  state,
+  { httpClient, logic, User, retryWhenDelay },
+) =>
   action$.pipe(
     ofType('STRANGER_PROFILE_SEND_GIFT'),
     exhaustMap(({ payload }) =>
@@ -55,7 +59,7 @@ const sendGift = (action$, state, { httpClient, logic, User, retryTimes }) =>
             payload: { content: 'Sent gift' },
           };
         }),
-        retryWhen(error => error.pipe(delay(1000), concatMap(retryTimes(2)))),
+        retryWhenDelay(1000, 3),
         catchError(error => {
           console.warn(error.message);
           return of({
@@ -70,7 +74,7 @@ const sendGift = (action$, state, { httpClient, logic, User, retryTimes }) =>
 const fetchUserInfos = (
   action$,
   state$,
-  { httpClient, logic, Network, retryTimes },
+  { httpClient, logic, Network, retryWhenDelay },
 ) =>
   action$.pipe(
     ofType('STRANGER_PROFILE_FETCH_USER_INFOS'),
@@ -86,7 +90,7 @@ const fetchUserInfos = (
             },
           };
         }),
-        retryWhen(error => error.pipe(delay(1000), concatMap(retryTimes(3)))),
+        retryWhenDelay(1000, 3),
         catchError(error => {
           console.warn(error.message);
           return of({

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Animated, View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
 import { $coinTransaction } from '../utils/$observable';
 import { base } from '../utils';
@@ -7,7 +7,6 @@ const { SCREEN_WIDTH, colors, Styles } = base;
 import { PriceTag, Touchable } from '../../re-kits';
 import { timer } from 'rxjs';
 import * as Animatable from 'react-native-animatable';
-import AV from 'leancloud-storage';
 const ITEM_WIDTH = 150;
 const ITEM_HEIGHT = 40;
 class CoinTransactionAnimation {

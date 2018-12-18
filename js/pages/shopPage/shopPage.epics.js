@@ -73,7 +73,11 @@ const saveImageToAlbum = (action$, state$, { Network }) =>
     ),
   );
 
-const fetchProducts = (action$, state$, { httpClient, logic, retryTimes }) =>
+const fetchProducts = (
+  action$,
+  state$,
+  { httpClient, logic, retryWhenDelay },
+) =>
   action$.pipe(
     ofType('SHOP_PAGE_FETCH_PRODUCTS'),
     switchMap(action =>
@@ -95,7 +99,7 @@ const fetchProducts = (action$, state$, { httpClient, logic, retryTimes }) =>
             isError: false,
           },
         }),
-        retryWhen(error => error.pipe(delay(1000), concatMap(retryTimes()))),
+        retryWhenDelay(1000, 3),
         catchError(error =>
           of({
             type: 'SHOP_PAGE_SET_STATE',
