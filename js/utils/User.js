@@ -79,6 +79,9 @@ class UUer {
   objectId = () => {
     return this.get('objectId');
   };
+  id = () => {
+    return this.objectId();
+  };
   avatar = () => {
     return this.get('avatar');
   };
