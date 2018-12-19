@@ -325,6 +325,7 @@ class HomePage extends React.Component {
     const { posts, isFooterLoading, isHeaderLoading } = this.props.state;
     return (
       <RFlatList
+        animated={true}
         onHeaderRefresh={this._initFeeds}
         isHeaderLoading={isHeaderLoading}
         onFooterRefresh={this._fetchMorePosts}
@@ -348,7 +349,7 @@ class HomePage extends React.Component {
         }}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
-          { useNativeDriver: false },
+          { useNativeDriver: true },
         )}
         showsVerticalScrollIndicator={false}
       />

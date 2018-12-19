@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
 import _ from 'lodash';
 import Moment from 'moment';
+Moment.locale();
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );

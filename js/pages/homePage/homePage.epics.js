@@ -126,7 +126,7 @@ export const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
         httpClient.post('/post_emojis', {
           emoji: payload.emoji,
           post_id: payload.postId,
-          user_id: User.id(),
+          user_id: User.objectId(),
         }),
       ).pipe(
         tap(_ => console.warn('success')),

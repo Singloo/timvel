@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  LayoutAnimation,
-} from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Text, createMoveableComp, PriceTag } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map } from 'rxjs/operators';
@@ -24,7 +19,7 @@ import { ITEM_SIZE, COIN, BUBBLE_SIZE } from './CoinIncreaseConstants';
 import {
   $sourceSecond,
   $sourceOneMinue,
-  $sourceTenSeconds,
+  // $sourceTenSeconds,
   $CENTER,
   $TYPES,
 } from '../utils/$observable';
@@ -47,7 +42,7 @@ class CoinIncrease extends React.PureComponent {
         second,
       }),
     );
-    $sourceTenSeconds.subscribe(this._renderCoinBubble);
+    $sourceOneMinue.subscribe(this._renderCoinBubble);
   };
   _renderCoinBubble = () => {
     if (Object.keys(this.bubblePool).length > 4) {

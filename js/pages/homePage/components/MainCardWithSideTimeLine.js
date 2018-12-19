@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   Button,
@@ -26,7 +26,7 @@ const cardWidth = base.SCREEN_WIDTH - 20 - 20;
 const cardHeight = cardWidth - 60;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
-class MainCard extends Component {
+class MainCard extends React.PureComponent {
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
