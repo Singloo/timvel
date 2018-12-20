@@ -6,14 +6,19 @@ class UUer {
   }
   init = async callback => {
     try {
+      if (this.user) {
+        return this.user;
+      }
       const user = await AV.User.currentAsync();
       if (!user) {
-        return;
+        return null;
       }
       this.user = await user.fetch();
       invoke(callback)();
+      return this.user;
     } catch (error) {
       console.warn('user init error', error);
+      return null;
     }
   };
   get = attribute => {
@@ -67,8 +72,9 @@ class UUer {
     user.setUsername(username);
     user.setEmail(email);
     user.setPassword(password);
-    await user.signUp();
+    this.user = await user.signUp();
     this.init();
+    return this.user;
   };
   username = () => {
     return this.get('username');
@@ -94,6 +100,12 @@ class UUer {
   };
   increaseCoin = num => {
     this.increment(num);
+  };
+  ableToBuy = amount => {
+    if (!this.user) {
+      return false;
+    }
+    return this.userCoin() >= parseInt(amount);
   };
 }
 const User = new UUer();

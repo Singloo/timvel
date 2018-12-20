@@ -68,7 +68,8 @@ const updateUserinfoFromLeanCloud = createLogic({
   ) {
     try {
       const { password } = action.payload;
-      const user = await AV.User.currentAsync();
+      const user = await User.init()
+
       if (!user) {
         done();
         return;
@@ -113,7 +114,6 @@ const updateUserinfoFromLeanCloud = createLogic({
         deviceName,
       };
       const user_info = {
-        // user_id: user.get('userId'),
         object_id: user.get('objectId'),
         username: user.get('username'),
         user_coin: user.get('userCoin'),
@@ -122,19 +122,13 @@ const updateUserinfoFromLeanCloud = createLogic({
         organization: user.get('organization'),
         avatar: user.get('avatar'),
       };
-      const { data } = await httpClient.post('/update_user_info', {
+      await httpClient.post('/update_user_info', {
         ...user_info,
         city: ipData.city,
         country: ipData.country_name,
         detail: info,
         password: password,
       });
-      if (data.id) {
-        if (parseInt(data.id, 10) !== parseInt(user.get('userId'), 10)) {
-          console.warn('userId not equal!!', data.id, user.get('userId'));
-          user.set('userId', data.id);
-        }
-      }
       user.save();
     } catch (error) {
       console.warn(error.message);

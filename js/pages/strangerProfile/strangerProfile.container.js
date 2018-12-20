@@ -10,7 +10,7 @@ import {
   Assets,
   ContentByTag,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { base, I18n ,User} from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { ableToBuy } from '../../utils/Network';
 import { interval, Subject, of, from } from 'rxjs';
@@ -137,7 +137,7 @@ class StrangerProfile extends Component {
 
   _onConfirmSendGift = async giftType => {
     try {
-      const bool = await ableToBuy(giftType > 100 ? 200 : 100);
+      const bool = await User.ableToBuy(giftType > 100 ? 200 : 100);
       if (!bool) {
         this.props.snakeBar('No coins..', 'ERROR');
         return;

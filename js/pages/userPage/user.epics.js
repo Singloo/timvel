@@ -9,7 +9,7 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
-          const userId = User.userId();
+          const userId = User.id();
           if (userId === null) {
             observer.complete();
             return;

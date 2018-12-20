@@ -11,16 +11,15 @@ const sendComment = createLogic({
     try {
       const { postId, content, callback } = action.payload;
       const { comments } = getState().comment;
-      const user = await User.currentAsync();
       await httpClient.post('/post_comment', {
         post_id: postId,
-        user_id: user.get('userId'),
+        user_id: User.id(),
         content,
       });
       let comment = {
-        userId: user.get('userId'),
-        username: user.get('username'),
-        avatar: user.get('avatar'),
+        userId: User.id(),
+        username: User.username(),
+        avatar: User.avatar(),
         content: content,
         createdAt: Moment().format(),
       };
@@ -30,7 +29,6 @@ const sendComment = createLogic({
           comments: [].concat(comments, comment),
         }),
       );
-      console.warn([].concat(comments, comment));
       dispatch(
         logic('SHOW_SNAKE_BAR', {
           type: 'SUCCESS',

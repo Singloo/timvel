@@ -3,7 +3,6 @@ import { CameraRoll } from 'react-native';
 import * as Constants from '../constants';
 import RNFS from 'react-native-fs';
 import { API_V1 } from '../constants';
-import AV from 'leancloud-storage';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 const axios = Axios.create({
   timeout: 20000,
@@ -80,9 +79,4 @@ export const getUserInfo = user_id => {
       user_id,
     },
   });
-};
-export const ableToBuy = async amount => {
-  const user = await AV.User.currentAsync();
-  const _user = await user.fetch();
-  return _user.get('userCoin') >= parseInt(amount);
 };

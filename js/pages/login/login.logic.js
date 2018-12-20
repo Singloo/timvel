@@ -43,7 +43,7 @@ const signUp = createLogic({
   async process({ action, logic, User, httpClient, I18n }, dispatch, done) {
     try {
       const { username, password, email, callback } = action.payload;
-      let user = await User.signUp({
+      await User.signUp({
         username,
         password,
         email,
@@ -66,15 +66,14 @@ const signUp = createLogic({
           timezone: ipInfo.data.timezone,
         };
 
-        const { data } = await httpClient.post('/update_user_info', {
-          object_id: user.get('objectId'),
+        await httpClient.post('/update_user_info', {
+          object_id: User.objectId,
           username: username,
           password: password,
           email: email,
           detail: JSON.stringify(info),
         });
-        user.set('userId', data.id);
-        user.save();
+        // user.set('userId', data.id);
       } catch (error) {
         console.warn(error);
       }

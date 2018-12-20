@@ -38,11 +38,7 @@ const fetchUserPosts = (action$, state, { httpClient, logic, User }) =>
     ),
   );
 
-const sendGift = (
-  action$,
-  state,
-  { httpClient, logic, User, retryWhenDelay },
-) =>
+const sendGift = (action$, state, { httpClient, User, retryWhenDelay }) =>
   action$.pipe(
     ofType('STRANGER_PROFILE_SEND_GIFT'),
     exhaustMap(({ payload }) =>
