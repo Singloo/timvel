@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Text, createMoveableComp, PriceTag } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map } from 'rxjs/operators';
-import { base, User } from '../utils';
+import { base, User, runAfter } from '../utils';
 const {
   colors,
   Styles,
@@ -19,7 +19,7 @@ import { ITEM_SIZE, COIN, BUBBLE_SIZE } from './CoinIncreaseConstants';
 import {
   $sourceSecond,
   $sourceOneMinue,
-  // $sourceTenSeconds,
+  $sourceTenSeconds,
   $CENTER,
   $TYPES,
 } from '../utils/$observable';
@@ -38,16 +38,15 @@ class CoinIncrease extends React.PureComponent {
     this._userMountListener();
   }
   _userMountListener = () => {
-    const listener = $CENTER.subscribe({
-      next: ({ type }) => {
-        if (type === $TYPES.userMount) {
-          this.setState({
-            show: true,
-          });
-          this._init();
-          listener.unsubscribe();
-        }
-      },
+    const listener = $CENTER.subscribe(({ type }) => {
+      if (type === $TYPES.userMount) {
+        this.setState({
+          show: true,
+        });
+        console.warn('timer init');
+        this._init();
+        listener.unsubscribe();
+      }
     });
   };
   _init = () => {
@@ -56,7 +55,7 @@ class CoinIncrease extends React.PureComponent {
         second,
       }),
     );
-    $sourceOneMinue.subscribe(this._renderCoinBubble);
+    $sourceTenSeconds.subscribe(runAfter(this._renderCoinBubble));
   };
   _renderCoinBubble = () => {
     if (Object.keys(this.bubblePool).length > 4) {

@@ -1,6 +1,7 @@
 import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES, dispatch } from './$observable';
+import { retryDelay, HANDLE } from './$helper';
 // import {} from './base'
 // import { CoinTransactionAnimation } from '../components/CoinTransactionAnimation';
 class UUer {
@@ -59,7 +60,11 @@ class UUer {
       return null;
     }
     this.user.increment(key, value);
-    await this.user.save();
+    retryDelay(this.user.save()).subscribe(
+      HANDLE(null, error => {
+        console.warn(error);
+      }),
+    );
   };
   userCoin = () => {
     return this.get('userCoin');
@@ -103,7 +108,7 @@ class UUer {
     this.user = null;
   };
   increaseCoin = num => {
-    this.increment(num);
+    this.increment('userCoin', num);
   };
   ableToBuy = amount => {
     if (!this.user) {

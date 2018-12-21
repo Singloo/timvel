@@ -6,43 +6,43 @@ Moment.locale();
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );
-const getItemPosition = (n, r) => {
-  let f = {
-    x: -sinR(15, r),
-    y: cosR(15, r),
-  };
-  let l = {
-    x: cosR(15, r),
-    y: -sinR(15, r),
-  };
-  const wide = 120;
-  switch (n) {
-    case 1:
-      return [f];
-    case 2:
-      return [f, l];
-    case 3: {
-      let s = {
-        x: sinR(60 - 15, r),
-        y: cosR(60 - 15, r),
-      };
-      return [f, s, l];
-    }
-    case 4: {
-      let ss = {
-        x: sinR(40 - 15, r),
-        y: cosR(40 - 15, r),
-      };
-      let tt = {
-        x: sinR(40 * 2 - 15, r),
-        y: cosR(40 * 2 - 15, r),
-      };
-      return [f, ss, tt, l];
-    }
-    default:
-      break;
-  }
-};
+// const getItemPosition = (n, r) => {
+//   let f = {
+//     x: -sinR(15, r),
+//     y: cosR(15, r),
+//   };
+//   let l = {
+//     x: cosR(15, r),
+//     y: -sinR(15, r),
+//   };
+//   const wide = 120;
+//   switch (n) {
+//     case 1:
+//       return [f];
+//     case 2:
+//       return [f, l];
+//     case 3: {
+//       let s = {
+//         x: sinR(60 - 15, r),
+//         y: cosR(60 - 15, r),
+//       };
+//       return [f, s, l];
+//     }
+//     case 4: {
+//       let ss = {
+//         x: sinR(40 - 15, r),
+//         y: cosR(40 - 15, r),
+//       };
+//       let tt = {
+//         x: sinR(40 * 2 - 15, r),
+//         y: cosR(40 * 2 - 15, r),
+//       };
+//       return [f, ss, tt, l];
+//     }
+//     default:
+//       break;
+//   }
+// };
 
 const days31 = [1, 3, 5, 7, 8, 10, 12];
 const days30 = [4, 6, 9, 11];

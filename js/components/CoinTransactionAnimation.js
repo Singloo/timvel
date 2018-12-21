@@ -3,8 +3,10 @@ import { StyleSheet } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
 import { $coinTransaction, $CENTER, $TYPES } from '../utils/$observable';
 import { base, User } from '../utils';
+// import {SCREEN_WIDTH, colors, Styles} from '../utils/base'
 const { SCREEN_WIDTH, colors, Styles } = base;
 import { PriceTag, Touchable } from '../../re-kits';
+// const User = {}
 import { timer } from 'rxjs';
 import * as Animatable from 'react-native-animatable';
 const ITEM_WIDTH = 150;
@@ -19,16 +21,14 @@ class CoinTransactionAnimation {
     const listener = $CENTER.subscribe({
       next: ({ type }) => {
         if (type === $TYPES.userMount) {
-          this.init();
+          this._initTransactionListener();
           listener.unsubscribe();
         }
       },
     });
   };
   _initTransactionListener = () => {
-    $coinTransaction.subscribe({
-      next: this._next,
-    });
+    $coinTransaction.subscribe(this._next);
   };
   _next = ({ transaction }) => {
     this.transactionSequence.push(parseInt(transaction, 10));
@@ -117,6 +117,5 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default CoinTransactionAnimation
 const intance = new CoinTransactionAnimation();
 export { intance as CoinTransactionAnimation };
