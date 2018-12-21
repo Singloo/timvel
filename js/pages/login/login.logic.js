@@ -99,7 +99,7 @@ const signUp = createLogic({
             }),
           );
           break;
-        case 125:
+        case 126:
           dispatch(
             logic('SHOW_SNAKE_BAR', {
               content: I18n.t('signUpErrorUserIdInvalid'),

@@ -1,19 +1,7 @@
 import { interval, from, Subject, timer, range } from 'rxjs';
-import {
-  bufferWhen,
-  debounceTime,
-  tap,
-  switchMap,
-  map,
-  mergeMap,
-  throttleTime,
-  bufferTime,
-  delay,
-  take,
-  concatMap,
-  bufferCount,
-} from 'rxjs/operators';
+import { switchMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { get } from 'lodash';
+// import coinTransaction from '../components/CoinTransactionAnimation';
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
   concatMap(_ =>
@@ -48,27 +36,25 @@ const $CENTER = new Subject();
 
 const $TYPES = {
   coinTransaction: 'coinTransaction',
-  init:'init'
+  userMount: 'userMount',
 };
 $CENTER.subscribe({
   // command = {
-  //   type:one of $all keys,
+  //   type:',
   //   payload:{
   //     ...parameters
   //   }
   // }
-  next: command => {
-    if(command.type === $TYPES.init){
-      // $all.coinTransaction.next({})
-    }
-    const $next = $all[command.type];
+  next: ({ type, payload }) => {
+    const $next = $all[type];
     if (!$next) {
       return;
     }
-    $next.next(command.payload);
+    $next.next(payload);
   },
 });
 
+const dispatch = (type, payload = {}) => ({ type, payload });
 export {
   $queryNew,
   $CENTER,
@@ -77,4 +63,5 @@ export {
   $sourceSecond,
   $sourceTenSeconds,
   $TYPES,
+  dispatch,
 };

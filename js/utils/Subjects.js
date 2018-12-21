@@ -19,6 +19,7 @@ events$
 
 const uploadEvents = async logs => {
   try {
+    //
   } catch (error) {
     throw error;
   }

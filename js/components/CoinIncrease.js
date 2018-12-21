@@ -29,13 +29,27 @@ class CoinIncrease extends React.PureComponent {
     super(props);
     this.state = {
       second: 0,
+      show: false,
     };
     this.rootSibling;
     this.bubblePool = {};
   }
   componentDidMount() {
-    this._init();
+    this._userMountListener();
   }
+  _userMountListener = () => {
+    const listener = $CENTER.subscribe({
+      next: ({ type }) => {
+        if (type === $TYPES.userMount) {
+          this.setState({
+            show: true,
+          });
+          this._init();
+          listener.unsubscribe();
+        }
+      },
+    });
+  };
   _init = () => {
     $sourceSecond.pipe(map(_ => _ + 1)).subscribe(second =>
       this.setState({
@@ -107,7 +121,10 @@ class CoinIncrease extends React.PureComponent {
     }, 0);
   };
   render() {
-    const { second } = this.state;
+    const { second, show } = this.state;
+    if (!show) {
+      return null;
+    }
     const minute = Math.floor(second / 60);
     let seconds = second % 60;
     seconds = seconds.toString().length === 1 ? `0${seconds}` : seconds;

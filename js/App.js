@@ -6,7 +6,7 @@ import SimpleApp from './Navigators';
 import { Setup, base, Notification, User } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
-import CoinTransaction from './components/CoinTransactionAnimation';
+import { CoinTransactionAnimation } from './components/CoinTransactionAnimation';
 //ignore isMounted is deprecated, this warning fixed in higher version
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -25,30 +25,34 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends React.Component {
   async componentDidMount() {
-    this._init();
-    let notification = new Notification(Installation);
-    if (base.isIOS) {
-      notification.IOSinitPush();
-    } else {
-      notification.AndroidinitPush();
+    try {
+      this._init();
+      let notification = new Notification(Installation);
+      if (base.isIOS) {
+        notification.IOSinitPush();
+      } else {
+        notification.AndroidinitPush();
+      }
+      // try to prevent crash n._navigation.state
+      if (base.isIOS) {
+        return;
+      }
+      await new Promise(resolve => {
+        setTimeout(resolve, 500);
+      });
+      Setup.androidBackButton(this._navigation, store);
+    } catch (error) {
+      //
     }
-    // try to prevent crash n._navigation.state
-    if (base.isIOS) {
-      return;
-    }
-    await new Promise(resolve => {
-      setTimeout(resolve, 500);
-    });
-    Setup.androidBackButton(this._navigation, store);
   }
   componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');
     store.dispatch({ type: 'UPDATE_USERINFO' });
   }
 
-  _init = () => {
-    User.init();
-    CoinTransaction.init();
+  _init = async () => {
+    CoinTransactionAnimation.init();
+    await User.init();
   };
 
   render() {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
-import { $coinTransaction } from '../utils/$observable';
+import { $coinTransaction, $CENTER, $TYPES } from '../utils/$observable';
 import { base, User } from '../utils';
 const { SCREEN_WIDTH, colors, Styles } = base;
 import { PriceTag, Touchable } from '../../re-kits';
@@ -15,18 +15,28 @@ class CoinTransactionAnimation {
     this.userCoin = null;
     this.rootView;
   }
-
   init = () => {
-    $coinTransaction.subscribe({
-      next: ({ transaction }) => {
-        this.transactionSequence.push(parseInt(transaction, 10));
-        if (this.userCoin === null) {
-          this._getCurrentUserCoin();
-          return;
+    const listener = $CENTER.subscribe({
+      next: ({ type }) => {
+        if (type === $TYPES.userMount) {
+          this.init();
+          listener.unsubscribe();
         }
-        this._renderComp();
       },
     });
+  };
+  _initTransactionListener = () => {
+    $coinTransaction.subscribe({
+      next: this._next,
+    });
+  };
+  _next = ({ transaction }) => {
+    this.transactionSequence.push(parseInt(transaction, 10));
+    if (this.userCoin === null) {
+      this._getCurrentUserCoin();
+      return;
+    }
+    this._renderComp();
   };
   _getCurrentUserCoin = async () => {
     const coin = User.userCoin();
@@ -107,4 +117,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default new CoinTransactionAnimation();
+// export default CoinTransactionAnimation
+const intance = new CoinTransactionAnimation();
+export { intance as CoinTransactionAnimation };
