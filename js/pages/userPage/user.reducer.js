@@ -1,7 +1,8 @@
 const initialState = {
   buttonLocations: [],
   userInfo: {},
-  userPosts:[]
+  userPosts: [],
+  userTitles: [],
 };
 
 function reducer(state = initialState, action) {

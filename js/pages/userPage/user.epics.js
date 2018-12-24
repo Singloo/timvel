@@ -31,7 +31,7 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
       }),
     ),
   );
-const fetchUserTitles = (action$, state$, { httpClient, User }) =>
+const fetchUserTitles = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('USER_PAGE_FETCH_USER_TITLES'),
     switchMap(({ payload }) =>
@@ -44,10 +44,11 @@ const fetchUserTitles = (action$, state$, { httpClient, User }) =>
         }),
       ).pipe(
         map(({ data }) => data),
-        tap(data => {
-          console.warn(data);
-        }),
-        map(_ => ({ type: null })),
+        map(userTitles =>
+          dispatch('USER_SET_STATE', {
+            userTitles,
+          }),
+        ),
         catchError(err => {
           console.warn(err.message);
           return of({ type: null });

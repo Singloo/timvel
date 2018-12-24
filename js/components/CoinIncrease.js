@@ -19,7 +19,7 @@ import { ITEM_SIZE, COIN, BUBBLE_SIZE } from './CoinIncreaseConstants';
 import {
   $sourceSecond,
   $sourceOneMinue,
-  $sourceTenSeconds,
+  // $sourceTenSeconds,
   $CENTER,
   $TYPES,
 } from '../utils/$observable';
@@ -55,7 +55,7 @@ class CoinIncrease extends React.PureComponent {
         second,
       }),
     );
-    $sourceTenSeconds.subscribe(runAfter(this._renderCoinBubble));
+    $sourceOneMinue.subscribe(runAfter(this._renderCoinBubble));
   };
   _renderCoinBubble = () => {
     if (Object.keys(this.bubblePool).length > 4) {
