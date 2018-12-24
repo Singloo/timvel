@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { mergeMap, switchMap, tap, map, catchError } from 'rxjs/operators';
 import { base } from '../../utils';
 const { filterPostsByTag } = base;
 const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
@@ -31,7 +31,30 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
       }),
     ),
   );
-
+const fetchUserTitles = (action$, state$, { httpClient, User }) =>
+  action$.pipe(
+    ofType('USER_PAGE_FETCH_USER_TITLES'),
+    switchMap(({ payload }) =>
+      from(
+        httpClient.get('/get_user_titles', {
+          params: {
+            user_id: User.id(),
+            just_wearing: true,
+          },
+        }),
+      ).pipe(
+        map(({ data }) => data),
+        tap(data => {
+          console.warn(data);
+        }),
+        map(_ => ({ type: null })),
+        catchError(err => {
+          console.warn(err.message);
+          return of({ type: null });
+        }),
+      ),
+    ),
+  );
 // const getUserInfo = (action$, state$, { User, logic }) =>
 //   action$.pipe(
 //     ofType('USER_PAGE_GET_USER_INFO'),
@@ -58,4 +81,4 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
 //     ),
 //   );
 
-export default [fetchUserPosts];
+export default [fetchUserPosts, fetchUserTitles];

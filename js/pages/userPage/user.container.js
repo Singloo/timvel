@@ -11,6 +11,7 @@ class UserPage extends Component {
   }
   componentWillMount() {
     this.props.logic('USER_PAGE_FETCH_USER_POSTS');
+    this.props.logic('USER_PAGE_FETCH_USER_TITLES');
     this._generateRandomButtons();
   }
 
