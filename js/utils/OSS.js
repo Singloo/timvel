@@ -1,7 +1,7 @@
 import AliyunOSS from 'aliyun-oss-react-native';
 import Axios from 'axios';
 import { API_V1 } from '../constants';
-import * as User from './User';
+import User from './User';
 // AliyunOSS.enableDevMode();
 
 const configuration = {
@@ -41,6 +41,7 @@ export async function initAliyunOSS() {
 
 export const upLoadImage = async image => {
   try {
+    console.warn(image);
     await initAliyunOSS();
     const filepath = image.path;
     let imageType = image.mime.replace('image/', '');
@@ -54,6 +55,7 @@ export const upLoadImage = async image => {
     );
     return imageUrlPrefix + filename;
   } catch (error) {
+    console.warn(error);
     throw error;
   }
 };

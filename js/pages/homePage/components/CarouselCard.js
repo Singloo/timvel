@@ -26,7 +26,7 @@ class CarouselCard extends React.Component {
       >
         <Image
           source={{
-            uri: post.imageUrls[0],
+            uri: post.imageUrls[0].imageUrl,
           }}
           processType={'post'}
           style={{

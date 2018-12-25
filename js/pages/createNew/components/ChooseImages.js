@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, Text, Image, Assets } from '../../../../re-kits';
+import { Touchable, Image, Assets } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
-import ImagePicker from 'react-native-image-crop-picker';
 const { realSize, colors, Styles } = base;
-class ChooseImages extends Component {
-  componentWillMount() {}
-
+const TOUZI_SIZE = 50;
+class ChooseImages extends React.PureComponent {
   render() {
     const { pickedImages } = this.props;
     return (
@@ -29,7 +26,7 @@ class ChooseImages extends Component {
       <View style={[styles.image, Styles.center]}>
         <Image
           source={Assets.add.source}
-          style={{ width: realSize(100), height: realSize(100) }}
+          style={{ width: 40, height: 40 }}
           tintColor={colors.midGrey}
           onPress={onPressChooseImages}
         />
@@ -41,19 +38,17 @@ class ChooseImages extends Component {
   _renderChooseRandomImage = () => {
     const { onPressGetRandomImage } = this.props;
     return (
-      <Image
-        source={Assets.touzi.source}
-        style={{
-          position: 'absolute',
-          right: 5,
-          top: 5,
-          width: 25,
-          height: 25,
-        }}
-        tintColor={colors.main}
-        onPress={onPressGetRandomImage}
-        resizeMode={'contain'}
-      />
+      <Touchable onPress={onPressGetRandomImage} style={styles.touziContainer}>
+        <Image
+          source={Assets.touzi.source}
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          tintColor={colors.white}
+          resizeMode={'contain'}
+        />
+      </Touchable>
     );
   };
 
@@ -70,7 +65,7 @@ class ChooseImages extends Component {
           <Image
             source={Assets.close.source}
             size={'verySmall'}
-            onPress={onPressDeleteImage(item)}
+            onPress={onPressDeleteImage(index)}
           />
         </View>
       </View>
@@ -91,6 +86,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.midGrey,
     marginVertical: 10,
+    overflow: 'hidden',
+  },
+  touziContainer: {
+    position: 'absolute',
+    right: -TOUZI_SIZE / 3,
+    top: -TOUZI_SIZE / 3,
+    width: TOUZI_SIZE,
+    height: TOUZI_SIZE,
+    borderRadius: TOUZI_SIZE,
+    paddingTop: TOUZI_SIZE / 4,
+    paddingRight: TOUZI_SIZE / 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.main,
   },
 });
 

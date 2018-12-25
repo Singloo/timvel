@@ -1,7 +1,7 @@
 import { from, Observable } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { exhaustMap } from 'rxjs/operators';
-const createPost = (action$, state$, { logic, httpClient3, OSS }) =>
+const createPost = (action$, state$, { logic, httpClient, OSS, User }) =>
   action$.pipe(
     ofType('CREATE_NEW_SEND_POST'),
     exhaustMap(({ payload }) =>
@@ -14,18 +14,27 @@ const createPost = (action$, state$, { logic, httpClient3, OSS }) =>
             }),
           );
           let imageUrls = [];
-
           for (let image of images) {
-            const imageUrl = await OSS.upLoadImage(image);
-            console.warn(imageUrl);
-            imageUrls.push(imageUrl);
+            if (image.type === 'unsplash') {
+              imageUrls.push({ ...image });
+            } else {
+              const imageUrl = await OSS.upLoadImage(image);
+              imageUrls.push({
+                imageUrl,
+                type: 'local',
+                width: image.width,
+                height: image.height,
+                mime: image.mime,
+                size: image.size,
+                exif: image.exif,
+              });
+            }
           }
-
-          await httpClient3.post('/create_post', {
+          await httpClient.post('/create_post', {
             content: content,
             image_urls: imageUrls,
-            user_id: 1,
-            weather_info: JSON.stringify(weatherInfo),
+            user_id: User.id(),
+            weather_info: weatherInfo,
             post_type: 'normal',
             tag: tag,
             happened_at: date,

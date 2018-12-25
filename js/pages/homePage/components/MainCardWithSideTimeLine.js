@@ -89,7 +89,7 @@ class MainCard extends React.PureComponent {
           >
             <View style={{ flex: 1 }}>
               <ImageSwiper
-                imageUrls={post.imageUrls}
+                imageUrls={post.imageUrls.map(o => o.imageUrl)}
                 style={{ width: cardWidth, height: cardHeight }}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
               />

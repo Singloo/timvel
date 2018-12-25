@@ -12,7 +12,7 @@ import {
 import { base, I18n } from '../../utils';
 const { Styles, SCREEN_WIDTH, colors } = base;
 const card_width = SCREEN_WIDTH - 20;
-const card_height = card_width * 3 / 5;
+const card_height = (card_width * 3) / 5;
 
 /**
  *
@@ -37,6 +37,7 @@ class Alert extends Component {
     this.animationStart = Animated.spring(this.animationState, {
       toValue: 1,
       useNativeDriver: true,
+      speed: 14,
     });
     this.animationDismiss = Animated.timing(this.animationState, {
       toValue: 0,

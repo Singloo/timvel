@@ -85,13 +85,9 @@ class CreateNew extends React.Component {
       images: images.concat(item),
     });
   };
-  _onPressDeleteImage = item => () => {
+  _onPressDeleteImage = index => () => {
     const { images } = this.props.state;
-    const newArr = images.filter(o =>
-      o.type === 'unsplash'
-        ? o.imageUrl !== item.imageUrl
-        : o.path !== item.path,
-    );
+    const newArr = images.filter((o, i) => i !== index);
 
     this.props.logic('CREATE_NEW_SET_STATE', {
       images: newArr,
@@ -107,9 +103,7 @@ class CreateNew extends React.Component {
     this._addTag && this._addTag.getWrappedInstance().open();
   };
 
-  dismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
+  dismissKeyboard = () => Keyboard.dismiss();
 
   _onPressSend = ableToPost => () => {
     if (!ableToPost) {
@@ -119,6 +113,7 @@ class CreateNew extends React.Component {
       );
       return;
     }
+    this.dismissKeyboard();
     const { images, content, weatherInfo, date } = this.props.state;
     this.props.logic('CREATE_NEW_SEND_POST', {
       images,
@@ -193,8 +188,17 @@ class CreateNew extends React.Component {
     });
     from(getRandomPhoto())
       .pipe(
+        // tap(data => console.warn(data)),
         map(data => ({
           imageUrl: data.urls.regular,
+          rawUrl: data.urls.raw,
+          description: data.description,
+          color: data.color,
+          exif: data.exif,
+          width: data.width,
+          height: data.height,
+          likes: data.likes,
+          user: data.user,
           id: data.id,
           type: 'unsplash',
         })),
