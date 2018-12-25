@@ -1,6 +1,7 @@
 import { interval, from, Subject, timer, range } from 'rxjs';
 import { switchMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { get } from 'lodash';
+import { retryDelay, retryWhenDelay, HANDLE } from './$helper';
 // import coinTransaction from '../components/CoinTransactionAnimation';
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
@@ -64,4 +65,7 @@ export {
   $sourceTenSeconds,
   $TYPES,
   dispatch,
+  retryDelay,
+  retryWhenDelay,
+  HANDLE,
 };

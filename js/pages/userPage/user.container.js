@@ -1,20 +1,37 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, ScrollView, Animated } from 'react-native';
 import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
-import { base, User } from '../../utils';
+import { base, User, $observable } from '../../utils';
 import UserProfile from './component/UserProfile';
+const { $CENTER, $TYPES, HANDLE } = $observable;
 const { SCREEN_HEIGHT, SCREEN_WIDTH } = base;
 class UserPage extends Component {
   constructor(props) {
     super(props);
     this.tempLocations = [];
   }
-  componentWillMount() {
+  componentWillMount() {}
+  componentDidMount() {
+    if (User.isLoggedIn()) {
+      this._initQuery();
+    } else {
+      this._generateRandomButtons();
+    }
+  }
+  _initUserMountListener = () => {
+    const listener = $CENTER.subscribe(
+      HANDLE(({ type }) => {
+        if (type === $TYPES.userMount) {
+          this._initQuery();
+          listener.unsubscribe();
+        }
+      }),
+    );
+  };
+  _initQuery = () => {
     this.props.logic('USER_PAGE_FETCH_USER_POSTS');
     this.props.logic('USER_PAGE_FETCH_USER_TITLES');
-    this._generateRandomButtons();
-  }
-
+  };
   _generateRandomButtons = () => {
     for (var i = 0; i <= 50; i++) {
       var x = parseInt(Math.random() * SCREEN_WIDTH, 10);
@@ -32,7 +49,6 @@ class UserPage extends Component {
       }
     }
   };
-  componentDidMount() {}
 
   _onPressLogin = () => {
     const { navigation } = this.props;

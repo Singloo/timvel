@@ -7,6 +7,7 @@ import * as Network from './Network';
 import Notification from './Notification';
 import { connect2 } from './Setup';
 import { runAfter } from './performance';
+import * as $observable from './$observable';
 export {
   base,
   Setup,
@@ -17,4 +18,5 @@ export {
   Notification,
   connect2,
   runAfter,
+  $observable,
 };
