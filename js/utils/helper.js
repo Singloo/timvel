@@ -1,3 +1,4 @@
 const invoke = (...funcs) => () => funcs.forEach(func => func && func());
-
-export { invoke };
+const clearTimers = (...timers) =>
+  timers.forEach(timer => timer && clearTimeout(timer));
+export { invoke, clearTimers };

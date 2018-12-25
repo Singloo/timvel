@@ -8,6 +8,8 @@ import Notification from './Notification';
 import { connect2 } from './Setup';
 import { runAfter } from './performance';
 import * as $observable from './$observable';
+import { retryDelay, retryWhenDelay, HANDLE } from './$helper';
+import { invoke, clearTimers } from './helper';
 export {
   base,
   Setup,
@@ -19,4 +21,9 @@ export {
   connect2,
   runAfter,
   $observable,
+  retryDelay,
+  retryWhenDelay,
+  HANDLE,
+  invoke,
+  clearTimers,
 };

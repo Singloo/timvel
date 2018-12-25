@@ -14,9 +14,9 @@ import {
 const snakeBar = (action$, state$, { logic }) =>
   action$.pipe(
     ofType('SHOW_SNAKE_BAR'),
-    tap(action => {
-      console.warn(action);
-    }),
+    // tap(action => {
+    //   console.warn(action);
+    // }),
     concatMap(({ payload }) =>
       Observable.create(observer => {
         const {

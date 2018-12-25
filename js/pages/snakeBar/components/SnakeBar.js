@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Text, Touchable, Image, Assets } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { base, I18n, clearTimers, invoke } from '../../../utils';
 import PropTypes from 'prop-types';
 const { PADDING_TOP, isAndroid } = base;
 const { Styles, colors } = base;
@@ -30,14 +30,16 @@ const snake_bar_height = 48 + PADDING_TOP + (isAndroid ? 20 : 0);
 class SnakeBar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      animationState: new Animated.Value(0),
+    };
 
-    this.animationState = new Animated.Value(0);
-    this.animationShow = Animated.spring(this.animationState, {
+    this.animationShow = Animated.spring(this.state.animationState, {
       toValue: 1,
       duration: 400,
       useNativeDriver: true,
     });
-    this.animationEnd = Animated.spring(this.animationState, {
+    this.animationEnd = Animated.spring(this.state.animationState, {
       toValue: 0,
       duration: 300,
       useNativeDriver: true,
@@ -46,8 +48,8 @@ class SnakeBar extends Component {
   componentWillMount() {}
   componentDidMount() {
     if (this.timer1) {
-      clearTimeout(this.timer1);
-      this.animationState.setValue(0);
+      clearTimers(this.timer1);
+      this.state.animationState.setValue(0);
     }
     this.show();
   }
@@ -55,33 +57,35 @@ class SnakeBar extends Component {
 
   componentWillUnmount() {
     // this.timer2 && clearTimeout(this.timer2);
-    this.timer1 && clearTimeout(this.timer1);
+    clearTimers(this.timer1);
   }
-  show() {
+  show = () => {
     const { duration } = this.props;
     this.animationShow.start();
     this.timer1 = setTimeout(() => {
       this.dismiss();
     }, duration);
-  }
-  dismiss() {
-    const { callback, onPress } = this.props;
+  };
+  dismiss = () => {
+    const { onPress } = this.props;
     this.animationEnd.start(() => {
       // callback && callback();
     });
     onPress && onPress();
-  }
+  };
 
   render() {
     const { info, type } = this.props;
     const typeStyle = typeStyles[type];
+    const translateY = this.state.animationState.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-snake_bar_height, 0],
+    });
+    const transform = [{ translateY }];
     return (
       <Touchable
         withoutFeedback={true}
-        onPress={() => {
-          this.animationShow.stop();
-          this.dismiss();
-        }}
+        onPress={invoke(this.animationShow.stop, this.dismiss)}
       >
         <Animated.View
           style={[
@@ -91,14 +95,7 @@ class SnakeBar extends Component {
               backgroundColor: 'white',
               // backgroundColor: typeStyle.bkColor,
               shadowColor: typeStyle.textColor,
-              transform: [
-                {
-                  translateY: this.animationState.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [-snake_bar_height, 0],
-                  }),
-                },
-              ],
+              transform,
             },
           ]}
         >

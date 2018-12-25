@@ -22,21 +22,6 @@ class ChooseWeather extends Component {
       <View style={styles.container}>
         <Text style={styles.text}>{'Weather:'}</Text>
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-          {/* <TextInput
-            value={weatherInfo.temperature}
-            onChangeText={onChangeTemperature}
-            autoCapitalize={'none'}
-            keyboardType={'number-pad'}
-            underlineColorAndroid={'transparent'}
-            style={{
-              width: 20,
-              marginLeft: 10,
-              marginRight: 5,
-              textAlign: 'right',
-              color: colors.depGrey,
-              alignSelf: 'center',
-            }}
-          /> */}
           <Text
             style={{ alignSelf: 'center', marginHorizontal: 10, fontSize: 15 }}
           >

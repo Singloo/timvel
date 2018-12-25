@@ -9,50 +9,73 @@ class ChooseImages extends Component {
   componentWillMount() {}
 
   render() {
-    const {
-      onPressChooseImages,
-      pickedImages,
-      onPressDeleteImage,
-    } = this.props;
-    const renderImages = pickedImages.map((item, index) => {
-      return (
-        <View style={styles.image} key={index}>
-          <Image
-            uri={item.path}
-            style={{ width: realSize(120), height: realSize(120) }}
-          />
-          <View style={{ position: 'absolute', right: 5, top: 5 }}>
-            <Image
-              source={Assets.close.source}
-              size={'verySmall'}
-              onPress={() => {
-                onPressDeleteImage(item);
-              }}
-            />
-          </View>
-        </View>
-      );
-    });
+    const { pickedImages } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView
           horizontal={true}
           contentContainerStyle={{ paddingLeft: 10 }}
         >
-          <View style={[styles.image, Styles.center]}>
-            <Image
-              source={Assets.add.source}
-              style={{ width: realSize(100), height: realSize(100) }}
-              tintColor={colors.depGrey}
-              onPress={onPressChooseImages}
-            />
-          </View>
-          {renderImages}
+          {this._renderAddImage()}
+          {pickedImages.map(this._renderSelectedImage)}
           <View style={{ width: 20, backgroundColor: 'transparent' }} />
         </ScrollView>
       </View>
     );
   }
+  _renderAddImage = () => {
+    const { onPressChooseImages } = this.props;
+    return (
+      <View style={[styles.image, Styles.center]}>
+        <Image
+          source={Assets.add.source}
+          style={{ width: realSize(100), height: realSize(100) }}
+          tintColor={colors.midGrey}
+          onPress={onPressChooseImages}
+        />
+        {this._renderChooseRandomImage()}
+      </View>
+    );
+  };
+
+  _renderChooseRandomImage = () => {
+    const { onPressGetRandomImage } = this.props;
+    return (
+      <Image
+        source={Assets.touzi.source}
+        style={{
+          position: 'absolute',
+          right: 5,
+          top: 5,
+          width: 25,
+          height: 25,
+        }}
+        tintColor={colors.main}
+        onPress={onPressGetRandomImage}
+        resizeMode={'contain'}
+      />
+    );
+  };
+
+  _renderSelectedImage = (item, index) => {
+    const { onPressDeleteImage } = this.props;
+    const isUnsplash = item.type === 'unsplash';
+    return (
+      <View style={styles.image} key={index}>
+        <Image
+          uri={isUnsplash ? item.imageUrl : item.path}
+          style={{ width: realSize(120), height: realSize(120) }}
+        />
+        <View style={{ position: 'absolute', right: 5, top: 5 }}>
+          <Image
+            source={Assets.close.source}
+            size={'verySmall'}
+            onPress={onPressDeleteImage(item)}
+          />
+        </View>
+      </View>
+    );
+  };
 }
 ChooseImages.propTypes = {};
 

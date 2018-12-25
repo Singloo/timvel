@@ -11,11 +11,11 @@ const HOST_AXIOS = Axios.create({
   timeout: 20000,
   baseURL: API_V1,
 });
-export async function getIpInfo() {
+async function getIpInfo() {
   return axios.get('http://ip-api.com/json');
 }
 
-export async function getWeatherInfoToday(latitude, longitude) {
+async function getWeatherInfoToday(latitude, longitude) {
   return axios.get('https://weatherapi.market.xiaomi.com/wtr-v3/weather/all', {
     params: {
       latitude: latitude,
@@ -28,7 +28,7 @@ export async function getWeatherInfoToday(latitude, longitude) {
   });
 }
 
-export async function getWeatherInfoBefore(latitude, longitude, timestamp) {
+async function getWeatherInfoBefore(latitude, longitude, timestamp) {
   let darkSkyUrl = `https://api.darksky.net/forecast/${
     Constants.darkSkyKey
   }/${latitude},${longitude},${timestamp}`;
@@ -40,7 +40,7 @@ export async function getWeatherInfoBefore(latitude, longitude, timestamp) {
   });
 }
 
-export async function saveImageToAlbum(imageUrl) {
+async function saveImageToAlbum(imageUrl) {
   const cachedFilepath =
     RNFS.CachesDirectoryPath + '/' + Date.now().toString() + '.jpg';
   try {
@@ -73,10 +73,18 @@ export async function saveImageToAlbum(imageUrl) {
       });
   }
 }
-export const getUserInfo = user_id => {
+const getUserInfo = user_id => {
   return HOST_AXIOS.get('/get_user_info', {
     params: {
       user_id,
     },
   });
+};
+
+export {
+  getIpInfo,
+  getWeatherInfoBefore,
+  getWeatherInfoToday,
+  saveImageToAlbum,
+  getUserInfo,
 };

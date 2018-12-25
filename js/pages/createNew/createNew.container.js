@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, View, Animated, Keyboard, ScrollView } from 'react-native';
+import { StyleSheet, View, Animated, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  Button,
   NavBar,
-  Image,
-  InfiniteText,
-  Text,
   Assets,
   MultiLinesTextInput,
+  withKeyboardListener,
 } from '../../../re-kits';
 import ImagePicker from 'react-native-image-crop-picker';
 import Moment from 'moment';
@@ -19,81 +16,44 @@ import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
 // import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
-import { base, I18n, connect2 } from '../../utils';
+import { base, I18n, connect2, HANDLE, $observable } from '../../utils';
 const { colors, isAndroid } = base;
-
+const { $CENTER, $TYPES } = $observable;
+import { getRandomPhoto } from '../../utils/Unsplash';
+import { from } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 @connect2('createNew')
 class CreateNew extends React.Component {
   constructor(props) {
     super(props);
-    this.keyboardHeight = new Animated.Value(0);
   }
-  componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener(
-      'keyboardWillShow',
-      this.keyboardWillShow,
-    );
-    this.keyboardWillHideSub = Keyboard.addListener(
-      'keyboardWillHide',
-      this.keyboardWillHide,
-    );
-    if (isAndroid) {
-      this.keyboardDidShowSub = Keyboard.addListener(
-        'keyboardDidShow',
-        this.keyboardDidShow,
-      );
-      this.keyboardDidHideSub = Keyboard.addListener(
-        'keyboardDidHid',
-        this.keyboardDidHide,
-      );
-    }
-  }
+  componentWillMount() {}
 
   componentDidMount() {
-    this._getWeather();
+    this._initQuery();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.keyboardIsShown !== this.props.keyboardIsShown) {
+      this._scrollToEnd();
+    }
   }
   componentWillUnmount() {
     this.props.logic('CREATE_NEW_RESET_STATE');
   }
-  keyboardWillShow = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: event.endCoordinates.height,
-    }).start(() => {
-      this._scrollView && this._scrollView.getNode().scrollToEnd();
-    });
+  _initQuery = () => {
+    this._getWeather();
   };
-  keyboardDidShow = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 200,
-      toValue: event.endCoordinates.height,
-    }).start(() => {
-      this._scrollView && this._scrollView.getNode().scrollToEnd();
-    });
+  _scrollToEnd = () => {
+    this._scrollView && this._scrollView.getNode().scrollToEnd();
   };
-  keyboardWillHide = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: 0,
-    }).start(() => {
-      this._scrollView && this._scrollView.getNode().scrollToEnd();
-    });
-  };
-  keyboardDidHide = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: 0,
-    }).start(() => {
-      this._scrollView && this._scrollView.getNode().scrollToEnd();
-    });
-  };
-
   _goBack = () => {
     const { navigation } = this.props;
     this.props.logic('NAVIGATION_BACK', {
       navigation,
     });
   };
+  _setState = nextState =>
+    this.props.dispatch('CREATE_NEW_SET_STATE', nextState);
 
   _onChangeDate = date => {
     this._chooseDate.onChangeAnimation();
@@ -115,17 +75,24 @@ class CreateNew extends React.Component {
         });
         return;
       }
-      this.props.logic('CREATE_NEW_SET_STATE', {
-        images: [].concat(images, imgs),
-      });
+      this._addImage(imgs);
     });
   };
 
-  _onPressDeleteImage = item => {
+  _addImage = item => {
     const { images } = this.props.state;
-    const newArr = _.remove(images, o => {
-      return o.path !== item.path;
+    this._setState({
+      images: images.concat(item),
     });
+  };
+  _onPressDeleteImage = item => () => {
+    const { images } = this.props.state;
+    const newArr = images.filter(o =>
+      o.type === 'unsplash'
+        ? o.imageUrl !== item.imageUrl
+        : o.path !== item.path,
+    );
+
     this.props.logic('CREATE_NEW_SET_STATE', {
       images: newArr,
     });
@@ -144,7 +111,14 @@ class CreateNew extends React.Component {
     Keyboard.dismiss();
   };
 
-  _onPressSend = () => {
+  _onPressSend = ableToPost => () => {
+    if (!ableToPost) {
+      this.props.snakeBar(
+        'You need to upload at least one pic, try to get a random one?',
+        'NORMAL',
+      );
+      return;
+    }
     const { images, content, weatherInfo, date } = this.props.state;
     this.props.logic('CREATE_NEW_SEND_POST', {
       images,
@@ -180,7 +154,6 @@ class CreateNew extends React.Component {
 
   _onChangeTemperature = temperature => {
     let fixed = parseInt(temperature, 10);
-    console.warn(temperature, fixed);
     if (fixed > 60) {
       return;
     }
@@ -192,6 +165,47 @@ class CreateNew extends React.Component {
     this.props.logic('CREATE_NEW_SET_STATE', {
       weatherInfo: newWeather,
     });
+  };
+  _onPressGetRandomImage = () => {
+    const { images } = this.props.state;
+    if (images.length > 8) {
+      this.props.logic('SHOW_SNAKE_BAR', {
+        type: 'ERROR',
+        content: 'Number of images at most 8',
+      });
+      return;
+    }
+    this.props.dispatch('SHOW_ALERT', {
+      choices: [
+        {
+          title: '好的',
+          onPress: this._getRandomImage,
+        },
+      ],
+      type: 'NORMAL',
+      cancelTitle: '那算了',
+      content: '花费 2 个金币,选择一张随机的图片',
+    });
+  };
+  _getRandomImage = () => {
+    this.props.dispatch('COIN_TRANSACTION', {
+      transaction: -2,
+    });
+    from(getRandomPhoto())
+      .pipe(
+        map(data => ({
+          imageUrl: data.urls.regular,
+          id: data.id,
+          type: 'unsplash',
+        })),
+      )
+      .subscribe({
+        next: data => this._addImage(data),
+        error: error => {
+          console.warn(error);
+          this.props.snakeBar('Error', 'ERROR');
+        },
+      });
   };
 
   _onPressKey = ({ nativeEvent }) => {
@@ -209,9 +223,9 @@ class CreateNew extends React.Component {
       weatherInfo,
       isFetchingWeather,
     } = this.props.state;
+    const { keyboardHeight } = this.props;
     const hasImages = images.length > 0;
-    const hasContent = content.length > 0;
-    const ableToPost = hasImages || hasContent;
+    const ableToPost = hasImages;
     return (
       <View style={styles.container}>
         <NavBar
@@ -220,7 +234,7 @@ class CreateNew extends React.Component {
           onPressLeft={this._goBack}
           sourceRight={Assets.send.source}
           rightTint={ableToPost ? colors.main : colors.midGrey}
-          onPressRight={ableToPost ? this._onPressSend : () => {}}
+          onPressRight={this._onPressSend(ableToPost)}
           style={{ paddingRight: 10 }}
         />
         <Animated.ScrollView
@@ -228,13 +242,12 @@ class CreateNew extends React.Component {
           scrollEventThrottle={16}
           style={{
             flex: 1,
-            marginBottom: this.keyboardHeight,
+            marginBottom: keyboardHeight,
             paddingBottom: 20,
           }}
           keyboardDismissMode={'on-drag'}
-          // contentContainerStyle={{ paddingBottom: this.keyboardHeight }}
         >
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, paddingBottom: 20 }}>
             <ChooseDate
               ref={r => (this._chooseDate = r)}
               date={date}
@@ -259,13 +272,13 @@ class CreateNew extends React.Component {
               onPressChooseImages={this._onPressChooseImages}
               pickedImages={images}
               onPressDeleteImage={this._onPressDeleteImage}
+              onPressGetRandomImage={this._onPressGetRandomImage}
             />
             <View
               style={{
                 flex: 1,
                 backgroundColor: colors.pureWhite,
                 marginTop: 10,
-                // marginBottom: this.keyboardHeight,
               }}
             >
               <MultiLinesTextInput
@@ -303,4 +316,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateNew;
+export default withKeyboardListener(CreateNew);

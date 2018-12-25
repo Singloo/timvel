@@ -67,6 +67,7 @@ export const connect2 = (
     logic,
     snakeBar,
     loading,
+    dispatch,
   };
   return container =>
     ReactRedux.connect(

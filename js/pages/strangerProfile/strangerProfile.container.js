@@ -10,7 +10,7 @@ import {
   Assets,
   ContentByTag,
 } from '../../../re-kits';
-import { base, I18n ,User} from '../../utils';
+import { base, I18n, User } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { ableToBuy } from '../../utils/Network';
 import { interval, Subject, of, from } from 'rxjs';
@@ -109,8 +109,8 @@ class StrangerProfile extends Component {
       next: ({ flower, shit }) => {
         const { flowers, shits } = this.props.state;
         this.props.logic('STRANGER_PROFILE_SET_STATE', {
-          flowers: flower ? flowers.concat([flower]) : flowers,
-          shits: shit ? shits.concat([shit]) : shits,
+          flowers: flower ? flowers.concat(flower) : flowers,
+          shits: shit ? shits.concat(shit) : shits,
         });
       },
       complete: () => {
