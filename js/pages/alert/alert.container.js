@@ -13,7 +13,28 @@ import { base, I18n } from '../../utils';
 const { Styles, SCREEN_WIDTH, colors } = base;
 const card_width = SCREEN_WIDTH - 20;
 const card_height = (card_width * 3) / 5;
-
+const alertStyles = {
+  NORMAL: {
+    title: 'Info',
+    color: colors.main,
+    backgroundColor: colors.main,
+  },
+  WARNING: {
+    title: 'Warning',
+    color: colors.red,
+    backgroundColor: colors.red,
+  },
+  NOTIFICATION: {
+    title: 'Notification',
+    color: colors.green,
+    backgroundColor: colors.greenLight,
+  },
+  FAQ: {
+    title: 'FAQ',
+    color: colors.lime,
+    backgroundColor: colors.lime,
+  },
+};
 /**
  *
  *
@@ -33,13 +54,15 @@ const initialState = {
 class Alert extends Component {
   constructor(props) {
     super(props);
-    this.animationState = new Animated.Value(0);
-    this.animationStart = Animated.spring(this.animationState, {
+    this.state = {
+      animationState: new Animated.Value(0),
+    };
+    this.animationStart = Animated.spring(this.state.animationState, {
       toValue: 1,
       useNativeDriver: true,
       speed: 14,
     });
-    this.animationDismiss = Animated.timing(this.animationState, {
+    this.animationDismiss = Animated.timing(this.state.animationState, {
       toValue: 0,
       duration: 200,
       useNativeDriver: true,
@@ -73,7 +96,7 @@ class Alert extends Component {
   };
 
   _show = () => {
-    this.animationState.setValue(0);
+    this.state.animationState.setValue(0);
     this.animationStart.start();
   };
   _dismiss = () => {
@@ -82,33 +105,16 @@ class Alert extends Component {
     });
   };
   render() {
-    const { show, content, type, cancelTitle, onCancel } = this.props.state;
+    const { show, type } = this.props.state;
     if (!show) {
       return null;
     }
-    const alertStyles = {
-      NORMAL: {
-        title: 'Info',
-        color: colors.main,
-        backgroundColor: colors.main,
-      },
-      WARNING: {
-        title: 'Warning',
-        color: colors.red,
-        backgroundColor: colors.red,
-      },
-      NOTIFICATION: {
-        title: 'Notification',
-        color: colors.green,
-        backgroundColor: colors.greenLight,
-      },
-      FAQ: {
-        title: 'FAQ',
-        color: colors.lime,
-        backgroundColor: colors.lime,
-      },
-    };
     let alertStyle = alertStyles[type];
+    const scale = this.state.animationState.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.01, 1],
+    });
+    const transform = [{ scale }];
     return (
       <View style={[Styles.absolute, styles.container, Styles.center]}>
         <Animated.View
@@ -117,43 +123,52 @@ class Alert extends Component {
             Styles.shadow,
             {
               borderColor: alertStyle.color,
-              transform: [
-                {
-                  scale: this.animationState.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0.01, 1],
-                  }),
-                },
-              ],
+              transform,
             },
           ]}
         >
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderColor: alertStyle.backgroundColor,
-              paddingBottom: 5,
-              marginLeft: 10,
-            }}
-          >
-            <Text style={[styles.title]}>{alertStyle.title}</Text>
-          </View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.content}>{content}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <Text
-              style={styles.choices}
-              onPress={this._onPressChoices(onCancel)}
-            >
-              {cancelTitle || 'No'}
-            </Text>
-            {this._renderChoices()}
-          </View>
+          {this._renderTitle()}
+          {this._renderContent()}
+          {this._renderBottom()}
         </Animated.View>
       </View>
     );
   }
+  _renderTitle = () => {
+    const { type } = this.props.state;
+    let alertStyle = alertStyles[type];
+    return (
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderColor: alertStyle.backgroundColor,
+          paddingBottom: 5,
+          marginLeft: 10,
+        }}
+      >
+        <Text style={[styles.title]}>{alertStyle.title}</Text>
+      </View>
+    );
+  };
+  _renderContent = () => {
+    const { content } = this.props.state;
+    return (
+      <View style={styles.contentContainer}>
+        <Text style={styles.content}>{content}</Text>
+      </View>
+    );
+  };
+  _renderBottom = () => {
+    const { onCancel, cancelTitle } = this.props.state;
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <Text style={styles.choices} onPress={this._onPressChoices(onCancel)}>
+          {cancelTitle || 'No'}
+        </Text>
+        {this._renderChoices()}
+      </View>
+    );
+  };
 }
 Alert.propTypes = {};
 const styles = StyleSheet.create({
