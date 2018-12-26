@@ -49,7 +49,7 @@
     "redux-logger": "^3.0.6",
     "redux-logic": "^2.0.3",
     "redux-observable": "^1.0.0",
-    "rxjs": "^6.2.2",
+    "rxjs": "^6.3.3",
     "unsplash-js": "^4.8.0"
   },
   "devDependencies": {

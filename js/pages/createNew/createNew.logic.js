@@ -1,64 +1,6 @@
 import { createLogic } from 'redux-logic';
 import Moment from 'moment';
 import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
-// const post = createLogic({
-//   type: 'CREATE_NEW_SEND_POST',
-//   latest: true,
-//   async process({ action, logic, httpClient, OSS }, dispatch, done) {
-//     try {
-//       const { images, content, weatherInfo, tag, date } = action.payload;
-//       dispatch(
-//         logic('GLOBAL_SET_STATE', {
-//           isLoading: true,
-//         }),
-//       );
-//       let imageUrls = [];
-
-//       for (let image of images) {
-//         const imageUrl = await OSS.upLoadImage(image);
-//         console.warn(imageUrl);
-//         imageUrls.push(imageUrl);
-//       }
-
-//       await httpClient.post('/create_post', {
-//         content: content,
-//         image_urls: imageUrls,
-//         user_id: 1,
-//         weather_info: JSON.stringify(weatherInfo),
-//         post_type: 'normal',
-//         tag: tag,
-//         happened_at: date,
-//       });
-//       dispatch(
-//         logic('GLOBAL_SET_STATE', {
-//           isLoading: false,
-//         }),
-//       );
-//       dispatch(logic('NAVIGATION_BACK'));
-//       dispatch(
-//         logic('SHOW_SNAKE_BAR', {
-//           content: '发布成功!',
-//           type: 'SUCCESS',
-//         }),
-//       );
-//     } catch (error) {
-//       console.warn(error);
-//       dispatch(
-//         logic('GLOBAL_SET_STATE', {
-//           isLoading: false,
-//         }),
-//       );
-//       dispatch(
-//         logic('SHOW_SNAKE_BAR', {
-//           content: '网络错误..!',
-//           type: 'ERROR',
-//         }),
-//       );
-//     } finally {
-//       done();
-//     }
-//   },
-// });
 
 const getWeather = createLogic({
   type: 'CREATE_NEW_GET_WEATHER',
