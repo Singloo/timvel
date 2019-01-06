@@ -2,8 +2,6 @@ import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES, dispatch } from './$observable';
 import { retryDelay, HANDLE } from './$helper';
-// import {} from './base'
-// import { CoinTransactionAnimation } from '../components/CoinTransactionAnimation';
 class UUer {
   constructor() {
     this.user = null;
@@ -49,8 +47,9 @@ class UUer {
       if (!this.user) {
         return null;
       }
-      this.user.set(key, value);
-      await this.user.save();
+      await this.user.save({
+        [key]: value,
+      });
     } catch (error) {
       console.warn('set error', key, error);
     }
