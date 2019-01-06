@@ -14,11 +14,11 @@ class Card extends Component {
   componentWillMount() {}
 
   render() {
-    const { title, onPress, style } = this.props;
+    const { title, onPress, style, iconSource } = this.props;
     return (
       <Touchable onPress={onPress}>
         <View style={[styles.container, style]}>
-          <Image source={Assets.bk3.source} size={'small'} />
+          <Image source={iconSource || Assets.bk3.source} size={'small'} />
           <Text style={styles.text}>{title}</Text>
           <Image
             source={Assets.arrow_right.source}

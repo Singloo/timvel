@@ -44,8 +44,6 @@ class NotifPage extends Component {
         </ScrollView>
         <NavBar
           title={'Info'}
-          // sourceLeft={Assets.arrow_left.source}
-          // onPressLeft={this._goBack}
           style={{ position: 'absolute' }}
         />
       </View>
