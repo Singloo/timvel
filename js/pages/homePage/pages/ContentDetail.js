@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   View,
@@ -21,6 +21,7 @@ import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 import * as Animatable from 'react-native-animatable';
+import { get } from 'lodash';
 const AnimatableUserInfoBar = Animatable.createAnimatableComponent(UserInfoBar);
 const AnimatableCommentBar = Animatable.createAnimatableComponent(CommentBar);
 const AnimatedImageSwiper = Animated.createAnimatedComponent(ImageSwiper);
@@ -46,28 +47,32 @@ const goingToClose = (prev, curr) => {
 const sleep = duration => {
   return new Promise(resolve => setTimeout(resolve, duration));
 };
-class ContentDetail extends Component {
+class ContentDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false,
       currentPost: {},
       cardId: null,
+      nscrollY: new Animated.Value(0),
     };
     this.goingToShow = true;
-    this.animationState = new Animated.Value(0);
-    this.animationOpen = Animated.timing(this.animationState, {
-      toValue: 1,
-      duration: 600,
-    });
-    this.animationClose = Animated.timing(this.animationState, {
-      toValue: 0,
-      duration: 400,
-    });
-    this._nscrollY = new Animated.Value(0);
+    // this.animationState = new Animated.Value(0);
+    // this.animationOpen = Animated.timing(this.animationState, {
+    //   toValue: 1,
+    //   duration: 600,
+    // });
+    // this.animationClose = Animated.timing(this.animationState, {
+    //   toValue: 0,
+    //   duration: 400,
+    // });
+    this._content = React.createRef();
+    this._commentBar = React.createRef();
+    this._userInfo = React.createRef();
+    this._header = React.createRef();
   }
-  componentWillMount() {}
-  componentDidUpdate(prevProps, prevState) {
+  // componentWillMount() {}
+  componentDidUpdate(prevProps) {
     if (goingToOpen(prevProps, this.props)) {
       const { currentPost, cardId } = this.props;
       this.setState({
@@ -114,10 +119,10 @@ class ContentDetail extends Component {
     onEnd();
   };
   _fadeAnimation = () => {
-    this._commentBar.animate('fadeOutDown', 500, 0);
-    this._header.animate('fadeOutUp', 500, 0);
-    this._content.animate('fadeOutDown', 500, 50);
-    this._userInfo.animate('fadeOutDown', 500, 100);
+    this._commentBar.current.animate('fadeOutDown', 500, 0);
+    this._header.current.animate('fadeOutUp', 500, 0);
+    this._content.current.animate('fadeOutDown', 500, 50);
+    this._userInfo.current.animate('fadeOutDown', 500, 100);
   };
 
   render() {
@@ -134,12 +139,12 @@ class ContentDetail extends Component {
         ]}
       >
         <Animated.ScrollView
-          style={[styles.container]}
+          style={styles.container}
           scrollEventThrottle={8}
           contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT }}
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
+            [{ nativeEvent: { contentOffset: { y: this.state.nscrollY } } }],
             { useNativeDriver: true },
           )}
         >
@@ -159,35 +164,36 @@ class ContentDetail extends Component {
     const { cardId, currentPost } = this.state;
     const { isAnimating, onEnd } = this.props;
     //after animation
-    let imgScale = this._nscrollY.interpolate({
+    const scale = this.state.nscrollY.interpolate({
       inputRange: [-25, 0],
       outputRange: [1.1, 1],
       extrapolateRight: 'clamp',
     });
-    let imageY = this._nscrollY.interpolate({
+    const translateY = this.state.nscrollY.interpolate({
       inputRange: [-25, 0, scrollY / 0.4],
       outputRange: [-13, 0, scrollY],
       // extrapolateLeft: 'clamp',
     });
+    const transform = [
+      {
+        scale,
+      },
+      {
+        translateY,
+      },
+    ];
     const ImageComp =
       currentPost.imageUrls.length <= 1 ? Animated.Image : AnimatedImageSwiper;
     const imageProps =
       currentPost.imageUrls.length <= 1
         ? {
-            source: { uri: currentPost.imageUrls[0] },
+            source: { uri: get(currentPost, 'imageUrls[0].imageUrl', '') },
             style: [
               {
                 width: image_width,
                 height: image_height,
                 opacity: isAnimating ? 0 : 1,
-                transform: [
-                  {
-                    scale: imgScale,
-                  },
-                  {
-                    translateY: imageY,
-                  },
-                ],
+                transform,
               },
             ],
           }
@@ -197,14 +203,7 @@ class ContentDetail extends Component {
             style: [
               {
                 opacity: isAnimating ? 0 : 1,
-                transform: [
-                  {
-                    scale: imgScale,
-                  },
-                  {
-                    translateY: imageY,
-                  },
-                ],
+                transform,
               },
             ],
           };
@@ -227,7 +226,7 @@ class ContentDetail extends Component {
   renderUserInfo = () => {
     return (
       <AnimatableUserInfoBar
-        ref={r => (this._userInfo = r)}
+        ref={this._userInfo}
         animation={'fadeInUp'}
         delay={300}
         useNativeDriver={true}
@@ -239,7 +238,7 @@ class ContentDetail extends Component {
     const { currentPost } = this.state;
     return (
       <Animatable.Text
-        ref={r => (this._content = r)}
+        ref={this._content}
         animation={'fadeInUp'}
         // useNativeDriver={true}
         delay={350}
@@ -253,7 +252,7 @@ class ContentDetail extends Component {
   renderCommentBar = () => {
     return (
       <AnimatableCommentBar
-        ref={r => (this._commentBar = r)}
+        ref={this._commentBar}
         animation={'fadeInUp'}
         useNativeDriver={true}
         delay={400}
@@ -267,12 +266,12 @@ class ContentDetail extends Component {
 
   renderHeader = () => {
     const { currentPost } = this.state;
-    let headerY = this._nscrollY.interpolate({
+    let headerY = this.state.nscrollY.interpolate({
       inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
       outputRange: [-(PADDING_TOP + 44), -(PADDING_TOP + 44), 0],
       extrapolate: 'clamp',
     });
-    let headerOpacity = this._nscrollY.interpolate({
+    let headerOpacity = this.state.nscrollY.interpolate({
       inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
@@ -280,7 +279,7 @@ class ContentDetail extends Component {
     return (
       <Animatable.View
         animation={'fadeInDown'}
-        ref={r => (this._header = r)}
+        ref={this._header}
         useNativeDriver={true}
         delay={100}
         style={[
