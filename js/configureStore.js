@@ -9,7 +9,7 @@ import Axios from 'axios';
 import { API_V1 } from './constants';
 import { createEpicMiddleware } from 'redux-observable';
 // import logger from 'redux-logger';
-import { retryWhenDelay } from './utils/$helper';
+import { $retryWhenDelay } from './utils/$helper';
 const httpClient = Axios.create({
   baseURL: API_V1,
   timeout: 20000,
@@ -41,7 +41,7 @@ const deps = {
   I18n,
   Network,
   OSS,
-  retryWhenDelay,
+  $retryWhenDelay,
   navigation: null,
 };
 export const setNavigation = navigation => {

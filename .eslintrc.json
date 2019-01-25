@@ -24,6 +24,8 @@
     "react/prop-types": 0,
     "react/no-deprecated": 1,
     "react/display-name": 0,
-    "no-useless-escape": 0
+    "no-useless-escape": 0,
+    "no-empty-pattern": 0,
+    "no-empty": "off"
   }
 }

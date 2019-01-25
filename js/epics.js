@@ -10,6 +10,7 @@ import postDetail from './pages/postDetail/postDetail.epics';
 import strangerProfile from './pages/strangerProfile/strangerProfile.epic';
 import createNew from './pages/createNew/createNew.epic';
 import global from './pages/global/global.epic';
+import notifPage from './pages/notifPage/notifPage.epic';
 const epics = [].concat(
   global,
   strangerProfile,
@@ -22,5 +23,6 @@ const epics = [].concat(
   publishProduct,
   testPage,
   createNew,
+  notifPage,
 );
 export default combineEpics(...epics);
