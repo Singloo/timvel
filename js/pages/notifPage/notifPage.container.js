@@ -9,7 +9,7 @@ import {
   Text,
   Assets,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { base, I18n, invoke, curried } from '../../utils';
 import InfoCard from './components/InfoCard';
 const { colors, TAB_BAR_HEIGHT, NAV_BAR_HEIGHT } = base;
 class NotifPage extends Component {
@@ -21,7 +21,18 @@ class NotifPage extends Component {
       navigation,
     });
   };
+  _setState = (nextState = {}) =>
+    this.props.dispatch('NOTIF_PAGE_SET_STATE', nextState);
 
+  _goTo = (routeName, params = {}) => {
+    if (!routeName) {
+      return;
+    }
+    this.props.dispatch('NAVIGATION_NAVIGATE', {
+      routeName,
+      params,
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -32,20 +43,13 @@ class NotifPage extends Component {
             paddingTop: NAV_BAR_HEIGHT,
           }}
         >
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
+          <InfoCard
+            title={'回复我的'}
+            onPress={curried(this._goTo)('postReplies')}
+          />
           <InfoCard title={'回复我的'} onPress={() => {}} />
         </ScrollView>
-        <NavBar
-          title={'Info'}
-          style={{ position: 'absolute' }}
-        />
+        <NavBar title={'Info'} style={{ position: 'absolute' }} />
       </View>
     );
   }

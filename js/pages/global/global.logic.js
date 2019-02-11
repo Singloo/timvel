@@ -1,8 +1,6 @@
 import { createLogic } from 'redux-logic';
 import { NavigationActions, StackActions } from 'react-navigation';
-// import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
-import AV from 'leancloud-storage';
 const navigate = createLogic({
   type: 'NAVIGATION_NAVIGATE',
   latest: true,
@@ -74,13 +72,9 @@ const updateUserinfoFromLeanCloud = createLogic({
         done();
         return;
       }
-      // try {
       const { data: ipData } = await Network.getIpInfo();
       user.set('city', ipData.city);
       user.set('country', ipData.country);
-      // } catch (err) {
-      //   console.warn(err.message);
-      // }
       const systemVersion = DeviceInfo.getSystemVersion();
       const deviceStorage =
         DeviceInfo.getTotalDiskCapacity() / 1024 / 1024 / 1024;

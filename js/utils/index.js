@@ -9,7 +9,7 @@ import { connect2 } from './Setup';
 import { runAfter } from './performance';
 import * as $observable from './$observable';
 import { retryDelay, $retryWhenDelay, HANDLE, $catchError } from './$helper';
-import { invoke, clearTimers } from './helper';
+import { invoke, clearTimers, curried, booleanMap } from './helper';
 export {
   base,
   Setup,
@@ -27,4 +27,6 @@ export {
   invoke,
   clearTimers,
   $catchError,
+  curried,
+  booleanMap,
 };

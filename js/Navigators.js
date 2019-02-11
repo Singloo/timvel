@@ -62,6 +62,9 @@ const SimpleApp = createStackNavigator(
     postDetail: {
       screen: Connectors.postDetail,
     },
+    postReplies: {
+      screen: Connectors.postReplies,
+    },
   },
   {
     headerMode: 'none',

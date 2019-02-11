@@ -11,7 +11,9 @@ import strangerProfile from './pages/strangerProfile/strangerProfile.epic';
 import createNew from './pages/createNew/createNew.epic';
 import global from './pages/global/global.epic';
 import notifPage from './pages/notifPage/notifPage.epic';
+import postReplies from './pages/postReplies/postReplies.epics';
 const epics = [].concat(
+  postReplies,
   global,
   strangerProfile,
   postDetail,

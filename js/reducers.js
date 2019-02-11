@@ -18,7 +18,9 @@ import addTag from './pages/addTag/addTag.reducer';
 import publishProduct from './pages/publishProduct/publishProduct.reducer';
 import testPage from './pages/testPage/testPage.reducer';
 import postDetail from './pages/postDetail/postDetail.reducer';
+import postReplies from './pages/postReplies/postReplies.reducer';
 const reducers = combineReducers({
+  postReplies,
   postDetail,
   testPage,
   publishProduct,

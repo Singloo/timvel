@@ -145,15 +145,15 @@ export const filterPostsByTag = posts => {
 
 export const isIOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
-const toDegrees = angle => {
+const toDegree = angle => {
   return angle * (Math.PI / 180);
 };
 export function cosR(degree, r) {
-  let de = toDegrees(degree);
+  let de = toDegree(degree);
   return Math.cos(de) * r;
 }
 export function sinR(degree, r) {
-  let de = toDegrees(degree);
+  let de = toDegree(degree);
   return Math.sin(de) * r;
 }
 export function realSize(px) {
@@ -162,19 +162,11 @@ export function realSize(px) {
 
 export const EMAIL_REGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 
-//if arr is object, just support return 1 item
 export function randomItem(arr = [], returnLength = 1, returnArray = []) {
   let returnNum = returnLength || 1;
   let returnArr = returnArray || [];
   let i = Math.floor(Math.random() * arr.length);
-  // let item;
-  // if (Array.isArray(arr)) {
   let item = arr[i];
-  // }
-  // if (typeof arr === 'object') {
-  //   const keys = Object.keys(arr);
-  //   item = item[keys[i]];
-  // }
   if (typeof item === 'undefined') {
     return returnArr;
   } else {
@@ -187,14 +179,8 @@ export function randomItem(arr = [], returnLength = 1, returnArray = []) {
       return returnArr;
     }
   } else {
-    // if (Array.isArray(arr)) {
     let newArr = _.difference(arr, returnArr);
     return randomItem(newArr, returnNum, returnArr);
-    // }
-    // if (Object.isObject(arr)) {
-    //   const keys = Object.keys(arr);
-    //   item = item[keys[i]];
-    // }
   }
 }
 
@@ -305,7 +291,7 @@ export function renderTitle(title, customStyle) {
     return <Text style={[styles.qing, style]}>{title}</Text>;
   };
 
-  var style = {};
+  let style = {};
   switch (title) {
     case '青': {
       style = {
@@ -389,10 +375,9 @@ export function renderTitle(title, customStyle) {
 
     default:
       if (customStyle) {
-        return renderText(customStyle);
-      } else {
-        return null;
+        style = customStyle;
       }
+      break;
   }
 
   return renderText(style);

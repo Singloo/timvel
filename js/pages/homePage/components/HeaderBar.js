@@ -13,36 +13,57 @@ const {
 const item_height = SCREEN_WIDTH * 0.5;
 const scroll_height = item_height + 35 + 20 - NAV_BAR_HEIGHT;
 class HeaderBar extends React.PureComponent {
-  componentWillMount() {}
-
   render() {
-    const { date, scrollY } = this.props;
-    const _date = new DateFormatter(date);
-    const translateY = scrollY.interpolate({
+    return (
+      <View style={[styles.container, styles.alignRowCenter]}>
+        {this._renderBK()}
+        {this._renderTitle()}
+      </View>
+    );
+  }
+
+  _renderBK = () => {
+    const translateY = this.props.scrollY.interpolate({
       inputRange: [0, scroll_height],
       outputRange: [-NAV_BAR_HEIGHT, 0],
       extrapolate: 'clamp',
     });
     const transform = [{ translateY }];
     return (
-      <Animated.View style={[styles.container, styles.alignRowCenter]}>
-        <Animated.View
-          style={[
-            styles.container,
-            { backgroundColor: 'rgba(250,250,250,0.8)' },
-            { transform },
-          ]}
-        />
-        <View style={{ flexDirection: 'row', backgroundColor: 'transparent' }}>
-          <Text style={[styles.text, { fontWeight: '300' }]}>
-            {'Year ' + _date.year()}
-          </Text>
-          <Text style={[styles.text, { fontSize: 20 }]}>{_date.mon()}</Text>
-          <Text style={[styles.text, { fontSize: 20 }]}>{_date.day()}</Text>
-        </View>
+      <Animated.View
+        style={[
+          styles.container,
+          { backgroundColor: 'rgba(250,250,250,0.8)' },
+          { transform },
+        ]}
+      />
+    );
+  };
+  _renderTitle = () => {
+    const { date } = this.props;
+    const _date = new DateFormatter(date);
+    const translateY = this.props.scrollY.interpolate({
+      inputRange: [-150, 0],
+      outputRange: [-NAV_BAR_HEIGHT, 0],
+      extrapolate: 'clamp',
+    });
+    const transform = [{ translateY }];
+    return (
+      <Animated.View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: 'transparent',
+          transform,
+        }}
+      >
+        <Text style={[styles.text, { fontWeight: '300' }]}>
+          {'Year ' + _date.year()}
+        </Text>
+        <Text style={[styles.text, { fontSize: 20 }]}>{_date.mon()}</Text>
+        <Text style={[styles.text, { fontSize: 20 }]}>{_date.day()}</Text>
       </Animated.View>
     );
-  }
+  };
 }
 HeaderBar.propTypes = {};
 
