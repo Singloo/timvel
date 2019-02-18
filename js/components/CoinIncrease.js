@@ -24,6 +24,7 @@ import {
   $TYPES,
 } from '../utils/$observable';
 const deleteObject = (obj, key) => () => delete obj[key];
+const MAXIMUM_BUBBLE = 3;
 class CoinIncrease extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -58,7 +59,7 @@ class CoinIncrease extends React.PureComponent {
     $sourceOneMinue.subscribe(runAfter(this._renderCoinBubble));
   };
   _renderCoinBubble = () => {
-    if (Object.keys(this.bubblePool).length > 4) {
+    if (Object.keys(this.bubblePool).length >= MAXIMUM_BUBBLE) {
       this._destroyBubble();
     }
     this._createRootView();
@@ -74,7 +75,6 @@ class CoinIncrease extends React.PureComponent {
     });
     User.increaseCoin(coin);
   };
-  _createBubble = () => {};
 
   _destroyBubble = (id = null) => {
     if (!id) {

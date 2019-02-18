@@ -29,12 +29,19 @@ class Card extends Component {
             borderColor: colors.lightGrey,
           }}
         />
-        <Text style={{ fontSize: 14, color: colors.midGrey, marginLeft: 15 }}>
-          {'aaaa'}
-        </Text>
-        <Text>
-
-        </Text>
+        <View
+          style={[
+            styles.rowCenter,
+            { justifyContent: 'space-between', flex: 1, paddingRight: 10 },
+          ]}
+        >
+          <Text style={{ fontSize: 14, color: colors.midGrey, marginLeft: 15 }}>
+            {'aaaa'}
+          </Text>
+          <Text style={{ fontSize: 12, color: colors.midGrey }}>
+            {'2018-10-23'}
+          </Text>
+        </View>
       </View>
     );
   };
@@ -42,9 +49,12 @@ class Card extends Component {
     return (
       <View
         style={{
-          paddingLeft: 15 + 40 + 15,
+          marginLeft: 15 + 40 + 15,
           marginTop: 10,
+          paddingVertical: 10,
           paddingRight: 10,
+          borderTopWidth: 1,
+          borderColor: colors.midGrey,
         }}
       >
         <Text style={{ fontSize: 18 }}>{'a'}</Text>

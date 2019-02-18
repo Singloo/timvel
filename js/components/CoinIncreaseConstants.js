@@ -1,5 +1,5 @@
-const ITEM_SIZE = 80;
-const BUBBLE_SIZE = 60;
+const ITEM_SIZE = 70;
+const BUBBLE_SIZE = 50;
 const COIN = [
   3,
   3,
