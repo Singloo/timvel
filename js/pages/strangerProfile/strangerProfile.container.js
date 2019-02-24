@@ -76,16 +76,16 @@ class StrangerProfile extends Component {
   }
   componentWillMount() {
     this.user = this.props.navigation.getParam('user', {});
-    this.props.logic('STRANGER_PROFILE_FETCH_POSTS', {
+    this.props.dispatch('STRANGER_PROFILE_FETCH_POSTS', {
       userId: this.user.userId,
     });
-    this.props.logic('STRANGER_PROFILE_FETCH_USER_INFOS', {
+    this.props.dispatch('STRANGER_PROFILE_FETCH_USER_INFOS', {
       userId: this.user.userId,
       callback: this._connect,
     });
   }
   componentWillUnmount() {
-    this.props.logic('STRANGER_PROFILE_RESET_STATE');
+    this.props.dispatch('STRANGER_PROFILE_RESET_STATE');
     this.addFS$ && this.addFS$.unsubscribe();
   }
   componentDidMount() {}
@@ -108,7 +108,7 @@ class StrangerProfile extends Component {
     return this.giftSubject$.subscribe({
       next: ({ flower, shit }) => {
         const { flowers, shits } = this.props.state;
-        this.props.logic('STRANGER_PROFILE_SET_STATE', {
+        this.props.dispatch('STRANGER_PROFILE_SET_STATE', {
           flowers: flower ? flowers.concat(flower) : flowers,
           shits: shit ? shits.concat(shit) : shits,
         });
@@ -123,14 +123,11 @@ class StrangerProfile extends Component {
     this.addFS$ = this._startRenderFS(f, s);
   };
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
 
   _modalController = bool => () => {
-    this.props.logic('STRANGER_PROFILE_SET_STATE', {
+    this.props.dispatch('STRANGER_PROFILE_SET_STATE', {
       showModal: bool,
     });
   };
@@ -146,7 +143,7 @@ class StrangerProfile extends Component {
         flower: giftType < 100 ? getRandomFS(true, giftType, 40) : null,
         shit: giftType > 100 ? getRandomFS(false, giftType, 40) : null,
       });
-      this.props.logic('STRANGER_PROFILE_SEND_GIFT', {
+      this.props.dispatch('STRANGER_PROFILE_SEND_GIFT', {
         receiver: this.user.userId,
         giftType: giftType,
       });

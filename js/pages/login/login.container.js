@@ -56,7 +56,7 @@ class Login extends Component {
     // this.gradientBK&&this.gradientBK.play();
   }
   componentWillUnmount() {
-    this.props.logic('LOGIN_RESET_STATE');
+    this.props.dispatch('LOGIN_RESET_STATE');
     // this.gradientBK && this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
@@ -112,10 +112,7 @@ class Login extends Component {
   };
   //press
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
 
   _dismissKeyboard = () => {
@@ -123,7 +120,7 @@ class Login extends Component {
   };
 
   _onPressLogin = (username, password) => {
-    this.props.logic('LOGIN', {
+    this.props.dispatch('LOGIN', {
       username: username.trim(),
       password: password.trim(),
       callback: this._loginCallback,
@@ -145,16 +142,16 @@ class Login extends Component {
           LayoutAnimation.Properties.opacity,
         ),
       );
-      this.props.logic('LOGIN_SET_STATE', {
+      this.props.dispatch('LOGIN_SET_STATE', {
         onLoginPage: !onLoginPage,
       });
       this.timer1 = setTimeout(() => {
-        this.props.logic('LOGIN_SET_STATE', {
+        this.props.dispatch('LOGIN_SET_STATE', {
           showSignUpPage: !showSignUpPage,
         });
       }, 400);
     } else {
-      this.props.logic('LOGIN_SET_STATE', {
+      this.props.dispatch('LOGIN_SET_STATE', {
         showSignUpPage: !showSignUpPage,
       });
       setTimeout(() => {
@@ -165,7 +162,7 @@ class Login extends Component {
             LayoutAnimation.Properties.opacity,
           ),
         );
-        this.props.logic('LOGIN_SET_STATE', {
+        this.props.dispatch('LOGIN_SET_STATE', {
           onLoginPage: !onLoginPage,
         });
       }, 50);
@@ -174,25 +171,25 @@ class Login extends Component {
 
   _onPressSignUp = (username, password, email) => {
     if (username.length === 0) {
-      this.props.logic('SHOW_SNAKE_BAR', {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
         content: I18n.t('usernameEmpty'),
       });
       return;
     }
     if (password.length === 0) {
-      this.props.logic('SHOW_SNAKE_BAR', {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
         content: I18n.t('passwordEmpty'),
       });
       return;
     }
     if (!EMAIL_REGEX.test(email)) {
       console.warn(EMAIL_REGEX.test(email), email);
-      this.props.logic('SHOW_SNAKE_BAR', {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
         content: I18n.t('emailEmpty'),
       });
       return;
     }
-    this.props.logic('SIGNUP', {
+    this.props.dispatch('SIGNUP', {
       username: username.trim(),
       password: password.trim(),
       email: email.trim(),
@@ -202,7 +199,7 @@ class Login extends Component {
 
   _signUpCallback = () => {
     this._goBack();
-    this.props.logic('SHOW_SNAKE_BAR', {
+    this.props.dispatch('SHOW_SNAKE_BAR', {
       content: I18n.t('welcome'),
     });
   };

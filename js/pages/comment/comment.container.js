@@ -19,14 +19,11 @@ class Comment extends Component {
     this._fetchComments();
   }
   componentWillUnmount() {
-    this.props.logic('COMMENT_RESET_STATE');
+    this.props.dispatch('COMMENT_RESET_STATE');
   }
 
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
 
   _renderItem = ({ item, index }) => {
@@ -35,13 +32,13 @@ class Comment extends Component {
 
   _fetchComments = () => {
     const { comments } = this.props.state;
-    this.props.logic('COMMENT_FETCH_COMMENTS', {
+    this.props.dispatch('COMMENT_FETCH_COMMENTS', {
       postId: this.postId,
       offset: comments.length,
     });
   };
   _onPressSend = (value, callback) => {
-    this.props.logic('COMMENT_COMMENT_POST', {
+    this.props.dispatch('COMMENT_COMMENT_POST', {
       content: value,
       postId: this.postId,
       callback: callback,

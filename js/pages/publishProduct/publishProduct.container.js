@@ -92,10 +92,7 @@ class Sample extends Component {
     this._scrollView && this._scrollView.getNode().scrollToEnd();
   };
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
 
   _onChangeText = (type, value, limit = null) => {
@@ -108,7 +105,7 @@ class Sample extends Component {
     if (type === 'customTitle') {
       _value = _value.trim();
     }
-    this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+    this.props.dispatch('PUBLISH_PRODUCT_SET_STATE', {
       [type]: _value,
     });
   };
@@ -130,11 +127,11 @@ class Sample extends Component {
       );
     }
     if (type !== 'title' && productType === 'title') {
-      this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+      this.props.dispatch('PUBLISH_PRODUCT_SET_STATE', {
         customTitle: '',
       });
     }
-    this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+    this.props.dispatch('PUBLISH_PRODUCT_SET_STATE', {
       productType: type,
     });
   };
@@ -144,7 +141,7 @@ class Sample extends Component {
       const image = await ImagePicker.openPicker({
         multiple: false,
       });
-      this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+      this.props.dispatch('PUBLISH_PRODUCT_SET_STATE', {
         coverImage: image,
       });
     } catch (error) {
@@ -160,7 +157,7 @@ class Sample extends Component {
       coverImage,
       confirmedCustomTitle,
     } = this.props.state;
-    this.props.logic('PUBLISH_PRODUCT_PUBLISH_PRODUCT', {
+    this.props.dispatch('PUBLISH_PRODUCT_PUBLISH_PRODUCT', {
       title: title.trim(),
       price: price.trim(),
       description: description.trim(),
@@ -170,7 +167,7 @@ class Sample extends Component {
     });
   };
   _onPressConfirmTitle = ({ title, color }) => {
-    this.props.logic('PUBLISH_PRODUCT_SET_STATE', {
+    this.props.dispatch('PUBLISH_PRODUCT_SET_STATE', {
       confirmedCustomTitle: {
         title,
         color,

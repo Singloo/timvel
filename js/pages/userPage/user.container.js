@@ -29,8 +29,8 @@ class UserPage extends Component {
     );
   };
   _initQuery = () => {
-    this.props.logic('USER_PAGE_FETCH_USER_POSTS');
-    this.props.logic('USER_PAGE_FETCH_USER_TITLES');
+    this.props.dispatch('USER_PAGE_FETCH_USER_POSTS');
+    this.props.dispatch('USER_PAGE_FETCH_USER_TITLES');
   };
   _generateRandomButtons = () => {
     for (var i = 0; i <= 50; i++) {
@@ -43,7 +43,7 @@ class UserPage extends Component {
       this.tempLocations.push(coordinate);
 
       if (i == 20) {
-        this.props.logic('USER_SET_STATE', {
+        this.props.dispatch('USER_SET_STATE', {
           buttonLocations: this.tempLocations,
         });
       }
@@ -51,9 +51,7 @@ class UserPage extends Component {
   };
 
   _onPressLogin = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_NAVIGATE', {
-      navigation,
+    this.props.navigation.navigate({
       routeName: 'login',
     });
   };

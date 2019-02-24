@@ -16,10 +16,7 @@ class NotifPage extends Component {
   componentWillMount() {}
 
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
   _setState = (nextState = {}) =>
     this.props.dispatch('NOTIF_PAGE_SET_STATE', nextState);
@@ -28,7 +25,7 @@ class NotifPage extends Component {
     if (!routeName) {
       return;
     }
-    this.props.dispatch('NAVIGATION_NAVIGATE', {
+    this.props.navigation.navigate({
       routeName,
       params,
     });

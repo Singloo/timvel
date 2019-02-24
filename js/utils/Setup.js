@@ -1,17 +1,14 @@
 import * as ReactRedux from 'react-redux';
 import { BackHandler, ToastAndroid } from 'react-native';
-const logic = (type, payload) => ({
-  type,
-  payload,
-});
+import Navigation from './Navigation';
 const dispatch = (type, payload) => ({
   type,
   payload,
 });
 const snakeBar = (content, type = 'NORMAL') =>
-  logic('SHOW_SNAKE_BAR', { content, type });
+  dispatch('SHOW_SNAKE_BAR', { content, type });
 const loading = (isLoading = true) =>
-  logic('GLOBAL_SET_STATE', {
+  dispatch('GLOBAL_SET_STATE', {
     isLoading: isLoading,
   });
 export const connect = function({
@@ -34,7 +31,6 @@ export const connect = function({
   }
   const allActions = {
     ...actions,
-    logic,
     dispatch,
     snakeBar,
     loading,
@@ -64,10 +60,9 @@ export const connect2 = (
   }
   const allActions = {
     ...actions,
-    logic,
+    dispatch,
     snakeBar,
     loading,
-    dispatch,
   };
   return container =>
     ReactRedux.connect(
@@ -103,13 +98,7 @@ export const androidBackButton = function(navigation, store) {
       // ) {
       //   return true;
       // }
-
-      store.dispatch({
-        type: 'NAVIGATION_BACK',
-        payload: {
-          navigation,
-        },
-      });
+      Navigation.back();
       return true;
     }
     if (justClickBackButton) {

@@ -10,6 +10,7 @@ import { runAfter } from './performance';
 import * as $observable from './$observable';
 import { retryDelay, $retryWhenDelay, HANDLE, $catchError } from './$helper';
 import { invoke, clearTimers, curried, booleanMap } from './helper';
+import Navigation from './Navigation';
 export {
   base,
   Setup,
@@ -29,4 +30,5 @@ export {
   $catchError,
   curried,
   booleanMap,
+  Navigation,
 };

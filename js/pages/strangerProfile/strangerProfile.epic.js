@@ -13,7 +13,7 @@ import {
 } from 'rxjs/operators';
 import { base } from '../../utils';
 const { filterPostsByTag } = base;
-const fetchUserPosts = (action$, state, { httpClient, logic, User }) =>
+const fetchUserPosts = (action$, state, { httpClient, dispatch, User }) =>
   action$.pipe(
     ofType('STRANGER_PROFILE_FETCH_POSTS'),
     switchMap(action =>
@@ -25,7 +25,7 @@ const fetchUserPosts = (action$, state, { httpClient, logic, User }) =>
           });
           const postsByTag = filterPostsByTag(data);
           observer.next(
-            logic('STRANGER_PROFILE_SET_STATE', {
+            dispatch('STRANGER_PROFILE_SET_STATE', {
               postsByTag,
             }),
           );
@@ -70,7 +70,7 @@ const sendGift = (action$, state, { httpClient, User, $retryWhenDelay }) =>
 const fetchUserInfos = (
   action$,
   state$,
-  { httpClient, logic, Network, $retryWhenDelay },
+  { httpClient, dispatch, Network, $retryWhenDelay },
 ) =>
   action$.pipe(
     ofType('STRANGER_PROFILE_FETCH_USER_INFOS'),

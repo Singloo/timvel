@@ -21,55 +21,21 @@ const hello = [
   'Hallo, Menschen',
   'Bonjour, les humains',
 ];
-// const logo_width = SCREEN_WIDTH * 0.9;
 class LaunchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       textIndex: 0,
     };
-    // this.animationState = new Animated.Value(0);
-    // this.rotateState = new Animated.Value(0);
-    // this.animation1 = Animated.timing(this.animationState, {
-    //   toValue: 1,
-    //   duration: 1500,
-    // });
-    // this.animation2 = Animated.timing(this.animationState, {
-    //   toValue: 0,
-    //   duration: 1500,
-    // });
-    // this.animation3 = Animated.timing(this.rotateState, {
-    //   toValue: 1,
-    //   duration: 15000,
-    // });
-    // this.animation = Animated.sequence([this.animation1, this.animation2]);
   }
-  async componentWillMount() {
-    this._init();
-  }
-  _init = async () => {
-    try {
-    } catch (error) {
-    }
-  };
+  componentWillMount() {}
   componentDidMount() {
     SplashScreen.hide();
-    // Animated.loop(this.animation).start();
-    // Animated.loop(this.animation3).start();
-    // this.interval = setInterval(() => {
-    //   const { textIndex } = this.state;
-    //   this.setState({
-    //     textIndex: textIndex + 1,
-    //   });
-    // }, 3000);
-    this.props.logic('INIT_APP');
+    this.props.dispatch('INIT_APP');
   }
 
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
   componentWillUnmount() {
     // this.interval && clearInterval(this.interval);

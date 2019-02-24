@@ -101,7 +101,7 @@ class Alert extends Component {
   };
   _dismiss = () => {
     this.animationDismiss.start(() => {
-      this.props.logic('ALERT_RESET_STATE');
+      this.props.dispatch('ALERT_RESET_STATE');
     });
   };
   render() {

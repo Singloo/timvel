@@ -33,30 +33,30 @@ class ShopPage extends Component {
   }
 
   _fetchProducts = () => {
-    this.props.logic('SHOP_PAGE_FETCH_PRODUCTS');
+    this.props.dispatch('SHOP_PAGE_FETCH_PRODUCTS');
   };
 
   _openModal = () => {
-    this.props.logic('SHOP_PAGE_SET_STATE', {
+    this.props.dispatch('SHOP_PAGE_SET_STATE', {
       showModal: true,
     });
   };
 
   _closeModal = () => {
-    this.props.logic('SHOP_PAGE_SET_STATE', {
+    this.props.dispatch('SHOP_PAGE_SET_STATE', {
       showModal: false,
     });
   };
 
   _onPressRight = () => {
-    this.props.logic('NAVIGATION_NAVIGATE', {
+    this.props.navigation.navigate({
       routeName: 'publishProduct',
     });
   };
 
   _onPressPurchase = product => {
     if (!product_types.includes(product.productType)) {
-      this.props.logic('SHOW_SNAKE_BAR', {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',
         content: 'Unknown product type.',
       });
@@ -117,7 +117,7 @@ class ShopPage extends Component {
    * save to album
    */
   _typeSticker = product => () => {
-    this.props.logic('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
+    this.props.dispatch('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
       imageUrl: 'http://lc-uygandza.cn-n1.lcfile.com/00906d947703a0db1bcf.jpg',
     });
   };

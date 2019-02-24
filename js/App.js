@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
-import configureStore, { setNavigation } from './configureStore';
+import configureStore from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base, Notification, User } from './utils';
+import { Setup, base, Notification, User, Navigation } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
 import { CoinTransactionAnimation } from './components/CoinTransactionAnimation';
@@ -61,8 +61,8 @@ export default class App extends React.Component {
         <View style={{ flex: 1 }}>
           <SimpleApp
             ref={navigation => {
+              Navigation.setNavigation(navigation);
               this._navigation = navigation;
-              setNavigation(navigation);
             }}
           />
 

@@ -11,7 +11,7 @@ import {
   RFlatList,
 } from '../../../re-kits';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { base, User } from '../../utils';
+import { base, curried } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
 import ContentDetail from './pages/ContentDetail';
@@ -53,7 +53,7 @@ class HomePage extends React.Component {
    * fetch feed
    */
   _initFeeds = () => {
-    this.props.logic('HOME_PAGE_FETCH_POPULAR_POSTS');
+    this.props.dispatch('HOME_PAGE_FETCH_POPULAR_POSTS');
     this._fetchPosts();
   };
 
@@ -135,14 +135,14 @@ class HomePage extends React.Component {
   };
 
   _onSnapToItem = index => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
       carouselIndex: index,
     });
   };
 
   _fetchPosts = happenedAt => {
     const { posts, date } = this.props.state;
-    this.props.logic('HOME_PAGE_FETCH_POSTS', {
+    this.props.dispatch('HOME_PAGE_FETCH_POSTS', {
       happenedAt: happenedAt || date,
       offset: posts.length,
     });
@@ -157,20 +157,20 @@ class HomePage extends React.Component {
       <CarouselCard
         key={'hpc' + index}
         post={item}
-        onPress={this._onPressCarouselItem(item)}
+        onPress={curried(this._onPressCarouselItem)(item)}
       />
     );
   };
   //press
   _onPressItem = (currentPost, cardId) => () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
       currentPost,
       cardId,
     });
     this._contentDetailModalController(true)();
   };
-  _onPressCarouselItem = post => () => {
-    this.props.logic('NAVIGATION_NAVIGATE', {
+  _onPressCarouselItem = post => {
+    this.props.navigation.navigate({
       routeName: 'postDetail',
       params: {
         post,
@@ -178,64 +178,64 @@ class HomePage extends React.Component {
     });
   };
   _onPressCreateNew = () => {
-    this.props.logic('NAVIGATION_NAVIGATE', {
+    this.props.navigation.navigate({
       routeName: 'createNew',
     });
   };
   _contentDetailModalController = bool => () => {
     if (bool) {
-      this.props.logic('HOME_PAGE_SET_STATE', {
+      this.props.dispatch('HOME_PAGE_SET_STATE', {
         showDetail: true,
       });
-      this.props.logic('GLOBAL_SET_STATE', {
+      this.props.dispatch('GLOBAL_SET_STATE', {
         isTabBarHidden: true,
       });
     } else {
-      this.props.logic('HOME_PAGE_SET_STATE', {
+      this.props.dispatch('HOME_PAGE_SET_STATE', {
         showDetail: false,
         cardId: null,
       });
-      this.props.logic('GLOBAL_SET_STATE', {
+      this.props.dispatch('GLOBAL_SET_STATE', {
         isTabBarHidden: false,
       });
     }
   };
   _contentDetailAnimatingController = bool => () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
       contentDetailIsAnimating: bool,
     });
   };
   _oneDayModalController = bool => () => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
       showOneDay: bool,
     });
   };
   _onChooseDate = date => {
-    this.props.logic('HOME_PAGE_SET_STATE', {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
       date,
     });
   };
 
   _timeTravel = () => {
-    this.props.logic('GLOBAL_SET_STATE', {
+    this.props.dispatch('GLOBAL_SET_STATE', {
       isLoading: true,
     });
     let date = getRandomDate();
     setTimeout(() => {
-      this.props.logic('HOME_PAGE_SET_STATE', {
+      this.props.dispatch('HOME_PAGE_SET_STATE', {
         date,
       });
-      this.props.logic('GLOBAL_SET_STATE', {
+      this.props.dispatch('GLOBAL_SET_STATE', {
         isLoading: false,
       });
-      this.props.logic('SHOW_SNAKE_BAR', {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
         content: 'Welcome to ' + date,
       });
     }, 2000);
   };
 
   _onPressComment = postId => () => {
-    this.props.logic('NAVIGATION_NAVIGATE', {
+    this.props.navigation.navigate({
       routeName: 'comment',
       params: {
         postId,
@@ -244,7 +244,7 @@ class HomePage extends React.Component {
   };
 
   _onPressAvatar = user => () => {
-    this.props.logic('NAVIGATION_NAVIGATE', {
+    this.props.navigation.navigate({
       routeName: 'strangerProfile',
       params: {
         user: user,
@@ -253,7 +253,7 @@ class HomePage extends React.Component {
   };
 
   _onPressEmoji = postId => emoji => () => {
-    this.props.logic('HOME_PAGE_PRESS_EMOJI', {
+    this.props.dispatch('HOME_PAGE_PRESS_EMOJI', {
       emoji,
       postId,
     });

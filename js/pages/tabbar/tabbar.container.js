@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  View,
-  findNodeHandle,
-  Animated,
-} from 'react-native';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
-  Assets,
-} from '../../../re-kits';
-import { base } from '../../utils';
+import { StyleSheet, View, findNodeHandle, Animated } from 'react-native';
+import { Assets } from '../../../re-kits';
+import { base, curried } from '../../utils';
 import { BlurView } from 'react-native-blur';
 import Tab from './components/Tab';
 const { PADDING_BOTTOM, TAB_BAR_HEIGHT } = base;
@@ -53,26 +40,20 @@ class Tabbar extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
-  _onPressTab = key => () => {
+  _onPressTab = key => {
     const { jumpTo } = this.props;
     jumpTo(key);
   };
   render() {
-    // let containerY = this.state.animationState.interpolate({
-    //   inputRange: [0, 1],
-    //   outputRange: [0, TAB_BAR_HEIGHT],
-    // });
+    const translateY = this.state.animationState;
+    const transform = [{ translateY }];
     return (
       <Animated.View
         style={[
           styles.container,
           { height: TAB_BAR_HEIGHT, paddingBottom: PADDING_BOTTOM },
           {
-            transform: [
-              {
-                translateY: this.state.animationState,
-              },
-            ],
+            transform,
           },
         ]}
       >
@@ -99,13 +80,13 @@ class Tabbar extends Component {
         />
         <Tab
           source={Assets.eu_bird.source}
-          onPress={this._onPressTab('Home')}
+          onPress={curried(this._onPressTab)('Home')}
           // tintColor={index == 0 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
           source={Assets.eu_bosk.source}
-          onPress={this._onPressTab('ShopPage')}
+          onPress={curried(this._onPressTab)('ShopPage')}
           // tintColor={index == 1 ? activeTintColor : inactiveTintColor}
           // size={'large'}
           // title={'home'}
@@ -113,13 +94,13 @@ class Tabbar extends Component {
 
         <Tab
           source={Assets.eu_cactus.source}
-          onPress={this._onPressTab('NotifPage')}
+          onPress={curried(this._onPressTab)('NotifPage')}
           // tintColor={index == 2 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
           source={Assets.eu_fox.source}
-          onPress={this._onPressTab('UserPage')}
+          onPress={curried(this._onPressTab)('UserPage')}
           // tintColor={index == 3 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />

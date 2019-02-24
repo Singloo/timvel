@@ -12,7 +12,7 @@ import {
   delay,
 } from 'rxjs/operators';
 
-const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
+const fetchMostPopularPosts = (action$, state$, { httpClient, dispatch }) =>
   action$.pipe(
     ofType('HOME_PAGE_FETCH_POPULAR_POSTS'),
     mergeMap(action =>
@@ -24,7 +24,7 @@ const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
             },
           });
           observer.next(
-            logic('HOME_PAGE_SET_STATE', {
+            dispatch('HOME_PAGE_SET_STATE', {
               popularPosts: data,
             }),
           );
@@ -37,7 +37,7 @@ const fetchMostPopularPosts = (action$, state$, { httpClient, logic }) =>
     ),
   );
 
-const fetchPosts = (action$, state$, { logic, httpClient }) =>
+const fetchPosts = (action$, state$, { dispatch, httpClient }) =>
   action$.pipe(
     ofType('HOME_PAGE_FETCH_POSTS'),
     mergeMap(action =>
@@ -45,7 +45,7 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
         try {
           const { happenedAt, offset } = action.payload;
           observer.next(
-            logic('HOME_PAGE_SET_STATE', {
+            dispatch('HOME_PAGE_SET_STATE', {
               isHeaderLoading: true,
             }),
           );
@@ -54,7 +54,7 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
             offset,
           });
           observer.next(
-            logic('HOME_PAGE_SET_STATE', {
+            dispatch('HOME_PAGE_SET_STATE', {
               posts: data,
               isHeaderLoading: false,
             }),
@@ -62,7 +62,7 @@ const fetchPosts = (action$, state$, { logic, httpClient }) =>
         } catch (error) {
           console.warn(error.message);
           observer.next(
-            logic('HOME_PAGE_SET_STATE', {
+            dispatch('HOME_PAGE_SET_STATE', {
               isHeaderLoading: false,
             }),
           );
@@ -93,7 +93,7 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
       ),
     ),
   );
-const pressEmoji = (action$, state$, { logic }) =>
+const pressEmoji = (action$, state$, { dispatch }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI'),
     concatMap(action => {
@@ -109,10 +109,10 @@ const pressEmoji = (action$, state$, { logic }) =>
         return o;
       });
       return of(
-        logic('HOME_PAGE_SET_STATE', {
+        dispatch('HOME_PAGE_SET_STATE', {
           posts: fixedPosts,
         }),
-        logic('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST', action.payload),
+        dispatch('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST', action.payload),
       );
     }),
   );

@@ -5,7 +5,7 @@ import AV from 'leancloud-storage';
 const publishProduct = (
   action$,
   state$,
-  { User, httpClient, I18n, OSS, logic },
+  { User, httpClient, OSS, dispatch ,navigation},
 ) =>
   action$.pipe(
     ofType('PUBLISH_PRODUCT_PUBLISH_PRODUCT'),
@@ -13,7 +13,7 @@ const publishProduct = (
       Observable.create(async observer => {
         try {
           observer.next(
-            logic('GLOBAL_SET_STATE', {
+            dispatch('GLOBAL_SET_STATE', {
               isLoading: true,
             }),
           );
@@ -28,7 +28,7 @@ const publishProduct = (
 
           if (!User.isLoggedIn()) {
             observer.next(
-              logic('SHOW_SNAKE_BAR', {
+              dispatch('SHOW_SNAKE_BAR', {
                 content: 'Please log in first',
                 type: 'ERROR',
               }),
@@ -48,25 +48,25 @@ const publishProduct = (
             color: confirmedCustomTitle.color,
           });
           observer.next(
-            logic('GLOBAL_SET_STATE', {
+            dispatch('GLOBAL_SET_STATE', {
               isLoading: false,
             }),
           );
-          observer.next(logic('NAVIGATION_BACK'));
+          navigation.back()
           observer.next(
-            logic('SHOW_SNAKE_BAR', {
+            dispatch('SHOW_SNAKE_BAR', {
               content: 'Sent success, waiting for review',
             }),
           );
         } catch (error) {
           console.warn(error.message);
           observer.next(
-            logic('GLOBAL_SET_STATE', {
+            dispatch('GLOBAL_SET_STATE', {
               isLoading: false,
             }),
           );
           observer.next(
-            logic('SHOW_SNAKE_BAR', {
+            dispatch('SHOW_SNAKE_BAR', {
               content: 'Network error',
               type: 'ERROR',
             }),

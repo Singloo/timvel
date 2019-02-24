@@ -46,23 +46,23 @@ class AddTag extends React.Component {
     });
   }
   componentWillMount() {
-    this.props.logic('ADD_TAG_FETCH_POPULAR');
+    this.props.dispatch('ADD_TAG_FETCH_POPULAR');
   }
   componentDidMount() {
-    this.props.logic('ADD_TAG_FETCH_POPULAR');
+    this.props.dispatch('ADD_TAG_FETCH_POPULAR');
   }
   componentWillUnmount() {
-    this.props.logic('ADD_TAG_RESET_STATE');
+    this.props.dispatch('ADD_TAG_RESET_STATE');
   }
   open() {
-    this.props.logic('ADD_TAG_SET_STATE', {
+    this.props.dispatch('ADD_TAG_SET_STATE', {
       show: true,
     });
     this.animationOpen.start();
   }
   close() {
     this.animationClose.start(() => {
-      this.props.logic('ADD_TAG_SET_STATE', {
+      this.props.dispatch('ADD_TAG_SET_STATE', {
         show: false,
       });
     });
@@ -74,19 +74,19 @@ class AddTag extends React.Component {
       this.setState({
         prepareToShowSearch: false,
       });
-      this.props.logic('ADD_TAG_SET_STATE', {
+      this.props.dispatch('ADD_TAG_SET_STATE', {
         showSearch: true,
       });
     }
     if (showSearch === false) {
-      this.props.logic('ADD_TAG_SET_STATE', {
+      this.props.dispatch('ADD_TAG_SET_STATE', {
         showSearch: true,
       });
     }
-    this.props.logic('ADD_TAG_SET_STATE', {
+    this.props.dispatch('ADD_TAG_SET_STATE', {
       value,
     });
-    this.props.logic('ADD_TAG_SEARCH_TAG', {
+    this.props.dispatch('ADD_TAG_SEARCH_TAG', {
       tag: value,
     });
   };
@@ -96,7 +96,7 @@ class AddTag extends React.Component {
     });
   };
   // _onTextInputBlur = () => {
-  //   this.props.logic('ADD_TAG_SET_STATE', {
+  //   this.props.dispatch('ADD_TAG_SET_STATE', {
   //     showSearch: false,
   //   });
   // };
@@ -110,18 +110,18 @@ class AddTag extends React.Component {
       }
     }
     if (nativeEvent.key == 'Enter') {
-      this.props.logic('ADD_TAG_SEARCH_TAG', {
+      this.props.dispatch('ADD_TAG_SEARCH_TAG', {
         tag: value,
       });
       if (showSearch === false) {
-        this.props.logic('ADD_TAG_SEARCH_TAG', {
+        this.props.dispatch('ADD_TAG_SEARCH_TAG', {
           showSearch: true,
         });
       }
     }
   };
   _cancelSearch = () => {
-    this.props.logic('ADD_TAG_SET_STATE', {
+    this.props.dispatch('ADD_TAG_SET_STATE', {
       showSearch: false,
       value: '',
     });
@@ -134,7 +134,7 @@ class AddTag extends React.Component {
     if (!included) {
       newTags = [].concat(tag, tags);
     }
-    this.props.logic('CREATE_NEW_SET_STATE', {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
       currentTag: tag.tag,
       tags: newTags,
     });
@@ -144,7 +144,7 @@ class AddTag extends React.Component {
   };
 
   _onPressAddTag = tag => {
-    this.props.logic('ADD_TAG_ADD_TAG', {
+    this.props.dispatch('ADD_TAG_ADD_TAG', {
       tag,
       callback: () => {
         this._onPressNewTag({

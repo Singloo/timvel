@@ -18,10 +18,7 @@ class Sample extends Component {
   componentWillMount() {}
 
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
 
   render() {

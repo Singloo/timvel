@@ -11,7 +11,7 @@ import {
   tap,
   concatMap,
 } from 'rxjs/operators';
-const snakeBar = (action$, state$, { logic }) =>
+const snakeBar = (action$, state$, { dispatch }) =>
   action$.pipe(
     ofType('SHOW_SNAKE_BAR'),
     // tap(action => {
@@ -27,12 +27,12 @@ const snakeBar = (action$, state$, { logic }) =>
           onPress = null,
         } = payload;
         observer.next(
-          logic('SNAKE_BAR_SET_STATE', {
+          dispatch('SNAKE_BAR_SET_STATE', {
             ...payload,
           }),
         );
         setTimeout(() => {
-          observer.next(logic('SNAKE_BAR_RESET_STATE'));
+          observer.next(dispatch('SNAKE_BAR_RESET_STATE'));
           observer.complete();
         }, duration + 300);
       }),

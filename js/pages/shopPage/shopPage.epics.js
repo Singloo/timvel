@@ -12,38 +12,38 @@ import {
   catchError,
   tap,
 } from 'rxjs/operators';
-const changeAvatar = (action$, state$, { User, logic }) =>
+const changeAvatar = (action$, state$, { User, dispatch }) =>
   action$.pipe(
     ofType('SHOP_PAGE_CHANGE_AVATAR'),
     exhaustMap(action =>
       Observable.create(async observer => {
         try {
           observer.next(
-            logic('GLOBAL_SET_STATE', {
+            dispatch('GLOBAL_SET_STATE', {
               isLoading: true,
             }),
           );
           const { imageUrl } = action.payload;
           await User.updateAvatar(imageUrl);
           observer.next(
-            logic('GLOBAL_SET_STATE', {
+            dispatch('GLOBAL_SET_STATE', {
               isLoading: false,
             }),
           );
           observer.next(
-            logic('SHOW_SNAKE_BAR', {
+            dispatch('SHOW_SNAKE_BAR', {
               content: 'Avatar updated!',
               type: 'SUCCESS',
             }),
           );
         } catch (error) {
           observer.next(
-            logic('GLOBAL_SET_STATE', {
+            dispatch('GLOBAL_SET_STATE', {
               isLoading: false,
             }),
           );
           observer.next(
-            logic('SHOW_SNAKE_BAR', {
+            dispatch('SHOW_SNAKE_BAR', {
               content: 'Network error',
               type: 'ERROR',
             }),
@@ -76,7 +76,7 @@ const saveImageToAlbum = (action$, state$, { Network }) =>
 const fetchProducts = (
   action$,
   state$,
-  { httpClient, logic, $retryWhenDelay },
+  { httpClient, dispatch, $retryWhenDelay },
 ) =>
   action$.pipe(
     ofType('SHOP_PAGE_FETCH_PRODUCTS'),

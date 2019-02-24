@@ -12,7 +12,15 @@ import createNew from './pages/createNew/createNew.epic';
 import global from './pages/global/global.epic';
 import notifPage from './pages/notifPage/notifPage.epic';
 import postReplies from './pages/postReplies/postReplies.epics';
+import login from './pages/login/login.epic';
+import alert from './pages/alert/alert.epic';
+import comment from './pages/comment/comment.epic';
+import launchPage from './pages/launchPage/launchPage.epic';
 const epics = [].concat(
+  launchPage,
+  comment,
+  alert,
+  login,
   postReplies,
   global,
   strangerProfile,

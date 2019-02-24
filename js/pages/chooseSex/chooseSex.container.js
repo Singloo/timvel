@@ -16,24 +16,21 @@ class ChooseSex extends Component {
   componentWillMount() {}
 
   componentWillUnmount() {
-    this.props.logic('CHOOSE_SEX_RESET_STATE');
+    this.props.dispatch('CHOOSE_SEX_RESET_STATE');
   }
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
 
   _onPressChoice = value => {
     const showConfirm = ['男神', '萌妹', '女神'];
     if (showConfirm.includes(value)) {
-      this.props.logic('SHOW_ALERT', {
+      this.props.dispatch('SHOW_ALERT', {
         choices: [
           {
             title: '我保证',
             onPress: () => {
-              this.props.logic('CHOOSE_SEX_SET_STATE', {
+              this.props.dispatch('CHOOSE_SEX_SET_STATE', {
                 sex: value,
               });
             },
@@ -45,20 +42,20 @@ class ChooseSex extends Component {
       });
       return;
     }
-    this.props.logic('CHOOSE_SEX_SET_STATE', {
+    this.props.dispatch('CHOOSE_SEX_SET_STATE', {
       sex: value,
     });
   };
 
   _onPressFAQ = () => {
-    this.props.logic('SHOW_ALERT', {
+    this.props.dispatch('SHOW_ALERT', {
       choices: [
         { title: '然' },
         { title: '好的' },
         {
           title: '恍然大悟',
           onPress: () => {
-            this.props.logic('SHOW_SNAKE_BAR', {
+            this.props.dispatch('SHOW_SNAKE_BAR', {
               content: '明白就好.',
             });
           },
@@ -67,7 +64,7 @@ class ChooseSex extends Component {
       type: 'FAQ',
       cancelTitle: '多谢',
       onCancel: () => {
-        this.props.logic('SHOW_SNAKE_BAR', {
+        this.props.dispatch('SHOW_SNAKE_BAR', {
           content: '客气',
         });
       },

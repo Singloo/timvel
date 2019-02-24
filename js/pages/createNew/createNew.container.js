@@ -38,7 +38,7 @@ class CreateNew extends React.Component {
     }
   }
   componentWillUnmount() {
-    this.props.logic('CREATE_NEW_RESET_STATE');
+    this.props.dispatch('CREATE_NEW_RESET_STATE');
   }
   _initQuery = () => {
     this._getWeather();
@@ -47,17 +47,14 @@ class CreateNew extends React.Component {
     this._scrollView && this._scrollView.getNode().scrollToEnd();
   };
   _goBack = () => {
-    const { navigation } = this.props;
-    this.props.logic('NAVIGATION_BACK', {
-      navigation,
-    });
+    this.props.navigation.goBack();
   };
   _setState = nextState =>
     this.props.dispatch('CREATE_NEW_SET_STATE', nextState);
 
   _onChangeDate = date => {
     this._chooseDate.onChangeAnimation();
-    this.props.logic('CREATE_NEW_SET_STATE', {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
       date: date,
     });
   };
@@ -69,7 +66,7 @@ class CreateNew extends React.Component {
       maxFiles: Math.min(8 - images.length, 5),
     }).then(imgs => {
       if (images.length + imgs.length > 8) {
-        this.props.logic('SHOW_SNAKE_BAR', {
+        this.props.dispatch('SHOW_SNAKE_BAR', {
           type: 'ERROR',
           content: 'Number of images at most 8',
         });
@@ -89,12 +86,12 @@ class CreateNew extends React.Component {
     const { images } = this.props.state;
     const newArr = images.filter((o, i) => i !== index);
 
-    this.props.logic('CREATE_NEW_SET_STATE', {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
       images: newArr,
     });
   };
   _onChangeText = text => {
-    this.props.logic('CREATE_NEW_SET_STATE', {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
       content: text,
     });
   };
@@ -115,7 +112,7 @@ class CreateNew extends React.Component {
     }
     this.dismissKeyboard();
     const { images, content, weatherInfo, date } = this.props.state;
-    this.props.logic('CREATE_NEW_SEND_POST', {
+    this.props.dispatch('CREATE_NEW_SEND_POST', {
       images,
       content,
       weatherInfo,
@@ -125,14 +122,14 @@ class CreateNew extends React.Component {
   };
   // _addTagController = () => {
   //   const { showAddTag } = this.props.state;
-  //   this.props.logic('CREATE_NEW_SET_STATE', {
+  //   this.props.dispatch('CREATE_NEW_SET_STATE', {
   //     showAddTag: !showAddTag,
   //   });
   // };
 
   _getWeather = () => {
     const { date } = this.props.state;
-    this.props.logic('CREATE_NEW_GET_WEATHER', {
+    this.props.dispatch('CREATE_NEW_GET_WEATHER', {
       date,
     });
   };
@@ -142,7 +139,7 @@ class CreateNew extends React.Component {
       ...weatherInfo,
       ...{ weather: weather },
     };
-    this.props.logic('CREATE_NEW_SET_STATE', {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
       weatherInfo: newWeather,
     });
   };
@@ -157,14 +154,14 @@ class CreateNew extends React.Component {
       ...weatherInfo,
       ...{ temperature: fixed },
     };
-    this.props.logic('CREATE_NEW_SET_STATE', {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
       weatherInfo: newWeather,
     });
   };
   _onPressGetRandomImage = () => {
     const { images } = this.props.state;
     if (images.length > 8) {
-      this.props.logic('SHOW_SNAKE_BAR', {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',
         content: 'Number of images at most 8',
       });

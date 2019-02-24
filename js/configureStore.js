@@ -1,10 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import { Platform } from 'react-native';
 import reducers from './reducers';
-import logics from './logics';
 import epics from './epics';
-import { createLogicMiddleware } from 'redux-logic';
-import { User, I18n, Network, OSS } from './utils';
+import { User, I18n, Network, OSS, Navigation } from './utils';
 import Axios from 'axios';
 import { API_V1 } from './constants';
 import { createEpicMiddleware } from 'redux-observable';
@@ -16,10 +14,6 @@ const httpClient = Axios.create({
   headers: {
     platfrom: Platform.OS,
   },
-});
-const logic = (type, payload) => ({
-  type,
-  payload: payload || {},
 });
 const dispatch = (type, payload) => ({
   type,
@@ -33,7 +27,6 @@ const loading = (isLoading = true) =>
   });
 const deps = {
   dispatch,
-  logic,
   snakeBar,
   loading,
   User,
@@ -42,18 +35,15 @@ const deps = {
   Network,
   OSS,
   $retryWhenDelay,
-  navigation: null,
-};
-export const setNavigation = navigation => {
-  deps.navigation = navigation;
+  navigation: Navigation,
 };
 
 export default function configureStore() {
-  const logicMiddleware = createLogicMiddleware(logics, deps);
+  // const logicMiddleware = createLogicMiddleware(logics, deps);
   const expicMiddleware = createEpicMiddleware({
     dependencies: deps,
   });
-  const middleware = applyMiddleware(expicMiddleware, logicMiddleware);
+  const middleware = applyMiddleware(expicMiddleware);
   const store = createStore(reducers, middleware);
   expicMiddleware.run(epics);
   return store;

@@ -3,7 +3,7 @@ import { Observable, from, of } from 'rxjs';
 import { mergeMap, switchMap, tap, map, catchError } from 'rxjs/operators';
 import { base } from '../../utils';
 const { filterPostsByTag } = base;
-const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
+const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
   action$.pipe(
     ofType('USER_PAGE_FETCH_USER_POSTS'),
     mergeMap(action =>
@@ -19,7 +19,7 @@ const fetchUserPosts = (action$, state$, { User, httpClient, logic }) =>
           });
           const postsByTag = filterPostsByTag(data);
           observer.next(
-            logic('USER_SET_STATE', {
+            dispatch('USER_SET_STATE', {
               userPosts: postsByTag,
             }),
           );
@@ -56,7 +56,7 @@ const fetchUserTitles = (action$, state$, { httpClient, User, dispatch }) =>
       ),
     ),
   );
-// const getUserInfo = (action$, state$, { User, logic }) =>
+// const getUserInfo = (action$, state$, { User, dispatch }) =>
 //   action$.pipe(
 //     ofType('USER_PAGE_GET_USER_INFO'),
 //     mergeMap(action =>
@@ -68,7 +68,7 @@ const fetchUserTitles = (action$, state$, { httpClient, User, dispatch }) =>
 //           }
 //           const userInfo = User.getUserInfo();
 //           observer.next(
-//             logic('USER_SET_STATE', {
+//             dispatch('USER_SET_STATE', {
 //               userInfo,
 //               isLoggedIn: true,
 //             }),
