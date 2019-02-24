@@ -24,26 +24,19 @@ Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends React.Component {
-  async componentDidMount() {
-    try {
-      this._init();
-      let notification = new Notification(Installation);
-      if (base.isIOS) {
-        notification.IOSinitPush();
-      } else {
-        notification.AndroidinitPush();
-      }
-      // try to prevent crash n._navigation.state
-      if (base.isIOS) {
-        return;
-      }
-      await new Promise(resolve => {
-        setTimeout(resolve, 500);
-      });
-      Setup.androidBackButton(this._navigation, store);
-    } catch (error) {
-      //
+  componentDidMount() {
+    this._init();
+    let notification = new Notification(Installation);
+    if (base.isIOS) {
+      notification.IOSinitPush();
+    } else {
+      notification.AndroidinitPush();
     }
+    // try to prevent crash n._navigation.state
+    if (base.isIOS) {
+      return;
+    }
+    // Setup.androidBackButton(this._navigation, store);
   }
   componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');
@@ -51,8 +44,12 @@ export default class App extends React.Component {
   }
 
   _init = async () => {
-    CoinTransactionAnimation.init();
-    await User.init();
+    try {
+      CoinTransactionAnimation.init();
+      await User.init();
+    } catch (error) {
+      console.warn(error);
+    }
   };
 
   render() {
