@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Button, Text, Image, InfiniteText } from '../../../../re-kits';
 import { base } from '../../../utils';
-import { BlurView } from 'react-native-blur';
+// import { BlurView } from 'react-native-blur';
 import PropTypes from 'prop-types';
 const {
   SCREEN_WIDTH,

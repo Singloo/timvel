@@ -1,29 +1,14 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
-platform :ios, '8.0'
+platform :ios, '9.0'
 target 'timvel' do
 
-  rn_path = '../node_modules/react-native'
-  pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
-  pod 'React', path: rn_path, subspecs: [
-    'Core',
-    'RCTActionSheet',
-    'RCTAnimation',
-    'RCTGeolocation',
-    'RCTImage',
-    'RCTLinkingIOS',
-    'RCTNetwork',
-    'RCTSettings',
-    'RCTText',
-    'RCTVibration',
-    'RCTWebSocket'
-  ]
-
+  pod 'React', path: '../node_modules/react-native'
+  pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
   pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
-  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
   
   pod 'aliyun-oss-react-native', :path => '../node_modules/aliyun-oss-react-native'
@@ -35,16 +20,5 @@ target 'timvel' do
   pod 'Interactable', :path => '../node_modules/react-native-interactable'
 
   pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
-
-end
-
-# very important to have, unless you removed React dependencies for Libraries 
-# and you rely on Cocoapods to manage it
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    if target.name == "React"
-      target.remove_from_project
-    end
-  end
 
 end

@@ -63,10 +63,10 @@ export default class App extends React.Component {
             }}
           />
 
-          <Connectors.global />
+          {/* <Connectors.global />
           <Connectors.alert />
           <Connectors.snakeBar />
-          <CoinIncrease edge={15} />
+          <CoinIncrease edge={15} /> */}
         </View>
       </Provider>
     );

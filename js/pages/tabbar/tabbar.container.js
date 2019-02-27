@@ -3,6 +3,7 @@ import { StyleSheet, View, findNodeHandle, Animated } from 'react-native';
 import { Assets } from '../../../re-kits';
 import { base, curried } from '../../utils';
 import { BlurView } from 'react-native-blur';
+// const BlurView = View;
 import Tab from './components/Tab';
 const { PADDING_BOTTOM, TAB_BAR_HEIGHT } = base;
 const goingToHidden = (prev, curr) =>

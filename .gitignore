@@ -30,7 +30,7 @@ build/
 local.properties
 *.iml
 android/app/.project
-android/app/src/main/res/
+# android/app/src/main/res/
 #ios
 ios/Pods
 ios/Podfile.lock

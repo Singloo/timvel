@@ -114,8 +114,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     //为了解决部分第三方库重复打包了META-INF的问题
     packagingOptions{
         exclude 'META-INF/LICENSE.txt'
@@ -123,24 +123,24 @@ android {
     }
     defaultConfig {
         applicationId "com.timvel"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        flavorDimensions "default"
-        multiDexEnabled true
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
+        // flavorDimensions "default"
+         multiDexEnabled true
+        // renderscriptTargetApi 23
+        // renderscriptSupportModeEnabled true
     }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a", "x86", "arm64-v8a"
         }
     }
     buildTypes {
@@ -154,7 +154,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a":1, "x86":2, "arm64-v8a": 3]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -165,28 +165,27 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-fast-image')
-    compile project(':react-native-gesture-handler')
-    compile project(':react-native-interactable')
+    implementation project(':react-native-fast-image')
+    implementation project(':react-native-gesture-handler')
+    implementation project(':react-native-interactable')
      // LeanCloud 基础包
-    compile ('cn.leancloud.android:avoscloud-sdk:v4.7.3')
+    implementation ('cn.leancloud.android:avoscloud-sdk:v4.7.3')
 
     // 推送与即时通讯需要的包
-    compile ('cn.leancloud.android:avoscloud-push:v4.7.3@aar'){transitive = true}
-    compile project(':react-native-fs')
-    compile project(':react-native-device-info')
-    compile project(':aliyun-oss-react-native')
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-i18n')
-    compile project(':lottie-react-native')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-image-crop-picker')
-    compile project(':react-native-blur')
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:26.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation ('cn.leancloud.android:avoscloud-push:v4.7.3@aar'){transitive = true}
+    implementation project(':react-native-fs')
+    implementation project(':react-native-device-info')
+    implementation project(':aliyun-oss-react-native')
+    implementation project(':react-native-splash-screen')
+    implementation project(':lottie-react-native')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-image-picker')
+    implementation project(':react-native-image-crop-picker')
+    api project(':react-native-blur')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 
       // If your app supports Android versions before Ice Cream Sandwich (API level 14)
 //    compile 'com.facebook.fresco:animated-base-support:1.8.1'
@@ -197,7 +196,7 @@ dependencies {
 //     // For WebP support, including animated WebP
 //     compile 'com.facebook.fresco:animated-webp:1.8.1'
 //     compile 'com.facebook.fresco:webpsupport:1.8.1'
-      compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
     transitive = true;
   }
 }

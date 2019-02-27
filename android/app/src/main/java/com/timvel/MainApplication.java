@@ -14,7 +14,6 @@ import com.rnfs.RNFSPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactlibrary.RNAliyunOssPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -50,7 +49,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNDeviceInfo(),
             new RNAliyunOssPackage(),
             new SplashScreenReactPackage(),
-            new RNI18nPackage(),
             new PickerPackage(),
             new LottiePackage(),
             new VectorIconsPackage(),
