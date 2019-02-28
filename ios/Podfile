@@ -3,7 +3,19 @@
 platform :ios, '9.0'
 target 'timvel' do
 
-  pod 'React', path: '../node_modules/react-native'
+  pod 'React', path: '../node_modules/react-native', subspecs: [
+    'Core',
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket'
+  ]
   pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
   pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
@@ -15,10 +27,22 @@ target 'timvel' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   pod 'Interactable', :path => '../node_modules/react-native-interactable'
 
   pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
 end
+
+# very important to have, unless you removed React dependencies for Libraries 
+# and you rely on Cocoapods to manage it
+# post_install do |installer|
+#   installer.pods_project.targets.each do |target|
+#     if target.name == "React"
+#       target.remove_from_project
+#     end
+#   end
+
+# end
