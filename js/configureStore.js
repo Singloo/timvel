@@ -37,8 +37,7 @@ const deps = {
   $retryWhenDelay,
   navigation: Navigation,
 };
-
-export default function configureStore() {
+const configureStore = () => {
   // const logicMiddleware = createLogicMiddleware(logics, deps);
   const expicMiddleware = createEpicMiddleware({
     dependencies: deps,
@@ -47,4 +46,5 @@ export default function configureStore() {
   const store = createStore(reducers, middleware);
   expicMiddleware.run(epics);
   return store;
-}
+};
+export default configureStore;

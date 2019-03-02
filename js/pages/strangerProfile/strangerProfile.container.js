@@ -126,7 +126,7 @@ class StrangerProfile extends Component {
     this.props.navigation.goBack();
   };
 
-  _modalController = bool => () => {
+  _modalController = bool => {
     this.props.dispatch('STRANGER_PROFILE_SET_STATE', {
       showModal: bool,
     });

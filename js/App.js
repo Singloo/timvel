@@ -3,7 +3,7 @@ import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base, Notification, User, Navigation } from './utils';
+import { Setup, base, Notification, Navigation } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
 import { CoinTransactionAnimation } from './components/CoinTransactionAnimation';
@@ -17,6 +17,7 @@ AV.init({
   appId: 'UYganDzaND6XsvYaL552tlbs-gzGzoHsz',
   appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
 });
+//@ts-ignore
 import Installation from 'leancloud-installation';
 Installation(AV);
 const store = configureStore();
@@ -46,7 +47,6 @@ export default class App extends React.Component {
   _init = async () => {
     try {
       CoinTransactionAnimation.init();
-      await User.init();
     } catch (error) {
       console.warn(error);
     }
@@ -63,10 +63,10 @@ export default class App extends React.Component {
             }}
           />
 
-          {/* <Connectors.global />
+          <Connectors.global />
           <Connectors.alert />
           <Connectors.snakeBar />
-          <CoinIncrease edge={15} /> */}
+          <CoinIncrease />
         </View>
       </Provider>
     );
