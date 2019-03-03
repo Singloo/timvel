@@ -3,7 +3,7 @@ const initialState = {
   price: '',
   description: '',
   productType: '',
-  coverImage: {},
+  coverImage: undefined,
   keyboardDidShow: false,
   customTitle: '',
   confirmedCustomTitle: {},

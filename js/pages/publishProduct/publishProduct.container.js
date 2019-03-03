@@ -2,27 +2,23 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  ScrollView,
   Animated,
   Keyboard,
   LayoutAnimation,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import {
-  Button,
   NavBar,
   Image,
-  InfiniteText,
   Text,
   Assets,
-  BaseTextInput,
   Tag,
   MultiLinesTextInput,
+  withKeyboardListener,
 } from '../../../re-kits';
 import ImagePicker from 'react-native-image-crop-picker';
 import InputWithTitle from './components/InputWithTitle';
 import CustomTitle from './components/CustomTitle';
-import { base, I18n } from '../../utils';
+import { base } from '../../utils';
 const { colors, isAndroid, lenOfText } = base;
 const product_types = [
   'avatar',
@@ -40,49 +36,49 @@ class Sample extends Component {
   }
   componentWillMount() {}
   componentDidMount() {
-    this.keyboardWillShowSub = Keyboard.addListener(
-      'keyboardWillShow',
-      this.keyboardWillShow,
-    );
-    this.keyboardWillHideSub = Keyboard.addListener(
-      'keyboardWillHide',
-      this.keyboardWillHide,
-    );
-    if (isAndroid) {
-      this.keyboardDidShowSub = Keyboard.addListener(
-        'keyboardDidShow',
-        this.keyboardDidShow,
-      );
-      this.keyboardDidHideSub = Keyboard.addListener(
-        'keyboardDidHid',
-        this.keyboardDidHide,
-      );
-    }
+    // this.keyboardWillShowSub = Keyboard.addListener(
+    //   'keyboardWillShow',
+    //   this.keyboardWillShow,
+    // );
+    // this.keyboardWillHideSub = Keyboard.addListener(
+    //   'keyboardWillHide',
+    //   this.keyboardWillHide,
+    // );
+    // if (isAndroid) {
+    //   this.keyboardDidShowSub = Keyboard.addListener(
+    //     'keyboardDidShow',
+    //     this.keyboardDidShow,
+    //   );
+    //   this.keyboardDidHideSub = Keyboard.addListener(
+    //     'keyboardDidHid',
+    //     this.keyboardDidHide,
+    //   );
+    // }
   }
-  keyboardWillShow = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: event.endCoordinates.height,
-    }).start();
-  };
-  keyboardDidShow = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 200,
-      toValue: event.endCoordinates.height,
-    }).start();
-  };
-  keyboardWillHide = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: 0,
-    }).start(this._scrollToEnd);
-  };
-  keyboardDidHide = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 200,
-      toValue: 0,
-    }).start(this._scrollToEnd);
-  };
+  // keyboardWillShow = event => {
+  //   Animated.timing(this.keyboardHeight, {
+  //     duration: 400,
+  //     toValue: event.endCoordinates.height,
+  //   }).start();
+  // };
+  // keyboardDidShow = event => {
+  //   Animated.timing(this.keyboardHeight, {
+  //     duration: 200,
+  //     toValue: event.endCoordinates.height,
+  //   }).start();
+  // };
+  // keyboardWillHide = event => {
+  //   Animated.timing(this.keyboardHeight, {
+  //     duration: 400,
+  //     toValue: 0,
+  //   }).start(this._scrollToEnd);
+  // };
+  // keyboardDidHide = event => {
+  //   Animated.timing(this.keyboardHeight, {
+  //     duration: 200,
+  //     toValue: 0,
+  //   }).start(this._scrollToEnd);
+  // };
   _onPressKey = ({ nativeEvent }) => {
     if (nativeEvent.key == 'Enter') {
       this._scrollToEnd();
@@ -181,14 +177,14 @@ class Sample extends Component {
       description,
       productType,
       coverImage,
-      keyboardDidShow,
       customTitle,
       confirmedCustomTitle,
     } = this.props.state;
+    const { keyboardHeight } = this.props;
     let ableToSend =
       title.length > 0 &&
       price.length > 0 &&
-      !!coverImage.path &&
+      !!coverImage &&
       productType.length > 0;
     let chooseTitle = productType === 'title';
     if (chooseTitle) {
@@ -219,14 +215,14 @@ class Sample extends Component {
           sourceRight={Assets.send.source}
           rightIconStyle={{}}
           rightTint={ableToSend ? colors.main : colors.depGrey}
-          onPressRight={ableToSend ? this._onPressSend : () => {}}
+          onPressRight={ableToSend ? this._onPressSend : undefined}
         />
         <Animated.ScrollView
           ref={r => (this._scrollView = r)}
           style={{
             flex: 1,
             backgroundColor: colors.pureWhite,
-            marginBottom: this.keyboardHeight,
+            marginBottom: keyboardHeight,
           }}
           contentContainerStyle={{
             paddingBottom: 20,
@@ -261,16 +257,7 @@ class Sample extends Component {
               />
             </View>
           )}
-          <View style={{ marginVertical: 5 }}>
-            <Text style={styles.text}>{'Cover'}</Text>
-            <Image
-              source={
-                coverImage.path ? { uri: coverImage.path } : Assets.add.source
-              }
-              onPress={this._onPressCoverImage}
-              style={styles.coverImage}
-            />
-          </View>
+          {this._renderChooseCover()}
           <View style={{ marginVertical: 5 }}>
             <Text style={styles.text}>
               {'Description ' + (chooseTitle ? '(needed)' : '(optional)')}
@@ -291,6 +278,20 @@ class Sample extends Component {
       </View>
     );
   }
+
+  _renderChooseCover = () => {
+    const { coverImage } = this.props.state;
+    return (
+      <View style={{ marginVertical: 5, alignItems: 'flex-start' }}>
+        <Text style={styles.text}>{'Cover'}</Text>
+        <Image
+          source={coverImage ? { uri: coverImage.path } : Assets.add.source}
+          onPress={this._onPressCoverImage}
+          style={styles.coverImage}
+        />
+      </View>
+    );
+  };
 }
 Sample.propTypes = {};
 const styles = StyleSheet.create({
@@ -316,6 +317,7 @@ const styles = StyleSheet.create({
     height: 150,
     marginLeft: 15,
     marginTop: 5,
+    backgroundColor: 'red',
   },
   description: {
     backgroundColor: colors.lightGrey,
@@ -325,4 +327,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sample;
+export default withKeyboardListener(Sample);

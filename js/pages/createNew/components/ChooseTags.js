@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Image, Assets, Tag, Text } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
 const { colors } = base;
 class ChooseTags extends React.Component {
   render() {
