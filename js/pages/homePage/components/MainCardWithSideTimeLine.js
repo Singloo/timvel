@@ -93,7 +93,6 @@ class MainCard extends React.PureComponent {
                 style={{
                   width: cardWidth,
                   height: cardHeight,
-                  backgroundColor: 'red',
                 }}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
                 showsPagination={!hidden}
