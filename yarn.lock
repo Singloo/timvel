@@ -5105,6 +5105,11 @@ react-native-linear-gradient@^2.4.0:
   resolved "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.5.3.tgz#d90cf19a13fcccfa8bb32025ac40a15ae1b49e99"
   integrity sha512-XdusrOXXlkI+yQpUW7YLeiq9cZiBwkvQX4XEkHPVrJ9H47gsKmdgBwObkZBzBQUP0dKK/Sg6aVpETEis4w43bQ==
 
+react-native-localize@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/react-native-localize/-/react-native-localize-1.0.4.tgz#4fd3c492ded717c1eb15b2c1f744c8c167e12473"
+  integrity sha512-KZg0ZZTbZWor3an6SvQz84swBBj0z8kJX1tk4xGN3rE2Ox/uM/dl056qjBrjtyy4j5f78L05aY17TtOh+vW8Ww==
+
 react-native-motion@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/react-native-motion/-/react-native-motion-0.2.0.tgz#2a3920a52926f80ce19b9ba77a43efaf930c2fd4"
