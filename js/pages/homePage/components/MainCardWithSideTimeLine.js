@@ -81,33 +81,40 @@ class MainCard extends React.PureComponent {
     const { cardId, hidden, post } = this.props;
     return (
       <View style={[{ backgroundColor: 'white' }, Styles.shadow]}>
-        <View style={[styles.container, { opacity: hidden ? 0 : 1 }]}>
+        <View style={{ opacity: hidden ? 0 : 1 }}>
           <AnimatedWrapper
             id={`maincard${cardId}`}
             type={AnimatedWrapper.types.from}
             ref={r => (this._animatedWrapper = r)}
           >
-            <View style={{ flex: 1 }}>
+            <View style={[styles.container]}>
               <ImageSwiper
                 imageUrls={post.imageUrls.map(o => o.imageUrl)}
-                style={{ width: cardWidth, height: cardHeight }}
+                style={{
+                  width: cardWidth,
+                  height: cardHeight,
+                  backgroundColor: 'red',
+                }}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
+                showsPagination={!hidden}
               />
             </View>
           </AnimatedWrapper>
         </View>
         {this.renderBottomBar()}
-        {post.content.length > 0 && this._renderText()}
+        {this._renderText()}
       </View>
     );
   };
   _renderText = () => {
     const { post } = this.props;
+    if (post.content.length <= 0) {
+      return null;
+    }
     return (
       <Touchable
         onPress={this._onPressItem}
         style={{
-          // backgroundColor: 'red',
           paddingVertical: 5,
           paddingHorizontal: 10,
           height: 60,
