@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 import { Button, Text, InfiniteText } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
-const { realSize } = base;
-const { SCREEN_WIDTH, colors, renderTitle, PADDING_TOP } = base;
+const { PADDING_TOP } = base;
 const scroll_height = 200 - 44 - PADDING_TOP;
 class HeaderBar extends Component {
   constructor(props) {

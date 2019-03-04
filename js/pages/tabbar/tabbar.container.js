@@ -76,7 +76,13 @@ class Tabbar extends Component {
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}
-          style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+          }}
           blurAmount={10}
         />
         <Tab

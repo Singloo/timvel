@@ -4,8 +4,7 @@ import { Button, Text, Image, Assets } from '../../../../re-kits';
 import { base } from '../../../utils';
 import PropTypes from 'prop-types';
 import Wrapper from './MainCardWithSideTimeLine';
-// import { VibrancyView } from 'react-native-blur';
-const VibrancyView = View;
+import { VibrancyView } from 'react-native-blur';
 const { isIOS } = base;
 class MoreText extends React.Component {
   componentWillMount() {}

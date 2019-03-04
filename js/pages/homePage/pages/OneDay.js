@@ -12,7 +12,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import DatePicker from 'react-native-datepicker';
 import { BlurView } from 'react-native-blur';
-// const BlurView = View;
 import Moment from 'moment';
 const { Styles, SCREEN_WIDTH, colors, isIOS } = base;
 class OneDay extends React.Component {

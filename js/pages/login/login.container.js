@@ -22,7 +22,6 @@ import {
 import { base, User, I18n } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
-// const BlurView = View;
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 const { SCREEN_WIDTH, realSize, colors, Styles, EMAIL_REGEX } = base;
