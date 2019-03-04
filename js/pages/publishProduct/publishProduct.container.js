@@ -287,7 +287,8 @@ class Sample extends Component {
         <Image
           source={coverImage ? { uri: coverImage.path } : Assets.add.source}
           onPress={this._onPressCoverImage}
-          style={styles.coverImage}
+          style={coverImage ? { width: 150, height: 150 } : styles.coverImage}
+          containerStyle={styles.coverImageContainer}
         />
       </View>
     );
@@ -311,19 +312,23 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   coverImage: {
-    borderWidth: 1,
-    borderColor: colors.midGrey,
-    width: 150,
-    height: 150,
-    marginLeft: 15,
-    marginTop: 5,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
   description: {
     backgroundColor: colors.lightGrey,
     marginTop: 5,
     padding: 15,
     fontSize: 16,
+  },
+  coverImageContainer: {
+    width: 150,
+    height: 150,
+    borderWidth: 1,
+    borderColor: colors.midGrey,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 15,
+    marginTop: 5,
   },
 });
 

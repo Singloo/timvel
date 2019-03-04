@@ -148,13 +148,14 @@ class ShopPage extends Component {
 
   render() {
     const { showModal, products, isLoading, isError } = this.props.state;
-    const renderProducts = products.map(this.renderItem);
+    const renderProducts = products.map(this._renderItem);
     return (
       <View style={styles.container}>
         <BasicView
           isLoading={isLoading}
           isError={isError}
           onPressError={this._fetchProducts}
+          style={styles.container}
         >
           <ScrollView
             style={{ flex: 1, backgroundColor: colors.lightGrey }}
@@ -185,7 +186,7 @@ class ShopPage extends Component {
     );
   }
 
-  renderItem = (item, index) => {
+  _renderItem = (item, index) => {
     return (
       <ProductCard
         key={index}
@@ -201,8 +202,6 @@ class ShopPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
 });
 
