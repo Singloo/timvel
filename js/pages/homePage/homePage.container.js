@@ -42,7 +42,6 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    // console.warn(User.current())
   }
   componentWillUnmount() {}
 
