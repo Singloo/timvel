@@ -18,9 +18,9 @@ const HANDLE = (next = EMPTY_FUNC, error = EMPTY_FUNC) => ({
   error,
 });
 
-const $catchError = (...handers) =>
+const $catchError = (...values) =>
   catchError(err => {
     console.warn(err.message);
-    return of(...handers);
+    return of(...values);
   });
 export { retry3, $retryDelay, HANDLE, $catchError };

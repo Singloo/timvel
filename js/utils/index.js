@@ -11,7 +11,9 @@ import * as $observable from './$observable';
 import { retry3, $retryDelay, HANDLE, $catchError } from './$helper';
 import { invoke, clearTimers, curried, booleanMap } from './helper';
 import Navigation from './Navigation';
+import ApiNotifications from './apiNotifications';
 export {
+  ApiNotifications,
   base,
   Setup,
   User,

@@ -41,8 +41,7 @@ class HomePage extends React.Component {
     this._initSubscription();
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
   componentWillUnmount() {}
 
   /**
@@ -77,7 +76,7 @@ class HomePage extends React.Component {
       post: item,
       onPress: this._onPressItem(item, index),
       hidden: showDetail && cardId === index,
-      onPressComment: this._onPressComment,
+      onPressComment: curried(this._onPressComment)(item),
       onPressAvatar: this._onPressAvatar({
         userId: item.userId,
         username: item.username,
@@ -233,11 +232,11 @@ class HomePage extends React.Component {
     }, 2000);
   };
 
-  _onPressComment = postId => () => {
+  _onPressComment = post => {
     this.props.navigation.navigate({
       routeName: 'comment',
       params: {
-        postId,
+        post,
       },
     });
   };

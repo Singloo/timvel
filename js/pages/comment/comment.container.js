@@ -15,7 +15,7 @@ import CommentCard from './components/CommentCard';
 const { colors, NAV_BAR_HEIGHT, TAB_BAR_HEIGHT } = base;
 class Comment extends Component {
   componentWillMount() {
-    this.postId = this.props.navigation.state.params.postId;
+    this.post = this.props.navigation.getParam('post', {});
     this._fetchComments();
   }
   componentWillUnmount() {
@@ -27,20 +27,20 @@ class Comment extends Component {
   };
 
   _renderItem = ({ item, index }) => {
-    return <CommentCard key={index} comment={item} index={index + 1} />;
+    return <CommentCard comment={item} index={index + 1} />;
   };
 
   _fetchComments = () => {
     const { comments } = this.props.state;
     this.props.dispatch('COMMENT_FETCH_COMMENTS', {
-      postId: this.postId,
+      postId: this.post.postId,
       offset: comments.length,
     });
   };
   _onPressSend = (value, callback) => {
     this.props.dispatch('COMMENT_COMMENT_POST', {
       content: value,
-      postId: this.postId,
+      post: this.post,
       callback: callback,
     });
   };
@@ -56,6 +56,7 @@ class Comment extends Component {
             paddingTop: NAV_BAR_HEIGHT,
             paddingBottom: TAB_BAR_HEIGHT,
           }}
+          keyExtractor={(_, index) => 'cmc' + index}
         />
         <NavBar
           title={'comments'}

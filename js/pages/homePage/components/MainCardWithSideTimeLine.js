@@ -10,7 +10,7 @@ import {
   WeatherInfo,
   ImageSwiper,
 } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { base, curried } from '../../../utils';
 import PropTypes from 'prop-types';
 const { Styles, colors, DateFormatter } = base;
 import UserInfoBar from './UserInfoBar';
@@ -175,7 +175,7 @@ class MainCard extends React.PureComponent {
             // bottom: 0,
           }
         }
-        onPressComment={onPressComment(post.postId)}
+        onPressComment={onPressComment}
         onPressEmoji={onPressEmoji(post.postId)}
         nums={{
           numOfComments: post.numOfComments,
