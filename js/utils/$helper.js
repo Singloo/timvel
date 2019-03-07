@@ -1,10 +1,10 @@
 import { from, throwError, of } from 'rxjs';
 import { retryWhen, concatMap, delay, catchError } from 'rxjs/operators';
 const EMPTY_FUNC = () => {};
-const retryDelay = (promise, { delayTime = 1000, times = 3 } = {}) =>
-  from(promise).pipe($retryWhenDelay(delayTime, times));
+const retry3 = (promise, { delayTime = 1000, times = 3 } = {}) =>
+  from(promise).pipe($retryDelay(delayTime, times));
 
-const $retryWhenDelay = (delayTime = 1000, times = 3) =>
+const $retryDelay = (delayTime = 1000, times = 3) =>
   retryWhen(err =>
     err.pipe(
       delay(delayTime),
@@ -23,4 +23,4 @@ const $catchError = (...handers) =>
     console.warn(err.message);
     return of(...handers);
   });
-export { retryDelay, $retryWhenDelay, HANDLE, $catchError };
+export { retry3, $retryDelay, HANDLE, $catchError };

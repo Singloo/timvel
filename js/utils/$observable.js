@@ -1,27 +1,21 @@
 import { interval, from, Subject, timer, range } from 'rxjs';
 import { switchMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { get } from 'lodash';
-import { retryDelay, $retryWhenDelay, HANDLE } from './$helper';
+import { $retryDelay, HANDLE } from './$helper';
 // import coinTransaction from '../components/CoinTransactionAnimation';
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
-  concatMap(_ =>
-    timer(INTERVAL).pipe(
-      switchMap(_ =>
-        from([1]).pipe(
-          map(({ data }) => {
-            if (get(data, 'length', 0) > 0) {
-              INTERVAL = INTERVAL / 2;
-              return data;
-            } else {
-              INTERVAL = INTERVAL * 2;
-              return [];
-            }
-          }),
-        ),
-      ),
-    ),
-  ),
+  concatMap(_ => timer(INTERVAL)),
+  switchMap(_ => from([1])),
+  map(({ data }) => {
+    if (get(data, 'length', 0) > 0) {
+      INTERVAL = INTERVAL / 2;
+      return data;
+    } else {
+      INTERVAL = INTERVAL * 2;
+      return [];
+    }
+  }),
 );
 
 const $sourceSecond = interval(1000);

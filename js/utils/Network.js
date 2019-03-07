@@ -1,15 +1,18 @@
 import Axios from 'axios';
-import { CameraRoll } from 'react-native';
+import { CameraRoll, Platform } from 'react-native';
 import * as Constants from '../constants';
 import RNFS from 'react-native-fs';
 import { API_V1 } from '../constants';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 const axios = Axios.create({
-  timeout: 20000,
+  timeout: 10000,
 });
-const HOST_AXIOS = Axios.create({
+const apiClient = Axios.create({
   timeout: 20000,
   baseURL: API_V1,
+  headers: {
+    platfrom: Platform.OS,
+  },
 });
 async function getIpInfo() {
   return axios.get('http://ip-api.com/json');
@@ -74,7 +77,7 @@ async function saveImageToAlbum(imageUrl) {
   }
 }
 const getUserInfo = user_id => {
-  return HOST_AXIOS.get('/get_user_info', {
+  return apiClient.get('/get_user_info', {
     params: {
       user_id,
     },
@@ -87,4 +90,5 @@ export {
   getWeatherInfoToday,
   saveImageToAlbum,
   getUserInfo,
+  apiClient,
 };

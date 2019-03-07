@@ -8,7 +8,7 @@ import Notification from './Notification';
 import { connect2 } from './Setup';
 import { runAfter } from './performance';
 import * as $observable from './$observable';
-import { retryDelay, $retryWhenDelay, HANDLE, $catchError } from './$helper';
+import { retry3, $retryDelay, HANDLE, $catchError } from './$helper';
 import { invoke, clearTimers, curried, booleanMap } from './helper';
 import Navigation from './Navigation';
 export {
@@ -22,8 +22,8 @@ export {
   connect2,
   runAfter,
   $observable,
-  retryDelay,
-  $retryWhenDelay,
+  retry3,
+  $retryDelay,
   HANDLE,
   invoke,
   clearTimers,

@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { $retryWhenDelay, $catchError } from '../../utils';
+import { $retryDelay, $catchError } from '../../utils';
 import { from } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
 
@@ -18,7 +18,7 @@ const sendNotification = (action$, state$, { httpClient, User, dispatch }) =>
         }),
       ).pipe(
         map(() => dispatch(null)),
-        $retryWhenDelay(100),
+        $retryDelay(100),
         $catchError(dispatch(null)),
       );
     }),
@@ -34,7 +34,7 @@ const readNotification = (action$, state$, { httpClient, User, dispatch }) =>
         }),
       ).pipe(
         map(() => dispatch(null)),
-        $retryWhenDelay(100),
+        $retryDelay(100),
         $catchError(dispatch(null)),
       );
     }),
@@ -55,7 +55,7 @@ const fetchNotifications = (action$, state$, { httpClient, User, dispatch }) =>
             notifications: data,
           });
         }),
-        $retryWhenDelay(100),
+        $retryDelay(100),
         $catchError(dispatch(null)),
       );
     }),

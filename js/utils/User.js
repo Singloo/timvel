@@ -1,7 +1,7 @@
 import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES, dispatch } from './$observable';
-import { retryDelay, HANDLE } from './$helper';
+import { retry3, HANDLE } from './$helper';
 class UUer {
   constructor() {
     this.user = null;
@@ -59,7 +59,7 @@ class UUer {
       return null;
     }
     this.user.increment(key, value);
-    retryDelay(this.user.save()).subscribe(
+    retry3(this.user.save()).subscribe(
       HANDLE(null, error => {
         console.warn(error);
       }),

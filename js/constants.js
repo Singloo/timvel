@@ -1,5 +1,8 @@
 // let host = 'http://www.timvel.com';
-let host = 'http://47.91.219.63:8080';
+let host = 'https://timvel.com';
+if (__DEV__) {
+  host = 'https://dev.timvel.com';
+}
 
 export const HOST = host;
 export const API_V1 = host + '/api/v1';

@@ -1,20 +1,11 @@
 import { createStore, applyMiddleware } from 'redux';
-import { Platform } from 'react-native';
 import reducers from './reducers';
 import epics from './epics';
 import { User, I18n, Network, OSS, Navigation } from './utils';
-import Axios from 'axios';
-import { API_V1 } from './constants';
 import { createEpicMiddleware } from 'redux-observable';
 // import logger from 'redux-logger';
-import { $retryWhenDelay } from './utils/$helper';
-const httpClient = Axios.create({
-  baseURL: API_V1,
-  timeout: 20000,
-  headers: {
-    platfrom: Platform.OS,
-  },
-});
+import { $retryDelay } from './utils/$helper';
+const httpClient = Network.apiClient;
 const dispatch = (type, payload) => ({
   type,
   payload: payload || {},
@@ -34,7 +25,7 @@ const deps = {
   I18n,
   Network,
   OSS,
-  $retryWhenDelay,
+  $retryDelay,
   navigation: Navigation,
 };
 const configureStore = () => {

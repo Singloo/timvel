@@ -76,7 +76,7 @@ const saveImageToAlbum = (action$, state$, { Network }) =>
 const fetchProducts = (
   action$,
   state$,
-  { httpClient, dispatch, $retryWhenDelay },
+  { httpClient, dispatch, $retryDelay },
 ) =>
   action$.pipe(
     ofType('SHOP_PAGE_FETCH_PRODUCTS'),
@@ -99,7 +99,7 @@ const fetchProducts = (
             isError: false,
           },
         }),
-        $retryWhenDelay(1000, 3),
+        $retryDelay(1000, 3),
         catchError(error =>
           of({
             type: 'SHOP_PAGE_SET_STATE',
