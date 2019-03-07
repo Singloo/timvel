@@ -15,7 +15,7 @@ const sentenceSet = () => {
       return en;
   }
 };
-const t = key => get(sentenceSet, key, '');
+const t = key => get(sentenceSet(), key, '');
 const I18n = {
   t,
 };
