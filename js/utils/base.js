@@ -130,7 +130,17 @@ export class DateFormatter {
     return Moment(this.date).fromNow();
   };
 }
-
+export const getLayoutAttributes = event => {
+  const { nativeEvent } = layout;
+  const { target, layout } = nativeEvent;
+  return {
+    target,
+    width: layout.width,
+    height: layout.height,
+    x: layout.x,
+    y: layout.y,
+  };
+};
 export const filterPostsByTag = posts => {
   let returnObj = {};
 

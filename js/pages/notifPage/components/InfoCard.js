@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, Image, Assets, Touchable } from '../../../../re-kits';
+import { Text, Image, Assets, Touchable } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
 const { SCREEN_WIDTH, colors, colorSets, randomItem } = base;
 const item_height = 60;
 const item_width = SCREEN_WIDTH;
+const mapDotContainerWidth = num => {
+  const stringified = typeof num === 'number' ? num.toString : num;
+  return 30 + (stringified.length - 1) * 10;
+};
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -16,20 +19,37 @@ class Card extends Component {
   render() {
     const { title, onPress, style, iconSource } = this.props;
     return (
-      <Touchable onPress={onPress}>
-        <View style={[styles.container, style]}>
-          <Image source={iconSource || Assets.bk3.source} size={'small'} />
-          <Text style={styles.text}>{title}</Text>
-          <Image
-            source={Assets.arrow_right.source}
-            size={'verySmall'}
-            tintColor={this.tintColor}
-            resizeMode={'contain'}
-          />
-        </View>
+      <Touchable style={[styles.container, style]} onPress={onPress}>
+        <Image source={iconSource || Assets.bk3.source} size={'small'} />
+        <Text style={styles.text}>{title}</Text>
+        {this._renderRedDot()}
+        <Image
+          source={Assets.arrow_right.source}
+          size={'verySmall'}
+          tintColor={this.tintColor}
+          resizeMode={'contain'}
+        />
       </Touchable>
     );
   }
+  _renderRedDot = () => {
+    const { numOfMessage } = this.props;
+    if (!numOfMessage || numOfMessage === 0) {
+      return null;
+    }
+
+    return (
+      <View
+        style={[styles.redDot, { width: mapDotContainerWidth(numOfMessage) }]}
+      >
+        <Text
+          style={{ minWidth: 25, textAlign: 'center', color: colors.white }}
+        >
+          {numOfMessage}
+        </Text>
+      </View>
+    );
+  };
 }
 Card.propTypes = {};
 
@@ -47,6 +67,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 20,
     fontSize: 14,
+  },
+  redDot: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.red,
+    borderRadius: 15,
+    height: 30,
   },
 });
 

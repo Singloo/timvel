@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
@@ -13,7 +12,9 @@ import { base, I18n, invoke, curried } from '../../utils';
 import InfoCard from './components/InfoCard';
 const { colors, TAB_BAR_HEIGHT, NAV_BAR_HEIGHT } = base;
 class NotifPage extends Component {
-  componentWillMount() {}
+  componentWillMount() {
+    this.props.dispatch('NOTIFI_PAGE_FETCH_COMMENTS');
+  }
 
   _goBack = () => {
     this.props.navigation.goBack();
@@ -31,6 +32,7 @@ class NotifPage extends Component {
     });
   };
   render() {
+    const { comments } = this.props.state;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -43,6 +45,7 @@ class NotifPage extends Component {
           <InfoCard
             title={'回复我的'}
             onPress={curried(this._goTo)('postReplies')}
+            numOfMessage={comments.filter(o => !o.read).length}
           />
           <InfoCard title={'回复我的'} onPress={() => {}} />
         </ScrollView>

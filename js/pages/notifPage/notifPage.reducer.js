@@ -1,5 +1,6 @@
 const initialState = {
   notifications: [],
+  comments:[]
 };
 
 function reducer(state = initialState, action) {

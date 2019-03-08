@@ -1,28 +1,8 @@
 import { ofType } from 'redux-observable';
-import { $retryDelay, $catchError } from '../../utils';
+import { $retryDelay, $catchError, ApiNotifications } from '../../utils';
 import { from } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
-
-const sendNotification = (action$, state$, { httpClient, User, dispatch }) =>
-  action$.pipe(
-    ofType('NOTIFI_PAGE_SEND_NOTIFICATION'),
-    switchMap(action => {
-      const { content, type, relatedId, targetUserId } = action.payload;
-      return from(
-        httpClient.post('/add_notification', {
-          content,
-          type,
-          related_id: relatedId,
-          user_id: targetUserId,
-          trigger_user_id: User.id(),
-        }),
-      ).pipe(
-        map(() => dispatch(null)),
-        $retryDelay(100),
-        $catchError(dispatch(null)),
-      );
-    }),
-  );
+import { get } from 'lodash';
 const readNotification = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('NOTIFI_PAGE_READ_NOTIFICATION'),
@@ -40,24 +20,19 @@ const readNotification = (action$, state$, { httpClient, User, dispatch }) =>
     }),
   );
 
-const fetchNotifications = (action$, state$, { httpClient, User, dispatch }) =>
+const fetchComments = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
-    ofType('NOTIFI_PAGE_READ_NOTIFICATION'),
+    ofType('NOTIFI_PAGE_FETCH_COMMENTS'),
     switchMap(action => {
-      return from(
-        httpClient.post('/get_notification', {
-          user_id: User.id(),
-        }),
-      ).pipe(
-        tap(({ data }) => console.warn(data)),
-        map(({ data }) => {
-          return dispatch('NOTIF_PAGE_SET_STATE', {
-            notifications: data,
-          });
-        }),
-        $retryDelay(100),
-        $catchError(dispatch(null)),
+      return from(ApiNotifications.getNotification(User.id(), 'comment')).pipe(
+        map(({ data }) =>
+          dispatch('NOTIF_PAGE_SET_STATE', {
+            comments: get(data, 'data', []),
+          }),
+        ),
       );
     }),
+    $retryDelay(100),
+    $catchError(dispatch(null)),
   );
-export default [sendNotification, readNotification];
+export default [readNotification, fetchComments];
