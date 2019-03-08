@@ -13,7 +13,13 @@ import { base, I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import Card from './components/Card';
 const { colors } = base;
-@connect2('postReplies')
+@connect2('postReplies', {
+  stateMapper: ({ postReplies, notifPage, global }) => ({
+    state: postReplies,
+    notifPage,
+    global,
+  }),
+})
 class Sample extends Component {
   componentWillMount() {}
 
@@ -22,6 +28,7 @@ class Sample extends Component {
   };
 
   render() {
+    const { comments } = this.props.notifPage;
     return (
       <View style={styles.container}>
         <NavBar
@@ -30,15 +37,16 @@ class Sample extends Component {
           onPressLeft={this._goBack}
         />
         <RFlatList
-          data={[1, 2, 3, 4, 5, 6, 7, 8]}
+          data={comments}
           style={{ backgroundColor: colors.lightGrey }}
           renderItem={this._renderItem}
+          keyExtractor={(_, index) => 'psr' + index}
         />
       </View>
     );
   }
-  _renderItem = (item, index) => {
-    return <Card key={index} />;
+  _renderItem = ({ item, index }) => {
+    return <Card item={item} />;
   };
 }
 Sample.propTypes = {};

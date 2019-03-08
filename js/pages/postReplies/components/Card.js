@@ -17,6 +17,7 @@ class Card extends Component {
   }
 
   _renderInfo = () => {
+    const {item} = this.props
     return (
       <View style={[styles.rowCenter, { paddingLeft: 15 }]}>
         <Image
@@ -36,7 +37,7 @@ class Card extends Component {
           ]}
         >
           <Text style={{ fontSize: 14, color: colors.midGrey, marginLeft: 15 }}>
-            {'aaaa'}
+            {item.content}
           </Text>
           <Text style={{ fontSize: 12, color: colors.midGrey }}>
             {'2018-10-23'}

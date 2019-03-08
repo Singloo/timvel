@@ -5,9 +5,10 @@ import { base, I18n } from '../../../utils';
 const { SCREEN_WIDTH, colors, colorSets, randomItem } = base;
 const item_height = 60;
 const item_width = SCREEN_WIDTH;
+const RED_DOT_SIZE = 24;
 const mapDotContainerWidth = num => {
-  const stringified = typeof num === 'number' ? num.toString : num;
-  return 30 + (stringified.length - 1) * 10;
+  const stringified = typeof num === 'number' ? num.toString() : num;
+  return RED_DOT_SIZE + (stringified.length - 1) * 10;
 };
 class Card extends Component {
   constructor(props) {
@@ -37,16 +38,11 @@ class Card extends Component {
     if (!numOfMessage || numOfMessage === 0) {
       return null;
     }
-
     return (
       <View
         style={[styles.redDot, { width: mapDotContainerWidth(numOfMessage) }]}
       >
-        <Text
-          style={{ minWidth: 25, textAlign: 'center', color: colors.white }}
-        >
-          {numOfMessage}
-        </Text>
+        <Text style={styles.dotText}>{numOfMessage}</Text>
       </View>
     );
   };
@@ -72,8 +68,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.red,
-    borderRadius: 15,
-    height: 30,
+    borderRadius: RED_DOT_SIZE / 2,
+    height: RED_DOT_SIZE,
+  },
+  dotText: {
+    textAlign: 'center',
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });
 

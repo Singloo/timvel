@@ -33,6 +33,7 @@ class NotifPage extends Component {
   };
   render() {
     const { comments } = this.props.state;
+    const numOfMessage = comments.filter(o => !o.read).length
     return (
       <View style={styles.container}>
         <ScrollView
@@ -45,7 +46,7 @@ class NotifPage extends Component {
           <InfoCard
             title={'回复我的'}
             onPress={curried(this._goTo)('postReplies')}
-            numOfMessage={comments.filter(o => !o.read).length}
+            numOfMessage={100}
           />
           <InfoCard title={'回复我的'} onPress={() => {}} />
         </ScrollView>
