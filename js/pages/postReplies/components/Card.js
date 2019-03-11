@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, Image } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
 const { colors } = base;
 class Card extends Component {
   componentWillMount() {}
@@ -17,48 +16,22 @@ class Card extends Component {
   }
 
   _renderInfo = () => {
-    const {item} = this.props
+    const { item } = this.props;
     return (
       <View style={[styles.rowCenter, { paddingLeft: 15 }]}>
-        <Image
-          uri={'http://ac-uygandza.clouddn.com/a4684c0517db67db0d59.jpg'}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            borderWidth: 1,
-            borderColor: colors.lightGrey,
-          }}
-        />
-        <View
-          style={[
-            styles.rowCenter,
-            { justifyContent: 'space-between', flex: 1, paddingRight: 10 },
-          ]}
-        >
-          <Text style={{ fontSize: 14, color: colors.midGrey, marginLeft: 15 }}>
-            {item.content}
-          </Text>
-          <Text style={{ fontSize: 12, color: colors.midGrey }}>
-            {'2018-10-23'}
-          </Text>
+        <Image uri={item.senderAvatar} style={styles.avatar} />
+        <View style={[styles.rowCenter, styles.usernameCreatedAtContainer]}>
+          <Text style={styles.username}>{item.senderUsername}</Text>
+          <Text style={styles.createdAt}>{item.createdAt}</Text>
         </View>
       </View>
     );
   };
   _renderContent = () => {
+    const { item } = this.props;
     return (
-      <View
-        style={{
-          marginLeft: 15 + 40 + 15,
-          marginTop: 10,
-          paddingVertical: 10,
-          paddingRight: 10,
-          borderTopWidth: 1,
-          borderColor: colors.midGrey,
-        }}
-      >
-        <Text style={{ fontSize: 18 }}>{'a'}</Text>
+      <View style={styles.contentContainer}>
+        <Text style={{ fontSize: 18 }}>{item.content}</Text>
       </View>
     );
   };
@@ -74,6 +47,28 @@ const styles = StyleSheet.create({
   rowCenter: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.lightGrey,
+  },
+  username: { fontSize: 14, color: colors.midGrey, marginLeft: 15 },
+  contentContainer: {
+    marginLeft: 15 + 40 + 15,
+    paddingTop: 10,
+    paddingVertical: 10,
+    paddingRight: 10,
+    borderTopWidth: 1,
+    borderColor: colors.midGrey,
+  },
+  createdAt: { fontSize: 12, color: colors.midGrey },
+  usernameCreatedAtContainer: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingRight: 10,
   },
 });
 

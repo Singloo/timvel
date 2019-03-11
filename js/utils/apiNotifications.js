@@ -4,7 +4,7 @@
  * Created Date: Wednesday March 6th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Thursday March 7th 2019 10:26:13 am
+ * Last Modified: Monday March 11th 2019 9:40:13 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -14,18 +14,20 @@ import {} from './$helper';
 class ApiNotifications {
   insertCommentNotification = ({
     sender_user_id,
-    user_id,
+    receiver_user_id,
     post_id,
-    comment_id = null,
+    comment_id,
     content,
+    associated_comment_id = null,
   }) => {
     return apiClient.post('/notification', {
       sender_user_id,
-      user_id,
+      receiver_user_id,
       post_id,
       comment_id,
       content,
-      type:'comment'
+      type: 'comment',
+      associated_comment_id,
     });
   };
 

@@ -18,13 +18,16 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
       ).pipe(
         map(({ data }) => data.commentId),
         tap(commentId => {
+          if (User.id() === post.userId) {
+            return;
+          }
           retry3(
             ApiNotifications.insertCommentNotification({
               sender_user_id: User.id(),
               comment_id: commentId,
-              user_id: post.userId,
+              receiver_user_id: post.userId,
               post_id: post.postId,
-              content,
+              associated_comment_id: associatedCommentId,
             }),
           ).subscribe(HANDLE());
           callback && callback();
