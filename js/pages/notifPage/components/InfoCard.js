@@ -18,10 +18,10 @@ class Card extends Component {
   componentWillMount() {}
 
   render() {
-    const { title, onPress, style, iconSource } = this.props;
+    const { title, onPress, style, imgSource } = this.props;
     return (
       <Touchable style={[styles.container, style]} onPress={onPress}>
-        <Image source={iconSource || Assets.bk3.source} size={'small'} />
+        <Image source={imgSource || Assets.bk3.source} size={'small'} />
         <Text style={styles.text}>{title}</Text>
         {this._renderRedDot()}
         <Image
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.red,
     borderRadius: RED_DOT_SIZE / 2,
     height: RED_DOT_SIZE,
+    marginRight: 10,
   },
   dotText: {
     textAlign: 'center',

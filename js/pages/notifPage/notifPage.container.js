@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import {
-  Button,
   NavBar,
-  Image,
-  InfiniteText,
-  Text,
   Assets,
 } from '../../../re-kits';
-import { base, I18n, invoke, curried } from '../../utils';
+import { base, curried } from '../../utils';
 import InfoCard from './components/InfoCard';
 const { colors, TAB_BAR_HEIGHT, NAV_BAR_HEIGHT } = base;
 class NotifPage extends Component {
@@ -33,7 +29,7 @@ class NotifPage extends Component {
   };
   render() {
     const { comments } = this.props.state;
-    const numOfMessage = comments.filter(o => !o.read).length;
+    const numOfMessage = comments.filter(o => !o.isRead).length;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -47,6 +43,7 @@ class NotifPage extends Component {
             title={'回复我的'}
             onPress={curried(this._goTo)('postReplies')}
             numOfMessage={numOfMessage}
+            imgSource={Assets.NotificationReplay.source}
           />
           <InfoCard title={'回复我的'} onPress={() => {}} />
         </ScrollView>

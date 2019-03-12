@@ -4,14 +4,16 @@
  * Created Date: Wednesday March 6th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Monday March 11th 2019 9:40:13 am
+ * Last Modified: Tuesday March 12th 2019 7:30:54 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import { apiClient } from './Network';
-import {} from './$helper';
-
+import { retry3, HANDLE } from './$helper';
+import { clearTimers } from './helper';
 class ApiNotifications {
+  notificationIdsToRead = [];
+  readNotificationTimer;
   insertCommentNotification = ({
     sender_user_id,
     receiver_user_id,
@@ -30,13 +32,35 @@ class ApiNotifications {
       associated_comment_id,
     });
   };
-
-  _readNotifications = notification_ids => {
-    return apiClient.put('/notification/read', {
-      notification_ids,
-    });
+  readNotification = (...notificationIds) => {
+    this.notificationIdsToRead.push(...notificationIds);
+    this._schedule();
   };
 
+  _schedule = () => {
+    this._clearTimer();
+    this.readNotificationTimer = setTimeout(this._readNotifications, 3000);
+  };
+
+  _readNotifications = () => {
+    retry3(
+      apiClient.put('/notification/read', {
+        notification_ids: this.notificationIdsToRead,
+      }),
+    ).subscribe(
+      HANDLE(() => {
+        this._readNotifications = [];
+        this._clearTimer();
+      }),
+    );
+  };
+
+  _clearTimer = () => {
+    if (typeof this.readNotificationTimer === 'number') {
+      clearTimers(this.readNotificationTimer);
+      this.readNotificationTimer = undefined;
+    }
+  };
   getNotification = (user_id, type) => {
     return apiClient.get('/notification', {
       params: {

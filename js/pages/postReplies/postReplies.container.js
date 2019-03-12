@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  NavBar,
-  Image,
-  Text,
-  Assets,
-  RFlatList,
-} from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { NavBar, Assets, RFlatList } from '../../../re-kits';
+import { base, I18n, Navigation, curried, ApiNotifications } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import Card from './components/Card';
 const { colors } = base;
+
+const readNotification = (comments, notificationId) => {
+  return comments.map(o => {
+    if (!notificationId) {
+      return {
+        ...o,
+        isRead: true,
+      };
+    }
+    if (o.notificationId === notificationId) {
+      return {
+        ...o,
+        isRead: true,
+      };
+    }
+    return o;
+  });
+};
 @connect2('postReplies', {
   stateMapper: ({ postReplies, notifPage, global }) => ({
     state: postReplies,
@@ -27,14 +37,39 @@ class Sample extends Component {
     this.props.navigation.goBack();
   };
 
+  _goToComment = item => {
+    Navigation.navigate('comment', {
+      post: {
+        postId: item.postId,
+        userId: item.postUserId,
+      },
+      commentId: item.associatedCommentId || item.commentId,
+    });
+    if (!item.isRead) {
+      this._readNotification(item.notificationId);
+    }
+  };
+  _readNotification = notificationId => {
+    const { comments } = this.props.notifPage;
+    this.props.dispatch('NOTIF_PAGE_SET_STATE', {
+      comments: readNotification(comments, notificationId),
+    });
+    const param = notificationId
+      ? [notificationId]
+      : comments.filter(o => !o.isRead).map(o => o.notificationId);
+    ApiNotifications.readNotification(...param);
+  };
   render() {
     const { comments } = this.props.notifPage;
+    const showReadAll = comments.filter(o => !o.isRead).length > 0;
     return (
       <View style={styles.container}>
         <NavBar
           title={'Replies'}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
+          rightTitle={showReadAll ? 'Read All' : undefined}
+          onPressRight={curried(this._readNotification)(undefined)}
         />
         <RFlatList
           data={comments}
@@ -45,8 +80,8 @@ class Sample extends Component {
       </View>
     );
   }
-  _renderItem = ({ item, index }) => {
-    return <Card item={item} />;
+  _renderItem = ({ item }) => {
+    return <Card item={item} onPress={curried(this._goToComment)(item)} />;
   };
 }
 Sample.propTypes = {};

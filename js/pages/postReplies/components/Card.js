@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Image } from '../../../../re-kits';
+import { Text, Image, Touchable } from '../../../../re-kits';
 import { base } from '../../../utils';
 const { colors } = base;
 class Card extends Component {
   componentWillMount() {}
 
   render() {
+    const { onPress, item } = this.props;
+    const backgroundColor = item.isRead ? colors.lightGrey : colors.pureWhite;
     return (
-      <View style={styles.container}>
+      <Touchable
+        style={[styles.container, { backgroundColor }]}
+        onPress={onPress}
+      >
         {this._renderInfo()}
         {this._renderContent()}
-      </View>
+      </Touchable>
     );
   }
 
