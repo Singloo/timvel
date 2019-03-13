@@ -5,7 +5,6 @@ target 'timvel' do
 
   pod 'React', path: '../node_modules/react-native', subspecs: [
     'Core',
-    'CxxBridge',
     'RCTActionSheet',
     'RCTAnimation',
     'RCTGeolocation',
@@ -18,9 +17,9 @@ target 'timvel' do
     'RCTWebSocket'
   ]
   # Third party deps podspec link
-  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
-  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  # pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  # pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  # pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
   pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
@@ -45,11 +44,11 @@ end
 
 # very important to have, unless you removed React dependencies for Libraries 
 # and you rely on Cocoapods to manage it
-# post_install do |installer|
-#   installer.pods_project.targets.each do |target|
-#     if target.name == "React"
-#       target.remove_from_project
-#     end
-#   end
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "React"
+      target.remove_from_project
+    end
+  end
 
-# end
+end
