@@ -5,6 +5,7 @@ import android.app.Application;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.PushService;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
             new RNLocalizePackage(),
             new FastImageViewPackage(),
             new RNGestureHandlerPackage(),

@@ -3,7 +3,7 @@
     package="com.timvel">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> -->
    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- 基础模块（必须加入以下声明）START -->

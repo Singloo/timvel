@@ -5,6 +5,7 @@ target 'timvel' do
 
   pod 'React', path: '../node_modules/react-native', subspecs: [
     'Core',
+    'CxxBridge',
     'RCTActionSheet',
     'RCTAnimation',
     'RCTGeolocation',
@@ -16,6 +17,10 @@ target 'timvel' do
     'RCTVibration',
     'RCTWebSocket'
   ]
+  # Third party deps podspec link
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
   pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
@@ -33,6 +38,8 @@ target 'timvel' do
   pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'react-native-async-storage', :path => '../node_modules/@react-native-community/async-storage'
 
 end
 
