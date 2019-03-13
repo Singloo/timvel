@@ -43,7 +43,7 @@ class ProductCard extends React.Component {
                 {product.price}
               </Text>
             </View>
-            <Text style={{ color: colors.mainDep }} onPress={onPressPurchase}>
+            <Text style={{ color: colors.deepOrange }} onPress={onPressPurchase}>
               {'Purchase'}
             </Text>
           </View>

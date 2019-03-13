@@ -3,6 +3,7 @@ const initialState = {
   products: [],
   isLoading: false,
   isError: false,
+  currentProduct:undefined
 };
 
 function reducer(state = initialState, action) {

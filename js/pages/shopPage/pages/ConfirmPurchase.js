@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, Text, Image, Assets } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
+import { base, I18n, invoke } from '../../../utils';
 const { SCREEN_WIDTH, colors, Styles } = base;
 
-const container_width = SCREEN_WIDTH - 80;
-const container_border_radius = 12;
+const CONTAINER_WIDTH = SCREEN_WIDTH - 80;
+const CONTAINER_BORDER_RADIUS = 12;
 class ConfirmPurchase extends React.Component {
   constructor(props) {
     super(props);
@@ -25,16 +24,16 @@ class ConfirmPurchase extends React.Component {
   componentDidUpdate() {}
   componentWillUnmount() {}
 
-  open() {
+  open = () => {
     const { openModal, show } = this.props;
     if (show) {
       return;
     }
     openModal();
     this.animationStart.start();
-  }
+  };
 
-  close() {
+  close = () => {
     const { closeModal, show } = this.props;
     if (!show) {
       return;
@@ -43,13 +42,18 @@ class ConfirmPurchase extends React.Component {
     this.animationStop.start(() => {
       closeModal();
     });
-  }
+  };
 
   render() {
-    const { show } = this.props;
+    const { show, onPressPurchase, currentProduct } = this.props;
     if (!show) {
       return null;
     }
+    const scale = this.animationState.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.02, 1],
+    });
+    const transform = [{ scale }];
     return (
       <View
         style={[
@@ -63,67 +67,88 @@ class ConfirmPurchase extends React.Component {
             styles.container,
             Styles.shadow,
             {
-              transform: [
-                {
-                  scale: this.animationState.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0.02, 1],
-                  }),
-                },
-              ],
+              transform,
             },
           ]}
         >
-          <View>
-            <Text>{'You are going to buy'}</Text>
-          </View>
-
-          <Image
-            source={Assets.bk3.source}
-            style={{ width: container_width, height: container_width }}
-            resizeMode={'contain'}
-          />
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginHorizontal: 10,
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image
-                source={Assets.coin.source}
-                size={'verySmall'}
-                style={{ width: 18, height: 18 }}
-              />
-              <Text style={{ color: colors.redDep, marginLeft: 2 }}>
-                {'10'}
-              </Text>
-            </View>
-            <Button title={'Purchase'} onPress={() => {}} size={'small'} />
-          </View>
+          {this._renderTitle()}
+          {this._renderProduct()}
+          {this._renderBottomBar()}
         </Animated.View>
         <Image
           source={Assets.close.source}
-          onPress={() => {
-            this.close();
-          }}
+          onPress={this.close}
           size={'regular'}
           tintColor={colors.white}
-          style={{ marginTop: 10 }}
+          style={{ position: 'absolute', bottom: 120 }}
         />
       </View>
     );
   }
+  _renderTitle = () => {
+    return (
+      <View style={{ paddingVertical: 10, paddingHorizontal: 5 }}>
+        <Text style={styles.title}>{'You are going to buy'}</Text>
+      </View>
+    );
+  };
+  _renderProduct = () => {
+    const { renderProduct, currentProduct } = this.props;
+
+    return (
+      <Image
+        uri={currentProduct.imageUrl}
+        style={{ width: CONTAINER_WIDTH, height: CONTAINER_WIDTH }}
+        resizeMode={'cover'}
+      />
+    );
+  };
+  _renderBottomBar = () => {
+    const { currentProduct, onPressPurchase, closeModal } = this.props;
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginLeft: 10,
+          marginTop: 10,
+        }}
+      >
+        <PriceTag
+          price={currentProduct.price}
+          textStyle={{ fontSize: 20 }}
+          imageStyle={{ width: 25, height: 25 }}
+        />
+        <Button
+          title={'Purchase'}
+          onPress={invoke(closeModal, onPressPurchase)}
+          size={'small'}
+          textStyle={{ fontWeight: 'bold' }}
+          buttonStyle={styles.purchaseButton}
+        />
+      </View>
+    );
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: container_width,
-    borderRadius: container_border_radius,
+    width: CONTAINER_WIDTH,
+    borderRadius: CONTAINER_BORDER_RADIUS,
     backgroundColor: colors.white,
+    marginBottom: 80,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: colors.pureBlack,
+  },
+  purchaseButton: {
+    backgroundColor: colors.deepOrange,
+    borderBottomRightRadius: CONTAINER_BORDER_RADIUS,
+    borderTopLeftRadius: CONTAINER_BORDER_RADIUS,
+    height: 40,
   },
 });
 

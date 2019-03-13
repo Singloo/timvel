@@ -15,7 +15,7 @@ import {
   Assets,
   BasicView,
 } from '../../../re-kits';
-import { base, User } from '../../utils';
+import { base, User, curried } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
 const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
@@ -62,30 +62,43 @@ class ShopPage extends Component {
       });
       return;
     }
-    switch (product.productType) {
+    this.props.dispatch('SHOP_PAGE_SET_STATE', {
+      currentProduct: product,
+    });
+    this._confirmPurchaseModal.open();
+  };
+  _confirmPurchase = () => {
+    const { currentProduct } = this.props.state;
+    if (!product_types.includes(currentProduct.productType)) {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        type: 'ERROR',
+        content: 'Unknown product type.',
+      });
+      return;
+    }
+    switch (currentProduct.productType) {
       case 'avatar':
-        this._typeAvatar(product);
+        this._typeAvatar(currentProduct);
         break;
       case 'draw_lots':
-        this._typeDrawLots(product);
+        this._typeDrawLots(currentProduct);
         break;
       case 'sticker':
-        this._typeSticker(product);
+        this._typeSticker(currentProduct);
         break;
       case 'one_time':
-        this._typeOnetime(product);
+        this._typeOnetime(currentProduct);
         break;
       case 'title':
-        this._typeTitle(product);
+        this._typeTitle(currentProduct);
         break;
       case 'draw_title':
-        this._drawTitle(product);
+        this._drawTitle(currentProduct);
         break;
       default:
         return;
     }
   };
-
   /**
    *
    *
@@ -108,7 +121,7 @@ class ShopPage extends Component {
    * add data to database
    * then draw one manually
    */
-  _typeDrawLots = product => () => {};
+  _typeDrawLots = product => {};
 
   /**
    *
@@ -116,7 +129,7 @@ class ShopPage extends Component {
    * @memberof ShopPage
    * save to album
    */
-  _typeSticker = product => () => {
+  _typeSticker = product => {
     this.props.dispatch('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
       imageUrl: 'http://lc-uygandza.cn-n1.lcfile.com/00906d947703a0db1bcf.jpg',
     });
@@ -128,7 +141,7 @@ class ShopPage extends Component {
    * @memberof ShopPage
    * show image one time
    */
-  _typeOnetime = product => () => {};
+  _typeOnetime = product => {};
 
   /**
    *
@@ -136,7 +149,7 @@ class ShopPage extends Component {
    * @memberof ShopPage
    * buy a title
    */
-  _typeTitle = product => () => {};
+  _typeTitle = product => {};
 
   /**
    *
@@ -144,10 +157,10 @@ class ShopPage extends Component {
    * @memberof ShopPage
    * draw a title
    */
-  _drawTitle = product => () => {};
+  _drawTitle = product => {};
 
   render() {
-    const { showModal, products, isLoading, isError } = this.props.state;
+    const { products, isLoading, isError } = this.props.state;
     const renderProducts = products.map(this._renderItem);
     return (
       <View style={styles.container}>
@@ -176,12 +189,7 @@ class ShopPage extends Component {
           sourceRight={Assets.add.source}
           onPressRight={this._onPressRight}
         />
-        <ConfirmPurchase
-          ref={r => (this._confirmPurchase = r)}
-          show={showModal}
-          openModal={this._openModal}
-          closeModal={this._closeModal}
-        />
+        {this._renderConfrimPurchase()}
       </View>
     );
   }
@@ -191,9 +199,20 @@ class ShopPage extends Component {
       <ProductCard
         key={index}
         product={item}
-        onPressPurchase={() => {
-          this._confirmPurchase.open();
-        }}
+        onPressPurchase={curried(this._onPressPurchase)(item)}
+      />
+    );
+  };
+  _renderConfrimPurchase = () => {
+    const { showModal, currentProduct } = this.props.state;
+    return (
+      <ConfirmPurchase
+        ref={r => (this._confirmPurchaseModal = r)}
+        show={showModal}
+        openModal={this._openModal}
+        closeModal={this._closeModal}
+        currentProduct={currentProduct}
+        onPressPurchase={this._confirmPurchase}
       />
     );
   };

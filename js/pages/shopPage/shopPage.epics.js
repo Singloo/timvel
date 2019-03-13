@@ -56,20 +56,23 @@ const changeAvatar = (action$, state$, { User, dispatch }) =>
     ),
   );
 
-const saveImageToAlbum = (action$, state$, { Network }) =>
+const saveImageToAlbum = (action$, state$, { Network, dispatch }) =>
   action$.pipe(
     ofType('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM'),
-    switchMap(action =>
-      Observable.create(async observer => {
-        try {
-          const { imageUrl } = action.payload;
-          await Network.saveImageToAlbum(imageUrl);
-        } catch (error) {
-          console.warn(error.message);
-        } finally {
-          observer.complete();
-        }
+    switchMap(action => from(Network.saveImageToAlbum(imageUrl))),
+    map(_ =>
+      dispatch('SHOW_SNAKE_BAR', {
+        content: 'Avatar updated!',
+        type: 'SUCCESS',
       }),
+    ),
+    catchError(error =>
+      of(
+        dispatch('SHOW_SNAKE_BAR', {
+          content: 'Avatar updated!',
+          type: 'ERROR',
+        }),
+      ),
     ),
   );
 
@@ -92,21 +95,21 @@ const fetchProducts = (
             isLoading: false,
           },
         })),
-        startWith({
-          type: 'SHOP_PAGE_SET_STATE',
-          payload: {
-            isLoading: true,
-            isError: false,
-          },
-        }),
-        $retryDelay(1000, 3),
-        catchError(error =>
-          of({
-            type: 'SHOP_PAGE_SET_STATE',
-            payload: { isError: true, isLoading: false },
-          }),
-        ),
       ),
+    ),
+    startWith({
+      type: 'SHOP_PAGE_SET_STATE',
+      payload: {
+        isLoading: true,
+        isError: false,
+      },
+    }),
+    $retryDelay(1000, 3),
+    catchError(error =>
+      of({
+        type: 'SHOP_PAGE_SET_STATE',
+        payload: { isError: true, isLoading: false },
+      }),
     ),
   );
 export default [changeAvatar, saveImageToAlbum, fetchProducts];
