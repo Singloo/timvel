@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
 import { base, I18n, invoke } from '../../../utils';
+import ProductDetail from '../components/RenderProduct';
 const { SCREEN_WIDTH, colors, Styles } = base;
 
 const CONTAINER_WIDTH = SCREEN_WIDTH - 80;
@@ -80,7 +81,7 @@ class ConfirmPurchase extends React.Component {
           onPress={this.close}
           size={'regular'}
           tintColor={colors.white}
-          style={{ position: 'absolute', bottom: 120 }}
+          style={{}}
         />
       </View>
     );
@@ -93,13 +94,12 @@ class ConfirmPurchase extends React.Component {
     );
   };
   _renderProduct = () => {
-    const { renderProduct, currentProduct } = this.props;
+    const { currentProduct } = this.props;
 
     return (
-      <Image
-        uri={currentProduct.imageUrl}
+      <ProductDetail
+        product={currentProduct}
         style={{ width: CONTAINER_WIDTH, height: CONTAINER_WIDTH }}
-        resizeMode={'cover'}
       />
     );
   };
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     width: CONTAINER_WIDTH,
     borderRadius: CONTAINER_BORDER_RADIUS,
     backgroundColor: colors.white,
-    marginBottom: 80,
+    marginBottom: 30,
   },
   title: {
     fontSize: 25,

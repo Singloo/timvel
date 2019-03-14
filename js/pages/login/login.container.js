@@ -250,7 +250,7 @@ class Login extends Component {
             styles.buttonStyle,
             { backgroundColor: 'transparent', marginTop: 10 },
           ]}
-          textStyle={{ fontSize: 14 }}
+          textStyle={{ fontSize: 14, color: colors.main }}
           onPress={this._onChangeLoginSignup}
         />
         <NavBar

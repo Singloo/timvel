@@ -206,7 +206,7 @@ export function lenOfText(text) {
   return len;
 }
 
-export const Styles = {
+export const Styles = StyleSheet.create({
   absolute: {
     position: 'absolute',
     top: 0,
@@ -218,17 +218,18 @@ export const Styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  shadow: isIOS
-    ? {
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        shadowOffset: {
-          height: 4,
-          width: 3,
-        },
-        backgroundColor: 'white',
-      }
-    : { elevation: 1, backgroundColor: 'white' },
+  shadow: Platform.select({
+    ios: {
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      shadowOffset: {
+        height: 4,
+        width: 3,
+      },
+      backgroundColor: 'white',
+    },
+    android: { elevation: 1, backgroundColor: 'white' },
+  }),
   textShadow: {
     textShadowColor: '#f5f5f5',
     textShadowOffset: {
@@ -237,7 +238,7 @@ export const Styles = {
     },
     textShadowRadius: 5,
   },
-};
+});
 
 export const isIphoneX =
   isIOS &&
@@ -296,111 +297,3 @@ export const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
 export const PADDING_BOTTOM = isIphoneX ? 34 : 0;
 export const NAV_BAR_HEIGHT = isIOS ? (isIphoneX ? 44 + 44 : 20 + 44) : 44;
 export const TAB_BAR_HEIGHT = isIphoneX ? 34 + 48 : 48;
-export function renderTitle(title, customStyle) {
-  const renderText = style => {
-    return <Text style={[styles.qing, style]}>{title}</Text>;
-  };
-
-  let style = {};
-  switch (title) {
-    case '青': {
-      style = {
-        color: '#00ffff',
-        borderColor: '#00ffff',
-      };
-      break;
-    }
-
-    case '神': {
-      style = {
-        borderColor: '#ffc400',
-        color: '#ffc400',
-      };
-      break;
-    }
-
-    case '侠': {
-      style = {
-        color: '#00b0ff',
-        borderColor: '#00b0ff',
-      };
-      break;
-    }
-
-    case '魅': {
-      style = {
-        color: '#ec407a',
-        borderColor: '#ec407a',
-      };
-      break;
-    }
-
-    case '萌': {
-      style = {
-        color: '#f484b1',
-        borderColor: '#f484b1',
-      };
-      break;
-    }
-
-    case '邪': {
-      style = {
-        color: '#d500f9',
-        borderColor: '#d500f9',
-      };
-      break;
-    }
-
-    case '魔': {
-      style = {
-        color: '#311b92',
-        borderColor: '#311b92',
-      };
-      break;
-    }
-
-    case '妖': {
-      style = {
-        color: '#7cb342',
-        borderColor: '#7cb342',
-      };
-      break;
-    }
-
-    case '绫': {
-      style = {
-        color: '#4dd0e1',
-        borderColor: '#4dd0e1',
-      };
-      break;
-    }
-
-    case '鱼唇': {
-      style = {
-        color: '#ff7043',
-        borderColor: '#ffc400',
-      };
-      break;
-    }
-
-    default:
-      if (customStyle) {
-        style = customStyle;
-      }
-      break;
-  }
-
-  return renderText(style);
-}
-
-const styles = StyleSheet.create({
-  qing: {
-    backgroundColor: 'transparent',
-    alignSelf: 'center',
-    textAlign: 'center',
-    marginLeft: realSize(2),
-    fontSize: realSize(12),
-    borderWidth: realSize(1),
-    marginHorizontal: realSize(4),
-  },
-});

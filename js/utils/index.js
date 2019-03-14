@@ -7,7 +7,17 @@ import * as Network from './Network';
 import Notification from './Notification';
 import { connect2 } from './Setup';
 import { runAfter } from './performance';
-import * as $observable from './$observable';
+import {
+  $queryNew,
+  $CENTER,
+  $coinTransaction,
+  $sourceOneMinue,
+  $sourceSecond,
+  $sourceTenSeconds,
+  $TYPES,
+  dispatch,
+  showCoinIncreaseAnimation,
+} from './$observable';
 import { retry3, $retryDelay, HANDLE, $catchError } from './$helper';
 import { invoke, clearTimers, curried, booleanMap } from './helper';
 import Navigation from './Navigation';
@@ -23,7 +33,6 @@ export {
   Notification,
   connect2,
   runAfter,
-  $observable,
   retry3,
   $retryDelay,
   HANDLE,
@@ -33,4 +42,13 @@ export {
   curried,
   booleanMap,
   Navigation,
+  $queryNew,
+  $CENTER,
+  $coinTransaction,
+  $sourceOneMinue,
+  $sourceSecond,
+  $sourceTenSeconds,
+  $TYPES,
+  dispatch,
+  showCoinIncreaseAnimation,
 };

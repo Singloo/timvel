@@ -59,11 +59,7 @@ class UUer {
       return null;
     }
     this.user.increment(key, value);
-    retry3(this.user.save()).subscribe(
-      HANDLE(null, error => {
-        console.warn(error);
-      }),
-    );
+    return this.user.save();
   };
   userCoin = () => {
     return this.get('userCoin');
@@ -107,10 +103,11 @@ class UUer {
     this.user = null;
   };
   increaseCoin = num => {
-    this.increment('userCoin', num);
+    return this.increment('userCoin', num);
   };
   ableToBuy = amount => {
     if (!this.user) {
+      console.warn('No user');
       return false;
     }
     return this.userCoin() >= parseInt(amount);

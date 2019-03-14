@@ -1,56 +1,68 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, Image, Assets } from '../../../../re-kits';
+import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import ProductDetail from './RenderProduct';
 const { SCREEN_WIDTH, colors } = base;
 
-const item_width = SCREEN_WIDTH / 2;
-const item_height = item_width * 1.2;
+const ITEM_WIDTH = SCREEN_WIDTH / 2;
+const ITEM_HEIGHT = ITEM_WIDTH * 1.2;
 class ProductCard extends React.Component {
   componentWillMount() {}
 
   render() {
-    const { product, onPressPurchase } = this.props;
     return (
       <View style={styles.container}>
-        <Image
-          source={{ uri: product.imageUrl }}
-          style={{ height: item_height, width: item_width }}
-          resizeMode={'cover'}
-        />
+        {this._renderProduct()}
         <View style={styles.textContainer}>
-          <View style={{ flex: 1 }}>
-            <Text style={{ color: colors.depGrey }} numberOfLines={2}>
-              {product.description}
-            </Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 5,
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image
-                source={Assets.coin.source}
-                size={'verySmall'}
-                style={{ width: 18, height: 18 }}
-              />
-              <Text style={{ color: colors.redDep, marginLeft: 2 }}>
-                {product.price}
-              </Text>
-            </View>
-            <Text style={{ color: colors.deepOrange }} onPress={onPressPurchase}>
-              {'Purchase'}
-            </Text>
-          </View>
+          {this._renderDescription()}
+          {this._renderPurchase()}
         </View>
       </View>
     );
   }
+
+  _renderProduct = () => {
+    const { product } = this.props;
+    return (
+      <ProductDetail
+        product={product}
+        style={{ height: ITEM_HEIGHT, width: ITEM_WIDTH }}
+      />
+    );
+  };
+  _renderDescription = () => {
+    const { product } = this.props;
+    return (
+      <View style={{ flex: 1 }}>
+        <Text style={{ color: colors.depGrey, fontSize: 14 }} numberOfLines={2}>
+          {product.description}
+        </Text>
+      </View>
+    );
+  };
+  _renderPurchase = () => {
+    const { product, onPressPurchase } = this.props;
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 5,
+        }}
+      >
+        <PriceTag
+          price={product.price}
+          imageStyle={{ width: 18, height: 18 }}
+          textStyle={{ marginLeft: 5, fontSize: 16 }}
+        />
+        <Text style={{ color: colors.deepOrange }} onPress={onPressPurchase}>
+          {'Purchase'}
+        </Text>
+      </View>
+    );
+  };
 }
 ProductCard.propTypes = {};
 

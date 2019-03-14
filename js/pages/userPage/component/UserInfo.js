@@ -9,16 +9,8 @@ import {
 } from 'react-native';
 import { Button, Text, Image, InfiniteText } from '../../../../re-kits';
 import { base } from '../../../utils';
-import { BlurView } from 'react-native-blur';
-import PropTypes from 'prop-types';
-const {
-  SCREEN_WIDTH,
-  colors,
-  renderTitle,
-  realSize,
-  PADDING_TOP,
-  Styles,
-} = base;
+import Title from '../../../components/Title';
+const { SCREEN_WIDTH, colors, realSize, PADDING_TOP, Styles } = base;
 const width = SCREEN_WIDTH;
 const height = 200;
 const avatarSize = 80;
@@ -150,7 +142,7 @@ class UserInfo extends Component {
               style={{}}
               textStyle={{ color: colors.depGrey }}
             >
-              {renderTitle(userTitle)}
+              <Title title={userTitle} />
               <View
                 style={{
                   width: 1,
@@ -174,7 +166,6 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     width: width,
     height: height,
-    // justifyContent: 'center',
   },
   absolute: {
     position: 'absolute',

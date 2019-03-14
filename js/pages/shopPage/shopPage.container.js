@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Button, NavBar, Image, Assets, BasicView } from '../../../re-kits';
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-} from 'react-native';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Assets,
-  BasicView,
-} from '../../../re-kits';
-import { base, User, curried } from '../../utils';
+  base,
+  User,
+  curried,
+  retry3,
+  HANDLE,
+  showCoinIncreaseAnimation,
+} from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
 const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
@@ -32,18 +25,20 @@ class ShopPage extends Component {
     this._fetchProducts();
   }
 
+  _setState = (nextState = {}) =>
+    this.props.dispatch('SHOP_PAGE_SET_STATE', nextState);
   _fetchProducts = () => {
     this.props.dispatch('SHOP_PAGE_FETCH_PRODUCTS');
   };
 
   _openModal = () => {
-    this.props.dispatch('SHOP_PAGE_SET_STATE', {
+    this._setState({
       showModal: true,
     });
   };
 
   _closeModal = () => {
-    this.props.dispatch('SHOP_PAGE_SET_STATE', {
+    this._setState({
       showModal: false,
     });
   };
@@ -62,12 +57,30 @@ class ShopPage extends Component {
       });
       return;
     }
-    this.props.dispatch('SHOP_PAGE_SET_STATE', {
+    this._setState({
       currentProduct: product,
     });
     this._confirmPurchaseModal.open();
   };
-  _confirmPurchase = () => {
+  _switchProductHandler = currentProduct => {
+    switch (currentProduct.productType) {
+      case 'avatar':
+        return this._typeAvatar(currentProduct);
+      case 'draw_lots':
+        return this._typeDrawLots(currentProduct);
+      case 'sticker':
+        return this._typeSticker(currentProduct);
+      case 'one_time':
+        return this._typeOnetime(currentProduct);
+      case 'title':
+        return this._typeTitle(currentProduct);
+      case 'draw_title':
+        return this._drawTitle(currentProduct);
+      default:
+        return;
+    }
+  };
+  _confirmPurchase = async () => {
     const { currentProduct } = this.props.state;
     if (!product_types.includes(currentProduct.productType)) {
       this.props.dispatch('SHOW_SNAKE_BAR', {
@@ -76,28 +89,19 @@ class ShopPage extends Component {
       });
       return;
     }
-    switch (currentProduct.productType) {
-      case 'avatar':
-        this._typeAvatar(currentProduct);
-        break;
-      case 'draw_lots':
-        this._typeDrawLots(currentProduct);
-        break;
-      case 'sticker':
-        this._typeSticker(currentProduct);
-        break;
-      case 'one_time':
-        this._typeOnetime(currentProduct);
-        break;
-      case 'title':
-        this._typeTitle(currentProduct);
-        break;
-      case 'draw_title':
-        this._drawTitle(currentProduct);
-        break;
-      default:
-        return;
+    if (!User.ableToBuy(currentProduct.price)) {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        type: 'ERROR',
+        content: 'No enough coin',
+      });
+      return;
     }
+    this._switchProductHandler(currentProduct);
+    retry3(User.increaseCoin(-parseInt(currentProduct.price))).subscribe(
+      HANDLE(() => {
+        showCoinIncreaseAnimation(-parseInt(currentProduct.price));
+      }),
+    );
   };
   /**
    *

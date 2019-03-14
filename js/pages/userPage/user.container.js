@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, ScrollView, Animated } from 'react-native';
 import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
-import { base, User, $observable } from '../../utils';
+import { base, User, $CENTER, $TYPES, HANDLE } from '../../utils';
 import UserProfile from './component/UserProfile';
-const { $CENTER, $TYPES, HANDLE } = $observable;
 const { SCREEN_HEIGHT, SCREEN_WIDTH } = base;
 class UserPage extends Component {
   constructor(props) {
@@ -16,6 +15,7 @@ class UserPage extends Component {
       this._initQuery();
     } else {
       this._generateRandomButtons();
+      this._initUserMountListener();
     }
   }
   _initUserMountListener = () => {
@@ -57,6 +57,9 @@ class UserPage extends Component {
   };
   _onPressLogout = () => {
     User.logOut();
+    this.props.dispatch('USER_RESET_STATE');
+    this._generateRandomButtons();
+    this._initUserMountListener();
   };
   render() {
     const { buttonLocations, userPosts } = this.props.state;
@@ -82,13 +85,14 @@ class UserPage extends Component {
           {renderButton}
         </View>
       );
-    } else {
-      return (
-        <View style={styles.container}>
-          <UserProfile userPosts={userPosts} />
-        </View>
-      );
     }
+
+    return (
+      <View style={styles.container}>
+        <UserProfile userPosts={userPosts} />
+        <Button title={'log out'} onPress={this._onPressLogout} />
+      </View>
+    );
   }
 }
 

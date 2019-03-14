@@ -22,6 +22,8 @@ const $sourceSecond = interval(1000);
 const $sourceTenSeconds = $sourceSecond.pipe(bufferCount(10));
 const $sourceOneMinue = $sourceSecond.pipe(bufferCount(60));
 
+//{transaction:number}
+//show transaction animation
 const $coinTransaction = new Subject();
 
 const $all = {
@@ -50,6 +52,14 @@ $CENTER.subscribe({
 });
 
 const dispatch = (type, payload = {}) => ({ type, payload });
+
+const showCoinIncreaseAnimation = transaction =>
+  $CENTER.next({
+    type: $TYPES.coinTransaction,
+    payload: {
+      transaction,
+    },
+  });
 export {
   $queryNew,
   $CENTER,
@@ -60,4 +70,5 @@ export {
   $TYPES,
   dispatch,
   HANDLE,
+  showCoinIncreaseAnimation,
 };
