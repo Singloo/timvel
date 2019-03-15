@@ -25,6 +25,25 @@ import {
 } from '../utils/$observable';
 const deleteObject = (obj, key) => () => delete obj[key];
 const MAXIMUM_BUBBLE = 3;
+const getRandomCoin = () => {
+  const random = Math.random();
+  if (random > 0.95) {
+    return 10;
+  }
+  if (random > 0.9) {
+    return 8;
+  }
+  if (random > 0.8) {
+    return 4;
+  }
+  if (random > 0.7) {
+    return 3;
+  }
+  if (random > 0.5) {
+    return 2;
+  }
+  return 1;
+};
 class CoinIncrease extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -91,7 +110,7 @@ class CoinIncrease extends React.PureComponent {
   _createRootView = () => {
     const top = randomNumber(0, SCREEN_HEIGHT - BUBBLE_SIZE - NAV_BAR_HEIGHT);
     const left = randomNumber(0, SCREEN_WIDTH - BUBBLE_SIZE);
-    const coin = randomItem(COIN);
+    const coin = getRandomCoin();
     const delay = randomItem([100, 200, 300, 400]);
     const id = Date.now();
     const style = {

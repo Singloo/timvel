@@ -4,7 +4,7 @@
  * Created Date: Thursday March 14th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Thursday March 14th 2019 2:24:16 pm
+ * Last Modified: Friday March 15th 2019 8:34:47 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -14,8 +14,6 @@ import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 const { SCREEN_WIDTH, colors } = base;
 import { Title } from '../../../components';
-const ITEM_WIDTH = SCREEN_WIDTH / 2;
-const ITEM_HEIGHT = ITEM_WIDTH * 1.2;
 const RENDER_IMAGE = ['avatar', 'sticker', 'draw_lots'];
 const RENDER_TITLE = ['draw_title', 'title'];
 const RENDER_BLUR = ['one_time'];
@@ -33,7 +31,7 @@ class ProductCard extends React.Component {
     if (RENDER_BLUR.includes(product.productType)) {
       return this._renderBlur();
     }
-    return null;
+    return this._renderImage();
   }
   _renderImage = () => {
     const { product, style } = this.props;
@@ -48,7 +46,7 @@ class ProductCard extends React.Component {
   _renderTitle = () => {
     const { product, style } = this.props;
     return (
-      <View style={[{ alignItems: 'center', justifyContent: 'center' }, style]}>
+      <View style={[styles.titleContainer, , style]}>
         <Title
           title={product.title}
           customStyle={{
@@ -75,6 +73,12 @@ class ProductCard extends React.Component {
   };
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 50,
+  },
+});
 
 export default ProductCard;

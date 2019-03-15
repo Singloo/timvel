@@ -12,7 +12,7 @@ import {
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
 const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
-const product_types = [
+const PRODUCT_TYPES = [
   'avatar',
   'draw_lots',
   'sticker',
@@ -50,7 +50,7 @@ class ShopPage extends Component {
   };
 
   _onPressPurchase = product => {
-    if (!product_types.includes(product.productType)) {
+    if (!PRODUCT_TYPES.includes(product.productType)) {
       this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',
         content: 'Unknown product type.',
@@ -82,7 +82,7 @@ class ShopPage extends Component {
   };
   _confirmPurchase = async () => {
     const { currentProduct } = this.props.state;
-    if (!product_types.includes(currentProduct.productType)) {
+    if (!PRODUCT_TYPES.includes(currentProduct.productType)) {
       this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',
         content: 'Unknown product type.',

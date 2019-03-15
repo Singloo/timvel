@@ -84,7 +84,7 @@ const fetchProducts = (
   action$.pipe(
     ofType('SHOP_PAGE_FETCH_PRODUCTS'),
     switchMap(action =>
-      from(httpClient.get('/fetch_products')).pipe(
+      from(httpClient.get('/product')).pipe(
         tap(({ data }) => {
           console.warn('products data: ', data.length);
         }),

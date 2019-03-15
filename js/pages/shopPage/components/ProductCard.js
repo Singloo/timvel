@@ -35,7 +35,7 @@ class ProductCard extends React.Component {
     const { product } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.depGrey, fontSize: 14 }} numberOfLines={2}>
+        <Text style={{ color: colors.depGrey, fontSize: 14 }}>
           {product.description}
         </Text>
       </View>

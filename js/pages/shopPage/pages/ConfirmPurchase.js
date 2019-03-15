@@ -7,6 +7,24 @@ const { SCREEN_WIDTH, colors, Styles } = base;
 
 const CONTAINER_WIDTH = SCREEN_WIDTH - 80;
 const CONTAINER_BORDER_RADIUS = 12;
+const getTypeDescription = type => {
+  switch (type) {
+    case 'avatar':
+      return 'This product will replace your avatar';
+    case 'draw_lots':
+      return 'A random buyer will get this product';
+    case 'sticker':
+      return 'This sticker will save to you photo album';
+    case 'one_time':
+      return 'After pay, you will be enabled to see the image';
+    case 'title':
+      return 'Buy a title';
+    case 'draw_title':
+      return 'Get a random title';
+    default:
+      return '';
+  }
+};
 class ConfirmPurchase extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +32,7 @@ class ConfirmPurchase extends React.Component {
     this.animationStart = Animated.spring(this.animationState, {
       toValue: 1,
       useNativeDriver: true,
+      speed: 5,
     });
     this.animationStop = Animated.timing(this.animationState, {
       toValue: 0,
@@ -87,9 +106,13 @@ class ConfirmPurchase extends React.Component {
     );
   }
   _renderTitle = () => {
+    const { currentProduct } = this.props;
     return (
       <View style={{ paddingVertical: 10, paddingHorizontal: 5 }}>
         <Text style={styles.title}>{'You are going to buy'}</Text>
+        <Text style={{ fontSize: 14, marginTop: 5, marginLeft: 10 }}>
+          {'*' + getTypeDescription(currentProduct.productType)}
+        </Text>
       </View>
     );
   };

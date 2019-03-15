@@ -37,7 +37,7 @@ const publishProduct = (
             return;
           }
           const imageUrl = await OSS.upLoadImage(coverImage);
-          await httpClient.post('/publish_product', {
+          await httpClient.post('/product', {
             name: title,
             description: description,
             price,
