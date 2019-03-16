@@ -2,8 +2,8 @@ import * as React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Text, createMoveableComp, PriceTag } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
-import { map } from 'rxjs/operators';
-import { base, User, runAfter } from '../utils';
+import { map, filter } from 'rxjs/operators';
+import { base, User, runAfter, curried } from '../utils';
 const {
   colors,
   Styles,
@@ -16,6 +16,7 @@ const {
 import * as Animatable from 'react-native-animatable';
 // import Moment from 'moment'
 import { ITEM_SIZE, COIN, BUBBLE_SIZE } from './CoinIncreaseConstants';
+import { CoinTransactionRecords } from '../services';
 import {
   $sourceSecond,
   $sourceOneMinue,
@@ -53,29 +54,56 @@ class CoinIncrease extends React.PureComponent {
     };
     this.rootSibling;
     this.bubblePool = {};
+    this.$timeSubscriber;
+    this.$bubbleSubscriber;
   }
   componentDidMount() {
     this._userMountListener();
   }
+
+  componentWillUnmount() {
+    this._clearSubscription();
+  }
   _userMountListener = () => {
-    const listener = $CENTER.subscribe(({ type }) => {
-      if (type === $TYPES.userMount) {
+    const listener = $CENTER
+      .pipe(filter(({ type }) => type === $TYPES.userMount))
+      .subscribe(() => {
         this.setState({
           show: true,
         });
         console.warn('timer init');
         this._init();
         listener.unsubscribe();
-      }
-    });
+        this._userUnmountListener();
+      });
+  };
+  _userUnmountListener = () => {
+    const listener = $CENTER
+      .pipe(filter(({ type }) => type === $TYPES.userUnmount))
+      .subscribe(() => {
+        this.setState({
+          show: false,
+        });
+        listener.unsubscribe();
+        this._clearSubscription();
+        this._userMountListener();
+      });
   };
   _init = () => {
-    $sourceSecond.pipe(map(_ => _ + 1)).subscribe(second =>
-      this.setState({
-        second,
-      }),
+    this.$timeSubscriber = $sourceSecond
+      .pipe(map(_ => _ + 1))
+      .subscribe(second =>
+        this.setState({
+          second,
+        }),
+      );
+    this.$bubbleSubscriber = $sourceOneMinue.subscribe(
+      runAfter(this._renderCoinBubble),
     );
-    $sourceOneMinue.subscribe(runAfter(this._renderCoinBubble));
+  };
+  _clearSubscription = () => {
+    this.$timeSubscriber && this.$bubbleSubscriber.unsubscribe();
+    this.$bubbleSubscriber && this.$bubbleSubscriber.unsubscribe();
   };
   _renderCoinBubble = () => {
     if (Object.keys(this.bubblePool).length >= MAXIMUM_BUBBLE) {
@@ -84,8 +112,12 @@ class CoinIncrease extends React.PureComponent {
     this._createRootView();
   };
 
-  _onPressBubble = (id, coin) => () => {
+  _onPressBubble = (id, coin) => {
     this._destroyBubble(id);
+    if (!User.isLoggedIn()) {
+      console.warn('not log in');
+      return;
+    }
     $CENTER.next({
       type: $TYPES.coinTransaction,
       payload: {
@@ -93,6 +125,10 @@ class CoinIncrease extends React.PureComponent {
       },
     });
     User.increaseCoin(coin);
+    CoinTransactionRecords.insertNewTransactionRecord({
+      type: 'keep_online',
+      amount: coin,
+    });
   };
 
   _destroyBubble = (id = null) => {
@@ -124,7 +160,7 @@ class CoinIncrease extends React.PureComponent {
     const comp = (
       <View style={style}>
         <CoinBubble
-          onPress={this._onPressBubble(id, coin)}
+          onPress={curried(this._onPressBubble)(id, coin)}
           price={coin}
           delay={delay}
         />

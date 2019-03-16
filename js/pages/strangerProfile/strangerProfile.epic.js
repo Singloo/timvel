@@ -43,7 +43,7 @@ const sendGift = (action$, state, { httpClient, User, $retryDelay }) =>
     ofType('STRANGER_PROFILE_SEND_GIFT'),
     exhaustMap(({ payload }) =>
       from(
-        httpClient.post('/send_gift', {
+        httpClient.post('/gift/send', {
           sender: User.id(),
           receiver: payload.receiver,
           gift_type: payload.giftType,

@@ -101,6 +101,7 @@ class UUer {
   logOut = () => {
     AV.User.logOut();
     this.user = null;
+    $CENTER.next(dispatch($TYPES.userUnmount));
   };
   increaseCoin = num => {
     return this.increment('userCoin', num);

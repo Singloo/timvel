@@ -34,6 +34,7 @@ const $CENTER = new Subject();
 const $TYPES = {
   coinTransaction: 'coinTransaction',
   userMount: 'userMount',
+  userUnmount: 'userUnmount',
 };
 $CENTER.subscribe({
   // command = {
