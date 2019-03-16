@@ -8,6 +8,7 @@ import {
   retry3,
   HANDLE,
   showCoinIncreaseAnimation,
+  Network,
 } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
@@ -72,36 +73,48 @@ class ShopPage extends Component {
         return this._typeSticker(currentProduct);
       case 'one_time':
         return this._typeOnetime(currentProduct);
-      case 'title':
-        return this._typeTitle(currentProduct);
+      // case 'title':
+      //   return this._typeTitle(currentProduct);
       case 'draw_title':
         return this._drawTitle(currentProduct);
       default:
         return;
     }
   };
-  _confirmPurchase = async () => {
-    const { currentProduct } = this.props.state;
-    if (!PRODUCT_TYPES.includes(currentProduct.productType)) {
-      this.props.dispatch('SHOW_SNAKE_BAR', {
-        type: 'ERROR',
-        content: 'Unknown product type.',
-      });
-      return;
+  _confirmPurchase = async currentProduct => {
+    try {
+      if (!PRODUCT_TYPES.includes(currentProduct.productType)) {
+        this.props.dispatch('SHOW_SNAKE_BAR', {
+          type: 'ERROR',
+          content: 'Unknown product type.',
+        });
+        return;
+      }
+      if (!User.ableToBuy(currentProduct.price)) {
+        this.props.dispatch('SHOW_SNAKE_BAR', {
+          type: 'ERROR',
+          content: 'No enough coin',
+        });
+        return;
+      }
+      await this._transaction(currentProduct);
+      showCoinIncreaseAnimation(-parseInt(currentProduct.price));
+      this.props.snakeBar('Wow, a successful deal~');
+      this._switchProductHandler(currentProduct);
+    } catch (error) {
+      console.warn(error.message);
     }
-    if (!User.ableToBuy(currentProduct.price)) {
-      this.props.dispatch('SHOW_SNAKE_BAR', {
-        type: 'ERROR',
-        content: 'No enough coin',
-      });
-      return;
-    }
-    this._switchProductHandler(currentProduct);
-    retry3(User.increaseCoin(-parseInt(currentProduct.price))).subscribe(
-      HANDLE(() => {
-        showCoinIncreaseAnimation(-parseInt(currentProduct.price));
-      }),
-    );
+  };
+
+  _transaction = product => {
+    return Network.apiClient.post('/product/purchase', {
+      buyer_user_id: User.id(),
+      price: product.price,
+      product_id: product.productId,
+      seller_user_id: product.userId,
+      product_type: product.productType,
+      title_id: product.titleId,
+    });
   };
   /**
    *
@@ -216,7 +229,7 @@ class ShopPage extends Component {
         openModal={this._openModal}
         closeModal={this._closeModal}
         currentProduct={currentProduct}
-        onPressPurchase={this._confirmPurchase}
+        onPressPurchase={curried(this._confirmPurchase)(currentProduct)}
       />
     );
   };

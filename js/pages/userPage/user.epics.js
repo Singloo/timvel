@@ -36,7 +36,7 @@ const fetchUserTitles = (action$, state$, { httpClient, User, dispatch }) =>
     ofType('USER_PAGE_FETCH_USER_TITLES'),
     switchMap(({ payload }) =>
       from(
-        httpClient.get('/get_user_titles', {
+        httpClient.get('/title', {
           params: {
             user_id: User.id(),
             just_wearing: true,
