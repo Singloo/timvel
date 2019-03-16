@@ -89,7 +89,7 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
               timezone: ipInfo.data.timezone,
             };
 
-            await httpClient.post('/update_user_info', {
+            await httpClient.post('/user/update', {
               object_id: User.objectId,
               username: username,
               password: password,

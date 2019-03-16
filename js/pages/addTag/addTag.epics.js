@@ -8,7 +8,7 @@ const fetchPopularTags = (action$, state$, { httpClient, dispatch }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
-          const { data } = await httpClient.get('/fetch_popular_tag');
+          const { data } = await httpClient.get('/tag/popular');
           observer.next(
             dispatch('ADD_TAG_SET_STATE', {
               popularTags: data,
@@ -30,7 +30,7 @@ const insertTag = (action$, state$, { httpClient, dispatch }) =>
       Observable.create(async observer => {
         try {
           const { tag, callback } = action.payload;
-          await httpClient.post('/add_tag', {
+          await httpClient.post('/tag', {
             tag: tag.trim(),
           });
           observer.next(
@@ -63,7 +63,7 @@ const searchTag = (action$, state$, { httpClient, dispatch }) =>
           if (tag.trim().length === 0) {
             fixedTag = null;
           }
-          const { data } = await httpClient.get('/search_tag', {
+          const { data } = await httpClient.get('/tag', {
             params: {
               tag: fixedTag,
             },

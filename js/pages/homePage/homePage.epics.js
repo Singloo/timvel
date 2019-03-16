@@ -18,7 +18,7 @@ const fetchMostPopularPosts = (action$, state$, { httpClient, dispatch }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
-          const { data } = await httpClient.get('/fetch_popular_posts', {
+          const { data } = await httpClient.get('/post/popular', {
             params: {
               limit: 5,
             },
@@ -49,7 +49,7 @@ const fetchPosts = (action$, state$, { dispatch, httpClient }) =>
               isHeaderLoading: true,
             }),
           );
-          const { data } = await httpClient.get('/fetch_posts', {
+          const { data } = await httpClient.get('/post', {
             happened_at: happenedAt,
             offset,
           });
@@ -123,7 +123,7 @@ export const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
     throttleTime(500),
     concatMap(({ payload }) =>
       from(
-        httpClient.post('/post_emojis', {
+        httpClient.post('/post/emoji', {
           emoji: payload.emoji,
           post_id: payload.postId,
           user_id: User.objectId(),

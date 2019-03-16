@@ -20,7 +20,7 @@ const fetchUserPosts = (action$, state, { httpClient, dispatch, User }) =>
       Observable.create(async observer => {
         try {
           const { userId } = action.payload;
-          const { data } = await httpClient.get('/fetch_post_with_condition', {
+          const { data } = await httpClient.get('/post/condition', {
             params: { user_id: userId },
           });
           const postsByTag = filterPostsByTag(data);

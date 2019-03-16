@@ -6,9 +6,6 @@ const { colors } = base;
 class ChooseTags extends React.Component {
   render() {
     const { tags, onPressAddTag } = this.props;
-    const renderTags = tags.map((item, index) => {
-      return <Tag title={item.tag} key={index.toString()} />;
-    });
     return (
       <View style={styles.container}>
         <Image
@@ -19,23 +16,30 @@ class ChooseTags extends React.Component {
         />
         <Text style={styles.addTag}>{I18n.t('tags')}</Text>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {renderTags}
+          {tags.map(this._renderTag)}
         </ScrollView>
         <Button
           title={I18n.t('add')}
           onPress={onPressAddTag}
-          buttonStyle={{
-            paddingVertical: 5,
-            paddingHorizontal: 0,
-            width: 68,
-            marginRight: 10,
-          }}
+          buttonStyle={styles.button}
           textStyle={{ color: colors.white }}
           size={'verySmall'}
         />
       </View>
     );
   }
+  _renderTag = (item, index) => {
+    const { currentTag } = this.props;
+    return (
+      <Tag
+        title={item.tag}
+        key={index.toString()}
+        isSelected={currentTag.tag === item.tag}
+        selectedStyle={styles.selectedStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+      />
+    );
+  };
 }
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +54,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 5,
     alignSelf: 'center',
+  },
+  button: {
+    paddingVertical: 5,
+    paddingHorizontal: 0,
+    width: 68,
+    marginRight: 10,
+  },
+  selectedStyle: { backgroundColor: colors.main, borderColor: 'transparent' },
+  selectedTextStyle: {
+    color: 'white',
   },
 });
 

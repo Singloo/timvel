@@ -10,7 +10,6 @@ import {
   EmojiItem,
 } from '../../../../re-kits';
 import { base } from '../../../utils';
-import PropTypes from 'prop-types';
 const { Styles, colors } = base;
 
 class BottomInfoBar extends React.Component {

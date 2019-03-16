@@ -9,7 +9,7 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
     switchMap(action => {
       const { post, content, callback, associatedCommentId } = action.payload;
       return from(
-        httpClient.post('/post_comment', {
+        httpClient.post('/post/comments', {
           post_id: post.postId,
           user_id: User.id(),
           receiver_user_id: post.userId,
@@ -111,7 +111,7 @@ const fetchComments = (action$, _, { httpClient, dispatch }) =>
     switchMap(action => {
       const { postId, offset } = action.payload;
       return from(
-        httpClient.get('/fetch_post_comments', {
+        httpClient.get('/post/comments', {
           params: {
             post_id: postId,
             offset: offset,

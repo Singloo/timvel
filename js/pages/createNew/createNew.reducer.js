@@ -1,11 +1,12 @@
 import Moment from 'moment';
 import { I18n } from '../../utils';
+const initialTag = { tag: '日常', popularity: 0 };
 const initialState = {
   date: Moment().format('YYYY-MM-DD'),
   images: [],
   content: '',
-  currentTag: '日常',
-  tags: [{ tag: '日常', popularity: 0 }],
+  currentTag: initialTag,
+  tags: [initialTag],
   showAddTag: false,
   weatherInfo: {},
   isFetchingWeather: false,

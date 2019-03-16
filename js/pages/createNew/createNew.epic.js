@@ -3,7 +3,11 @@ import { ofType } from 'redux-observable';
 import { exhaustMap, switchMap } from 'rxjs/operators';
 import Moment from 'moment';
 import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
-const createPost = (action$, _, { dispatch, httpClient, OSS, User, navigation }) =>
+const createPost = (
+  action$,
+  _,
+  { dispatch, httpClient, OSS, User, navigation },
+) =>
   action$.pipe(
     ofType('CREATE_NEW_SEND_POST'),
     exhaustMap(({ payload }) =>
@@ -32,7 +36,7 @@ const createPost = (action$, _, { dispatch, httpClient, OSS, User, navigation })
               });
             }
           }
-          await httpClient.post('/create_post', {
+         const {data} = await httpClient.post('/post', {
             content: content,
             image_urls: imageUrls,
             user_id: User.id(),
@@ -54,7 +58,7 @@ const createPost = (action$, _, { dispatch, httpClient, OSS, User, navigation })
             }),
           );
         } catch (error) {
-          console.warn(error);
+          console.warn(error.message);
           observer.next(
             dispatch('GLOBAL_SET_STATE', {
               isLoading: false,

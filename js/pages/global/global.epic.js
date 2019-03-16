@@ -78,7 +78,7 @@ const updateUserinfoFromLeanCloud = (
             organization: user.get('organization'),
             avatar: user.get('avatar'),
           };
-          await httpClient.post('/update_user_info', {
+          await httpClient.post('/user/update', {
             ...user_info,
             city: ipData.city,
             country: ipData.country_name,

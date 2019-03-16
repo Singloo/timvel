@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
-  Button,
-  Image,
-  InfiniteText,
   Text,
   Touchable,
-  Assets,
   WeatherInfo,
   ImageSwiper,
 } from '../../../../re-kits';
 import { base, curried } from '../../../utils';
-import PropTypes from 'prop-types';
 const { Styles, colors, DateFormatter } = base;
 import UserInfoBar from './UserInfoBar';
 import BottomInfoBar from './BottomInfoBar';
@@ -26,12 +21,28 @@ const cardWidth = base.SCREEN_WIDTH - 20 - 20;
 const cardHeight = cardWidth - 60;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;
+const extractEmojiNums = post => ({
+  numOfComments: post.numOfComments,
+  shock: post.shock,
+  laugh: post.laugh,
+  angry: post.angry,
+  vomit: post.vomit,
+  nofeeling: post.nofeeling,
+});
+const diffEmojiChange = (currentPost, nextPost) => {
+  const current = extractEmojiNums(currentPost);
+  const next = extractEmojiNums(nextPost);
+  return !!Object.keys(current).find(key => current[key] !== next[key]);
+};
 class MainCard extends React.PureComponent {
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
     this.moveTo();
   };
+  shouldComponentUpdate(nextProps) {
+    return diffEmojiChange(this.props.post, nextProps.post);
+  }
 
   moveTo = () => {
     this._animatedWrapper && this._animatedWrapper.moveTo();
@@ -167,24 +178,9 @@ class MainCard extends React.PureComponent {
       <AnimatableBottomInfo
         useNativeDriver={true}
         ref={r => (this._bottomInfo = r)}
-        style={
-          {
-            // position: 'absolute',
-            // left: 0,
-            // right: 0,
-            // bottom: 0,
-          }
-        }
         onPressComment={onPressComment}
         onPressEmoji={onPressEmoji(post.postId)}
-        nums={{
-          numOfComments: post.numOfComments,
-          shock: post.shock,
-          laugh: post.laugh,
-          angry: post.angry,
-          vomit: post.vomit,
-          nofeeling: post.nofeeling,
-        }}
+        nums={extractEmojiNums(post)}
       />
     );
   };
@@ -196,16 +192,7 @@ class MainCard extends React.PureComponent {
       <Animatable.View
         useNativeDriver={true}
         ref={r => (this._timebar = r)}
-        style={{
-          position: 'absolute',
-          height: TIME_BAR_HEIGHT,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          flexDirection: 'row',
-          marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
-          alignItems: 'center',
-        }}
+        style={styles.timeBarContainer}
       >
         {this.renderTimeBarDot()}
         <Text style={styles.dateTime}>{happenedAt.yearMonthDayTime()}</Text>
@@ -223,7 +210,6 @@ class MainCard extends React.PureComponent {
     );
   };
 }
-MainCard.propTypes = {};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -240,24 +226,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     marginHorizontal: 0,
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    right: 10,
-  },
-  content: {
-    fontSize: 18,
-    color: colors.white,
-    fontWeight: '200',
-    lineHeight: 25,
-    textShadowColor: colors.lightGrey,
-    textShadowOffset: {
-      width: 1.5,
-      height: 0,
-    },
-    textShadowRadius: 5,
   },
   dateTime: {
     fontSize: 18,
@@ -279,6 +247,16 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: 'white',
   },
+  timeBarContainer:{
+    position: 'absolute',
+    height: TIME_BAR_HEIGHT,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
+    alignItems: 'center',
+  }
 });
 
 export default MainCard;

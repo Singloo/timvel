@@ -16,7 +16,15 @@ import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
 // import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
-import { base, I18n, connect2, HANDLE, $CENTER, $TYPES } from '../../utils';
+import {
+  base,
+  I18n,
+  connect2,
+  HANDLE,
+  $CENTER,
+  $TYPES,
+  curried,
+} from '../../utils';
 const { colors, isAndroid } = base;
 import { getRandomPhoto } from '../../utils/Unsplash';
 import { from } from 'rxjs';
@@ -101,7 +109,7 @@ class CreateNew extends React.Component {
 
   dismissKeyboard = () => Keyboard.dismiss();
 
-  _onPressSend = ableToPost => () => {
+  _onPressSend = ableToPost => {
     if (!ableToPost) {
       this.props.snakeBar(
         'You need to upload at least one pic, try to get a random one?',
@@ -110,12 +118,12 @@ class CreateNew extends React.Component {
       return;
     }
     this.dismissKeyboard();
-    const { images, content, weatherInfo, date } = this.props.state;
+    const { images, content, weatherInfo, date, currentTag } = this.props.state;
     this.props.dispatch('CREATE_NEW_SEND_POST', {
       images,
       content,
       weatherInfo,
-      tag: '开发',
+      tag: currentTag.tag,
       date,
     });
   };
@@ -217,10 +225,9 @@ class CreateNew extends React.Component {
     const {
       date,
       images,
-      content,
       tags,
-      showAddTag,
       weatherInfo,
+      currentTag,
       isFetchingWeather,
     } = this.props.state;
     const { keyboardHeight } = this.props;
@@ -234,7 +241,7 @@ class CreateNew extends React.Component {
           onPressLeft={this._goBack}
           sourceRight={Assets.send.source}
           rightTint={ableToPost ? colors.main : colors.midGrey}
-          onPressRight={this._onPressSend(ableToPost)}
+          onPressRight={curried(this._onPressSend)(ableToPost)}
           style={{ paddingRight: 10 }}
         />
         <Animated.ScrollView
@@ -252,9 +259,9 @@ class CreateNew extends React.Component {
               ref={r => (this._chooseDate = r)}
               date={date}
               onChangeDate={this._onChangeDate}
-              onPressToday={() => {
-                this._onChangeDate(Moment().format('YYYY-MM-DD'));
-              }}
+              onPressToday={curried(this._onChangeDate)(
+                Moment().format('YYYY-MM-DD'),
+              )}
             />
             <View style={{ zIndex: 1 }}>
               <ChooseWeather
@@ -266,7 +273,11 @@ class CreateNew extends React.Component {
               />
             </View>
 
-            <ChooseTags tags={tags} onPressAddTag={this._onPressAddTag} />
+            <ChooseTags
+              tags={tags}
+              onPressAddTag={this._onPressAddTag}
+              currentTag={currentTag}
+            />
 
             <ChooseImages
               onPressChooseImages={this._onPressChooseImages}
@@ -274,39 +285,42 @@ class CreateNew extends React.Component {
               onPressDeleteImage={this._onPressDeleteImage}
               onPressGetRandomImage={this._onPressGetRandomImage}
             />
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: colors.pureWhite,
-                marginTop: 10,
-              }}
-            >
-              <MultiLinesTextInput
-                value={content}
-                onChangeText={this._onChangeText}
-                style={{
-                  backgroundColor: colors.pureWhite,
-                  margin: 10,
-                  flex: 1,
-                }}
-                onKeyPress={this._onPressKey}
-                placeholder={I18n.t('placeholder')}
-                placeholderTextColor={colors.midGrey}
-              />
-            </View>
+            {this._renderContent()}
           </View>
         </Animated.ScrollView>
         <AddTag
           ref={r => {
             this._addTag = r;
           }}
-          // show={showAddTag}
-          // modelController={this._addTagController}
-          // tags={tags}
         />
       </View>
     );
   }
+  _renderContent = () => {
+    const { content } = this.props.state;
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.pureWhite,
+          marginTop: 10,
+        }}
+      >
+        <MultiLinesTextInput
+          value={content}
+          onChangeText={this._onChangeText}
+          style={{
+            backgroundColor: colors.pureWhite,
+            margin: 10,
+            flex: 1,
+          }}
+          onKeyPress={this._onPressKey}
+          placeholder={I18n.t('placeholder')}
+          placeholderTextColor={colors.midGrey}
+        />
+      </View>
+    );
+  };
 }
 CreateNew.propTypes = {};
 const styles = StyleSheet.create({

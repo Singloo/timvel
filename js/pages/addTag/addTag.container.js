@@ -7,7 +7,7 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import { base, I18n } from '../../utils/';
+import { base, I18n, curried, invoke } from '../../utils';
 import {
   Touchable,
   Image,
@@ -24,25 +24,16 @@ class AddTag extends React.Component {
     super(props);
     this.state = {
       prepareToShowSearch: false,
+      animationState: new Animated.Value(0),
     };
-    this.animationState = new Animated.Value(0);
-    this.animationOpen = Animated.spring(this.animationState, {
+    this.animationOpen = Animated.spring(this.state.animationState, {
       toValue: 1,
       duration: 300,
-      bounciness: 10,
+      bounciness: 8,
     });
-    this.animationClose = Animated.timing(this.animationState, {
+    this.animationClose = Animated.timing(this.state.animationState, {
       toValue: 0,
       duration: 300,
-    });
-
-    this.bk = this.animationState.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['rgba(33,33,33,0)', 'rgba(33,33,33,0.5)'],
-    });
-    this.height = this.animationState.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, SCREEN_HEIGHT],
     });
   }
   componentWillMount() {
@@ -54,19 +45,19 @@ class AddTag extends React.Component {
   componentWillUnmount() {
     this.props.dispatch('ADD_TAG_RESET_STATE');
   }
-  open() {
+  open = () => {
     this.props.dispatch('ADD_TAG_SET_STATE', {
       show: true,
     });
     this.animationOpen.start();
-  }
-  close() {
+  };
+  close = () => {
     this.animationClose.start(() => {
       this.props.dispatch('ADD_TAG_SET_STATE', {
         show: false,
       });
     });
-  }
+  };
 
   _onChangeText = value => {
     const { showSearch } = this.props.state;
@@ -129,13 +120,13 @@ class AddTag extends React.Component {
   _onPressNewTag = tag => {
     const { tags } = this.props.createNew;
     const { showSearch } = this.props.state;
-    let included = _.findIndex(tags, { tag: tag.tag }) !== -1;
+    let included = !!tags.find(o => o.tag == tag.tag);
     let newTags = tags;
     if (!included) {
       newTags = [].concat(tag, tags);
     }
     this.props.dispatch('CREATE_NEW_SET_STATE', {
-      currentTag: tag.tag,
+      currentTag: tag,
       tags: newTags,
     });
     if (showSearch) {
@@ -144,152 +135,163 @@ class AddTag extends React.Component {
   };
 
   _onPressAddTag = tag => {
+    if (tag.trim().length === 0) {
+      return;
+    }
+    Keyboard.dismiss();
     this.props.dispatch('ADD_TAG_ADD_TAG', {
       tag,
-      callback: () => {
-        this._onPressNewTag({
-          tag: tag,
-          popularity: 0,
-        });
-      },
+      callback: curried(this._onPressNewTag)({
+        tag: tag.trim(),
+        popularity: 0,
+      }),
+    });
+  };
+
+  _setCurrentTag = currentTag => {
+    this.props.dispatch('CREATE_NEW_SET_STATE', {
+      currentTag,
     });
   };
 
   render() {
-    const {
-      show,
-      popularTags,
-      searchResults,
-      value,
-      showSearch,
-    } = this.props.state;
-    const { tags } = this.props.createNew;
-    const renderPopularTags = popularTags.map((item, index) => {
-      return (
-        <Tag
-          title={item.tag}
-          key={index.toString()}
-          onPress={() => this._onPressNewTag(item)}
-          popularity={item.popularity}
-          style={{
-            marginHorizontal: 4,
-            marginVertical: 4,
-          }}
-        />
-      );
-    });
-    const renderCurrentTags = tags.map((item, index) => {
-      return (
-        <Tag
-          title={item.tag}
-          key={index.toString()}
-          style={{
-            marginHorizontal: 4,
-            marginVertical: 4,
-          }}
-        />
-      );
-    });
-    if (show) {
-      return (
-        <Animated.View
-          style={[
-            styles.container,
-            Styles.absolute,
-            { backgroundColor: this.bk },
-          ]}
-        >
-          <Animated.View
-            style={[
-              styles.contentContainer,
-              {
-                height: this.height,
-              },
-            ]}
-          >
-            <View style={styles.close}>
-              {showSearch ? (
-                <Text style={{ fontSize: 14 }} onPress={this._cancelSearch}>
-                  {'Cancel'}
-                </Text>
-              ) : (
-                <Image
-                  source={Assets.close.source}
-                  onPress={() => {
-                    this._cancelSearch();
-                    this.close();
-                  }}
-                  style={{ marginLeft: 10 }}
-                  size={'small'}
-                />
-              )}
-              <TextInput
-                style={styles.search}
-                value={value}
-                placeholder={I18n.t('noInterested')}
-                autoCorrect={true}
-                onFocus={this._onTextInputFocus}
-                onBlur={this._onTextInputBlur}
-                underlineColorAndroid={'transparent'}
-                onChangeText={this._onChangeText}
-                onKeyPress={this._onPressKey}
-              />
-              <View style={{ width: 10, backgroundColor: 'transparent' }} />
-            </View>
-            <View style={{ marginTop: 10 }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-
-                  alignItems: 'flex-end',
-                }}
-              >
-                <Text style={{ fontSize: 25, fontWeight: '200' }}>
-                  {I18n.t('current')}
-                </Text>
-              </View>
-              <Separator style={{ marginTop: 5 }} />
-              <ScrollView
-                style={{ marginLeft: 10, marginTop: 10 }}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {renderCurrentTags}
-              </ScrollView>
-            </View>
-
-            <Text style={{ marginTop: 10, fontSize: 25, fontWeight: '200' }}>
-              {showSearch ? 'Search results' : I18n.t('popular')}
-            </Text>
-            <Separator style={{ marginTop: 10 }} />
-            <View style={{ flex: 1, marginTop: 10, marginHorizontal: 10 }}>
-              <ScrollView
-                style={{ flex: 1 }}
-                contentContainerStyle={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                }}
-              >
-                {renderPopularTags}
-              </ScrollView>
-              {showSearch && (
-                <SearchResults
-                  results={searchResults}
-                  onPressTag={this._onPressNewTag}
-                  isEmpty={searchResults.length === 0}
-                  onPressAddTag={() => {
-                    this._onPressAddTag(value);
-                  }}
-                />
-              )}
-            </View>
-          </Animated.View>
-        </Animated.View>
-      );
-    } else {
+    const { show, showSearch } = this.props.state;
+    if (!show) {
       return null;
     }
+    const backgroundColor = this.state.animationState.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['rgba(33,33,33,0)', 'rgba(33,33,33,0.5)'],
+    });
+    const height = this.state.animationState.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, SCREEN_HEIGHT],
+    });
+    return (
+      <Animated.View
+        style={[styles.container, Styles.absolute, { backgroundColor }]}
+      >
+        <Animated.View
+          style={[
+            styles.contentContainer,
+            {
+              height,
+            },
+          ]}
+        >
+          {this._renderSearchBar()}
+          {this._renderCurrentTags()}
+          <Text style={{ marginTop: 10, fontSize: 25, fontWeight: '200' }}>
+            {showSearch ? 'Search results' : I18n.t('popular')}
+          </Text>
+          <Separator style={{ marginTop: 10 }} />
+          {this._renderPopuparTags()}
+        </Animated.View>
+      </Animated.View>
+    );
   }
+  _renderSearchBar = () => {
+    const { value, showSearch } = this.props.state;
+    return (
+      <View style={styles.close}>
+        {showSearch ? (
+          <Text style={{ fontSize: 14 }} onPress={this._cancelSearch}>
+            {'Cancel'}
+          </Text>
+        ) : (
+          <Image
+            source={Assets.close.source}
+            onPress={invoke(this._cancelSearch, this.close)}
+            style={{ marginLeft: 10, width: 20, height: 20 }}
+          />
+        )}
+        <TextInput
+          style={styles.search}
+          value={value}
+          placeholder={I18n.t('noInterested')}
+          autoCorrect={true}
+          onFocus={this._onTextInputFocus}
+          onBlur={this._onTextInputBlur}
+          underlineColorAndroid={'transparent'}
+          onChangeText={this._onChangeText}
+          onKeyPress={this._onPressKey}
+        />
+        <View style={{ width: 10, backgroundColor: 'transparent' }} />
+      </View>
+    );
+  };
+  _renderTags = injectedProps => (item, index) => {
+    return (
+      <Tag
+        title={item.tag}
+        key={index.toString()}
+        style={{
+          marginHorizontal: 4,
+          marginVertical: 4,
+        }}
+        {...injectedProps(item)}
+      />
+    );
+  };
+  _renderCurrentTags = () => {
+    const { tags, currentTag } = this.props.createNew;
+    const addtionalProps = item => ({
+      isSelected: currentTag.tag === item.tag,
+      selectedStyle: styles.selectedStyle,
+      selectedTextStyle: styles.selectedTextStyle,
+      onPress: curried(this._setCurrentTag)(item),
+    });
+    return (
+      <View style={{ marginTop: 10 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+          }}
+        >
+          <Text style={{ fontSize: 25, fontWeight: '200' }}>
+            {I18n.t('current')}
+          </Text>
+        </View>
+        <Separator style={{ marginTop: 5 }} />
+        <ScrollView
+          style={{ marginLeft: 10, marginTop: 10 }}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          {tags.map(this._renderTags(addtionalProps))}
+        </ScrollView>
+      </View>
+    );
+  };
+  _renderPopuparTags = () => {
+    const { searchResults, value, showSearch, popularTags } = this.props.state;
+    const addtionalProps = item => ({
+      onPress: curried(this._onPressNewTag)(item),
+      popularity: parseInt(item.popularity),
+    });
+    return (
+      <View style={{ flex: 1, marginTop: 10, marginHorizontal: 10 }}>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+          }}
+        >
+          {popularTags.map(this._renderTags(addtionalProps))}
+        </ScrollView>
+        {showSearch && (
+          <SearchResults
+            results={searchResults}
+            onPressTag={this._onPressNewTag}
+            isEmpty={searchResults.length === 0}
+            onPressAddTag={curried(this._onPressAddTag)(value)}
+          />
+        )}
+      </View>
+    );
+  };
 }
 
 const styles = StyleSheet.create({
@@ -314,6 +316,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     height: 30,
+  },
+  selectedStyle: { backgroundColor: colors.main, borderColor: 'transparent' },
+  selectedTextStyle: {
+    color: 'white',
   },
 });
 

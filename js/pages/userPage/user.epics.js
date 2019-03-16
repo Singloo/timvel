@@ -14,7 +14,7 @@ const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
             observer.complete();
             return;
           }
-          const { data } = await httpClient.get('/fetch_post_with_condition', {
+          const { data } = await httpClient.get('/post/condition', {
             params: { user_id: userId },
           });
           const postsByTag = filterPostsByTag(data);
