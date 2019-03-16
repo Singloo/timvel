@@ -4,6 +4,15 @@ import { Button, Text, BaseTextInput } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 const { colors, SCREEN_WIDTH, lenOfText } = base;
+const showLayoutAnimation = () => {
+  LayoutAnimation.configureNext(
+    LayoutAnimation.create(
+      400,
+      LayoutAnimation.Types.linear,
+      LayoutAnimation.Properties.scaleXY,
+    ),
+  );
+};
 class CustomTitle extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +25,7 @@ class CustomTitle extends Component {
   }
   componentWillMount() {}
 
-  _onSliderChange = (value, key) => {
+  _onSliderChange = key => value => {
     this.setState({
       [key]: value,
     });
@@ -29,13 +38,7 @@ class CustomTitle extends Component {
       return;
     }
     if (!isEditing) {
-      LayoutAnimation.configureNext(
-        LayoutAnimation.create(
-          400,
-          LayoutAnimation.Types.linear,
-          LayoutAnimation.Properties.scaleXY,
-        ),
-      );
+      showLayoutAnimation();
       this.setState({
         isEditing: true,
       });
@@ -44,13 +47,7 @@ class CustomTitle extends Component {
     if (lenOfText(value) > 8) {
       return;
     }
-    LayoutAnimation.configureNext(
-      LayoutAnimation.create(
-        400,
-        LayoutAnimation.Types.linear,
-        LayoutAnimation.Properties.scaleXY,
-      ),
-    );
+    showLayoutAnimation();
     this.setState({
       isEditing: false,
     });
@@ -62,7 +59,8 @@ class CustomTitle extends Component {
   render() {
     const { onChangeText, textInputProps, value } = this.props;
     const { r, g, b, isEditing } = this.state;
-    let showColorEditor = value.length > 0;
+    const showColorEditor = value.length > 0;
+    const dynamicColor = `rgb(${r},${g},${b})`;
     return (
       <View style={styles.container}>
         <View
@@ -74,29 +72,20 @@ class CustomTitle extends Component {
         >
           {isEditing && (
             <BaseTextInput
-              onChangeText={v => {
-                onChangeText('customTitle', v, 8);
-              }}
+              onChangeText={onChangeText}
               style={styles.textInput}
               value={value}
               {...textInputProps}
             />
           )}
           <Text
-            style={{
-              fontSize: 18,
-              textAlign: 'center',
-              textAlignVertical: 'center',
-              minWidth: 30,
-              height: 30,
-              marginVertical: 5,
-              paddingTop: 5,
-              paddingHorizontal: 5,
-              color: `rgb(${r},${g},${b})`,
-              borderWidth: 1,
-              borderColor: `rgb(${r},${g},${b})`,
-              marginLeft: 10,
-            }}
+            style={[
+              styles.titleStyle,
+              {
+                color: dynamicColor,
+                borderColor: dynamicColor,
+              },
+            ]}
           >
             {value}
           </Text>
@@ -104,66 +93,47 @@ class CustomTitle extends Component {
             <Button
               title={isEditing ? 'Confirm' : 'Edit'}
               onPress={this._onPressConfirm}
-              buttonStyle={{
-                width: 70,
-                height: 35,
-                paddingHorizontal: 0,
-                marginRight: 15,
-              }}
+              buttonStyle={styles.confirmButton}
             />
           </View>
         </View>
 
-        {showColorEditor &&
-          isEditing && (
-            <View>
-              <View style={styles.sliderContainer}>
-                <Slider
-                  value={r}
-                  minimumValue={0}
-                  maximumValue={255}
-                  step={1}
-                  minimumTrackTintColor={`rgb(${r},0,0)`}
-                  // maximumTrackTintColor={`rgb(${255 - r},0,0)`}
-                  onValueChange={v => {
-                    this._onSliderChange(v, 'r');
-                  }}
-                  // onSlidingComplete={() => {}}
-                />
-              </View>
-              <View style={styles.sliderContainer}>
-                <Slider
-                  value={g}
-                  minimumValue={0}
-                  maximumValue={255}
-                  step={1}
-                  minimumTrackTintColor={`rgb(0,${g},0)`}
-                  // maximumTrackTintColor={`rgb(0,${255 - g},0)`}
-                  onValueChange={v => {
-                    this._onSliderChange(v, 'g');
-                  }}
-                  // onSlidingComplete={() => {}}
-                />
-              </View>
-              <View style={styles.sliderContainer}>
-                <Slider
-                  value={b}
-                  minimumValue={0}
-                  maximumValue={255}
-                  step={1}
-                  minimumTrackTintColor={`rgb(0,0,${b})`}
-                  // maximumTrackTintColor={`rgb(0,0,${255 - b})`}
-                  onValueChange={v => {
-                    this._onSliderChange(v, 'b');
-                  }}
-                  // onSlidingComplete={() => {}}
-                />
-              </View>
-            </View>
-          )}
+        {showColorEditor && isEditing && (
+          <View style={{ paddingHorizontal: 20 }}>
+            {this._renderSlider({
+              value: r,
+              minimumTrackTintColor: `rgb(${r},0,0)`,
+              onValueChange: this._onSliderChange('r'),
+            })}
+            {this._renderSlider({
+              value: g,
+              minimumTrackTintColor: `rgb(0,${g},0)`,
+              onValueChange: this._onSliderChange('g'),
+            })}
+            {this._renderSlider({
+              value: b,
+              minimumTrackTintColor: `rgb(0,0,${b})`,
+              onValueChange: this._onSliderChange('b'),
+            })}
+          </View>
+        )}
       </View>
     );
   }
+  _renderSlider = ({ value, minimumTrackTintColor, onValueChange }) => {
+    return (
+      <Slider
+        value={value}
+        minimumValue={0}
+        maximumValue={255}
+        step={1}
+        minimumTrackTintColor={minimumTrackTintColor}
+        // maximumTrackTintColor={`rgb(0,0,${255 - b})`}
+        onValueChange={onValueChange}
+        // onSlidingComplete={() => {}}
+      />
+    );
+  };
 }
 CustomTitle.propTypes = {};
 
@@ -181,6 +151,24 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     marginHorizontal: 20,
+  },
+  titleStyle: {
+    fontSize: 18,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    minWidth: 30,
+    height: 30,
+    marginVertical: 5,
+    paddingTop: 5,
+    paddingHorizontal: 5,
+    borderWidth: 1,
+    marginLeft: 10,
+  },
+  confirmButton: {
+    width: 70,
+    height: 35,
+    paddingHorizontal: 0,
+    marginRight: 15,
   },
 });
 

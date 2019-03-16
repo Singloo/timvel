@@ -1,6 +1,6 @@
 import { from, Observable } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { exhaustMap, switchMap } from 'rxjs/operators';
+import { exhaustMap, switchMap, throttleTime } from 'rxjs/operators';
 import Moment from 'moment';
 import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
 const createPost = (
@@ -36,7 +36,7 @@ const createPost = (
               });
             }
           }
-         const {data} = await httpClient.post('/post', {
+          const { data } = await httpClient.post('/post', {
             content: content,
             image_urls: imageUrls,
             user_id: User.id(),
@@ -79,7 +79,8 @@ const createPost = (
 const getWeather = (action$, _, { dispatch, Network }) =>
   action$.pipe(
     ofType('CREATE_NEW_GET_WEATHER'),
-    switchMap(action =>
+    throttleTime(1000),
+    exhaustMap(action =>
       Observable.create(async observer => {
         const { date } = action.payload;
         const isToady = Moment(date).isSame(Moment().format('YYYY-MM-DD'));

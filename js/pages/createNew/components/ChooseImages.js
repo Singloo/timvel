@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Touchable, Image, Assets } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-const { realSize, colors, Styles } = base;
+const { colors, Styles } = base;
 const TOUZI_SIZE = 50;
 class ChooseImages extends React.PureComponent {
   render() {
@@ -59,7 +59,7 @@ class ChooseImages extends React.PureComponent {
       <View style={styles.image} key={index}>
         <Image
           uri={isUnsplash ? item.imageUrl : item.path}
-          style={{ width: realSize(120), height: realSize(120) }}
+          style={{ width: 120, height: 120 }}
         />
         <View style={{ position: 'absolute', right: 5, top: 5 }}>
           <Image
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   image: {
-    width: realSize(120),
-    height: realSize(120),
+    width: 120,
+    height: 120,
     marginLeft: 5,
     borderWidth: 1,
     borderColor: colors.midGrey,

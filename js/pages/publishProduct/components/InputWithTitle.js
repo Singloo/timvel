@@ -27,9 +27,7 @@ class InputWithTitle extends Component {
           {isError && <Text style={styles.errorMessage}>{errorMessage}</Text>}
         </View>
         <BaseTextInput
-          onChangeText={value => {
-            onChangeText(title, value);
-          }}
+          onChangeText={onChangeText}
           style={styles.textInput}
           value={value}
           {...textInputProps}

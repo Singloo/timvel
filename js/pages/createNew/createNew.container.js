@@ -71,16 +71,18 @@ class CreateNew extends React.Component {
     ImagePicker.openPicker({
       multiple: true,
       maxFiles: Math.min(8 - images.length, 5),
-    }).then(imgs => {
-      if (images.length + imgs.length > 8) {
-        this.props.dispatch('SHOW_SNAKE_BAR', {
-          type: 'ERROR',
-          content: 'Number of images at most 8',
-        });
-        return;
-      }
-      this._addImage(imgs);
-    });
+    })
+      .then(imgs => {
+        if (images.length + imgs.length > 8) {
+          this.props.dispatch('SHOW_SNAKE_BAR', {
+            type: 'ERROR',
+            content: 'Number of images at most 8',
+          });
+          return;
+        }
+        this._addImage(imgs);
+      })
+      .catch(() => {});
   };
 
   _addImage = item => {
@@ -208,7 +210,7 @@ class CreateNew extends React.Component {
         })),
       )
       .subscribe({
-        next: data => this._addImage(data),
+        next: this._addImage,
         error: error => {
           console.warn(error);
           this.props.snakeBar('Error', 'ERROR');

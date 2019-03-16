@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  Text,
-  Touchable,
-  WeatherInfo,
-  ImageSwiper,
-} from '../../../../re-kits';
+import { Text, Touchable, WeatherInfo, ImageSwiper } from '../../../../re-kits';
 import { base, curried } from '../../../utils';
 const { Styles, colors, DateFormatter } = base;
 import UserInfoBar from './UserInfoBar';
@@ -34,7 +29,7 @@ const diffEmojiChange = (currentPost, nextPost) => {
   const next = extractEmojiNums(nextPost);
   return !!Object.keys(current).find(key => current[key] !== next[key]);
 };
-class MainCard extends React.PureComponent {
+class MainCard extends React.Component {
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress();
@@ -247,7 +242,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: 'white',
   },
-  timeBarContainer:{
+  timeBarContainer: {
     position: 'absolute',
     height: TIME_BAR_HEIGHT,
     left: 0,
@@ -256,7 +251,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: GRADIENT_BAR_WIDTH / 2 - 7.5,
     alignItems: 'center',
-  }
+  },
 });
 
 export default MainCard;

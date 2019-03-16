@@ -18,7 +18,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import InputWithTitle from './components/InputWithTitle';
 import CustomTitle from './components/CustomTitle';
-import { base } from '../../utils';
+import { base, curried } from '../../utils';
 const { colors, isAndroid, lenOfText } = base;
 const product_types = [
   'avatar',
@@ -32,53 +32,10 @@ class Sample extends Component {
   constructor(props) {
     super(props);
     this._scrollView;
-    this.keyboardHeight = new Animated.Value(0);
   }
   componentWillMount() {}
-  componentDidMount() {
-    // this.keyboardWillShowSub = Keyboard.addListener(
-    //   'keyboardWillShow',
-    //   this.keyboardWillShow,
-    // );
-    // this.keyboardWillHideSub = Keyboard.addListener(
-    //   'keyboardWillHide',
-    //   this.keyboardWillHide,
-    // );
-    // if (isAndroid) {
-    //   this.keyboardDidShowSub = Keyboard.addListener(
-    //     'keyboardDidShow',
-    //     this.keyboardDidShow,
-    //   );
-    //   this.keyboardDidHideSub = Keyboard.addListener(
-    //     'keyboardDidHid',
-    //     this.keyboardDidHide,
-    //   );
-    // }
-  }
-  // keyboardWillShow = event => {
-  //   Animated.timing(this.keyboardHeight, {
-  //     duration: 400,
-  //     toValue: event.endCoordinates.height,
-  //   }).start();
-  // };
-  // keyboardDidShow = event => {
-  //   Animated.timing(this.keyboardHeight, {
-  //     duration: 200,
-  //     toValue: event.endCoordinates.height,
-  //   }).start();
-  // };
-  // keyboardWillHide = event => {
-  //   Animated.timing(this.keyboardHeight, {
-  //     duration: 400,
-  //     toValue: 0,
-  //   }).start(this._scrollToEnd);
-  // };
-  // keyboardDidHide = event => {
-  //   Animated.timing(this.keyboardHeight, {
-  //     duration: 200,
-  //     toValue: 0,
-  //   }).start(this._scrollToEnd);
-  // };
+  componentDidMount() {}
+
   _onPressKey = ({ nativeEvent }) => {
     if (nativeEvent.key == 'Enter') {
       this._scrollToEnd();
@@ -91,7 +48,7 @@ class Sample extends Component {
     this.props.navigation.goBack();
   };
 
-  _onChangeText = (type, value, limit = null) => {
+  _onChangeText = (type, limit = null) => value => {
     let _value = value;
     if (limit) {
       if (lenOfText(_value) > parseInt(limit, 10)) {
@@ -177,7 +134,6 @@ class Sample extends Component {
       description,
       productType,
       coverImage,
-      customTitle,
       confirmedCustomTitle,
     } = this.props.state;
     const { keyboardHeight } = this.props;
@@ -186,7 +142,7 @@ class Sample extends Component {
       price.length > 0 &&
       !!coverImage &&
       productType.length > 0;
-    let chooseTitle = productType === 'title';
+    const chooseTitle = productType === 'title';
     if (chooseTitle) {
       ableToSend =
         ableToSend && !!confirmedCustomTitle.color && description.length > 0;
@@ -200,9 +156,7 @@ class Sample extends Component {
           selectedTextStyle={{ color: colors.main }}
           style={{ marginHorizontal: 4, marginVertical: 4 }}
           isSelected={item === productType}
-          onPress={() => {
-            this._onPressTag(item);
-          }}
+          onPress={curried(this._onPressTag)(item)}
         />
       );
     });
@@ -230,12 +184,12 @@ class Sample extends Component {
         >
           <InputWithTitle
             title={'title'}
-            onChangeText={this._onChangeText}
+            onChangeText={this._onChangeText('title')}
             value={title}
           />
           <InputWithTitle
             title={'price'}
-            onChangeText={this._onChangeText}
+            onChangeText={this._onChangeText('price')}
             value={price}
             errorHandler={this._checkPrice}
             textInputProps={{
@@ -247,37 +201,32 @@ class Sample extends Component {
             <Text style={styles.text}>{'Product type'}</Text>
             <View style={styles.tagContainer}>{renderTypes}</View>
           </View>
-          {chooseTitle && (
-            <View style={{ marginVertical: 5 }}>
-              <Text style={styles.text}>{'Custom your title'}</Text>
-              <CustomTitle
-                onChangeText={this._onChangeText}
-                value={customTitle}
-                onPressConfirm={this._onPressConfirmTitle}
-              />
-            </View>
-          )}
+          {this._renderCustomTitle(chooseTitle)}
           {this._renderChooseCover()}
-          <View style={{ marginVertical: 5 }}>
-            <Text style={styles.text}>
-              {'Description ' + (chooseTitle ? '(needed)' : '(optional)')}
-            </Text>
-            <MultiLinesTextInput
-              value={description}
-              onChangeText={value => {
-                this._onChangeText('description', value);
-              }}
-              onFocus={() => {
-                setTimeout(this._scrollToEnd, 400);
-              }}
-              onKeyPress={this._onPressKey}
-              style={styles.description}
-            />
-          </View>
+          {this._renderDescription(chooseTitle)}
         </Animated.ScrollView>
       </View>
     );
   }
+
+  _renderCustomTitle = chooseTitle => {
+    if (!chooseTitle) {
+      return null;
+    }
+    const { customTitle } = this.props.state;
+    return (
+      <View style={{ marginVertical: 5 }}>
+        <Text style={styles.text}>
+          {'Customize your title (at most 8 letters)'}
+        </Text>
+        <CustomTitle
+          onChangeText={this._onChangeText('customTitle', 8)}
+          value={customTitle}
+          onPressConfirm={this._onPressConfirmTitle}
+        />
+      </View>
+    );
+  };
 
   _renderChooseCover = () => {
     const { coverImage } = this.props.state;
@@ -293,8 +242,27 @@ class Sample extends Component {
       </View>
     );
   };
+
+  _renderDescription = chooseTitle => {
+    const { description } = this.props.state;
+    return (
+      <View style={{ marginVertical: 5 }}>
+        <Text style={styles.text}>
+          {'Description ' + (chooseTitle ? '(needed)' : '(optional)')}
+        </Text>
+        <MultiLinesTextInput
+          value={description}
+          onChangeText={this._onChangeText('description')}
+          onFocus={() => {
+            setTimeout(this._scrollToEnd, 400);
+          }}
+          onKeyPress={this._onPressKey}
+          style={styles.description}
+        />
+      </View>
+    );
+  };
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
