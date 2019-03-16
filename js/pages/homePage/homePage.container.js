@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View, FlatList, StatusBar, Animated } from 'react-native';
 import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
   Assets,
   ActionButton,
   RFlatList,

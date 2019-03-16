@@ -1,28 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Animated } from 'react-native';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
-  Assets,
-  ContentByTag,
-} from '../../../re-kits';
-import { base, I18n, User } from '../../utils';
+import { StyleSheet, View, Animated } from 'react-native';
+import { Button, NavBar, Image, Assets, ContentByTag } from '../../../re-kits';
+import { base, User, curried } from '../../utils';
 import { connect2 } from '../../utils/Setup';
-import { ableToBuy } from '../../utils/Network';
-import { interval, Subject, of, from } from 'rxjs';
-import {
-  take,
-  concatMap,
-  map,
-  tap,
-  multicast,
-  publish,
-  debounceTime,
-} from 'rxjs/operators';
+import { interval, Subject } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 import GiftsModal from './components/GiftsModal';
 import { flowerPatterns, shitPatterns } from './data/gifts';
 const {
@@ -32,9 +14,9 @@ const {
   randomNumber,
   SCREEN_HEIGHT,
 } = base;
-const image_width = SCREEN_WIDTH;
-const image_height = SCREEN_WIDTH * 0.7;
-const scroll_height = image_height - NAV_BAR_HEIGHT;
+const IMAGE_WIDTH = SCREEN_WIDTH;
+const IMAGE_HEIGHT = SCREEN_WIDTH * 0.7;
+const scroll_height = IMAGE_HEIGHT - NAV_BAR_HEIGHT;
 const fs_size = 20;
 const getRandomFS = (isF = true, giftType = null, size = fs_size) => {
   return isF
@@ -62,17 +44,9 @@ const getRandomFS = (isF = true, giftType = null, size = fs_size) => {
 class StrangerProfile extends Component {
   constructor(props) {
     super(props);
-    this._nScrollY = new Animated.Value(0);
-    this.image_translateY = this._nScrollY.interpolate({
-      inputRange: [-25, 0, scroll_height * 1.6],
-      outputRange: [-18, 0, -scroll_height],
-      extrapolateRight: 'clamp',
-    });
-    this.imgScale = this._nScrollY.interpolate({
-      inputRange: [-25, 0],
-      outputRange: [1.1, 1],
-      extrapolateRight: 'clamp',
-    });
+    this.state = {
+      nScrollY: new Animated.Value(0),
+    };
   }
   componentWillMount() {
     this.user = this.props.navigation.getParam('user', {});
@@ -154,7 +128,7 @@ class StrangerProfile extends Component {
   };
 
   render() {
-    const { postsByTag, userInfo, flowers, shits } = this.props.state;
+    const { flowers, shits } = this.props.state;
     return (
       <View style={styles.container}>
         <Animated.ScrollView
@@ -162,14 +136,17 @@ class StrangerProfile extends Component {
           stickyHeaderIndices={[0]}
           scrollEventThrottle={8}
           onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this._nScrollY } } }],
+            [{ nativeEvent: { contentOffset: { y: this.state.nScrollY } } }],
             { useNativeDriver: true },
           )}
         >
           {this.renderUserInfo()}
           {this.renderCards()}
         </Animated.ScrollView>
-        <Button title={'show'} onPress={this._modalController(true)} />
+        <Button
+          title={'send gift'}
+          onPress={curried(this._modalController)(true)}
+        />
         <NavBar
           title={'f' + `${flowers.length}`}
           sourceLeft={Assets.arrow_left.source}
@@ -194,27 +171,31 @@ class StrangerProfile extends Component {
     );
   };
   renderUserInfo = () => {
+    const translateY = this.state.nScrollY.interpolate({
+      inputRange: [-25, 0, scroll_height * 1.6],
+      outputRange: [-18, 0, -scroll_height],
+      extrapolateRight: 'clamp',
+    });
+    const scale = this.state.nScrollY.interpolate({
+      inputRange: [-25, 0],
+      outputRange: [1.1, 1],
+      extrapolateRight: 'clamp',
+    });
+    const transform = [{ translateY }, { scale }];
     return (
       <Animated.View>
         <Animated.Image
           source={Assets.bk2.source}
           style={{
-            height: image_height,
-            width: image_width,
-            transform: [
-              {
-                translateY: this.image_translateY,
-              },
-              {
-                scale: this.imgScale,
-              },
-            ],
+            height: IMAGE_HEIGHT,
+            width: IMAGE_WIDTH,
+            transform,
           }}
         />
       </Animated.View>
     );
   };
-  renderCards = (key, index) => {
+  renderCards = () => {
     const { postsByTag } = this.props.state;
     return Object.keys(postsByTag).map((key, index) => {
       return (

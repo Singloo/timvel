@@ -77,11 +77,7 @@ async function saveImageToAlbum(imageUrl) {
   }
 }
 const getUserInfo = user_id => {
-  return apiClient.get('/user', {
-    params: {
-      user_id,
-    },
-  });
+  return apiClient.get(`/user/${user_id}`);
 };
 
 export {

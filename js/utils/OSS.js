@@ -16,7 +16,7 @@ const BUCKET_TIMVEL_1 = 'timvel-1';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 export async function initAliyunOSS() {
   try {
-    const { data } = await Axios.get(API_V1 + '/get_aliyun_access_key', {
+    const { data } = await Axios.get(API_V1 + '/user/authorize', {
       params: {
         user_id: 1,
       },

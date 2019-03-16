@@ -6,12 +6,10 @@ import {
   createAnimatedModal,
   Image,
   createSelectableItem,
-  Assets,
   Separator,
   PriceTag,
 } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import { base, I18n, curried } from '../../../utils';
 import { flowerPatterns, shitPatterns } from '../data/gifts';
 const { colors, SCREEN_WIDTH } = base;
 const SelectableItem = createSelectableItem(Item);
@@ -23,7 +21,7 @@ class Card extends React.Component {
   state = {
     currentGift: null,
   };
-  _onPressGift = key => () => {
+  _onPressGift = key => {
     const { currentGift } = this.state;
     if (currentGift === key) {
       return;
@@ -86,7 +84,7 @@ class Card extends React.Component {
               key={'f' + index}
               source={source}
               style={{ margin: 5 }}
-              onPress={this._onPressGift(key)}
+              onPress={curried(this._onPressGift)(key)}
               selected={currentGift === key}
             />
           );
@@ -98,7 +96,7 @@ class Card extends React.Component {
               key={'s' + index}
               source={source}
               style={{ margin: 5 }}
-              onPress={this._onPressGift(key)}
+              onPress={curried(this._onPressGift)(key)}
               selected={currentGift === key}
             />
           );
@@ -114,7 +112,7 @@ class Card extends React.Component {
         <Button
           title={'Cancel'}
           onPress={dismiss}
-          type={Button.types.blank}
+          type={'mainBlank'}
           buttonStyle={{ width: (SCREEN_WIDTH - 60) / 2 }}
         />
         <Button
