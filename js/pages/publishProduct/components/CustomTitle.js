@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Slider, LayoutAnimation } from 'react-native';
+import { StyleSheet, View, LayoutAnimation } from 'react-native';
 import { Button, Text, BaseTextInput } from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import Slider from '@react-native-community/slider';
 const { colors, SCREEN_WIDTH, lenOfText } = base;
 const showLayoutAnimation = () => {
   LayoutAnimation.configureNext(

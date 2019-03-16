@@ -40,6 +40,8 @@ target 'timvel' do
 
   pod 'react-native-async-storage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
+
 end
 
 # very important to have, unless you removed React dependencies for Libraries 

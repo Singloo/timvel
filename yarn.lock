@@ -853,6 +853,11 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
+"@react-native-community/slider@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@react-native-community/slider/-/slider-1.0.3.tgz#a49027519d56f4408356ebf04a7b226ce4001cda"
+  integrity sha512-IEg7AdayIAb9ZA8KMilTwINMNgSwhF5BXNqwvJ2XsRd+JF12/r5ho+t+GONu8m2rWcCehiiM/h4pds1B9FzMlQ==
+
 "@react-navigation/core@3.1.1":
   version "3.1.1"
   resolved "https://registry.npmjs.org/@react-navigation/core/-/core-3.1.1.tgz#badf449ac7d2ae65b0f5aa1bf63a87e7888458d3"
