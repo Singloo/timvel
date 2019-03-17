@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Text, createMoveableComp, PriceTag ,NAV_BAR_HEIGHT_FULL} from '../../re-kits';
+import {
+  Text,
+  createMoveableComp,
+  PriceTag,
+  NAV_BAR_HEIGHT_FULL,
+} from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map, filter } from 'rxjs/operators';
 import { base, User, runAfter, curried } from '../utils';
@@ -117,17 +122,7 @@ class CoinIncrease extends React.PureComponent {
       console.warn('not log in');
       return;
     }
-    $CENTER.next({
-      type: $TYPES.coinTransaction,
-      payload: {
-        transaction: coin,
-      },
-    });
-    User.increaseCoin(coin);
-    CoinTransactionRecords.insertNewTransactionRecord({
-      type: 'keep_online',
-      amount: coin,
-    });
+    CoinTransactionRecords.consume(coin, 'keep_online');
   };
 
   _destroyBubble = (id = null) => {
@@ -143,7 +138,10 @@ class CoinIncrease extends React.PureComponent {
   };
 
   _createRootView = () => {
-    const top = randomNumber(0, SCREEN_HEIGHT - BUBBLE_SIZE - NAV_BAR_HEIGHT_FULL);
+    const top = randomNumber(
+      0,
+      SCREEN_HEIGHT - BUBBLE_SIZE - NAV_BAR_HEIGHT_FULL,
+    );
     const left = randomNumber(0, SCREEN_WIDTH - BUBBLE_SIZE);
     const coin = getRandomCoin();
     const delay = randomItem([100, 200, 300, 400]);

@@ -92,19 +92,7 @@ class MainCard extends React.Component {
           }}
         >
           {this.renderChildren()}
-          <View
-            style={{
-              position: 'absolute',
-              right: 0,
-              left: 0,
-              flexDirection: 'row',
-              backgroundColor: 'red',
-              justifyContent: 'space-between',
-            }}
-          >
-            {this.renderUserInfoBar()}
-            {this.renderWeather()}
-          </View>
+          {this.renderUserInfoBar()}
         </View>
         {this.renderTimeBar()}
       </View>
@@ -141,6 +129,7 @@ class MainCard extends React.Component {
         </View>
         {this._renderBottomBar()}
         {this._renderText()}
+        {this.renderWeather()}
       </View>
     );
   };
@@ -180,7 +169,7 @@ class MainCard extends React.Component {
         ref={r => (this._weatherInfo = r)}
         weather={post.weatherInfo.weather}
         temperature={post.weatherInfo.temperature}
-        style={{ marginTop: 15 }}
+        style={{ position: 'absolute', right: 0, top: 0 }}
       />
     );
   };
@@ -258,7 +247,11 @@ const styles = StyleSheet.create({
     width: cardWidth,
     height: cardHeight,
   },
-  headerBar: {},
+  headerBar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
   dateTime: {
     fontSize: 18,
     marginLeft: 12,

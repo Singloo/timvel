@@ -72,12 +72,14 @@ class UUer {
     this.init();
   };
   signUp = async ({ username, email, password }) => {
+    console.warn(username, email, password);
     const user = new AV.User();
     user.setUsername(username);
     user.setEmail(email);
     user.setPassword(password);
     this.user = await user.signUp();
     this.init();
+    $CENTER.next(dispatch($TYPES.userMount));
     return this.user;
   };
   username = () => {
@@ -88,6 +90,9 @@ class UUer {
   };
   objectId = () => {
     return this.get('objectId');
+  };
+  userCoin = () => {
+    return this.get('userCoin');
   };
   id = () => {
     return this.objectId();

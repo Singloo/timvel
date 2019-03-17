@@ -51,18 +51,9 @@ class ContentDetail extends React.Component {
       currentPost: {},
       currentCardId: null,
       nscrollY: new Animated.Value(0),
-      isAnimating: false,
+      isAnimating: true,
     };
     this.goingToShow = true;
-    // this.animationState = new Animated.Value(0);
-    // this.animationOpen = Animated.timing(this.animationState, {
-    //   toValue: 1,
-    //   duration: 600,
-    // });
-    // this.animationClose = Animated.timing(this.animationState, {
-    //   toValue: 0,
-    //   duration: 400,
-    // });
     this._content = React.createRef();
     this._commentBar = React.createRef();
     this._userInfo = React.createRef();
@@ -99,23 +90,6 @@ class ContentDetail extends React.Component {
       {
         onMove: curried(this._setIsAnimating)(true),
         onEnd: curried(this._setIsAnimating)(false),
-
-        // onSourceMove: () => {
-        //   console.warn('s m');
-        //   curried(this._setIsAnimating)(true);
-        // },
-        // onSourceEnd: () => {
-        //   console.warn('s e');
-        //   curried(this._setIsAnimating)(false);
-        // },
-        // onTargetMove: () => {
-        //   console.warn('t m');
-        //   curried(this._setIsAnimating)(true);
-        // },
-        // onTargetEnd: () => {
-        //   console.warn('t e');
-        //   curried(this._setIsAnimating)(false);
-        // },
       },
     );
   };
@@ -131,6 +105,9 @@ class ContentDetail extends React.Component {
     }
   };
   _setIsAnimating = bool => {
+    if (bool === this.state.isAnimating) {
+      return;
+    }
     this.setState({
       isAnimating: bool,
     });
@@ -143,21 +120,12 @@ class ContentDetail extends React.Component {
     this._anmiatedWrapper.moveBack(curried(modalController)(false));
   };
   _onStart = () => {
-    // if (!this.goingToShow) {
-    //   this.goingToShow = true;
-    // }
-    console.warn('onstart');
     const { onStart } = this.props;
     onStart();
   };
 
   _onEnd = () => {
-    // if (!this.goingToShow) {
-    //   return;
-    // }
-    console.warn('onent');
     const { onEnd } = this.props;
-    // this.goingToShow = false;
     onEnd();
   };
   _fadeAnimation = () => {

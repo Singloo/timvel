@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, NavBar, Image, Assets, ContentByTag ,NAV_BAR_HEIGHT_FULL} from '../../../re-kits';
+import {
+  Button,
+  NavBar,
+  Image,
+  Assets,
+  ContentByTag,
+  NAV_BAR_HEIGHT_FULL,
+} from '../../../re-kits';
 import { base, User, curried } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { interval, Subject } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import GiftsModal from './components/GiftsModal';
 import { flowerPatterns, shitPatterns } from './data/gifts';
-const {
-  SCREEN_WIDTH,
-  randomItem,
-  randomNumber,
-  SCREEN_HEIGHT,
-} = base;
+import { CoinTransactionRecords } from '../../services';
+const { SCREEN_WIDTH, randomItem, randomNumber, SCREEN_HEIGHT } = base;
 const IMAGE_WIDTH = SCREEN_WIDTH;
 const IMAGE_HEIGHT = SCREEN_WIDTH * 0.7;
 const scroll_height = IMAGE_HEIGHT - NAV_BAR_HEIGHT_FULL;
@@ -107,7 +110,8 @@ class StrangerProfile extends Component {
 
   _onConfirmSendGift = async giftType => {
     try {
-      const bool = await User.ableToBuy(giftType > 100 ? 200 : 100);
+      const price = giftType > 100 ? 200 : 100;
+      const bool = await User.ableToBuy(price);
       if (!bool) {
         this.props.snakeBar('No coins..', 'ERROR');
         return;
@@ -120,6 +124,7 @@ class StrangerProfile extends Component {
         receiver: this.user.userId,
         giftType: giftType,
       });
+      CoinTransactionRecords.showAnimation(-price);
     } catch (error) {
       console.warn(error.message);
       this.props.snakeBar('Network error', 'ERROR');

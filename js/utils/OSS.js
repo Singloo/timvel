@@ -47,12 +47,15 @@ export const upLoadImage = async image => {
     let imageType = image.mime.replace('image/', '');
     imageType = imageType.length === 0 ? 'jpg' : imageType;
     let filename = User.username() + Date.now() + '.' + imageType;
+    console.warn(filename);
     filename = filename.trim().toLowerCase();
+    console.warn('aaa');
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,
       `images/${filename}`,
       filepath,
     );
+    console.warn('bbb');
     return imageUrlPrefix + filename;
   } catch (error) {
     console.warn(error);

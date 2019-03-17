@@ -11,7 +11,7 @@ import {
   AnimatedLogo,
 } from '../../../re-kits';
 import { base, I18n, OSS } from '../../utils';
-const { Styles, SCREEN_WIDTH } = base;
+const { Styles, SCREEN_WIDTH, randomItem, colors } = base;
 import SplashScreen from 'react-native-splash-screen';
 const hello = [
   '你好,人类',
@@ -21,14 +21,24 @@ const hello = [
   'Hallo, Menschen',
   'Bonjour, les humains',
 ];
+const AUTHOR_NAME = [
+  'Rick Sanchez',
+  '杨同学',
+  '杨某人',
+  '不愿透露姓名的杨同学',
+  'Human',
+];
 class LaunchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       textIndex: 0,
     };
+    this.authorName;
   }
-  componentWillMount() {}
+  componentWillMount() {
+    this.authorName = randomItem(AUTHOR_NAME);
+  }
   componentDidMount() {
     SplashScreen.hide();
     this.props.dispatch('INIT_APP');
@@ -89,7 +99,16 @@ class LaunchPage extends Component {
         >
           {text}
         </Animated.Text> */}
-        <AnimatedLogo />
+        <AnimatedLogo style={{ marginBottom: 100 }} />
+        <Text
+          style={{
+            position: 'absolute',
+            bottom: 30,
+            alignSelf: 'center',
+            fontSize: 10,
+            color: colors.midGrey,
+          }}
+        >{`Made with ❤️ by ${this.authorName}`}</Text>
       </Animated.View>
     );
   }

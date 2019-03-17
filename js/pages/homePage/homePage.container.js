@@ -203,7 +203,7 @@ class HomePage extends React.Component {
       gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
       post: item,
       onPress: this._onPressItem(item, index),
-      hidden: showDetail && get(currentPost, 'postId', null) === index,
+      hidden: get(currentPost, 'postId', null) === item.postId,
       onPressComment: curried(this._onPressComment)(item),
       onPressAvatar: curried(this._onPressAvatar)({
         userId: item.userId,

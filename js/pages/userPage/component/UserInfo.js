@@ -36,7 +36,7 @@ class UserInfo extends Component {
       username,
       userCoin,
       userAvatar,
-      userTitle,
+      userTitles,
       nScrollY,
       scrollY,
     } = this.props;
@@ -148,7 +148,10 @@ class UserInfo extends Component {
               style={{}}
               textStyle={{ color: colors.depGrey }}
             >
-              <Title title={userTitle} />
+              {userTitles.map(item => (
+                <Title title={item} />
+              ))}
+              {/* <Title title={userTitle} /> */}
               <View
                 style={{
                   width: 1,

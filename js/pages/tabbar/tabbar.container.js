@@ -63,7 +63,21 @@ class Tabbar extends Component {
             ref={r => {
               this.backgroundImage = r;
             }}
-            onLayout={this._imageLoaded}
+            // onLayout={this._imageLoaded}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              backgroundColor: 'rgba(250,250,250,0.8)',
+            }}
+          />
+        )}
+        {this.state.viewRef && (
+          <BlurView
+            viewRef={this.state.viewRef}
+            blurType={'light'}
             style={{
               position: 'absolute',
               top: 0,
@@ -71,20 +85,9 @@ class Tabbar extends Component {
               bottom: 0,
               right: 0,
             }}
+            blurAmount={10}
           />
         )}
-        <BlurView
-          viewRef={this.state.viewRef}
-          blurType={'light'}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-          }}
-          blurAmount={10}
-        />
         <Tab
           source={Assets.eu_bird.source}
           onPress={curried(this._onPressTab)('Home')}

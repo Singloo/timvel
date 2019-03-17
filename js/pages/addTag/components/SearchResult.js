@@ -8,7 +8,13 @@ class SearchResult extends Component {
   componentWillMount() {}
 
   render() {
-    const { results, isEmpty, onPressTag, onPressAddTag } = this.props;
+    const {
+      results,
+      isEmpty,
+      onPressTag,
+      onPressAddTag,
+      showAddButton,
+    } = this.props;
     const renderTags = results.map((item, index) => {
       return (
         <Tag
@@ -50,17 +56,19 @@ class SearchResult extends Component {
               }}
             >
               <Text>{'空空如也....'}</Text>
-              <Button
-                title={'Add'}
-                onPress={onPressAddTag}
-                buttonStyle={{
-                  width: 60,
-                  height: 30,
-                  paddingHorizontal: 0,
-                  marginLeft: 10,
-                }}
-                textStyle={{ fontSize: 14 }}
-              />
+              {showAddButton && (
+                <Button
+                  title={'Add'}
+                  onPress={onPressAddTag}
+                  buttonStyle={{
+                    width: 60,
+                    height: 30,
+                    paddingHorizontal: 0,
+                    marginLeft: 10,
+                  }}
+                  textStyle={{ fontSize: 14 }}
+                />
+              )}
             </View>
           </View>
         )}

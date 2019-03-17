@@ -25,7 +25,7 @@ class UserProfile extends Component {
   componentWillMount() {}
 
   render() {
-    const { userPosts } = this.props;
+    const { userPosts,userTitles } = this.props;
 
     const renderCards = Object.keys(userPosts).map((key, index) => {
       return (
@@ -49,7 +49,7 @@ class UserProfile extends Component {
             username={User.username()}
             userCoin={User.userCoin()}
             userAvatar={User.avatar()}
-            userTitle={''}
+            userTitles={userTitles}
             nScrollY={this._nscrollY}
             scrollY={this._scrollY}
           />

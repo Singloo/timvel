@@ -62,7 +62,7 @@ class UserPage extends Component {
     this._initUserMountListener();
   };
   render() {
-    const { buttonLocations, userPosts } = this.props.state;
+    const { buttonLocations, userPosts, userTitles } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
         <View
@@ -89,7 +89,7 @@ class UserPage extends Component {
 
     return (
       <View style={styles.container}>
-        <UserProfile userPosts={userPosts} />
+        <UserProfile userPosts={userPosts} userTitles={userTitles} />
         <Button title={'log out'} onPress={this._onPressLogout} />
       </View>
     );

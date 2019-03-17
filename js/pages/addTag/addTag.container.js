@@ -288,6 +288,7 @@ class AddTag extends React.Component {
             results={searchResults}
             onPressTag={this._onPressNewTag}
             isEmpty={searchResults.length === 0}
+            showAddButton={value.trim().length !== 0}
             onPressAddTag={curried(this._onPressAddTag)(value)}
           />
         )}
@@ -318,6 +319,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     height: 30,
+    padding: 0,
   },
   selectedStyle: { backgroundColor: colors.main, borderColor: 'transparent' },
   selectedTextStyle: {

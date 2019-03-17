@@ -66,6 +66,11 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
       Observable.create(async observer => {
         try {
           const { username, password, email, callback } = action.payload;
+          observer.next(
+            dispatch('GLOBAL_SET_STATE', {
+              isLoading: true,
+            }),
+          );
           await User.signUp({
             username,
             password,
@@ -73,9 +78,10 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
           });
           observer.next(
             dispatch('GLOBAL_SET_STATE', {
-              isLoading: true,
+              isLoading: false,
             }),
           );
+          callback && callback();
           try {
             const ipInfo = await axios.get('https://ipapi.co/json');
 
@@ -90,22 +96,17 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
             };
 
             await httpClient.post('/user/update', {
-              object_id: User.objectId,
+              object_id: User.objectId(),
               username: username,
               password: password,
               email: email,
               detail: JSON.stringify(info),
+              user_coin: User.userCoin(),
             });
             // user.set('userId', data.id);
           } catch (error) {
             console.warn(error);
           }
-          observer.next(
-            dispatch('GLOBAL_SET_STATE', {
-              isLoading: false,
-            }),
-          );
-          callback && callback();
         } catch (error) {
           console.warn(error);
           observer.next(

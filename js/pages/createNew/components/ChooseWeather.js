@@ -14,7 +14,7 @@ class ChooseWeather extends Component {
     const {
       weatherInfo,
       onChangeWeather,
-      onChangeTemperature,
+      // onChangeTemperature,
       onPressAutoGetWeather,
       isLoading,
     } = this.props;

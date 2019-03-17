@@ -189,6 +189,7 @@ class Login extends Component {
       });
       return;
     }
+    Keyboard.dismiss();
     this.props.dispatch('SIGNUP', {
       username: username.trim(),
       password: password.trim(),

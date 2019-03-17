@@ -56,6 +56,7 @@ class Card extends React.Component {
   renderTitle = () => {
     const { currentGift } = this.state;
     const isSelect = currentGift !== null;
+    const price = parseInt(currentGift) > 100 ? 200 : 100;
     return (
       <View style={{ marginLeft: 20, marginTop: 20 }}>
         <Text style={styles.mainText}>
@@ -64,10 +65,7 @@ class Card extends React.Component {
             : 'Send this will cost you:'}
         </Text>
         {isSelect && (
-          <PriceTag
-            price={parseInt(currentGift) > 100 ? 200 : 100}
-            style={{ marginLeft: 10, marginTop: 5 }}
-          />
+          <PriceTag price={price} style={{ marginLeft: 10, marginTop: 5 }} />
         )}
         <Separator style={{ marginTop: 10 }} />
       </View>
