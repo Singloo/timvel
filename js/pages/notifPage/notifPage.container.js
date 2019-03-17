@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import {
-  NavBar,
-  Assets,
-} from '../../../re-kits';
+import { NavBar, Assets, NAV_BAR_HEIGHT_FULL } from '../../../re-kits';
 import { base, curried } from '../../utils';
 import InfoCard from './components/InfoCard';
-const { colors, TAB_BAR_HEIGHT, NAV_BAR_HEIGHT } = base;
+const { colors, TAB_BAR_HEIGHT } = base;
 class NotifPage extends Component {
   componentWillMount() {
     this.props.dispatch('NOTIFI_PAGE_FETCH_COMMENTS');
@@ -36,7 +33,7 @@ class NotifPage extends Component {
           style={{ flex: 1 }}
           contentContainerStyle={{
             paddingBottom: TAB_BAR_HEIGHT,
-            paddingTop: NAV_BAR_HEIGHT,
+            paddingTop: NAV_BAR_HEIGHT_FULL,
           }}
         >
           <InfoCard

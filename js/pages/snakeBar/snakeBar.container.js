@@ -1,11 +1,10 @@
 import React, { Component, cloneElement } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Button } from '../../../re-kits';
+import { Button, NAV_BAR_HEIGHT_FULL } from '../../../re-kits';
 import { base } from '../../utils';
-import { clone, cloneDeep } from 'lodash';
-const { Styles, PADDING_TOP, isAndroid } = base;
+const {} = base;
 import SnakeBar from './components/SnakeBar';
-const snake_bar_height = 48 + PADDING_TOP + (isAndroid ? 20 : 0);
+const snake_bar_height = NAV_BAR_HEIGHT_FULL;
 class Global extends Component {
   componentWillMount() {}
 

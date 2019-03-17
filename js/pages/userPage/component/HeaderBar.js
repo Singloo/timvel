@@ -8,11 +8,17 @@ import {
   LayoutAnimation,
   findNodeHandle,
 } from 'react-native';
-import { Button, Text, InfiniteText } from '../../../../re-kits';
+import {
+  Button,
+  Text,
+  InfiniteText,
+  PADDING_TOP_FULL,
+  NAV_BAR_HEIGHT_FULL,
+} from '../../../../re-kits';
 import { base } from '../../../utils';
 import { BlurView } from 'react-native-blur';
-const { PADDING_TOP } = base;
-const scroll_height = 200 - 44 - PADDING_TOP;
+const {} = base;
+const scroll_height = 200 - 44 - PADDING_TOP_FULL;
 class HeaderBar extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +34,7 @@ class HeaderBar extends Component {
     const { username, userCoin, userAvatar, userTitle, nScrollY } = this.props;
     let y = nScrollY.interpolate({
       inputRange: [scroll_height, 200],
-      outputRange: [-44 - PADDING_TOP, 0],
+      outputRange: [-44 - PADDING_TOP_FULL, 0],
       extrapolate: 'clamp',
     });
     return (
@@ -81,8 +87,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   headerBar: {
-    height: 44 + PADDING_TOP,
-    paddingTop: PADDING_TOP,
+    height: NAV_BAR_HEIGHT_FULL,
+    paddingTop: PADDING_TOP_FULL,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(33,33,33,0.8)',

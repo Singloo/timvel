@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, NavBar, Image, Assets, BasicView } from '../../../re-kits';
+import {
+  Button,
+  NavBar,
+  Image,
+  Assets,
+  BasicView,
+  NAV_BAR_HEIGHT_FULL,
+} from '../../../re-kits';
 import {
   base,
   User,
@@ -12,7 +19,7 @@ import {
 } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
-const { PADDING_TOP, colors, PADDING_BOTTOM } = base;
+const { colors, TAB_BAR_HEIGHT } = base;
 const PRODUCT_TYPES = [
   'avatar',
   'draw_lots',
@@ -192,8 +199,8 @@ class ShopPage extends Component {
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              paddingTop: PADDING_TOP + 44,
-              paddingBottom: PADDING_BOTTOM + 48,
+              paddingTop: NAV_BAR_HEIGHT_FULL,
+              paddingBottom: TAB_BAR_HEIGHT,
               justifyContent: 'space-between',
             }}
           >

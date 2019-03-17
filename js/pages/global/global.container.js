@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../../re-kits';
 import { base } from '../../utils';
-const { Styles, PADDING_TOP, isAndroid } = base;
+const { Styles, isAndroid } = base;
 import LoadingView from './components/LoadingView';
 class Global extends Component {
   componentWillMount() {}

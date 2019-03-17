@@ -9,7 +9,7 @@ import {
   Assets,
   EmojiItem,
 } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { base, curried } from '../../../utils';
 const { Styles, colors } = base;
 
 class BottomInfoBar extends React.Component {
@@ -20,7 +20,7 @@ class BottomInfoBar extends React.Component {
         <EmojiItem
           key={index}
           source={Assets[item].source}
-          onPress={onPressEmoji(item)}
+          onPress={curried(onPressEmoji)(item)}
           num={nums[item]}
           textStyle={{
             color: colors.depGrey,

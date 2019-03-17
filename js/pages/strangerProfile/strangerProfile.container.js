@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, NavBar, Image, Assets, ContentByTag } from '../../../re-kits';
+import { Button, NavBar, Image, Assets, ContentByTag ,NAV_BAR_HEIGHT_FULL} from '../../../re-kits';
 import { base, User, curried } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { interval, Subject } from 'rxjs';
@@ -9,20 +9,19 @@ import GiftsModal from './components/GiftsModal';
 import { flowerPatterns, shitPatterns } from './data/gifts';
 const {
   SCREEN_WIDTH,
-  NAV_BAR_HEIGHT,
   randomItem,
   randomNumber,
   SCREEN_HEIGHT,
 } = base;
 const IMAGE_WIDTH = SCREEN_WIDTH;
 const IMAGE_HEIGHT = SCREEN_WIDTH * 0.7;
-const scroll_height = IMAGE_HEIGHT - NAV_BAR_HEIGHT;
+const scroll_height = IMAGE_HEIGHT - NAV_BAR_HEIGHT_FULL;
 const fs_size = 20;
 const getRandomFS = (isF = true, giftType = null, size = fs_size) => {
   return isF
     ? {
         x: randomNumber(0, SCREEN_WIDTH - fs_size),
-        y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
+        y: randomNumber(NAV_BAR_HEIGHT_FULL, SCREEN_HEIGHT - fs_size),
         source:
           flowerPatterns[
             giftType ? giftType : randomItem(Object.keys(flowerPatterns))
@@ -31,7 +30,7 @@ const getRandomFS = (isF = true, giftType = null, size = fs_size) => {
       }
     : {
         x: randomNumber(0, SCREEN_WIDTH - fs_size),
-        y: randomNumber(NAV_BAR_HEIGHT, SCREEN_HEIGHT - fs_size),
+        y: randomNumber(NAV_BAR_HEIGHT_FULL, SCREEN_HEIGHT - fs_size),
         source:
           shitPatterns[
             giftType ? giftType : Object.keys(randomItem(shitPatterns))

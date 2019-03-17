@@ -7,15 +7,21 @@ import {
   Animated,
   LayoutAnimation,
 } from 'react-native';
-import { Button, Text, Image, InfiniteText } from '../../../../re-kits';
+import {
+  Button,
+  Text,
+  Image,
+  InfiniteText,
+  PADDING_TOP_FULL,
+} from '../../../../re-kits';
 import { base } from '../../../utils';
 import Title from '../../../components/Title';
-const { SCREEN_WIDTH, colors, realSize, PADDING_TOP, Styles } = base;
+const { SCREEN_WIDTH, colors, Styles } = base;
 const width = SCREEN_WIDTH;
 const height = 200;
 const avatarSize = 80;
 const avatarSizeSmall = 30;
-const scroll_height = 200 - 44 - PADDING_TOP;
+const scroll_height = 200 - 44 - PADDING_TOP_FULL;
 class UserInfo extends Component {
   constructor(props) {
     super(props);

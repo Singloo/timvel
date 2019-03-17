@@ -38,13 +38,13 @@ class OneDay extends React.Component {
   open() {
     const { modalContronller } = this.props;
     LayoutAnimation.configureNext(this.animtion);
-    modalContronller(true)();
+    modalContronller(true);
   }
 
   close() {
     const { modalContronller } = this.props;
     LayoutAnimation.configureNext(this.animtion);
-    modalContronller(false)();
+    modalContronller(false);
   }
   render() {
     const { show, onChooseDate } = this.props;

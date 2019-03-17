@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, Text } from '../../../../re-kits';
+import {
+  Button,
+  Text,
+  NAV_BAR_HEIGHT_FULL,
+  PADDING_TOP_FULL,
+} from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-const {
-  PADDING_TOP,
-  NAV_BAR_HEIGHT,
-  colors,
-  SCREEN_WIDTH,
-  DateFormatter,
-} = base;
+const { colors, SCREEN_WIDTH, DateFormatter } = base;
 // const item_width = SCREEN_WIDTH - 40 - 0;
 const item_height = SCREEN_WIDTH * 0.5;
-const scroll_height = item_height + 35 + 20 - NAV_BAR_HEIGHT;
+const scroll_height = item_height + 35 + 20 - NAV_BAR_HEIGHT_FULL;
 class HeaderBar extends React.PureComponent {
   render() {
     return (
@@ -25,7 +24,7 @@ class HeaderBar extends React.PureComponent {
   _renderBK = () => {
     const translateY = this.props.scrollY.interpolate({
       inputRange: [0, scroll_height],
-      outputRange: [-NAV_BAR_HEIGHT, 0],
+      outputRange: [-NAV_BAR_HEIGHT_FULL, 0],
       extrapolate: 'clamp',
     });
     const transform = [{ translateY }];
@@ -44,7 +43,7 @@ class HeaderBar extends React.PureComponent {
     const _date = new DateFormatter(date);
     const translateY = this.props.scrollY.interpolate({
       inputRange: [-150, 0],
-      outputRange: [-NAV_BAR_HEIGHT, 0],
+      outputRange: [-NAV_BAR_HEIGHT_FULL, 0],
       extrapolate: 'clamp',
     });
     const transform = [{ translateY }];
@@ -69,8 +68,8 @@ HeaderBar.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: PADDING_TOP,
-    height: NAV_BAR_HEIGHT,
+    paddingTop: PADDING_TOP_FULL,
+    height: NAV_BAR_HEIGHT_FULL,
     backgroundColor: 'transparent',
     position: 'absolute',
     left: 0,

@@ -1,9 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, Image, Text, TextInput } from '../../../../re-kits';
+import {
+  Button,
+  TextInput,
+  NAV_BAR_HEIGHT_FULL,
+} from '../../../../re-kits';
 import { base, I18n } from '../../../utils';
-const { Styles, NAV_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } = base;
-import PropTypes from 'prop-types';
+const { Styles, SCREEN_WIDTH, SCREEN_HEIGHT } = base;
 
 const LEFT = SCREEN_WIDTH * 2;
 class SignUpPage extends React.Component {
@@ -101,7 +104,7 @@ class SignUpPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: NAV_BAR_HEIGHT,
+    marginTop: NAV_BAR_HEIGHT_FULL,
     justifyContent: 'center',
   },
   relative: {

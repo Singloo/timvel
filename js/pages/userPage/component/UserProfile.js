@@ -12,7 +12,7 @@ import { base, User } from '../../../utils';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';
 import HeaderBar from './HeaderBar';
-const { realSize, colors, SCREEN_WIDTH, PADDING_TOP } = base;
+const { realSize, colors, SCREEN_WIDTH } = base;
 class UserProfile extends Component {
   constructor(props) {
     super(props);

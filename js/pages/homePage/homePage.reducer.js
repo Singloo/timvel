@@ -1,7 +1,7 @@
 import Moment from 'moment';
 const initialState = {
   showDetail: false,
-  cardId: null,
+  currentCardId: null,
   showOneDay: false,
   date: Moment().format('YYYY-MM-DD'),
   carouselIndex: 0,

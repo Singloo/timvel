@@ -29,14 +29,20 @@ const diffEmojiChange = (currentPost, nextPost) => {
   const next = extractEmojiNums(nextPost);
   return !!Object.keys(current).find(key => current[key] !== next[key]);
 };
+const diffHidden = (currentProps, nextProps) => {
+  return currentProps.hidden !== nextProps.hidden;
+};
 class MainCard extends React.Component {
   _onPressItem = () => {
     const { onPress } = this.props;
-    onPress();
-    this.moveTo();
+    onPress(this.moveTo);
+    // setTimeout(this.moveTo, 0);
   };
   shouldComponentUpdate(nextProps) {
-    return diffEmojiChange(this.props.post, nextProps.post);
+    return (
+      diffHidden(this.props, nextProps) ||
+      diffEmojiChange(this.props.post, nextProps.post)
+    );
   }
 
   moveTo = () => {
@@ -86,7 +92,12 @@ class MainCard extends React.Component {
   renderChildren = () => {
     const { cardId, hidden, post } = this.props;
     return (
-      <View style={[{ backgroundColor: 'white' }, Styles.shadow]}>
+      <View
+        style={[
+          { backgroundColor: hidden ? 'transparent' : 'white' },
+          hidden ? undefined : Styles.shadow,
+        ]}
+      >
         <View style={{ opacity: hidden ? 0 : 1 }}>
           <AnimatedWrapper
             id={`maincard${cardId}`}
@@ -106,7 +117,7 @@ class MainCard extends React.Component {
             </View>
           </AnimatedWrapper>
         </View>
-        {this.renderBottomBar()}
+        {this._renderBottomBar()}
         {this._renderText()}
       </View>
     );
@@ -167,14 +178,14 @@ class MainCard extends React.Component {
     );
   };
 
-  renderBottomBar = () => {
+  _renderBottomBar = () => {
     const { onPressComment, onPressEmoji, post } = this.props;
     return (
       <AnimatableBottomInfo
         useNativeDriver={true}
         ref={r => (this._bottomInfo = r)}
         onPressComment={onPressComment}
-        onPressEmoji={onPressEmoji(post.postId)}
+        onPressEmoji={onPressEmoji}
         nums={extractEmojiNums(post)}
       />
     );

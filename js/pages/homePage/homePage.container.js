@@ -4,6 +4,7 @@ import {
   Assets,
   ActionButton,
   RFlatList,
+  PADDING_TOP_FULL,
 } from '../../../re-kits';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { base, curried } from '../../utils';
@@ -16,7 +17,6 @@ import { $queryNew } from '../../utils/$observable';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   colors,
-  PADDING_TOP,
   SCREEN_WIDTH,
   isAndroid,
   TAB_BAR_HEIGHT,
@@ -28,7 +28,9 @@ const item_width = SCREEN_WIDTH - 40 - 0;
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this._nscrollY = new Animated.Value(0);
+    this.state = {
+      nscrollY: new Animated.Value(0),
+    };
     this.colorsSets = [];
   }
   componentWillMount() {
@@ -59,9 +61,141 @@ class HomePage extends React.Component {
     //   console.warn('result', result);
     // });
   };
+  _onSnapToItem = index => {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
+      carouselIndex: index,
+    });
+  };
+
+  _fetchPosts = happenedAt => {
+    const { posts, date } = this.props.state;
+    this.props.dispatch('HOME_PAGE_FETCH_POSTS', {
+      happenedAt: happenedAt || date,
+      offset: posts.length,
+    });
+  };
+
+  _fetchMorePosts = () => {
+    this.props.dispatch('HOME_PAGE_FETCH_MORE_POSTS');
+  };
+  _renderCarouselItem = ({ item, index }) => {
+    // const isOdd = (index + 2) % 2 !== 0;
+    return (
+      <CarouselCard
+        key={'hpc' + index}
+        post={item}
+        onPress={curried(this._onPressCarouselItem)(item)}
+      />
+    );
+  };
+  //press
+  _onPressItem = (currentPost, currentCardId) => moveTo => {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
+      currentPost,
+      currentCardId,
+    });
+    this._contentDetailModalController(true);
+    setTimeout(moveTo, 0);
+  };
+  _onPressCarouselItem = post => {
+    this.props.navigation.navigate({
+      routeName: 'postDetail',
+      params: {
+        post,
+      },
+    });
+  };
+  _onPressCreateNew = () => {
+    this.props.navigation.navigate({
+      routeName: 'createNew',
+    });
+  };
+  _contentDetailModalController = bool => {
+    const nextState = {
+      showDetail: bool,
+    };
+    if (!bool) Object.assign(nextState, { currentCardId: null });
+    this.props.dispatch('HOME_PAGE_SET_STATE', nextState);
+    this.props.dispatch('GLOBAL_SET_STATE', {
+      isTabBarHidden: bool,
+    });
+  };
+  _contentDetailAnimatingController = bool => {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
+      contentDetailIsAnimating: bool,
+    });
+  };
+  _oneDayModalController = bool => {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
+      showOneDay: bool,
+    });
+  };
+  _onChooseDate = date => {
+    this.props.dispatch('HOME_PAGE_SET_STATE', {
+      date,
+    });
+  };
+
+  _timeTravel = () => {
+    this.props.dispatch('GLOBAL_SET_STATE', {
+      isLoading: true,
+    });
+    let date = getRandomDate();
+    setTimeout(() => {
+      this.props.dispatch('HOME_PAGE_SET_STATE', {
+        date,
+      });
+      this.props.dispatch('GLOBAL_SET_STATE', {
+        isLoading: false,
+      });
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        content: 'Welcome to ' + date,
+      });
+    }, 2000);
+  };
+
+  _onPressComment = post => {
+    this.props.navigation.navigate({
+      routeName: 'comment',
+      params: {
+        post,
+      },
+    });
+  };
+
+  _onPressAvatar = user => {
+    this.props.navigation.navigate({
+      routeName: 'strangerProfile',
+      params: {
+        user: user,
+      },
+    });
+  };
+
+  _onPressEmoji = postId => emoji => {
+    this.props.dispatch('HOME_PAGE_PRESS_EMOJI', {
+      emoji,
+      postId,
+    });
+  };
+  render() {
+    return (
+      <View style={styles.container}>
+        {isAndroid && (
+          <StatusBar backgroundColor={'transparent'} translucent={true} />
+        )}
+        {this._renderFeeds()}
+        {this._renderHeaderBar()}
+        {this._renderActionButton()}
+        {this._renderOneday()}
+        {this._renderContentDetail()}
+      </View>
+    );
+  }
+
   //render
   _renderItem = ({ item, index }) => {
-    const { showDetail, cardId, posts } = this.props.state;
+    const { showDetail, currentCardId, posts } = this.props.state;
     if (this.colorsSets.length === 0) {
       this.colorsSets = randomItem(colorSets, posts.length + 1);
     }
@@ -70,19 +204,19 @@ class HomePage extends React.Component {
       gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
       post: item,
       onPress: this._onPressItem(item, index),
-      hidden: showDetail && cardId === index,
+      hidden: showDetail && currentCardId === index,
       onPressComment: curried(this._onPressComment)(item),
-      onPressAvatar: this._onPressAvatar({
+      onPressAvatar: curried(this._onPressAvatar)({
         userId: item.userId,
         username: item.username,
         avatar: item.avatar,
       }),
-      onPressEmoji: this._onPressEmoji,
+      onPressEmoji: this._onPressEmoji(item.postId),
     };
     return <MainCard {...cardProps} />;
   };
 
-  _renderHeader = ({ item, index }) => {
+  _renderHeader = () => {
     const { carouselIndex, popularPosts } = this.props.state;
     return (
       <View style={{ alignItems: 'center', backgroundColor: 'transparent' }}>
@@ -126,149 +260,6 @@ class HomePage extends React.Component {
       </View>
     );
   };
-
-  _onSnapToItem = index => {
-    this.props.dispatch('HOME_PAGE_SET_STATE', {
-      carouselIndex: index,
-    });
-  };
-
-  _fetchPosts = happenedAt => {
-    const { posts, date } = this.props.state;
-    this.props.dispatch('HOME_PAGE_FETCH_POSTS', {
-      happenedAt: happenedAt || date,
-      offset: posts.length,
-    });
-  };
-
-  _fetchMorePosts = () => {
-    this.props.dispatch('HOME_PAGE_FETCH_MORE_POSTS');
-  };
-  _renderCarouselItem = ({ item, index }) => {
-    // const isOdd = (index + 2) % 2 !== 0;
-    return (
-      <CarouselCard
-        key={'hpc' + index}
-        post={item}
-        onPress={curried(this._onPressCarouselItem)(item)}
-      />
-    );
-  };
-  //press
-  _onPressItem = (currentPost, cardId) => () => {
-    this.props.dispatch('HOME_PAGE_SET_STATE', {
-      currentPost,
-      cardId,
-    });
-    this._contentDetailModalController(true)();
-  };
-  _onPressCarouselItem = post => {
-    this.props.navigation.navigate({
-      routeName: 'postDetail',
-      params: {
-        post,
-      },
-    });
-  };
-  _onPressCreateNew = () => {
-    this.props.navigation.navigate({
-      routeName: 'createNew',
-    });
-  };
-  _contentDetailModalController = bool => () => {
-    if (bool) {
-      this.props.dispatch('HOME_PAGE_SET_STATE', {
-        showDetail: true,
-      });
-      this.props.dispatch('GLOBAL_SET_STATE', {
-        isTabBarHidden: true,
-      });
-    } else {
-      this.props.dispatch('HOME_PAGE_SET_STATE', {
-        showDetail: false,
-        cardId: null,
-      });
-      this.props.dispatch('GLOBAL_SET_STATE', {
-        isTabBarHidden: false,
-      });
-    }
-  };
-  _contentDetailAnimatingController = bool => () => {
-    this.props.dispatch('HOME_PAGE_SET_STATE', {
-      contentDetailIsAnimating: bool,
-    });
-  };
-  _oneDayModalController = bool => () => {
-    this.props.dispatch('HOME_PAGE_SET_STATE', {
-      showOneDay: bool,
-    });
-  };
-  _onChooseDate = date => {
-    this.props.dispatch('HOME_PAGE_SET_STATE', {
-      date,
-    });
-  };
-
-  _timeTravel = () => {
-    this.props.dispatch('GLOBAL_SET_STATE', {
-      isLoading: true,
-    });
-    let date = getRandomDate();
-    setTimeout(() => {
-      this.props.dispatch('HOME_PAGE_SET_STATE', {
-        date,
-      });
-      this.props.dispatch('GLOBAL_SET_STATE', {
-        isLoading: false,
-      });
-      this.props.dispatch('SHOW_SNAKE_BAR', {
-        content: 'Welcome to ' + date,
-      });
-    }, 2000);
-  };
-
-  _onPressComment = post => {
-    this.props.navigation.navigate({
-      routeName: 'comment',
-      params: {
-        post,
-      },
-    });
-  };
-
-  _onPressAvatar = user => () => {
-    this.props.navigation.navigate({
-      routeName: 'strangerProfile',
-      params: {
-        user: user,
-      },
-    });
-  };
-
-  _onPressEmoji = postId => emoji => () => {
-    this.props.dispatch('HOME_PAGE_PRESS_EMOJI', {
-      emoji,
-      postId,
-    });
-  };
-  render() {
-    return (
-      <View style={styles.container}>
-        {isAndroid && (
-          <StatusBar
-            backgroundColor={colors.mainDep}
-            barStyle={'light-content'}
-          />
-        )}
-        {this._renderFeeds()}
-        {this._renderHeaderBar()}
-        {this._renderActionButton()}
-        {this._renderOneday()}
-        {this._renderContentDetail()}
-      </View>
-    );
-  }
-
   _renderActionButton = () => {
     return (
       <ActionButton buttonSource={Assets.actionButton.source}>
@@ -312,7 +303,7 @@ class HomePage extends React.Component {
 
   _renderHeaderBar = () => {
     const { date } = this.props.state;
-    return <HeaderBar date={date} scrollY={this._nscrollY} />;
+    return <HeaderBar date={date} scrollY={this.state.nscrollY} />;
   };
   _renderFeeds = () => {
     const { posts, isFooterLoading, isHeaderLoading } = this.props.state;
@@ -336,12 +327,11 @@ class HomePage extends React.Component {
         //   index,
         // })}
         contentContainerStyle={{
-          paddingTop: PADDING_TOP + 10,
-          // paddingTop: PADDING_TOP + 44,
+          paddingTop: PADDING_TOP_FULL + 10,
           paddingBottom: TAB_BAR_HEIGHT,
         }}
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: this._nscrollY } } }],
+          [{ nativeEvent: { contentOffset: { y: this.state.nscrollY } } }],
           { useNativeDriver: true },
         )}
         showsVerticalScrollIndicator={false}
@@ -366,15 +356,15 @@ class HomePage extends React.Component {
       contentDetailIsAnimating,
       showDetail,
       currentPost,
-      cardId,
+      currentCardId,
     } = this.props.state;
     return (
       <ContentDetail
         show={showDetail}
         currentPost={currentPost}
-        cardId={cardId}
-        onStart={this._contentDetailAnimatingController(true)}
-        onEnd={this._contentDetailAnimatingController(false)}
+        currentCardId={currentCardId}
+        onStart={curried(this._contentDetailAnimatingController)(true)}
+        onEnd={curried(this._contentDetailAnimatingController)(false)}
         modalController={this._contentDetailModalController}
         isAnimating={contentDetailIsAnimating}
       />

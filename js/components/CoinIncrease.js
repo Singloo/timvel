@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Text, createMoveableComp, PriceTag } from '../../re-kits';
+import { Text, createMoveableComp, PriceTag ,NAV_BAR_HEIGHT_FULL} from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map, filter } from 'rxjs/operators';
 import { base, User, runAfter, curried } from '../utils';
@@ -11,7 +11,6 @@ const {
   randomNumber,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-  NAV_BAR_HEIGHT,
 } = base;
 import * as Animatable from 'react-native-animatable';
 // import Moment from 'moment'
@@ -144,7 +143,7 @@ class CoinIncrease extends React.PureComponent {
   };
 
   _createRootView = () => {
-    const top = randomNumber(0, SCREEN_HEIGHT - BUBBLE_SIZE - NAV_BAR_HEIGHT);
+    const top = randomNumber(0, SCREEN_HEIGHT - BUBBLE_SIZE - NAV_BAR_HEIGHT_FULL);
     const left = randomNumber(0, SCREEN_WIDTH - BUBBLE_SIZE);
     const coin = getRandomCoin();
     const delay = randomItem([100, 200, 300, 400]);

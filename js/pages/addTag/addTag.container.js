@@ -15,10 +15,12 @@ import {
   Text,
   Tag,
   Separator,
+  NAV_BAR_HEIGHT_FULL,
+  PADDING_TOP_FULL,
 } from '../../../re-kits';
 import SearchResults from './components/SearchResult';
 import _ from 'lodash';
-const { Styles, SCREEN_WIDTH, colors, SCREEN_HEIGHT, PADDING_TOP } = base;
+const { Styles, SCREEN_WIDTH, colors, SCREEN_HEIGHT } = base;
 class AddTag extends React.Component {
   constructor(props) {
     super(props);
@@ -302,8 +304,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   close: {
-    paddingTop: PADDING_TOP,
-    height: PADDING_TOP + 44 + 10,
+    paddingTop: PADDING_TOP_FULL,
+    height: NAV_BAR_HEIGHT_FULL + 10,
     alignItems: 'center',
     paddingRight: 10,
     flexDirection: 'row',

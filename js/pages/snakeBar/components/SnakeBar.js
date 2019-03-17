@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, Text, Touchable, Image, Assets } from '../../../../re-kits';
+import {
+  Button,
+  Text,
+  Touchable,
+  Image,
+  Assets,
+  NAV_BAR_HEIGHT_FULL,
+  PADDING_TOP_FULL,
+} from '../../../../re-kits';
 import { base, I18n, clearTimers, invoke } from '../../../utils';
-import PropTypes from 'prop-types';
-const { PADDING_TOP, isAndroid } = base;
+const {} = base;
 const { Styles, colors } = base;
 const typeStyles = {
   NORMAL: {
@@ -26,7 +33,7 @@ const typeStyles = {
     textColor: colors.greenDep,
   },
 };
-const snake_bar_height = 48 + PADDING_TOP + (isAndroid ? 20 : 0);
+const snake_bar_height = NAV_BAR_HEIGHT_FULL;
 class SnakeBar extends Component {
   constructor(props) {
     super(props);
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: PADDING_TOP,
+    paddingTop: PADDING_TOP_FULL,
     paddingHorizontal: 20,
     backgroundColor: 'rgba(250,250,250,1)',
   },

@@ -9,10 +9,11 @@ import {
   Text,
   Assets,
   CommentBar,
+  NAV_BAR_HEIGHT_FULL
 } from '../../../re-kits';
 import { base, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
-const { colors, NAV_BAR_HEIGHT, TAB_BAR_HEIGHT } = base;
+const { colors, TAB_BAR_HEIGHT } = base;
 class Comment extends Component {
   componentWillMount() {
     this.post = this.props.navigation.getParam('post', {});
@@ -53,7 +54,7 @@ class Comment extends Component {
           data={comments}
           renderItem={this._renderItem}
           contentContainerStyle={{
-            paddingTop: NAV_BAR_HEIGHT,
+            paddingTop: NAV_BAR_HEIGHT_FULL,
             paddingBottom: TAB_BAR_HEIGHT,
           }}
           keyExtractor={(_, index) => 'cmc' + index}

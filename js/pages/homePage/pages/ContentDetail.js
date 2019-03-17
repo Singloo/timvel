@@ -15,8 +15,10 @@ import {
   WeatherInfo,
   CommentBar,
   ImageSwiper,
+  NAV_BAR_HEIGHT_FULL,
+  PADDING_TOP_FULL,
 } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { base, curried } from '../../../utils';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
@@ -25,19 +27,11 @@ import { get } from 'lodash';
 const AnimatableUserInfoBar = Animatable.createAnimatableComponent(UserInfoBar);
 const AnimatableCommentBar = Animatable.createAnimatableComponent(CommentBar);
 const AnimatedImageSwiper = Animated.createAnimatedComponent(ImageSwiper);
-const {
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  colors,
-  Styles,
-  PADDING_TOP,
-  isIOS,
-  TAB_BAR_HEIGHT,
-} = base;
+const { SCREEN_WIDTH, colors, Styles, TAB_BAR_HEIGHT } = base;
 let image_height = SCREEN_WIDTH * 0.6;
 let image_width = SCREEN_WIDTH;
 let content_width = SCREEN_WIDTH - 40;
-let scrollY = image_height - PADDING_TOP - 44;
+let scrollY = image_height - PADDING_TOP_FULL - 44;
 const goingToOpen = (prev, curr) => {
   return !prev.show && curr.show;
 };
@@ -47,13 +41,14 @@ const goingToClose = (prev, curr) => {
 const sleep = duration => {
   return new Promise(resolve => setTimeout(resolve, duration));
 };
+
 class ContentDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false,
       currentPost: {},
-      cardId: null,
+      currentCardId: null,
       nscrollY: new Animated.Value(0),
     };
     this.goingToShow = true;
@@ -74,18 +69,18 @@ class ContentDetail extends React.Component {
   // componentWillMount() {}
   componentDidUpdate(prevProps) {
     if (goingToOpen(prevProps, this.props)) {
-      const { currentPost, cardId } = this.props;
+      const { currentPost, currentCardId } = this.props;
       this.setState({
         show: true,
         currentPost,
-        cardId,
+        currentCardId,
       });
     }
     if (goingToClose(prevProps, this.props)) {
       //do something
       this.setState({
         show: false,
-        cardId: null,
+        currentCardId: null,
         currentPost: {},
       });
     }
@@ -98,9 +93,7 @@ class ContentDetail extends React.Component {
     this._fadeAnimation();
     await sleep(350);
     onStart();
-    this._anmiatedWrapper.moveBack(() => {
-      modalController(false)();
-    });
+    this._anmiatedWrapper.moveBack(curried(modalController)(false));
   };
   _onStart = () => {
     // if (!this.goingToShow) {
@@ -161,7 +154,7 @@ class ContentDetail extends React.Component {
   }
 
   renderImage = () => {
-    const { cardId, currentPost } = this.state;
+    const { currentCardId, currentPost } = this.state;
     const { isAnimating, onEnd } = this.props;
     //after animation
     const scale = this.state.nscrollY.interpolate({
@@ -198,11 +191,13 @@ class ContentDetail extends React.Component {
             ],
           }
         : {
-            imageUrls: currentPost.imageUrls,
+            imageUrls: get(currentPost, 'imageUrls', []).map(o => o.imageUrl),
             imageStyle: { width: SCREEN_WIDTH, height: 200 },
             style: [
               {
                 opacity: isAnimating ? 0 : 1,
+                width: SCREEN_WIDTH,
+                height: 200,
                 transform,
               },
             ],
@@ -210,7 +205,7 @@ class ContentDetail extends React.Component {
     return (
       <AnimatedWrapper
         ref={r => (this._anmiatedWrapper = r)}
-        id={`maincard${cardId}`}
+        id={`maincard${currentCardId}`}
         type={AnimatedWrapper.types.to}
         onStart={this._onStart}
         onEnd={this._onEnd}
@@ -267,12 +262,12 @@ class ContentDetail extends React.Component {
   renderHeader = () => {
     const { currentPost } = this.state;
     let headerY = this.state.nscrollY.interpolate({
-      inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
-      outputRange: [-(PADDING_TOP + 44), -(PADDING_TOP + 44), 0],
+      inputRange: [0, scrollY, scrollY + NAV_BAR_HEIGHT_FULL],
+      outputRange: [-NAV_BAR_HEIGHT_FULL, -NAV_BAR_HEIGHT_FULL, 0],
       extrapolate: 'clamp',
     });
     let headerOpacity = this.state.nscrollY.interpolate({
-      inputRange: [0, scrollY, scrollY + (PADDING_TOP + 44)],
+      inputRange: [0, scrollY, scrollY + NAV_BAR_HEIGHT_FULL],
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     });
@@ -282,25 +277,11 @@ class ContentDetail extends React.Component {
         ref={this._header}
         useNativeDriver={true}
         delay={100}
-        style={[
-          {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-          },
-          {
-            height: PADDING_TOP + 44,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingTop: PADDING_TOP,
-            justifyContent: 'space-between',
-          },
-        ]}
+        style={styles.headerBarContainer}
       >
         <Animated.View
           style={{
-            height: PADDING_TOP + 44,
+            height: NAV_BAR_HEIGHT_FULL,
             backgroundColor: 'rgba(33,33,33,0.4)',
             opacity: headerOpacity,
             position: 'absolute',
@@ -341,14 +322,25 @@ const styles = StyleSheet.create({
     color: colors.depGrey,
     fontWeight: '200',
     lineHeight: 25,
-    // flex: 1,
+    marginTop: 10,
     textShadowRadius: 5,
     marginHorizontal: 10,
   },
   close: {
     position: 'absolute',
-    top: PADDING_TOP + 5,
+    top: PADDING_TOP_FULL + 5,
     left: 15,
+  },
+  headerBarContainer: {
+    height: NAV_BAR_HEIGHT_FULL,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: PADDING_TOP_FULL,
+    justifyContent: 'space-between',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
   },
 });
 
