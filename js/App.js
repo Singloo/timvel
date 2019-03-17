@@ -41,7 +41,7 @@ export default class App extends React.Component {
   }
   componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');
-    store.dispatch({ type: 'UPDATE_USERINFO' });
+    store.dispatch({ type: 'UPDATE_USERINFO', payload: {} });
   }
 
   _init = async () => {

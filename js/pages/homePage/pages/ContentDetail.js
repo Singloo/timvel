@@ -17,6 +17,7 @@ import {
   ImageSwiper,
   NAV_BAR_HEIGHT_FULL,
   PADDING_TOP_FULL,
+  flattenStyles,
 } from '../../../../re-kits';
 import { base, curried } from '../../../utils';
 import UserInfoBar from '../components/UserInfoBar';
@@ -50,6 +51,7 @@ class ContentDetail extends React.Component {
       currentPost: {},
       currentCardId: null,
       nscrollY: new Animated.Value(0),
+      isAnimating: false,
     };
     this.goingToShow = true;
     // this.animationState = new Animated.Value(0);
@@ -65,29 +67,74 @@ class ContentDetail extends React.Component {
     this._commentBar = React.createRef();
     this._userInfo = React.createRef();
     this._header = React.createRef();
+    this.subscriptions;
+    this.currentIndex = 0;
   }
   // componentWillMount() {}
   componentDidUpdate(prevProps) {
     if (goingToOpen(prevProps, this.props)) {
-      const { currentPost, currentCardId } = this.props;
+      const { currentPost } = this.props;
+      this._subscribeToAnimatedWrapperEvent(currentPost);
       this.setState({
         show: true,
         currentPost,
-        currentCardId,
       });
     }
     if (goingToClose(prevProps, this.props)) {
       //do something
       this.setState({
         show: false,
-        currentCardId: null,
         currentPost: {},
       });
+      this._clearSubscriptions();
     }
   }
   componentDidMount() {}
   componentWillUnmount() {}
+  _subscribeToAnimatedWrapperEvent = currentPost => {
+    this.subscriptions = AnimatedWrapper.subscribe(
+      {
+        id: `maincard${get(currentPost, 'postId', null)}`,
+      },
+      {
+        onMove: curried(this._setIsAnimating)(true),
+        onEnd: curried(this._setIsAnimating)(false),
 
+        // onSourceMove: () => {
+        //   console.warn('s m');
+        //   curried(this._setIsAnimating)(true);
+        // },
+        // onSourceEnd: () => {
+        //   console.warn('s e');
+        //   curried(this._setIsAnimating)(false);
+        // },
+        // onTargetMove: () => {
+        //   console.warn('t m');
+        //   curried(this._setIsAnimating)(true);
+        // },
+        // onTargetEnd: () => {
+        //   console.warn('t e');
+        //   curried(this._setIsAnimating)(false);
+        // },
+      },
+    );
+  };
+  _onIndexChange = index => (this.currentIndex = index);
+  _clearSubscriptions = () => {
+    if (typeof this.subscriptions === 'object') {
+      Object.keys(this.subscriptions).forEach(key => {
+        this.subscriptions[key] &&
+          this.subscriptions[key].unsubscribe &&
+          this.subscriptions[key].unsubscribe();
+      });
+      this.subscriptions = undefined;
+    }
+  };
+  _setIsAnimating = bool => {
+    this.setState({
+      isAnimating: bool,
+    });
+  };
   _onPressClose = async () => {
     const { modalController, onStart } = this.props;
     this._fadeAnimation();
@@ -99,6 +146,7 @@ class ContentDetail extends React.Component {
     // if (!this.goingToShow) {
     //   this.goingToShow = true;
     // }
+    console.warn('onstart');
     const { onStart } = this.props;
     onStart();
   };
@@ -107,6 +155,7 @@ class ContentDetail extends React.Component {
     // if (!this.goingToShow) {
     //   return;
     // }
+    console.warn('onent');
     const { onEnd } = this.props;
     // this.goingToShow = false;
     onEnd();
@@ -119,8 +168,8 @@ class ContentDetail extends React.Component {
   };
 
   render() {
-    const { isAnimating } = this.props;
-    const { show } = this.state;
+    const {} = this.props;
+    const { show, isAnimating } = this.state;
     if (!show) {
       return null;
     }
@@ -154,8 +203,8 @@ class ContentDetail extends React.Component {
   }
 
   renderImage = () => {
-    const { currentCardId, currentPost } = this.state;
-    const { isAnimating, onEnd } = this.props;
+    const { currentPost, isAnimating } = this.state;
+    const {} = this.props;
     //after animation
     const scale = this.state.nscrollY.interpolate({
       inputRange: [-25, 0],
@@ -175,49 +224,66 @@ class ContentDetail extends React.Component {
         translateY,
       },
     ];
+    const opacity = isAnimating ? 0 : 1;
     const ImageComp =
       currentPost.imageUrls.length <= 1 ? Animated.Image : AnimatedImageSwiper;
     const imageProps =
       currentPost.imageUrls.length <= 1
         ? {
             source: { uri: get(currentPost, 'imageUrls[0].imageUrl', '') },
-            style: [
-              {
-                width: image_width,
-                height: image_height,
-                opacity: isAnimating ? 0 : 1,
-                transform,
-              },
-            ],
+            style: {
+              width: image_width,
+              height: image_height,
+              opacity,
+              transform,
+            },
           }
         : {
             imageUrls: get(currentPost, 'imageUrls', []).map(o => o.imageUrl),
             imageStyle: { width: SCREEN_WIDTH, height: 200 },
-            style: [
-              {
-                opacity: isAnimating ? 0 : 1,
-                width: SCREEN_WIDTH,
-                height: 200,
-                transform,
-              },
-            ],
+            style: {
+              opacity,
+              width: image_width,
+              height: image_height,
+              transform,
+            },
+            onIndexChange: this._onIndexChange,
           };
     return (
       <AnimatedWrapper
         ref={r => (this._anmiatedWrapper = r)}
-        id={`maincard${currentCardId}`}
+        id={`maincard${get(currentPost, 'postId', null)}`}
         type={AnimatedWrapper.types.to}
-        onStart={this._onStart}
-        onEnd={this._onEnd}
+        // onStart={this._onStart}
+        // onEnd={this._onEnd}
+        renderClonedElement={this._renderClonedElement}
         animationProps={{
           easing: Easing.back(),
         }}
       >
-        <ImageComp {...imageProps} />
+        <View style={{ opacity }}>
+          <ImageComp {...imageProps} />
+        </View>
       </AnimatedWrapper>
     );
   };
-
+  _renderClonedElement = style => {
+    const { currentPost } = this.props;
+    const uri = get(
+      currentPost,
+      `imageUrls[${this.currentIndex}].imageUrl`,
+      '',
+    );
+    return (
+      <Animated.Image
+        style={flattenStyles(
+          { width: image_width, height: image_height },
+          style,
+        )}
+        source={{ uri }}
+      />
+    );
+  };
   renderUserInfo = () => {
     return (
       <AnimatableUserInfoBar
@@ -261,16 +327,17 @@ class ContentDetail extends React.Component {
 
   renderHeader = () => {
     const { currentPost } = this.state;
-    let headerY = this.state.nscrollY.interpolate({
+    let translateY = this.state.nscrollY.interpolate({
       inputRange: [0, scrollY, scrollY + NAV_BAR_HEIGHT_FULL],
       outputRange: [-NAV_BAR_HEIGHT_FULL, -NAV_BAR_HEIGHT_FULL, 0],
       extrapolate: 'clamp',
     });
-    let headerOpacity = this.state.nscrollY.interpolate({
+    let opacity = this.state.nscrollY.interpolate({
       inputRange: [0, scrollY, scrollY + NAV_BAR_HEIGHT_FULL],
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     });
+    const transform = [{ translateY }];
     return (
       <Animatable.View
         animation={'fadeInDown'}
@@ -280,20 +347,13 @@ class ContentDetail extends React.Component {
         style={styles.headerBarContainer}
       >
         <Animated.View
-          style={{
-            height: NAV_BAR_HEIGHT_FULL,
-            backgroundColor: 'rgba(33,33,33,0.4)',
-            opacity: headerOpacity,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            transform: [
-              {
-                translateY: headerY,
-              },
-            ],
-          }}
+          style={[
+            styles.headrBarBK,
+            {
+              opacity,
+              transform,
+            },
+          ]}
         />
         <Image
           source={Assets.close.source}
@@ -337,6 +397,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: PADDING_TOP_FULL,
     justifyContent: 'space-between',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  headrBarBK: {
+    height: NAV_BAR_HEIGHT_FULL,
+    backgroundColor: 'rgba(33,33,33,0.4)',
     position: 'absolute',
     top: 0,
     left: 0,

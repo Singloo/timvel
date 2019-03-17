@@ -1,6 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Text, Touchable, WeatherInfo, ImageSwiper } from '../../../../re-kits';
+import { StyleSheet, View, Animated } from 'react-native';
+import {
+  Text,
+  Touchable,
+  WeatherInfo,
+  ImageSwiper,
+  flattenStyles,
+} from '../../../../re-kits';
 import { base, curried } from '../../../utils';
 const { Styles, colors, DateFormatter } = base;
 import UserInfoBar from './UserInfoBar';
@@ -8,6 +14,7 @@ import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 import * as Animatable from 'react-native-animatable';
+import { get } from 'lodash';
 const AnimatableBottomInfo = Animatable.createAnimatableComponent(
   BottomInfoBar,
 );
@@ -33,6 +40,10 @@ const diffHidden = (currentProps, nextProps) => {
   return currentProps.hidden !== nextProps.hidden;
 };
 class MainCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.currentIndex = 0;
+  }
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress(this.moveTo);
@@ -44,7 +55,7 @@ class MainCard extends React.Component {
       diffEmojiChange(this.props.post, nextProps.post)
     );
   }
-
+  // _onIndexChange = index => (this.currentIndex = index);
   moveTo = () => {
     this._animatedWrapper && this._animatedWrapper.moveTo();
   };
@@ -81,8 +92,19 @@ class MainCard extends React.Component {
           }}
         >
           {this.renderChildren()}
-          {this.renderWeather()}
-          {this.renderUserInfoBar()}
+          <View
+            style={{
+              position: 'absolute',
+              right: 0,
+              left: 0,
+              flexDirection: 'row',
+              backgroundColor: 'red',
+              justifyContent: 'space-between',
+            }}
+          >
+            {this.renderUserInfoBar()}
+            {this.renderWeather()}
+          </View>
         </View>
         {this.renderTimeBar()}
       </View>
@@ -90,29 +112,29 @@ class MainCard extends React.Component {
   }
 
   renderChildren = () => {
-    const { cardId, hidden, post } = this.props;
+    const { post, hidden } = this.props;
     return (
       <View
         style={[
-          { backgroundColor: hidden ? 'transparent' : 'white' },
+          {
+            backgroundColor: hidden ? 'transparent' : 'white',
+          },
           hidden ? undefined : Styles.shadow,
         ]}
       >
-        <View style={{ opacity: hidden ? 0 : 1 }}>
+        <View style={[styles.container, { opacity: hidden ? 0 : 1 }]}>
           <AnimatedWrapper
-            id={`maincard${cardId}`}
+            id={`maincard${get(post, 'postId', null)}`}
             type={AnimatedWrapper.types.from}
             ref={r => (this._animatedWrapper = r)}
+            renderClonedElement={this._renderClonedElement}
           >
-            <View style={[styles.container]}>
+            <View style={[styles.container, { overflow: 'hidden' }]}>
               <ImageSwiper
                 imageUrls={post.imageUrls.map(o => o.imageUrl)}
-                style={{
-                  width: cardWidth,
-                  height: cardHeight,
-                }}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
                 showsPagination={!hidden}
+                onIndexChanged={this._onIndexChange}
               />
             </View>
           </AnimatedWrapper>
@@ -140,6 +162,16 @@ class MainCard extends React.Component {
       </Touchable>
     );
   };
+  _renderClonedElement = style => {
+    const { post } = this.props;
+    const uri = get(post, `imageUrls[${this.currentIndex}].imageUrl`, '');
+    return (
+      <Animated.Image
+        style={flattenStyles(styles.container, style)}
+        source={{ uri }}
+      />
+    );
+  };
   renderWeather = () => {
     const { post } = this.props;
     return (
@@ -148,7 +180,7 @@ class MainCard extends React.Component {
         ref={r => (this._weatherInfo = r)}
         weather={post.weatherInfo.weather}
         temperature={post.weatherInfo.temperature}
-        style={{ position: 'absolute', right: 0, top: 30 }}
+        style={{ marginTop: 15 }}
       />
     );
   };
@@ -226,13 +258,7 @@ const styles = StyleSheet.create({
     width: cardWidth,
     height: cardHeight,
   },
-  headerBar: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    marginHorizontal: 0,
-  },
+  headerBar: {},
   dateTime: {
     fontSize: 18,
     marginLeft: 12,

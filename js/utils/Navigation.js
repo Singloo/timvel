@@ -2,9 +2,6 @@ import { NavigationActions, StackActions } from 'react-navigation';
 class Navigation {
   navigation = null;
   setNavigation = navigation => {
-    if (this.navigation) {
-      return;
-    }
     this.navigation = navigation;
   };
   navigate = (routeName, params = {}) => {

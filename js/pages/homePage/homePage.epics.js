@@ -76,6 +76,7 @@ const fetchPosts = (action$, state$, { dispatch, httpClient }) =>
 const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
   action$.pipe(
     ofType('HOME_PAGE_FETCH_MORE_POSTS'),
+    throttleTime(3000),
     switchMap(({ payload }) =>
       from([1]).pipe(
         map(_ => {

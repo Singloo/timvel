@@ -14,6 +14,7 @@ import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { $queryNew } from '../../utils/$observable';
+import { get } from 'lodash';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const {
   colors,
@@ -89,10 +90,9 @@ class HomePage extends React.Component {
     );
   };
   //press
-  _onPressItem = (currentPost, currentCardId) => moveTo => {
+  _onPressItem = currentPost => moveTo => {
     this.props.dispatch('HOME_PAGE_SET_STATE', {
       currentPost,
-      currentCardId,
     });
     this._contentDetailModalController(true);
     setTimeout(moveTo, 0);
@@ -114,7 +114,7 @@ class HomePage extends React.Component {
     const nextState = {
       showDetail: bool,
     };
-    if (!bool) Object.assign(nextState, { currentCardId: null });
+    if (!bool) Object.assign(nextState, { currentPost: null });
     this.props.dispatch('HOME_PAGE_SET_STATE', nextState);
     this.props.dispatch('GLOBAL_SET_STATE', {
       isTabBarHidden: bool,
@@ -195,16 +195,15 @@ class HomePage extends React.Component {
 
   //render
   _renderItem = ({ item, index }) => {
-    const { showDetail, currentCardId, posts } = this.props.state;
+    const { showDetail, posts, currentPost } = this.props.state;
     if (this.colorsSets.length === 0) {
       this.colorsSets = randomItem(colorSets, posts.length + 1);
     }
     let cardProps = {
-      cardId: index,
       gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
       post: item,
       onPress: this._onPressItem(item, index),
-      hidden: showDetail && currentCardId === index,
+      hidden: showDetail && get(currentPost, 'postId', null) === index,
       onPressComment: curried(this._onPressComment)(item),
       onPressAvatar: curried(this._onPressAvatar)({
         userId: item.userId,
@@ -326,6 +325,7 @@ class HomePage extends React.Component {
         //   offset: cardHeight * index,
         //   index,
         // })}
+        // overScrollMode={'always'}
         contentContainerStyle={{
           paddingTop: PADDING_TOP_FULL + 10,
           paddingBottom: TAB_BAR_HEIGHT,
@@ -356,13 +356,11 @@ class HomePage extends React.Component {
       contentDetailIsAnimating,
       showDetail,
       currentPost,
-      currentCardId,
     } = this.props.state;
     return (
       <ContentDetail
         show={showDetail}
         currentPost={currentPost}
-        currentCardId={currentCardId}
         onStart={curried(this._contentDetailAnimatingController)(true)}
         onEnd={curried(this._contentDetailAnimatingController)(false)}
         modalController={this._contentDetailModalController}
