@@ -4,7 +4,7 @@
  * Created Date: Saturday March 16th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 17th 2019 6:36:34 pm
+ * Last Modified: Monday March 18th 2019 8:02:25 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -31,7 +31,7 @@ const showAnimation = transaction => {
   });
 };
 const consume = (amount, type, insertRecord = true) => {
-  this.showAnimation(amount);
+  showAnimation(amount);
   User.increaseCoin(amount);
   if (!insertRecord) {
     return;

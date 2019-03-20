@@ -5,7 +5,7 @@ import { $coinTransaction, $CENTER, $TYPES } from '../utils/$observable';
 import { base, User } from '../utils';
 // import {SCREEN_WIDTH, colors, Styles} from '../utils/base'
 const { SCREEN_WIDTH, colors, Styles } = base;
-import { PriceTag, Touchable } from '../../re-kits';
+import { PriceTag, Touchable, NAV_BAR_HEIGHT_FULL } from '../../re-kits';
 // const User = {}
 import { timer } from 'rxjs';
 import * as Animatable from 'react-native-animatable';
@@ -107,7 +107,7 @@ class CoinTransactionAnimation {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 20,
+    top: NAV_BAR_HEIGHT_FULL + 10,
     left: (SCREEN_WIDTH - ITEM_WIDTH) / 2,
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,

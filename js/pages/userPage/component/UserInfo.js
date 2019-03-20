@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   View,
-  findNodeHandle,
   Animated,
-  LayoutAnimation,
 } from 'react-native';
 import {
   Button,
@@ -149,9 +146,8 @@ class UserInfo extends Component {
               textStyle={{ color: colors.depGrey }}
             >
               {userTitles.map(item => (
-                <Title title={item} />
+                <Title title={item.title} />
               ))}
-              {/* <Title title={userTitle} /> */}
               <View
                 style={{
                   width: 1,

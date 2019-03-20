@@ -193,7 +193,6 @@ class MainCard extends React.Component {
           onPressAvatar={onPressAvatar}
           username={post.username}
           avatar={post.avatar}
-          weatherInfo={post.weatherInfo}
         />
       </Animatable.View>
     );

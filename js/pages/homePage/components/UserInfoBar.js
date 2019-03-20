@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image as Image2 } from 'react-native';
-import {
-  Button,
-  Image,
-  InfiniteText,
-  Text,
-  Assets,
-  WeatherInfo,
-} from '../../../../re-kits';
+import { Button, Image, InfiniteText, Text, Assets } from '../../../../re-kits';
 import { base } from '../../../utils';
 import TimeBar from './TimeBar';
 const { Styles } = base;
@@ -15,12 +8,12 @@ class UserInfoBar extends Component {
   componentWillMount() {}
 
   render() {
-    const { style, textStyle, onPressAvatar, weatherInfo } = this.props;
+    const { style, textStyle, onPressAvatar, username, avatar } = this.props;
     return (
       <View style={[styles.headerBar, style]}>
         <View style={[{ marginLeft: 20 }, Styles.shadow]}>
           <Image
-            source={Assets.bk2.source}
+            uri={avatar}
             resizeMode={'cover'}
             style={{ width: 60, height: 60 }}
             onPress={onPressAvatar}
@@ -29,7 +22,7 @@ class UserInfoBar extends Component {
         <View style={styles.headerTextContainer}>
           <InfiniteText
             style={{}}
-            text={'Lilith'}
+            text={username}
             textStyle={StyleSheet.flatten([styles.username, textStyle])}
           />
           <View

@@ -937,7 +937,7 @@
   dependencies:
     "@types/jest-diff" "*"
 
-"@types/lodash@^4.14.121":
+"@types/lodash@^4.14.123":
   version "4.14.123"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.123.tgz#39be5d211478c8dd3bdae98ee75bb7efe4abfe4d"
   integrity sha512-pQvPkc4Nltyx7G1Ww45OjVqUsJP4UsZm+GWJpigXgkikZqJgRm4c48g027o6tdgubWHwFRF15iFd+Y4Pmqv6+Q==
@@ -960,7 +960,7 @@
     "@types/prop-types" "*"
     "@types/react" "*"
 
-"@types/react-redux@^7.0.1":
+"@types/react-redux@^7.0.3":
   version "7.0.3"
   resolved "https://registry.npmjs.org/@types/react-redux/-/react-redux-7.0.3.tgz#b8dc3faa954b7f28e4b0209bcf9209b45251ed6b"
   integrity sha512-6qsIHHNwF41viooUgR2lXHL81v3uyeJsugq9YCMYE4g2bDyG710G/I/w5nbn7AQ9XfuOLUwrWfm3edV7gDJ9AQ==

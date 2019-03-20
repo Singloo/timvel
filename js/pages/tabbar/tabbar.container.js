@@ -74,7 +74,7 @@ class Tabbar extends Component {
             }}
           />
         )}
-        {this.state.viewRef && (
+        {base.isIOS && (
           <BlurView
             viewRef={this.state.viewRef}
             blurType={'light'}

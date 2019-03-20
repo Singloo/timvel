@@ -93,7 +93,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+    entryFile: "index.js",
+    nodeExecutableAndArgs : ["/Users/origami/.nvm/versions/node/v11.2.0/bin/node"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -123,6 +124,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+     signingConfigs {
+        release {
+            storeFile file('../keystores/timvel.keystore')
+            keyAlias 'timvel-alias'
+            keyPassword 'MYQ88*ten'
+            storePassword 'MYQ88*ten'
+        }
+    }
     //为了解决部分第三方库重复打包了META-INF的问题
     packagingOptions{
         exclude 'META-INF/LICENSE.txt'
@@ -132,8 +141,8 @@ android {
         applicationId "com.timvel"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

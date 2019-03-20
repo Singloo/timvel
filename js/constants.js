@@ -1,4 +1,3 @@
-// let host = 'http://www.timvel.com';
 let host = 'https://timvel.com';
 if (__DEV__) {
   host = 'https://dev.timvel.com';
