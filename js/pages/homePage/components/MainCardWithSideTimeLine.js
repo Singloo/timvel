@@ -250,6 +250,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
+    elevation: 2,
+    backgroundColor: 'transparent',
   },
   dateTime: {
     fontSize: 18,
