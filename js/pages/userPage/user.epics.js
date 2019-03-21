@@ -1,8 +1,7 @@
 import { ofType } from 'redux-observable';
 import { Observable, from, of } from 'rxjs';
 import { mergeMap, switchMap, tap, map, catchError } from 'rxjs/operators';
-import { base } from '../../utils';
-const { filterPostsByTag } = base;
+import { filterPostsByTag } from '../../utils';
 const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
   action$.pipe(
     ofType('USER_PAGE_FETCH_USER_POSTS'),

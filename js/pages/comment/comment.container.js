@@ -9,11 +9,10 @@ import {
   Text,
   Assets,
   CommentBar,
-  NAV_BAR_HEIGHT_FULL
+  NAV_BAR_HEIGHT_FULL,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { colors, TAB_BAR_HEIGHT, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
-const { colors, TAB_BAR_HEIGHT } = base;
 class Comment extends Component {
   componentWillMount() {
     this.post = this.props.navigation.getParam('post', {});

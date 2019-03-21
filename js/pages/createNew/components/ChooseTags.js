@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Image, Assets, Tag, Text } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { colors } = base;
+import { colors, I18n } from '../../../utils';
 class ChooseTags extends React.Component {
   render() {
     const { tags, onPressAddTag } = this.props;

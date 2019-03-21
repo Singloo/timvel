@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavBar, Assets, RFlatList } from '../../../re-kits';
-import { base, I18n, Navigation, curried, ApiNotifications } from '../../utils';
+import {
+  colors,
+  I18n,
+  Navigation,
+  curried,
+  ApiNotifications,
+} from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import Card from './components/Card';
-const { colors } = base;
 
 const readNotification = (comments, notificationId) => {
   return comments.map(o => {

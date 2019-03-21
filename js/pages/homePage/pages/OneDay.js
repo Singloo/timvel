@@ -7,13 +7,12 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import { Button, Image, Text, Assets } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { Styles, SCREEN_WIDTH, colors, isIOS, I18n } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import DatePicker from 'react-native-datepicker';
 import { BlurView } from 'react-native-blur';
 import Moment from 'moment';
-const { Styles, SCREEN_WIDTH, colors, isIOS } = base;
 class OneDay extends React.Component {
   constructor(props) {
     super(props);

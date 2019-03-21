@@ -7,8 +7,13 @@ import {
   ImageSwiper,
   flattenStyles,
 } from '../../../../re-kits';
-import { base, curried } from '../../../utils';
-const { Styles, colors, DateFormatter } = base;
+import {
+  Styles,
+  colors,
+  DateFormatter,
+  curried,
+  SCREEN_WIDTH,
+} from '../../../utils';
 import UserInfoBar from './UserInfoBar';
 import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,7 +24,7 @@ const AnimatableBottomInfo = Animatable.createAnimatableComponent(
   BottomInfoBar,
 );
 const AnimatableWeacherInfo = Animatable.createAnimatableComponent(WeatherInfo);
-const cardWidth = base.SCREEN_WIDTH - 20 - 20;
+const cardWidth = SCREEN_WIDTH - 20 - 20;
 const cardHeight = cardWidth - 60;
 const TIME_BAR_HEIGHT = 40;
 const GRADIENT_BAR_WIDTH = 10 + 10 + 3;

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Image, Text } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { colors I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
-const { colors } = base;
 class TimeBar extends Component {
   componentWillMount() {}
 

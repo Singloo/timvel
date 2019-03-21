@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, findNodeHandle, Animated } from 'react-native';
 import { Assets } from '../../../re-kits';
-import { base, curried } from '../../utils';
+import { PADDING_BOTTOM, TAB_BAR_HEIGHT, curried, isIOS } from '../../utils';
 import { BlurView } from 'react-native-blur';
 // const BlurView = View;
 import Tab from './components/Tab';
-const { PADDING_BOTTOM, TAB_BAR_HEIGHT } = base;
 const goingToHidden = (prev, curr) =>
   !prev.global.isTabBarHidden && curr.global.isTabBarHidden;
 const goingToShow = (prev, curr) =>
@@ -58,7 +57,7 @@ class Tabbar extends Component {
           },
         ]}
       >
-        {!base.isIOS && (
+        {!isIOS && (
           <View
             ref={r => {
               this.backgroundImage = r;
@@ -74,7 +73,7 @@ class Tabbar extends Component {
             }}
           />
         )}
-        {base.isIOS && (
+        {isIOS && (
           <BlurView
             viewRef={this.state.viewRef}
             blurType={'light'}

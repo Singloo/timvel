@@ -8,15 +8,18 @@ import {
 } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map, filter } from 'rxjs/operators';
-import { base, User, runAfter, curried } from '../utils';
-const {
+import {
+  User,
+  runAfter,
+  curried,
   colors,
   Styles,
   randomItem,
   randomNumber,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-} = base;
+} from '../utils';
+
 import * as Animatable from 'react-native-animatable';
 // import Moment from 'moment'
 import { ITEM_SIZE, COIN, BUBBLE_SIZE } from './CoinIncreaseConstants';

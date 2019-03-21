@@ -19,7 +19,13 @@ import {
   PADDING_TOP_FULL,
   flattenStyles,
 } from '../../../../re-kits';
-import { base, curried } from '../../../utils';
+import {
+  SCREEN_WIDTH,
+  colors,
+  Styles,
+  TAB_BAR_HEIGHT,
+  curried,
+} from '../../../utils';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
@@ -28,7 +34,6 @@ import { get } from 'lodash';
 const AnimatableUserInfoBar = Animatable.createAnimatableComponent(UserInfoBar);
 const AnimatableCommentBar = Animatable.createAnimatableComponent(CommentBar);
 const AnimatedImageSwiper = Animated.createAnimatedComponent(ImageSwiper);
-const { SCREEN_WIDTH, colors, Styles, TAB_BAR_HEIGHT } = base;
 let image_height = SCREEN_WIDTH * 0.6;
 let image_width = SCREEN_WIDTH;
 let content_width = SCREEN_WIDTH - 40;

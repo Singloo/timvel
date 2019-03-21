@@ -6,8 +6,7 @@ import {
   NAV_BAR_HEIGHT_FULL,
   PADDING_TOP_FULL,
 } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { colors, SCREEN_WIDTH, DateFormatter } = base;
+import { colors, SCREEN_WIDTH, DateFormatter, I18n } from '../../../utils';
 // const item_width = SCREEN_WIDTH - 40 - 0;
 const item_height = SCREEN_WIDTH * 0.5;
 const scroll_height = item_height + 35 + 20 - NAV_BAR_HEIGHT_FULL;

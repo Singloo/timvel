@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { Button, Image, Text } from '../../../../re-kits';
-import { base } from '../../../utils';
+import {} from '../../../utils';
 import PropTypes from 'prop-types';
 
 class Card extends Component {

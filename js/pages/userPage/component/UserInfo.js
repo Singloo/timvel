@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Animated,
-} from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import {
   Button,
   Text,
@@ -11,9 +7,8 @@ import {
   InfiniteText,
   PADDING_TOP_FULL,
 } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { SCREEN_WIDTH, colors, Styles } from '../../../utils';
 import Title from '../../../components/Title';
-const { SCREEN_WIDTH, colors, Styles } = base;
 const width = SCREEN_WIDTH;
 const height = 200;
 const avatarSize = 80;

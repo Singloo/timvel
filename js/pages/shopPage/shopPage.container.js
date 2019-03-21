@@ -9,7 +9,8 @@ import {
   NAV_BAR_HEIGHT_FULL,
 } from '../../../re-kits';
 import {
-  base,
+  colors,
+  TAB_BAR_HEIGHT,
   User,
   curried,
   retry3,
@@ -19,7 +20,6 @@ import {
 } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
-const { colors, TAB_BAR_HEIGHT } = base;
 const PRODUCT_TYPES = [
   'avatar',
   'draw_lots',

@@ -2,9 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
 import { $coinTransaction, $CENTER, $TYPES } from '../utils/$observable';
-import { base, User } from '../utils';
-// import {SCREEN_WIDTH, colors, Styles} from '../utils/base'
-const { SCREEN_WIDTH, colors, Styles } = base;
+import { SCREEN_WIDTH, colors, Styles, User } from '../utils';
 import { PriceTag, Touchable, NAV_BAR_HEIGHT_FULL } from '../../re-kits';
 // const User = {}
 import { timer } from 'rxjs';

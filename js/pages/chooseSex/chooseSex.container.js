@@ -10,8 +10,7 @@ import {
   Assets,
   Choices,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
-const { colors } = base;
+import { colors, I18n } from '../../utils';
 class ChooseSex extends Component {
   componentWillMount() {}
 

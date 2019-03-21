@@ -8,11 +8,10 @@ import {
   Image,
 } from 'react-native';
 import { Button, Text, InfiniteText, ContentByTag } from '../../../../re-kits';
-import { base, User } from '../../../utils';
+import { realSize, colors, SCREEN_WIDTH, User } from '../../../utils';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';
 import HeaderBar from './HeaderBar';
-const { realSize, colors, SCREEN_WIDTH } = base;
 class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +24,7 @@ class UserProfile extends Component {
   componentWillMount() {}
 
   render() {
-    const { userPosts,userTitles } = this.props;
+    const { userPosts, userTitles } = this.props;
 
     const renderCards = Object.keys(userPosts).map((key, index) => {
       return (

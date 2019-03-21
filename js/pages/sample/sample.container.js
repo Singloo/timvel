@@ -9,7 +9,7 @@ import {
   Text,
   Assets,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 
 @connect2('sample')

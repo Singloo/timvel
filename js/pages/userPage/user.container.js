@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, ScrollView, Animated } from 'react-native';
 import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
-import { base, User, $CENTER, $TYPES, HANDLE } from '../../utils';
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  User,
+  $CENTER,
+  $TYPES,
+  HANDLE,
+} from '../../utils';
 import UserProfile from './component/UserProfile';
-const { SCREEN_HEIGHT, SCREEN_WIDTH } = base;
 class UserPage extends Component {
   constructor(props) {
     super(props);

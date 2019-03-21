@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image as Image2 } from 'react-native';
 import { Button, Image, InfiniteText, Text, Assets } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { Styles, colors } from '../../../utils';
 import TimeBar from './TimeBar';
-const { Styles } = base;
 class UserInfoBar extends Component {
   componentWillMount() {}
 
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 17,
-    color: base.colors.depGrey,
+    color: colors.depGrey,
   },
   title: {
     color: 'black',

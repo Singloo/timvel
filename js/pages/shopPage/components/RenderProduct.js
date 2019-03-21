@@ -4,15 +4,14 @@
  * Created Date: Thursday March 14th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Friday March 15th 2019 8:34:47 am
+ * Last Modified: Thursday March 21st 2019 10:19:17 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { SCREEN_WIDTH, colors } = base;
+import { SCREEN_WIDTH, colors, I18n } from '../../../utils';
 import { Title } from '../../../components';
 const RENDER_IMAGE = ['avatar', 'sticker', 'draw_lots'];
 const RENDER_TITLE = ['draw_title', 'title'];

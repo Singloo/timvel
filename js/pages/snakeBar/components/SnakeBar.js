@@ -9,9 +9,7 @@ import {
   NAV_BAR_HEIGHT_FULL,
   PADDING_TOP_FULL,
 } from '../../../../re-kits';
-import { base, I18n, clearTimers, invoke } from '../../../utils';
-const {} = base;
-const { Styles, colors } = base;
+import { Styles, colors, I18n, clearTimers, invoke } from '../../../utils';
 const typeStyles = {
   NORMAL: {
     source: Assets.smile.source,

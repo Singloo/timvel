@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Assets } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { Styles, realSize, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
-const { Styles, realSize } = base;
 
 class LoadingView extends Component {
   constructor(props) {

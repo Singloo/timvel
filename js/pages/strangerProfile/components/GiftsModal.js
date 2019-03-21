@@ -9,9 +9,8 @@ import {
   Separator,
   PriceTag,
 } from '../../../../re-kits';
-import { base, I18n, curried } from '../../../utils';
+import { colors, SCREEN_WIDTH, I18n, curried } from '../../../utils';
 import { flowerPatterns, shitPatterns } from '../data/gifts';
-const { colors, SCREEN_WIDTH } = base;
 const SelectableItem = createSelectableItem(Item);
 const priceTag = {
   1: 100,

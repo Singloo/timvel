@@ -1,12 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import {
-  Button,
-  TextInput,
-  NAV_BAR_HEIGHT_FULL,
-} from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { Styles, SCREEN_WIDTH, SCREEN_HEIGHT } = base;
+import { Button, TextInput, NAV_BAR_HEIGHT_FULL } from '../../../../re-kits';
+import { Styles, SCREEN_WIDTH, SCREEN_HEIGHT, I18n } from '../../../utils';
 
 const LEFT = SCREEN_WIDTH * 2;
 class SignUpPage extends React.Component {

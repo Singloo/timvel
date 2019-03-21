@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { SCREEN_WIDTH, colors, I18n } from '../../../utils';
 import ProductDetail from './RenderProduct';
-const { SCREEN_WIDTH, colors } = base;
 
 const ITEM_WIDTH = SCREEN_WIDTH / 2;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.2;

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, Image, Touchable } from '../../../../re-kits';
-import { base } from '../../../utils';
-const { colors } = base;
+import { colors } from '../../../utils';
 class Card extends Component {
   componentWillMount() {}
 

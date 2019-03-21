@@ -9,8 +9,7 @@ import {
   Assets,
   EmojiItem,
 } from '../../../../re-kits';
-import { base, curried } from '../../../utils';
-const { Styles, colors } = base;
+import { Styles, colors, curried } from '../../../utils';
 
 class BottomInfoBar extends React.Component {
   render() {

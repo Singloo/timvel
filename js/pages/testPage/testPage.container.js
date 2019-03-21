@@ -10,7 +10,7 @@ import {
   Assets,
   PriceTag,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
+import { I18n } from '../../utils';
 
 class Sample extends Component {
   componentWillMount() {}

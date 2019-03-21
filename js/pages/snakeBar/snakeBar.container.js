@@ -1,8 +1,7 @@
 import React, { Component, cloneElement } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Button, NAV_BAR_HEIGHT_FULL } from '../../../re-kits';
-import { base } from '../../utils';
-const {} = base;
+import {} from '../../utils';
 import SnakeBar from './components/SnakeBar';
 const snake_bar_height = NAV_BAR_HEIGHT_FULL;
 class Global extends Component {

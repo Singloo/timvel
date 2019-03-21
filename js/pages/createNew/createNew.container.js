@@ -17,7 +17,8 @@ import ChooseWeather from './components/ChooseWeather';
 // import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
 import {
-  base,
+  colors,
+  isAndroid,
   I18n,
   connect2,
   HANDLE,
@@ -25,7 +26,6 @@ import {
   $TYPES,
   curried,
 } from '../../utils';
-const { colors, isAndroid } = base;
 import { getRandomPhoto } from '../../utils/Unsplash';
 import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

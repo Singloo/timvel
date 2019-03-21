@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Button, Image, Text } from '../../../../re-kits';
-import { base } from '../../../utils';
+import {} from '../../../utils';
 import PropTypes from 'prop-types';
 
 class Tab extends Component {
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
     fontWeight: '100',
-    // color: base.colors.midGrey,
     letterSpacing: 1,
     marginTop: 2,
   },

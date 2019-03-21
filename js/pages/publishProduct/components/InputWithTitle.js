@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, BaseTextInput } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { colors, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
-const { colors } = base;
 class InputWithTitle extends Component {
   componentWillMount() {}
 

@@ -8,14 +8,20 @@ import {
   ContentByTag,
   NAV_BAR_HEIGHT_FULL,
 } from '../../../re-kits';
-import { base, User, curried } from '../../utils';
+import {
+  SCREEN_WIDTH,
+  randomItem,
+  randomNumber,
+  SCREEN_HEIGHT,
+  User,
+  curried,
+} from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { interval, Subject } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import GiftsModal from './components/GiftsModal';
 import { flowerPatterns, shitPatterns } from './data/gifts';
 import { CoinTransactionRecords } from '../../services';
-const { SCREEN_WIDTH, randomItem, randomNumber, SCREEN_HEIGHT } = base;
 const IMAGE_WIDTH = SCREEN_WIDTH;
 const IMAGE_HEIGHT = SCREEN_WIDTH * 0.7;
 const scroll_height = IMAGE_HEIGHT - NAV_BAR_HEIGHT_FULL;

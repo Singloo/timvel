@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../../re-kits';
-import { base } from '../../utils';
-const { Styles, isAndroid } = base;
+import { Styles, isAndroid } from '../../utils';
 import LoadingView from './components/LoadingView';
 class Global extends Component {
   componentWillMount() {}

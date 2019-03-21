@@ -7,8 +7,7 @@ import {
   TextInput,
   NAV_BAR_HEIGHT_FULL,
 } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { Styles, SCREEN_WIDTH, SCREEN_HEIGHT } = base;
+import { Styles, SCREEN_WIDTH, SCREEN_HEIGHT, I18n } from '../../../utils';
 const RIGHT = SCREEN_WIDTH;
 class SignUpPage extends React.Component {
   constructor(props) {

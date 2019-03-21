@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Touchable, Image, Assets } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { colors, Styles } = base;
+import { colors, Styles, I18n } from '../../../utils';
 const TOUZI_SIZE = 50;
 class ChooseImages extends React.PureComponent {
   render() {

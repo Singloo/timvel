@@ -7,7 +7,16 @@ import {
   PADDING_TOP_FULL,
 } from '../../../re-kits';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { base, curried } from '../../utils';
+import {
+  colors,
+  SCREEN_WIDTH,
+  isAndroid,
+  TAB_BAR_HEIGHT,
+  colorSets,
+  randomItem,
+  getRandomDate,
+  curried,
+} from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
 import ContentDetail from './pages/ContentDetail';
@@ -16,15 +25,7 @@ import HeaderBar from './components/HeaderBar';
 import { $queryNew } from '../../utils/$observable';
 import { get } from 'lodash';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
-const {
-  colors,
-  SCREEN_WIDTH,
-  isAndroid,
-  TAB_BAR_HEIGHT,
-  colorSets,
-  randomItem,
-  getRandomDate,
-} = base;
+
 const item_width = SCREEN_WIDTH - 40 - 0;
 class HomePage extends React.Component {
   constructor(props) {
@@ -374,7 +375,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: base.colors.lightGrey,
+    backgroundColor: colors.lightGrey,
   },
   list: {
     flex: 1,

@@ -52,7 +52,6 @@ $CENTER.subscribe({
   },
 });
 
-const dispatch = (type, payload = {}) => ({ type, payload });
 
 const showCoinIncreaseAnimation = transaction =>
   $CENTER.next({
@@ -69,7 +68,6 @@ export {
   $sourceSecond,
   $sourceTenSeconds,
   $TYPES,
-  dispatch,
   HANDLE,
   showCoinIncreaseAnimation,
 };

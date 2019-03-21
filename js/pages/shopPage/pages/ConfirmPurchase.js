@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Text, Image, Assets, PriceTag } from '../../../../re-kits';
-import { base, I18n, invoke } from '../../../utils';
+import { SCREEN_WIDTH, colors, Styles, I18n, invoke } from '../../../utils';
 import ProductDetail from '../components/RenderProduct';
-const { SCREEN_WIDTH, colors, Styles } = base;
 
 const CONTAINER_WIDTH = SCREEN_WIDTH - 80;
 const CONTAINER_BORDER_RADIUS = 12;

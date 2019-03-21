@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { StyleSheet, View, Text as Text2 } from 'react-native';
 import { Button, Text, Image, Assets } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { isIOS } from '../../../utils';
 import PropTypes from 'prop-types';
 import Wrapper from './MainCardWithSideTimeLine';
 import { VibrancyView } from 'react-native-blur';
-const { isIOS } = base;
 class MoreText extends React.Component {
   componentWillMount() {}
 

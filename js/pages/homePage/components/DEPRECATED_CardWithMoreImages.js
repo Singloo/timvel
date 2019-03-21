@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image as Image2 } from 'react-native';
 import { Button, Text, Assets, Image } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { Styles, SCREEN_WIDTH } from '../../../utils';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-snap-carousel';
 import Swiper from 'react-native-swiper';
-const { Styles, SCREEN_WIDTH } = base;
 const cardWidth = SCREEN_WIDTH - 20 - 20;
 class CardWithoutImg extends Component {
   componentWillMount() {}
 
-  _renderItem = ({item, index}) => {
+  _renderItem = ({ item, index }) => {
     return (
       <View key={index} style={{ flex: 1, overflow: 'hidden' }}>
         <Image2

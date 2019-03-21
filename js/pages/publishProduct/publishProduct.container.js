@@ -18,8 +18,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import InputWithTitle from './components/InputWithTitle';
 import CustomTitle from './components/CustomTitle';
-import { base, curried } from '../../utils';
-const { colors, isAndroid, lenOfText } = base;
+import { colors, isAndroid, lenOfText, curried } from '../../utils';
 const product_types = [
   'avatar',
   'draw_lots',

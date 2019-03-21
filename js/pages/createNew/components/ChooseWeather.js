@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator, TextInput } from 'react-native';
 import { Button, Text, Selectors } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { realSize, colors, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
-const { realSize, colors } = base;
 class ChooseWeather extends Component {
   constructor(props) {
     super(props);

@@ -7,7 +7,15 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import { base, I18n, curried, invoke } from '../../utils';
+import {
+  Styles,
+  SCREEN_WIDTH,
+  colors,
+  SCREEN_HEIGHT,
+  I18n,
+  curried,
+  invoke,
+} from '../../utils';
 import {
   Touchable,
   Image,
@@ -20,7 +28,6 @@ import {
 } from '../../../re-kits';
 import SearchResults from './components/SearchResult';
 import _ from 'lodash';
-const { Styles, SCREEN_WIDTH, colors, SCREEN_HEIGHT } = base;
 class AddTag extends React.Component {
   constructor(props) {
     super(props);

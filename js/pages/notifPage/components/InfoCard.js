@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, Image, Assets, Touchable } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
-const { SCREEN_WIDTH, colors, colorSets, randomItem } = base;
+import {
+  SCREEN_WIDTH,
+  colors,
+  colorSets,
+  randomItem,
+  I18n,
+} from '../../../utils';
 const item_height = 60;
 const item_width = SCREEN_WIDTH;
 const RED_DOT_SIZE = 24;

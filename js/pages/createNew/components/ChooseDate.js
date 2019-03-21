@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
-import { base, I18n } from '../../../utils';
+import { realSize, colors, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
-const { realSize, colors } = base;
 class ChooseDate extends Component {
   constructor(props) {
     super(props);
@@ -78,7 +77,8 @@ class ChooseDate extends Component {
           onPress={onPressToday}
           buttonStyle={{
             paddingVertical: 5,
-            paddingHorizontal: 0 ,width:68,
+            paddingHorizontal: 0,
+            width: 68,
             marginRight: 10,
           }}
           textStyle={{ color: colors.white }}

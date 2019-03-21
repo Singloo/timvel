@@ -3,7 +3,7 @@ import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, base, Notification, Navigation } from './utils';
+import { Setup, isIOS, Notification, Navigation } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
 import { CoinTransactionAnimation } from './components/CoinTransactionAnimation';
@@ -28,13 +28,13 @@ export default class App extends React.Component {
   componentDidMount() {
     this._init();
     let notification = new Notification(Installation);
-    if (base.isIOS) {
+    if (isIOS) {
       notification.IOSinitPush();
     } else {
       notification.AndroidinitPush();
     }
     // try to prevent crash n._navigation.state
-    if (base.isIOS) {
+    if (isIOS) {
       return;
     }
     // Setup.androidBackButton(this._navigation, store);

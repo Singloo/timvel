@@ -10,8 +10,14 @@ import {
   Assets,
   AnimatedLogo,
 } from '../../../re-kits';
-import { base, I18n, OSS } from '../../utils';
-const { Styles, SCREEN_WIDTH, randomItem, colors } = base;
+import {
+  Styles,
+  SCREEN_WIDTH,
+  randomItem,
+  colors,
+  I18n,
+  OSS,
+} from '../../utils';
 import SplashScreen from 'react-native-splash-screen';
 const hello = [
   '你好,人类',

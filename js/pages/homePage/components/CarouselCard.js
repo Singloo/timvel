@@ -8,10 +8,9 @@ import {
   Touchable,
   Assets,
 } from '../../../../re-kits';
-import { base } from '../../../utils';
+import { Styles, colors, SCREEN_WIDTH } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import Moment from 'moment';
-const { Styles, colors, SCREEN_WIDTH } = base;
 const item_width = SCREEN_WIDTH - 40 - 0;
 const item_height = SCREEN_WIDTH * 0.5;
 class CarouselCard extends React.Component {

@@ -9,8 +9,7 @@ import {
   Text,
   Assets,
 } from '../../../re-kits';
-import { base, I18n } from '../../utils';
-const { Styles, SCREEN_WIDTH, colors } = base;
+import {  Styles, SCREEN_WIDTH, colors, I18n } from '../../utils';
 const card_width = SCREEN_WIDTH - 20;
 const card_height = (card_width * 3) / 5;
 const alertStyles = {

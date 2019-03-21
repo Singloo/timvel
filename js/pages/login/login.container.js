@@ -19,12 +19,19 @@ import {
   Touchable,
   Assets,
 } from '../../../re-kits';
-import { base, User, I18n } from '../../utils';
+import {
+  SCREEN_WIDTH,
+  realSize,
+  colors,
+  Styles,
+  EMAIL_REGEX,
+  User,
+  I18n,
+} from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-const { SCREEN_WIDTH, realSize, colors, Styles, EMAIL_REGEX } = base;
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -96,7 +103,6 @@ class Login extends Component {
     // Animated.parallel([
     //     Animated.timing(this.keyboardHeight,{
     //         duration: event.duration,
-    //         toValue: base.realSize(100),
     //     }),
     //     Animated.timing(this.imageHeight,{
     //         duration: event.duration,

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
-} from '../../../re-kits';
-import { base } from '../../utils';
+import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
+import {} from '../../utils';
 
 class Remember extends Component {
   componentWillMount() {}
