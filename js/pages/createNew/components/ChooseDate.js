@@ -4,6 +4,7 @@ import { Button, Text } from '../../../../re-kits';
 import { realSize, colors, I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
+import DatePrecision from './DatePrecision';
 class ChooseDate extends Component {
   constructor(props) {
     super(props);
@@ -43,35 +44,9 @@ class ChooseDate extends Component {
       <Animated.View
         style={[styles.container, { backgroundColor: backgroundColor }]}
       >
-        <Text style={styles.text}>{I18n.t('happenedAt')}</Text>
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <DatePicker
-            style={{}}
-            date={date}
-            mode={'date'}
-            placeholder={'select date'}
-            format={'YYYY-MM-DD'}
-            // minDate={"2016-05-01"}
-            // maxDate={"2016-06-01"}
-            confirmBtnText={'Confirm'}
-            cancelBtnText={'Cancel'}
-            showIcon={false}
-            customStyles={{
-              dateInput: {
-                borderColor: 'transparent',
-                borderWidth: 0,
-              },
-              dateText: {
-                fontSize: 16,
-              },
-              dateTouchBody: {
-                // backgroundColor: 'red',
-                width: realSize(150),
-              },
-            }}
-            onDateChange={onChangeDate}
-          />
-        </View>
+        {/* <Text style={styles.text}>{I18n.t('happenedAt')}</Text> */}
+        {this._renderDatePrecision()}
+        {this._renderDatePicker()}
         <Button
           title={'Today'}
           onPress={onPressToday}
@@ -87,6 +62,50 @@ class ChooseDate extends Component {
       </Animated.View>
     );
   }
+  _renderDatePrecision = () => {
+    const { datePrecision, date, onChangeDatePrecision } = this.props;
+    return (
+      <DatePrecision
+        datePrecision={datePrecision}
+        date={date}
+        onChangeDatePrecision={onChangeDatePrecision}
+      />
+    );
+  };
+
+  _renderDatePicker = () => {
+    const { date, onChangeDate } = this.props;
+    return (
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <DatePicker
+          style={{}}
+          date={date}
+          mode={'date'}
+          placeholder={'select date'}
+          format={'YYYY-MM-DD'}
+          // minDate={"2016-05-01"}
+          // maxDate={"2016-06-01"}
+          confirmBtnText={'Confirm'}
+          cancelBtnText={'Cancel'}
+          showIcon={false}
+          customStyles={{
+            dateInput: {
+              borderColor: 'transparent',
+              borderWidth: 0,
+            },
+            dateText: {
+              fontSize: 16,
+            },
+            dateTouchBody: {
+              // backgroundColor: 'red',
+              width: realSize(150),
+            },
+          }}
+          onDateChange={onChangeDate}
+        />
+      </View>
+    );
+  };
 }
 ChooseDate.propTypes = {};
 
@@ -97,6 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 5,
     justifyContent: 'space-between',
+    paddingLeft: 15,
   },
   text: {
     fontSize: 16,
