@@ -13,7 +13,14 @@ const createPost = (
     exhaustMap(({ payload }) =>
       Observable.create(async observer => {
         try {
-          const { images, content, weatherInfo, tag, date } = payload;
+          const {
+            images,
+            content,
+            weatherInfo,
+            tag,
+            date,
+            datePrecision,
+          } = payload;
           observer.next(
             dispatch('GLOBAL_SET_STATE', {
               isLoading: true,
@@ -44,6 +51,7 @@ const createPost = (
             post_type: 'normal',
             tag: tag,
             happened_at: date,
+            precision: datePrecision,
           });
           observer.next(
             dispatch('GLOBAL_SET_STATE', {

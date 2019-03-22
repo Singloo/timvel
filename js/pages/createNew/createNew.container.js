@@ -120,13 +120,21 @@ class CreateNew extends React.Component {
       return;
     }
     this.dismissKeyboard();
-    const { images, content, weatherInfo, date, currentTag } = this.props.state;
+    const {
+      images,
+      content,
+      weatherInfo,
+      date,
+      currentTag,
+      datePrecision,
+    } = this.props.state;
     this.props.dispatch('CREATE_NEW_SEND_POST', {
       images,
       content,
       weatherInfo,
       tag: currentTag.tag,
       date,
+      datePrecision,
     });
   };
   // _addTagController = () => {
