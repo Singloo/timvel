@@ -35,7 +35,7 @@ class ChooseDate extends Component {
   }
 
   render() {
-    const { date, onChangeDate, onPressToday } = this.props;
+    const { onPressToday } = this.props;
     let backgroundColor = this.animationState.interpolate({
       inputRange: [0, 1],
       outputRange: ['rgba(255,255,255,1)', 'rgba(255,205,210,0.6)'],
@@ -63,12 +63,18 @@ class ChooseDate extends Component {
     );
   }
   _renderDatePrecision = () => {
-    const { datePrecision, date, onChangeDatePrecision } = this.props;
+    const {
+      datePrecision,
+      date,
+      onChangeDatePrecision,
+      onSwitchDatePrecision,
+    } = this.props;
     return (
       <DatePrecision
         datePrecision={datePrecision}
         date={date}
         onChangeDatePrecision={onChangeDatePrecision}
+        onPress={onSwitchDatePrecision}
       />
     );
   };

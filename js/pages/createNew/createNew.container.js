@@ -223,6 +223,18 @@ class CreateNew extends React.Component {
       this._scrollView && this._scrollView.getNode().scrollToEnd();
     }
   };
+  _onSwitchDatePrecision = datePrecision => {
+    const { datePrecision: prevDatePrecision } = this.props.state;
+    if (prevDatePrecision === 'day' && datePrecision === 'day') {
+      datePrecision = 'month';
+    }
+    if (prevDatePrecision === 'month' && datePrecision === 'month') {
+      datePrecision = 'year';
+    }
+    this._setState({
+      datePrecision,
+    });
+  };
   render() {
     const {
       date,
@@ -231,6 +243,7 @@ class CreateNew extends React.Component {
       weatherInfo,
       currentTag,
       isFetchingWeather,
+      datePrecision,
     } = this.props.state;
     const { keyboardHeight } = this.props;
     const hasImages = images.length > 0;
@@ -261,6 +274,8 @@ class CreateNew extends React.Component {
               ref={r => (this._chooseDate = r)}
               date={date}
               onChangeDate={this._onChangeDate}
+              datePrecision={datePrecision}
+              onSwitchDatePrecision={curried(this._onSwitchDatePrecision)}
               onPressToday={curried(this._onChangeDate)(
                 Moment().format('YYYY-MM-DD'),
               )}

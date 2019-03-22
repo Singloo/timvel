@@ -4,7 +4,7 @@
  * Created Date: Thursday March 21st 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Friday March 22nd 2019 10:21:01 am
+ * Last Modified: Friday March 22nd 2019 2:15:09 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -12,19 +12,20 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
 import { I18n, DateFormatter, colors } from '../../../utils';
-import PropTypes from 'prop-types';
 const BORDER_RADIUS = 8;
 class Card extends Component {
   componentWillMount() {}
 
   render() {
-    const { datePrecision, date } = this.props;
+    const { datePrecision, date, onPress } = this.props;
     const formatter = new DateFormatter(date);
     return (
       <View style={styles.container}>
         <Button
           title={formatter.year()}
           size={'small'}
+          onPress={onPress('year')}
+          textStyle={{ fontWeight: 'bold' }}
           buttonStyle={[
             styles.button,
             {
@@ -37,12 +38,15 @@ class Card extends Component {
           title={formatter.mon()}
           size={'small'}
           type={datePrecision !== 'year' ? 'main' : 'mainBlank'}
+          onPress={onPress('month')}
+          textStyle={{ fontWeight: 'bold' }}
           buttonStyle={[
             styles.button,
             {
               borderLeftWidth: 0.5,
               borderRightWidth: 0.5,
-              borderColor: colors.white,
+              borderColor:
+                datePrecision === 'year' ? colors.mainLight : colors.white,
             },
           ]}
         />
@@ -50,6 +54,8 @@ class Card extends Component {
           title={formatter.day()}
           size={'small'}
           type={datePrecision === 'day' ? 'main' : 'mainBlank'}
+          onPress={onPress('day')}
+          textStyle={{ fontWeight: 'bold' }}
           buttonStyle={[
             styles.button,
             {

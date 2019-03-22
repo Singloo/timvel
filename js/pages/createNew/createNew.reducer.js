@@ -9,6 +9,7 @@ const initialState = {
   showAddTag: false,
   weatherInfo: {},
   isFetchingWeather: false,
+  datePrecision: 'day',
 };
 
 function reducer(state = initialState, action) {
