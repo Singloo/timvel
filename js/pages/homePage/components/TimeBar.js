@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Image, Text } from '../../../../re-kits';
-import { colors I18n } from '../../../utils';
+import { colors ,I18n } from '../../../utils';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 class TimeBar extends Component {

@@ -12,4 +12,4 @@ export * from './$helper';
 export * from './helper';
 export { default as Navigation } from './Navigation';
 export { default as ApiNotifications } from './apiNotifications';
-export { Setup, OSS, Network };
+export { OSS, Network, Setup };

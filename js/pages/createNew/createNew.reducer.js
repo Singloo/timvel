@@ -1,5 +1,4 @@
 import Moment from 'moment';
-import { I18n } from '../../utils';
 const initialTag = { tag: '日常', popularity: 0 };
 const initialState = {
   date: Moment().format('YYYY-MM-DD'),

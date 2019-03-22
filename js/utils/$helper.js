@@ -23,4 +23,9 @@ const $catchError = (...values) =>
     console.warn(err.message);
     return of(...values);
   });
-export { retry3, $retryDelay, HANDLE, $catchError };
+export {
+   retry3,
+    $retryDelay, 
+    HANDLE, 
+    $catchError
+   };
