@@ -7,7 +7,7 @@ const initialState = {
   currentTag: initialTag,
   tags: [initialTag],
   showAddTag: false,
-  weatherInfo: {},
+  weatherInfo: { temperature: 23, weather: 'sunny', weatherCode: 0 },
   isFetchingWeather: false,
   datePrecision: 'day',
 };

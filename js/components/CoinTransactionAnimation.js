@@ -80,13 +80,13 @@ class CoinTransactionAnimation {
     if (!this._view) {
       return;
     }
-    this._view.animate('bounceOutUp', 500, 0).then(callback);
+    this._view.animate('bounceOutLeft', 500, 0).then(callback);
   };
   _fadeInAnimation = callback => () => {
     if (!this._view) {
       return;
     }
-    this._view.animate('bounceInDown', 500, 0).then(callback);
+    this._view.animate('bounceInLeft', 500, 0).then(callback);
   };
   _renderComponent = () => (
     <Touchable
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: NAV_BAR_HEIGHT_FULL + 10,
-    left: (SCREEN_WIDTH - ITEM_WIDTH) / 2,
+    left: 20,
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
     alignItems: 'center',

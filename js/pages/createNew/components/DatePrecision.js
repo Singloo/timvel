@@ -4,7 +4,7 @@
  * Created Date: Thursday March 21st 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Friday March 22nd 2019 2:15:09 pm
+ * Last Modified: Saturday March 23rd 2019 10:40:37 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -21,52 +21,51 @@ class Card extends Component {
     const formatter = new DateFormatter(date);
     return (
       <View style={styles.container}>
-        <Button
-          title={formatter.year()}
-          size={'small'}
-          onPress={onPress('year')}
-          textStyle={{ fontWeight: 'bold' }}
-          buttonStyle={[
-            styles.button,
-            {
-              borderTopLeftRadius: BORDER_RADIUS,
-              borderBottomLeftRadius: BORDER_RADIUS,
-            },
-          ]}
-        />
-        <Button
-          title={formatter.mon()}
-          size={'small'}
-          type={datePrecision !== 'year' ? 'main' : 'mainBlank'}
-          onPress={onPress('month')}
-          textStyle={{ fontWeight: 'bold' }}
-          buttonStyle={[
-            styles.button,
-            {
-              borderLeftWidth: 0.5,
-              borderRightWidth: 0.5,
-              borderColor:
-                datePrecision === 'year' ? colors.mainLight : colors.white,
-            },
-          ]}
-        />
-        <Button
-          title={formatter.day()}
-          size={'small'}
-          type={datePrecision === 'day' ? 'main' : 'mainBlank'}
-          onPress={onPress('day')}
-          textStyle={{ fontWeight: 'bold' }}
-          buttonStyle={[
-            styles.button,
-            {
-              borderTopRightRadius: BORDER_RADIUS,
-              borderBottomRightRadius: BORDER_RADIUS,
-            },
-          ]}
-        />
+        {this._renderButton({
+          title: formatter.year(),
+          onPress: onPress('year'),
+          buttonStyle: {
+            borderTopLeftRadius: BORDER_RADIUS,
+            borderBottomLeftRadius: BORDER_RADIUS,
+          },
+        })}
+        {this._renderButton({
+          title: formatter.mon(),
+          type: datePrecision !== 'year' ? 'main' : 'mainBlank',
+          onPress: onPress('month'),
+          buttonStyle: {
+            borderLeftWidth: 0.5,
+            borderRightWidth: 0.5,
+            borderColor:
+              datePrecision === 'year' ? colors.mainLight : colors.white,
+          },
+        })}
+        {this._renderButton({
+          title: formatter.day(),
+          type: datePrecision === 'day' ? 'main' : 'mainBlank',
+          onPress: onPress('day'),
+          buttonStyle: {
+            borderTopRightRadius: BORDER_RADIUS,
+            borderBottomRightRadius: BORDER_RADIUS,
+          },
+        })}
       </View>
     );
   }
+
+  _renderButton = ({ title, type, onPress, buttonStyle }) => {
+    return (
+      <Button
+        title={title}
+        size={'small'}
+        onPress={onPress}
+        type={type}
+        textStyle={{ fontWeight: 'bold' }}
+        buttonStyle={[styles.button, buttonStyle]}
+        touchableProps={{ hitSlop: undefined }}
+      />
+    );
+  };
 }
 Card.propTypes = {};
 

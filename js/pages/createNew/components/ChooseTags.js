@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Button, Image, Assets, Tag, Text } from '../../../../re-kits';
+import { Button, Image, Assets, Tag, Text, curried } from '../../../../re-kits';
 import { colors, I18n } from '../../../utils';
 class ChooseTags extends React.Component {
   render() {
@@ -21,14 +21,14 @@ class ChooseTags extends React.Component {
           title={I18n.t('add')}
           onPress={onPressAddTag}
           buttonStyle={styles.button}
-          textStyle={{ color: colors.white }}
+          type={'mainBlank'}
           size={'verySmall'}
         />
       </View>
     );
   }
   _renderTag = (item, index) => {
-    const { currentTag } = this.props;
+    const { currentTag, onPressTag } = this.props;
     return (
       <Tag
         title={item.tag}
@@ -36,6 +36,7 @@ class ChooseTags extends React.Component {
         isSelected={currentTag.tag === item.tag}
         selectedStyle={styles.selectedStyle}
         selectedTextStyle={styles.selectedTextStyle}
+        onPress={curried(onPressTag)(item)}
       />
     );
   };

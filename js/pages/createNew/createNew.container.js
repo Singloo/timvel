@@ -243,6 +243,17 @@ class CreateNew extends React.Component {
       datePrecision,
     });
   };
+  _setCurrentTag = currentTag => {
+    if (typeof currentTag === 'string') {
+      currentTag = {
+        tag: currentTag,
+        popularity: 0,
+      };
+    }
+    this._setState({
+      currentTag,
+    });
+  };
   render() {
     const {
       date,
@@ -302,6 +313,7 @@ class CreateNew extends React.Component {
               tags={tags}
               onPressAddTag={this._onPressAddTag}
               currentTag={currentTag}
+              onPressTag={this._setCurrentTag}
             />
 
             <ChooseImages

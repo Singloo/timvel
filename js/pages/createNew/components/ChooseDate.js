@@ -50,13 +50,14 @@ class ChooseDate extends Component {
         <Button
           title={'Today'}
           onPress={onPressToday}
+          type={'mainBlank'}
           buttonStyle={{
             paddingVertical: 5,
             paddingHorizontal: 0,
             width: 68,
             marginRight: 10,
           }}
-          textStyle={{ color: colors.white }}
+          textStyle={{}}
           size={'verySmall'}
         />
       </Animated.View>

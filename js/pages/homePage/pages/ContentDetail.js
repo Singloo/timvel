@@ -25,6 +25,7 @@ import {
   Styles,
   TAB_BAR_HEIGHT,
   curried,
+  extractUserFromPost,
 } from '../../../utils';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
@@ -97,6 +98,14 @@ class ContentDetail extends React.Component {
         onEnd: curried(this._setIsAnimating)(false),
       },
     );
+  };
+  _onPressAvatar = user => {
+    this.props.navigation.navigate({
+      routeName: 'strangerProfile',
+      params: {
+        user: user,
+      },
+    });
   };
   _onIndexChange = index => (this.currentIndex = index);
   _clearSubscriptions = () => {
@@ -189,14 +198,7 @@ class ContentDetail extends React.Component {
       outputRange: [-13, 0, scrollY],
       // extrapolateLeft: 'clamp',
     });
-    const transform = [
-      {
-        scale,
-      },
-      {
-        translateY,
-      },
-    ];
+    const transform = [{ scale }, { translateY }];
     const opacity = isAnimating ? 0 : 1;
     const ImageComp =
       currentPost.imageUrls.length <= 1 ? Animated.Image : AnimatedImageSwiper;
@@ -258,12 +260,21 @@ class ContentDetail extends React.Component {
     );
   };
   renderUserInfo = () => {
+    const { currentPost } = this.props;
+    if (!currentPost) {
+      return null;
+    }
     return (
       <AnimatableUserInfoBar
         ref={this._userInfo}
         animation={'fadeInUp'}
         delay={300}
         useNativeDriver={true}
+        onPressAvatar={curried(this._onPressAvatar)(
+          extractUserFromPost(currentPost),
+        )}
+        username={currentPost.username}
+        avatar={currentPost.avatar}
         // style={{ zIndex: 1 }}
       />
     );

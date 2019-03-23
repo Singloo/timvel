@@ -40,12 +40,12 @@ class ChooseWeather extends Component {
           <Button
             title={'AUTO'}
             onPress={onPressAutoGetWeather}
+            type={'mainBlank'}
             buttonStyle={{
               paddingVertical: 5,
               paddingHorizontal: 0,
               width: 68,
             }}
-            textStyle={{ color: colors.white }}
             size={'verySmall'}
           />
         </View>

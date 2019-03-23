@@ -297,3 +297,8 @@ export const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
 export const PADDING_BOTTOM = isIphoneX ? 34 : 0;
 export const NAV_BAR_HEIGHT = isIOS ? (isIphoneX ? 44 + 44 : 20 + 44) : 44;
 export const TAB_BAR_HEIGHT = isIphoneX ? 34 + 48 : 48;
+export const extractUserFromPost = post => ({
+  userId: post.userId,
+  avatar: post.avatar,
+  username: post.username,
+});
