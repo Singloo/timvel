@@ -10,7 +10,7 @@ import {
 import Moment from 'moment';
 import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
 const postInitialValues = {
-  post_type: 'normal',
+  postType: 'normal',
   angry: 0,
   laugh: 0,
   nofeeling: 0,
@@ -44,7 +44,10 @@ const createPost = (
           );
           let imageUrls = [];
           for (let image of images) {
-            if (image.type === 'unsplash') {
+            if (
+              image.type === 'unsplash' ||
+              (image.type === 'local' && !!image.imageUrl)
+            ) {
               imageUrls.push({ ...image });
             } else {
               const imageUrl = await OSS.upLoadImage(image);
@@ -69,22 +72,21 @@ const createPost = (
             happened_at: date,
             precision: datePrecision,
           });
-          const { posts } = state$.value.homePage;
           observer.next(
-            dispatch('HOME_PAGE_SET_STATE', {
-              posts: [
-                {
-                  postId: data.postId,
-                  content,
-                  imageUrls,
-                  tagId,
-                  happenedAt: happened_at,
-                  weatherInfo,
-                  precision: datePrecision,
-                  user_id: User.id(),
-                  ...postInitialValues,
-                },
-              ].concat(posts),
+            dispatch('HOME_PAGE_MUTATE_POSTS', {
+              posts: {
+                postId: data.postId,
+                content,
+                imageUrls,
+                tagId,
+                happenedAt: date,
+                weatherInfo,
+                precision: datePrecision,
+                userId: User.id(),
+                avatar: User.avatar(),
+                username: User.username(),
+                ...postInitialValues,
+              },
             }),
           );
           observer.next(

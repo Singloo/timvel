@@ -10,8 +10,9 @@ const initialState = {
   enablePostEmoji: true,
   currentPost: null,
   contentDetailIsAnimating: true,
-  isHeaderLoading:false,
-  isFooterLoading:false
+  isHeaderLoading: false,
+  isFooterLoading: false,
+  colorsSets: [],
 };
 
 function reducer(state = initialState, action) {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Touchable, Image, Assets, Styles } from '../../../../re-kits';
-import { colors, I18n } from '../../../utils';
+import { colors, I18n, curried } from '../../../utils';
 const TOUZI_SIZE = 50;
 class ChooseImages extends React.PureComponent {
   render() {
@@ -57,14 +57,14 @@ class ChooseImages extends React.PureComponent {
     return (
       <View style={styles.image} key={index}>
         <Image
-          uri={isUnsplash ? item.imageUrl : item.path}
+          uri={item.path || item.imageUrl}
           style={{ width: 120, height: 120 }}
         />
         <View style={{ position: 'absolute', right: 5, top: 5 }}>
           <Image
             source={Assets.close.source}
             size={'verySmall'}
-            onPress={onPressDeleteImage(index)}
+            onPress={curried(onPressDeleteImage)(index)}
           />
         </View>
       </View>

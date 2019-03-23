@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View, FlatList, StatusBar, Animated } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  StatusBar,
+  Animated,
+  CameraRoll,
+} from 'react-native';
 import {
   Assets,
   ActionButton,
@@ -25,7 +32,10 @@ import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { get } from 'lodash';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
-
+const getGradientColors = (colors, currentIndex) => [
+  colors[currentIndex],
+  colors[currentIndex + 1],
+];
 const item_width = SCREEN_WIDTH - 40 - 0;
 class HomePage extends React.Component {
   constructor(props) {
@@ -33,16 +43,25 @@ class HomePage extends React.Component {
     this.state = {
       nscrollY: new Animated.Value(0),
     };
-    this.colorsSets = [];
   }
   componentWillMount() {
     this._initFeeds();
     this._initSubscription();
   }
-
-  componentDidMount() {}
+  componentDidMount() {
+    CameraRoll.getPhotos({
+      // groupTypes: 'All',
+      first: 20,
+      assetType: 'Photos',
+    }).then(results => {
+      console.warn(results);
+    });
+  }
   componentWillUnmount() {}
 
+  _setState = nextState => {
+    this.props.dispatch('HOME_PAGE_SET_STATE', nextState);
+  };
   /**
    *
    *
@@ -196,12 +215,9 @@ class HomePage extends React.Component {
 
   //render
   _renderItem = ({ item, index }) => {
-    const { showDetail, posts, currentPost } = this.props.state;
-    if (this.colorsSets.length === 0) {
-      this.colorsSets = randomItem(colorSets, posts.length + 1);
-    }
+    const { currentPost, colorsSets } = this.props.state;
     let cardProps = {
-      gradientColors: [this.colorsSets[index], this.colorsSets[index + 1]],
+      gradientColors: getGradientColors(colorsSets, index),
       post: item,
       onPress: this._onPressItem(item, index),
       hidden: get(currentPost, 'postId', null) === item.postId,

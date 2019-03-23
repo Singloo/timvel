@@ -39,23 +39,34 @@ export async function initAliyunOSS() {
   }
 }
 
+// creationDate: "1255122560"
+// cropRect: null
+// data: null
+// exif: null
+// filename: "IMG_0002.JPG"
+// height: 2848
+// localIdentifier: "B84E8479-475C-4727-A4A4-B77AA9980897/L0/001"
+// mime: "image/jpeg"
+// modificationDate: "1441224147"
+// path: "/Users/origami/Library/Developer/CoreSimulator/Devices/1575DB38-2B32-4A34-A30A-A42FCFEFDC25/data/Containers/Data/Application/5D8ABDD0-B9E0-4631-9946-759469DA5230/tmp/react-native-image-crop-picker/8DA46C5B-7B23-4F25-85A8-116A4B957531.jpg"
+// size: 2604768
+// sourceURL: "file:///Users/origami/Library/Developer/CoreSimulator/Devices/1575DB38-2B32-4A34-A30A-A42FCFEFDC25/data/Media/DCIM/100APPLE/IMG_0002.JPG"
+// width: 4288
 export const upLoadImage = async image => {
   try {
-    console.warn(image);
+    console.warn('upload start', image.path);
     await initAliyunOSS();
     const filepath = image.path;
     let imageType = image.mime.replace('image/', '');
     imageType = imageType.length === 0 ? 'jpg' : imageType;
     let filename = User.username() + Date.now() + '.' + imageType;
-    console.warn(filename);
     filename = filename.trim().toLowerCase();
-    console.warn('aaa');
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,
       `images/${filename}`,
       filepath,
     );
-    console.warn('bbb');
+    console.warn('upload finish', image.path);
     return imageUrlPrefix + filename;
   } catch (error) {
     console.warn(error);

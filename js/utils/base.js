@@ -1,6 +1,6 @@
 import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
-import _ from 'lodash';
 import Moment from 'moment';
+import { get, difference } from 'lodash';
 Moment.locale();
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
@@ -148,7 +148,7 @@ export function randomItem(arr = [], returnLength = 1, returnArray = []) {
       return returnArr;
     }
   } else {
-    let newArr = _.difference(arr, returnArr);
+    let newArr = difference(arr, returnArr);
     return randomItem(newArr, returnNum, returnArr);
   }
 }
@@ -164,7 +164,6 @@ export function lenOfText(text) {
   }
   return len;
 }
-
 
 export const isIphoneX =
   isIOS &&
@@ -227,4 +226,27 @@ export const extractUserFromPost = post => ({
   userId: post.userId,
   avatar: post.avatar,
   username: post.username,
+});
+
+export const generateUnsplashImageObj = data => ({
+  imageUrl: get(data, 'urls.regular', ''),
+  rawUrl: get(data, 'urls.raw', ''),
+  description: get(data, 'description', ''),
+  color: get(data, 'color'),
+  exif: get(data, 'exif'),
+  width: get(data, 'width', 0),
+  height: get(data, 'height', 0),
+  likes: get(data, 'likes', 0),
+  user: get(data, 'user', null),
+  id: get(data, 'id', null),
+  type: 'unsplash',
+});
+export const generateLocalImageObj = (image, imageUrl) => ({
+  imageUrl,
+  type: 'local',
+  width: image.width,
+  height: image.height,
+  mime: image.mime,
+  size: image.size,
+  exif: image.exif,
 });

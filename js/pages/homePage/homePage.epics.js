@@ -11,7 +11,15 @@ import {
   startWith,
   delay,
 } from 'rxjs/operators';
-
+import { randomItem } from '../../utils';
+import { colorSets } from '../../../re-kits';
+const generateColorsUntil = (colors = [], toNum) => {
+  const _colors = colors.concat(randomItem(colorSets, toNum - colors.length));
+  if (_colors.length === toNum) {
+    return _colors;
+  }
+  return generateColorsUntil(_colors, toNum);
+};
 const fetchMostPopularPosts = (action$, state$, { httpClient, dispatch }) =>
   action$.pipe(
     ofType('HOME_PAGE_FETCH_POPULAR_POSTS'),
@@ -53,9 +61,9 @@ const fetchPosts = (action$, state$, { dispatch, httpClient }) =>
             happened_at: happenedAt,
             offset,
           });
+          observer.next(dispatch('HOME_PAGE_MUTATE_POSTS', { posts: data }));
           observer.next(
             dispatch('HOME_PAGE_SET_STATE', {
-              posts: data,
               isHeaderLoading: false,
             }),
           );
@@ -118,7 +126,7 @@ const pressEmoji = (action$, state$, { dispatch }) =>
     }),
   );
 
-export const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
+const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST'),
     throttleTime(500),
@@ -139,6 +147,22 @@ export const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
       ),
     ),
   );
+const mutatePosts = (action$, state$, { dispatch }) =>
+  action$.pipe(
+    ofType('HOME_PAGE_MUTATE_POSTS'),
+    map(({ payload }) => {
+      const { posts: nextPosts } = payload;
+      const { posts, colorsSets } = state$.value.homePage;
+      const next = Array.isArray(nextPosts)
+        ? posts.concat(nextPosts)
+        : [nextPosts].concat(posts);
+      const nextColors = generateColorsUntil(colorsSets, next.length + 1);
+      return dispatch('HOME_PAGE_SET_STATE', {
+        colorsSets: nextColors,
+        posts: next,
+      });
+    }),
+  );
 
 export default [
   fetchMostPopularPosts,
@@ -146,4 +170,5 @@ export default [
   pressEmoji,
   onPressEmojiRequest,
   fetchMorePosts,
+  mutatePosts,
 ];

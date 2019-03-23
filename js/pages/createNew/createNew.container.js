@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StyleSheet, View, Animated, Keyboard } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   NavBar,
   Assets,
@@ -9,19 +8,27 @@ import {
 } from '../../../re-kits';
 import ImagePicker from 'react-native-image-crop-picker';
 import Moment from 'moment';
-import _ from 'lodash';
 import ChooseDate from './components/ChooseDate';
 import ChooseImages from './components/ChooseImages';
 import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
-// import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
-import { colors, I18n, connect2, curried } from '../../utils';
+import {
+  colors,
+  I18n,
+  connect2,
+  curried,
+  $UPLOAD_IMAGES,
+  subscribeUploadImages,
+  generateUnsplashImageObj,
+  generateLocalImageObj,
+} from '../../utils';
 import { getRandomPhoto } from '../../utils/Unsplash';
 import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 @connect2('createNew')
 class CreateNew extends React.Component {
+  autoUploadSubscription;
   constructor(props) {
     super(props);
   }
@@ -29,7 +36,26 @@ class CreateNew extends React.Component {
 
   componentDidMount() {
     this._initQuery();
+    this._initSubscriptions();
   }
+  _initSubscriptions = () => {
+    this.autoUploadSubscription = subscribeUploadImages().subscribe(
+      ({ image, imageUrl }) => {
+        const obj = generateLocalImageObj(image, imageUrl);
+        const { images } = this.props.state;
+        const fixedImages = images.map(item => {
+          if (item.path && item.path === image.path) {
+            return {
+              path: item.path,
+              ...obj,
+            };
+          }
+          return item;
+        });
+        this._setState({ images: fixedImages });
+      },
+    );
+  };
   componentDidUpdate(prevProps) {
     if (prevProps.keyboardIsShown !== this.props.keyboardIsShown) {
       this._scrollToEnd();
@@ -38,6 +64,9 @@ class CreateNew extends React.Component {
   componentWillUnmount() {
     this.props.dispatch('CREATE_NEW_RESET_STATE');
   }
+  _setState = nextState => {
+    this.props.dismiss('CREATE_NEW_SET_STATE', nextState);
+  };
   _initQuery = () => {
     this._getWeather();
     this.props.dispatch('CREATE_NEW_FETCH_USER_USED_TAGS');
@@ -73,17 +102,21 @@ class CreateNew extends React.Component {
           return;
         }
         this._addImage(imgs);
+        this._autoUpload(imgs);
       })
       .catch(() => {});
   };
 
-  _addImage = item => {
+  _autoUpload = images => {
+    from(images).subscribe($UPLOAD_IMAGES);
+  };
+  _addImage = upcomingImages => {
     const { images } = this.props.state;
     this._setState({
-      images: images.concat(item),
+      images: images.concat(upcomingImages),
     });
   };
-  _onPressDeleteImage = index => () => {
+  _onPressDeleteImage = index => {
     const { images } = this.props.state;
     const newArr = images.filter((o, i) => i !== index);
 
@@ -129,13 +162,6 @@ class CreateNew extends React.Component {
       datePrecision,
     });
   };
-  // _addTagController = () => {
-  //   const { showAddTag } = this.props.state;
-  //   this.props.dispatch('CREATE_NEW_SET_STATE', {
-  //     showAddTag: !showAddTag,
-  //   });
-  // };
-
   _getWeather = () => {
     const { date } = this.props.state;
     this.props.dispatch('CREATE_NEW_GET_WEATHER', {
@@ -195,19 +221,7 @@ class CreateNew extends React.Component {
     from(getRandomPhoto())
       .pipe(
         // tap(data => console.warn(data)),
-        map(data => ({
-          imageUrl: data.urls.regular,
-          rawUrl: data.urls.raw,
-          description: data.description,
-          color: data.color,
-          exif: data.exif,
-          width: data.width,
-          height: data.height,
-          likes: data.likes,
-          user: data.user,
-          id: data.id,
-          type: 'unsplash',
-        })),
+        map(generateUnsplashImageObj),
       )
       .subscribe({
         next: this._addImage,

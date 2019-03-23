@@ -39,6 +39,15 @@ const diffEmojiChange = (currentPost, nextPost) => {
 const diffHidden = (currentProps, nextProps) => {
   return currentProps.hidden !== nextProps.hidden;
 };
+const diffGradientColors = (currentProps, nextProps) => {
+  if (!currentProps.gradientColors || !nextProps.gradientColors) {
+    return true;
+  }
+  return (
+    currentProps.gradientColors[0] ===
+    get(nextProps.gradientColors, '[0]', null)
+  );
+};
 class MainCard extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +61,8 @@ class MainCard extends React.Component {
   shouldComponentUpdate(nextProps) {
     return (
       diffHidden(this.props, nextProps) ||
-      diffEmojiChange(this.props.post, nextProps.post)
+      diffEmojiChange(this.props.post, nextProps.post) ||
+      diffGradientColors(this.props, nextProps)
     );
   }
   // _onIndexChange = index => (this.currentIndex = index);
@@ -113,7 +123,7 @@ class MainCard extends React.Component {
         <View style={[styles.container, { opacity: hidden ? 0 : 1 }]}>
           <AnimatedWrapper
             id={`maincard${get(post, 'postId', null)}`}
-            type={AnimatedWrapper.types.from}
+            type={'from'}
             ref={r => (this._animatedWrapper = r)}
             renderClonedElement={this._renderClonedElement}
           >
@@ -146,6 +156,7 @@ class MainCard extends React.Component {
           paddingHorizontal: 10,
           height: 60,
         }}
+        hitSlop={{ top: -10, left: 8, bottom: 8, right: 9 }}
       >
         <Text numberOfLines={2}>{post.content}</Text>
       </Touchable>

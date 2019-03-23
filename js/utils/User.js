@@ -1,7 +1,6 @@
 import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES } from './$observable';
-import { retry3, HANDLE } from './$helper';
 const dispatch = (type, payload = {}) => ({ type, payload });
 class UUer {
   constructor() {

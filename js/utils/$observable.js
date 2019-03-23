@@ -1,6 +1,15 @@
-import { interval, from, Subject, timer, range } from 'rxjs';
-import { switchMap, map, concatMap, bufferCount } from 'rxjs/operators';
+import { interval, from, Subject, timer, range, of } from 'rxjs';
+import {
+  switchMap,
+  map,
+  concatMap,
+  bufferCount,
+  filter,
+  catchError,
+} from 'rxjs/operators';
 import { get } from 'lodash';
+import { upLoadImage } from './OSS';
+import { $retryDelay } from './$helper';
 // import coinTransaction from '../components/CoinTransactionAnimation';
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
@@ -58,6 +67,21 @@ const showCoinIncreaseAnimation = transaction =>
       transaction,
     },
   });
+
+const $UPLOAD_IMAGES = new Subject();
+const subscribeUploadImages = () =>
+  $UPLOAD_IMAGES.pipe(
+    filter(image => get(image, 'path', null) && get(image, 'mime', null)),
+    concatMap(image =>
+      from(upLoadImage(image)).pipe(map(imageUrl => ({ image, imageUrl }))),
+    ),
+    $retryDelay(100, 5),
+    catchError(err => {
+      console.warn('auto upload err', err);
+      return of(null);
+    }),
+    filter(x => x !== null),
+  );
 export {
   $queryNew,
   $CENTER,
@@ -67,4 +91,6 @@ export {
   $sourceTenSeconds,
   $TYPES,
   showCoinIncreaseAnimation,
+  $UPLOAD_IMAGES,
+  subscribeUploadImages,
 };
