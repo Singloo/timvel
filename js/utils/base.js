@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
 import _ from 'lodash';
 import Moment from 'moment';
@@ -90,46 +89,6 @@ export const getRandomDate = () => {
     return getRandomDate();
   }
 };
-
-export class DateFormatter {
-  constructor(date) {
-    if (!date) {
-      throw 'Init failed, date needed';
-    }
-    this.date = Moment(date);
-  }
-  isToday = () => {
-    return Moment().format('YYYY-MM-DD') === this.date.format('YYYY-MM-DD');
-  };
-  year = () => {
-    return this.date.format('YYYY');
-  };
-  mon = () => {
-    return this.date.format('MMM');
-  };
-  month = () => {
-    return this.date.format('MMMM');
-  };
-
-  day = () => {
-    return this.date.format('DD');
-  };
-
-  hourMinSecond = () => {
-    return this.date.format('hh:mm:ss');
-  };
-
-  yearMonthDayTime = () => {
-    if (this.isToday()) {
-      return 'Today ' + this.hourMinSecond();
-    }
-    return this.date.format('YYYY MMM DD h:mm:ss a');
-  };
-
-  fromNow = () => {
-    return Moment(this.date).fromNow();
-  };
-}
 export const getLayoutAttributes = event => {
   const { nativeEvent } = layout;
   const { target, layout } = nativeEvent;
@@ -206,39 +165,6 @@ export function lenOfText(text) {
   return len;
 }
 
-export const Styles = StyleSheet.create({
-  absolute: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  shadow: Platform.select({
-    ios: {
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      shadowOffset: {
-        height: 4,
-        width: 3,
-      },
-      backgroundColor: 'white',
-    },
-    android: { elevation: 1, backgroundColor: 'white' },
-  }),
-  textShadow: {
-    textShadowColor: '#f5f5f5',
-    textShadowOffset: {
-      width: 1.5,
-      height: 0,
-    },
-    textShadowRadius: 5,
-  },
-});
 
 export const isIphoneX =
   isIOS &&

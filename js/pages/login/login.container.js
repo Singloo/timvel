@@ -18,12 +18,12 @@ import {
   TextInput,
   Touchable,
   Assets,
+  Styles,
 } from '../../../re-kits';
 import {
   SCREEN_WIDTH,
   realSize,
   colors,
-  Styles,
   EMAIL_REGEX,
   User,
   I18n,

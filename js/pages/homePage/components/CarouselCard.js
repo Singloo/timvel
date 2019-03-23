@@ -7,8 +7,9 @@ import {
   Text,
   Touchable,
   Assets,
+  Styles,
 } from '../../../../re-kits';
-import { Styles, colors, SCREEN_WIDTH } from '../../../utils';
+import { colors, SCREEN_WIDTH } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import Moment from 'moment';
 const item_width = SCREEN_WIDTH - 40 - 0;

@@ -4,7 +4,7 @@
  * Created Date: Thursday March 21st 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 23rd 2019 10:40:37 am
+ * Last Modified: Saturday March 23rd 2019 4:09:05 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -22,7 +22,7 @@ class Card extends Component {
     return (
       <View style={styles.container}>
         {this._renderButton({
-          title: formatter.year(),
+          title: formatter.year,
           onPress: onPress('year'),
           buttonStyle: {
             borderTopLeftRadius: BORDER_RADIUS,
@@ -30,7 +30,7 @@ class Card extends Component {
           },
         })}
         {this._renderButton({
-          title: formatter.mon(),
+          title: formatter.mon,
           type: datePrecision !== 'year' ? 'main' : 'mainBlank',
           onPress: onPress('month'),
           buttonStyle: {
@@ -41,7 +41,7 @@ class Card extends Component {
           },
         })}
         {this._renderButton({
-          title: formatter.day(),
+          title: formatter.day,
           type: datePrecision === 'day' ? 'main' : 'mainBlank',
           onPress: onPress('day'),
           buttonStyle: {

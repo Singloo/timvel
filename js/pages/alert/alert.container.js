@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, LayoutAnimation } from 'react-native';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
-  Assets,
-} from '../../../re-kits';
-import {  Styles, SCREEN_WIDTH, colors, I18n } from '../../utils';
+import { StyleSheet, View, Animated } from 'react-native';
+import { Text, Styles } from '../../../re-kits';
+import { SCREEN_WIDTH, colors, I18n } from '../../utils';
 const card_width = SCREEN_WIDTH - 20;
 const card_height = (card_width * 3) / 5;
 const alertStyles = {

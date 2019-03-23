@@ -8,7 +8,6 @@ import {
   Keyboard,
 } from 'react-native';
 import {
-  Styles,
   SCREEN_WIDTH,
   colors,
   SCREEN_HEIGHT,
@@ -25,6 +24,7 @@ import {
   Separator,
   NAV_BAR_HEIGHT_FULL,
   PADDING_TOP_FULL,
+  Styles
 } from '../../../re-kits';
 import SearchResults from './components/SearchResult';
 import _ from 'lodash';

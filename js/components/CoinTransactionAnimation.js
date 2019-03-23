@@ -2,8 +2,13 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
 import { $coinTransaction, $CENTER, $TYPES } from '../utils/$observable';
-import { SCREEN_WIDTH, colors, Styles, User } from '../utils';
-import { PriceTag, Touchable, NAV_BAR_HEIGHT_FULL } from '../../re-kits';
+import { SCREEN_WIDTH, colors, User } from '../utils';
+import {
+  PriceTag,
+  Touchable,
+  NAV_BAR_HEIGHT_FULL,
+  Styles,
+} from '../../re-kits';
 // const User = {}
 import { timer } from 'rxjs';
 import * as Animatable from 'react-native-animatable';

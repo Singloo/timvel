@@ -5,6 +5,7 @@ import {
   createMoveableComp,
   PriceTag,
   NAV_BAR_HEIGHT_FULL,
+  Styles,
 } from '../../re-kits';
 import RootSiblings from 'react-native-root-siblings';
 import { map, filter } from 'rxjs/operators';
@@ -13,7 +14,6 @@ import {
   runAfter,
   curried,
   colors,
-  Styles,
   randomItem,
   randomNumber,
   SCREEN_HEIGHT,

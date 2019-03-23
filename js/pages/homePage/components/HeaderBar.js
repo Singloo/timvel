@@ -55,10 +55,10 @@ class HeaderBar extends React.PureComponent {
         }}
       >
         <Text style={[styles.text, { fontWeight: '300' }]}>
-          {'Year ' + _date.year()}
+          {'Year ' + _date.year}
         </Text>
-        <Text style={[styles.text, { fontSize: 20 }]}>{_date.mon()}</Text>
-        <Text style={[styles.text, { fontSize: 20 }]}>{_date.day()}</Text>
+        <Text style={[styles.text, { fontSize: 20 }]}>{_date.mon}</Text>
+        <Text style={[styles.text, { fontSize: 20 }]}>{_date.day}</Text>
       </Animated.View>
     );
   };

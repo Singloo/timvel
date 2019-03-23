@@ -6,14 +6,9 @@ import {
   WeatherInfo,
   ImageSwiper,
   flattenStyles,
-} from '../../../../re-kits';
-import {
   Styles,
-  colors,
-  DateFormatter,
-  curried,
-  SCREEN_WIDTH,
-} from '../../../utils';
+} from '../../../../re-kits';
+import { colors, DateFormatter, curried, SCREEN_WIDTH } from '../../../utils';
 import UserInfoBar from './UserInfoBar';
 import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
@@ -226,9 +221,11 @@ class MainCard extends React.Component {
         style={styles.timeBarContainer}
       >
         {this.renderTimeBarDot()}
-        <Text style={styles.dateTime}>{happenedAt.yearMonthDayTime()}</Text>
+        <Text style={styles.dateTime}>
+          {happenedAt.getHappenedAt(post.precision)}
+        </Text>
         <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
-          {happenedAt.fromNow()}
+          {happenedAt.fromNow}
         </Text>
       </Animatable.View>
     );

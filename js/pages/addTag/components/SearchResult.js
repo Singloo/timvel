@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, Text, Tag } from '../../../../re-kits';
-import { Styles, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import { Button, Text, Tag, Styles } from '../../../../re-kits';
+import { I18n } from '../../../utils';
 class SearchResult extends Component {
   componentWillMount() {}
 

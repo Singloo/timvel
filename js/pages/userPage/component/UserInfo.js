@@ -6,8 +6,9 @@ import {
   Image,
   InfiniteText,
   PADDING_TOP_FULL,
+  Styles,
 } from '../../../../re-kits';
-import { SCREEN_WIDTH, colors, Styles } from '../../../utils';
+import { SCREEN_WIDTH, colors } from '../../../utils';
 import Title from '../../../components/Title';
 const width = SCREEN_WIDTH;
 const height = 200;

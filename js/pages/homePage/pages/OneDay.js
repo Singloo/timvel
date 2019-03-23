@@ -6,8 +6,8 @@ import {
   ScrollView,
   LayoutAnimation,
 } from 'react-native';
-import { Button, Image, Text, Assets } from '../../../../re-kits';
-import { Styles, SCREEN_WIDTH, colors, isIOS, I18n } from '../../../utils';
+import { Button, Image, Text, Assets, Styles } from '../../../../re-kits';
+import { SCREEN_WIDTH, colors, isIOS, I18n } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import DatePicker from 'react-native-datepicker';

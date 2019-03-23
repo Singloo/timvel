@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image as Image2 } from 'react-native';
-import { Button, Image, InfiniteText, Text, Assets } from '../../../../re-kits';
-import { Styles, colors } from '../../../utils';
+import { StyleSheet, View } from 'react-native';
+import {
+  Button,
+  Image,
+  InfiniteText,
+  Text,
+  Assets,
+  Styles,
+} from '../../../../re-kits';
+import { colors } from '../../../utils';
 import TimeBar from './TimeBar';
 class UserInfoBar extends Component {
   componentWillMount() {}

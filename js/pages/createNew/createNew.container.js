@@ -124,7 +124,7 @@ class CreateNew extends React.Component {
       images,
       content,
       weatherInfo,
-      tag_id: currentTag.tagId,
+      tagId: currentTag.tagId,
       date,
       datePrecision,
     });

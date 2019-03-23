@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, Assets } from '../../../../re-kits';
-import { Styles, realSize, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import { Button, Text, Assets,Styles } from '../../../../re-kits';
+import {  realSize, I18n } from '../../../utils';
 import LottieView from 'lottie-react-native';
 
 class LoadingView extends Component {

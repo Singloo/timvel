@@ -18,15 +18,12 @@ import {
   NAV_BAR_HEIGHT_FULL,
   PADDING_TOP_FULL,
   flattenStyles,
-} from '../../../../re-kits';
-import {
-  SCREEN_WIDTH,
-  colors,
   Styles,
+  colors,
+  SCREEN_WIDTH,
   TAB_BAR_HEIGHT,
-  curried,
-  extractUserFromPost,
-} from '../../../utils';
+} from '../../../../re-kits';
+import { curried, extractUserFromPost } from '../../../utils';
 import UserInfoBar from '../components/UserInfoBar';
 import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';

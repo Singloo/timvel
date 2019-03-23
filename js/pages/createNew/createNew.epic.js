@@ -9,9 +9,19 @@ import {
 } from 'rxjs/operators';
 import Moment from 'moment';
 import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
+const postInitialValues = {
+  post_type: 'normal',
+  angry: 0,
+  laugh: 0,
+  nofeeling: 0,
+  shock: 0,
+  vomit: 0,
+  popularity: 0,
+  numOfComments: 0,
+};
 const createPost = (
   action$,
-  _,
+  state$,
   { dispatch, httpClient, OSS, User, navigation },
 ) =>
   action$.pipe(
@@ -23,7 +33,7 @@ const createPost = (
             images,
             content,
             weatherInfo,
-            tag_id,
+            tagId,
             date,
             datePrecision,
           } = payload;
@@ -55,10 +65,28 @@ const createPost = (
             user_id: User.id(),
             weather_info: weatherInfo,
             post_type: 'normal',
-            tag_id: tag_id,
+            tag_id: tagId,
             happened_at: date,
             precision: datePrecision,
           });
+          const { posts } = state$.value.homePage;
+          observer.next(
+            dispatch('HOME_PAGE_SET_STATE', {
+              posts: [
+                {
+                  postId: data.postId,
+                  content,
+                  imageUrls,
+                  tagId,
+                  happenedAt: happened_at,
+                  weatherInfo,
+                  precision: datePrecision,
+                  user_id: User.id(),
+                  ...postInitialValues,
+                },
+              ].concat(posts),
+            }),
+          );
           observer.next(
             dispatch('GLOBAL_SET_STATE', {
               isLoading: false,
