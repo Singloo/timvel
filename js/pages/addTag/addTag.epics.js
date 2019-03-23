@@ -30,7 +30,7 @@ const insertTag = (action$, state$, { httpClient, dispatch }) =>
       Observable.create(async observer => {
         try {
           const { tag, callback } = action.payload;
-          await httpClient.post('/tag', {
+          const { data } = await httpClient.post('/tag', {
             tag: tag.trim(),
           });
           observer.next(
@@ -39,7 +39,7 @@ const insertTag = (action$, state$, { httpClient, dispatch }) =>
               content: 'Tag added!',
             }),
           );
-          callback && callback();
+          callback && callback({ tag, popularity: 0, ...data });
         } catch (error) {
           console.warn(error);
         } finally {

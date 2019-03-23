@@ -1,5 +1,5 @@
 import Moment from 'moment';
-const initialTag = { tag: '日常', popularity: 0 };
+const initialTag = { tag: '日常', popularity: 0, tagId: 1 };
 const initialState = {
   date: Moment().format('YYYY-MM-DD'),
   images: [],

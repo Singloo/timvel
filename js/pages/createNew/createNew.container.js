@@ -16,16 +16,7 @@ import ChooseTags from './components/ChooseTags';
 import ChooseWeather from './components/ChooseWeather';
 // import AddTag from './components/AddTag';
 import AddTag from '../addTag/addTag.connect';
-import {
-  colors,
-  isAndroid,
-  I18n,
-  connect2,
-  HANDLE,
-  $CENTER,
-  $TYPES,
-  curried,
-} from '../../utils';
+import { colors, I18n, connect2, curried } from '../../utils';
 import { getRandomPhoto } from '../../utils/Unsplash';
 import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -132,7 +123,7 @@ class CreateNew extends React.Component {
       images,
       content,
       weatherInfo,
-      tag: currentTag.tag,
+      tag_id: currentTag.tagId,
       date,
       datePrecision,
     });
@@ -244,12 +235,6 @@ class CreateNew extends React.Component {
     });
   };
   _setCurrentTag = currentTag => {
-    if (typeof currentTag === 'string') {
-      currentTag = {
-        tag: currentTag,
-        popularity: 0,
-      };
-    }
     this._setState({
       currentTag,
     });

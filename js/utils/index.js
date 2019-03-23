@@ -10,6 +10,7 @@ export * from './performance';
 export * from './$observable';
 export * from './$helper';
 export * from './helper';
+import * as Vibration from './Vibration';
 export { default as Navigation } from './Navigation';
 export { default as ApiNotifications } from './apiNotifications';
-export { OSS, Network, Setup };
+export { OSS, Network, Setup, Vibration };

@@ -17,7 +17,7 @@ const createPost = (
             images,
             content,
             weatherInfo,
-            tag,
+            tag_id,
             date,
             datePrecision,
           } = payload;
@@ -49,7 +49,7 @@ const createPost = (
             user_id: User.id(),
             weather_info: weatherInfo,
             post_type: 'normal',
-            tag: tag,
+            tag_id: tag_id,
             happened_at: date,
             precision: datePrecision,
           });

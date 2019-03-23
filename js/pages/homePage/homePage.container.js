@@ -16,13 +16,13 @@ import {
   randomItem,
   getRandomDate,
   curried,
+  Vibration,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
 import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
-import { $queryNew } from '../../utils/$observable';
 import { get } from 'lodash';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 

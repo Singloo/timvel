@@ -129,7 +129,7 @@ class AddTag extends React.Component {
   _onPressNewTag = tag => {
     const { tags } = this.props.createNew;
     const { showSearch } = this.props.state;
-    let included = !!tags.find(o => o.tag == tag.tag);
+    let included = !!tags.find(o => o.tagId == tag.tagId);
     let newTags = tags;
     if (!included) {
       newTags = [].concat(tag, tags);
@@ -150,10 +150,7 @@ class AddTag extends React.Component {
     Keyboard.dismiss();
     this.props.dispatch('ADD_TAG_ADD_TAG', {
       tag,
-      callback: curried(this._onPressNewTag)({
-        tag: tag.trim(),
-        popularity: 0,
-      }),
+      callback: this._onPressNewTag,
     });
   };
 
