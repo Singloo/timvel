@@ -68,7 +68,6 @@ const searchTag = (action$, state$, { httpClient, dispatch }) =>
               tag: fixedTag,
             },
           });
-          console.warn(tag, data);
           observer.next(
             dispatch('ADD_TAG_SET_STATE', {
               searchResults: data,
@@ -82,5 +81,4 @@ const searchTag = (action$, state$, { httpClient, dispatch }) =>
       }),
     ),
   );
-
 export default [fetchPopularTags, insertTag, searchTag];

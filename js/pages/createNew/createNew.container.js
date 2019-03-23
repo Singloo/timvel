@@ -40,6 +40,7 @@ class CreateNew extends React.Component {
   }
   _initQuery = () => {
     this._getWeather();
+    this.props.dispatch('CREATE_NEW_FETCH_USER_USED_TAGS');
   };
   _scrollToEnd = () => {
     this._scrollView && this._scrollView.getNode().scrollToEnd();

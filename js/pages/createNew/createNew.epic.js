@@ -1,6 +1,12 @@
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { exhaustMap, switchMap, throttleTime } from 'rxjs/operators';
+import {
+  exhaustMap,
+  switchMap,
+  throttleTime,
+  catchError,
+  map,
+} from 'rxjs/operators';
 import Moment from 'moment';
 import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
 const createPost = (
@@ -166,4 +172,34 @@ const getWeather = (action$, _, { dispatch, Network }) =>
       }),
     ),
   );
-export default [createPost, getWeather];
+const fetchUserRecentlyUsedTags = (
+  action$,
+  _,
+  { httpClient, User, dispatch, $retryDelay },
+) =>
+  action$.pipe(
+    ofType('CREATE_NEW_FETCH_USER_USED_TAGS'),
+    switchMap(_ => {
+      if (!User.isLoggedIn()) {
+        return of(null);
+      }
+      return from(
+        httpClient.get('/tag/user_tag', {
+          params: {
+            user_id: User.id(),
+          },
+        }),
+      );
+    }),
+    map(({ data }) =>
+      dispatch('CREATE_NEW_SET_STATE', {
+        tags: data,
+      }),
+    ),
+    $retryDelay(),
+    catchError(error => {
+      console.warn(error);
+      return of(null);
+    }),
+  );
+export default [createPost, getWeather, fetchUserRecentlyUsedTags];
