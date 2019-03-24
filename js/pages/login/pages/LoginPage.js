@@ -1,7 +1,18 @@
 import React from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { Button, TextInput, NAV_BAR_HEIGHT_FULL } from '../../../../re-kits';
-import { Styles, SCREEN_WIDTH, SCREEN_HEIGHT, I18n } from '../../../utils';
+import {
+  Button,
+  TextInput,
+  NAV_BAR_HEIGHT_FULL,
+  colors,
+} from '../../../../re-kits';
+import {
+  Styles,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  I18n,
+  curried,
+} from '../../../utils';
 
 const LEFT = SCREEN_WIDTH * 2;
 class SignUpPage extends React.Component {
@@ -37,7 +48,7 @@ class SignUpPage extends React.Component {
   };
   render() {
     const { username, password } = this.state;
-    const { onPressNew, onPressLogin, onLoginPage } = this.props;
+    const { onPressLogin, onLoginPage } = this.props;
     return (
       <View style={styles.container}>
         <Animated.View
@@ -54,6 +65,7 @@ class SignUpPage extends React.Component {
             style={styles.textInput}
             placeholderText={I18n.t('loginUsername')}
             value={username}
+            textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangeUsername}
             clearText={this._clearUsername}
           />
@@ -72,6 +84,7 @@ class SignUpPage extends React.Component {
             style={styles.textInput}
             placeholderText={I18n.t('loginPassword')}
             value={password}
+            textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangePassword}
             clearText={this._clearPassword}
           />
@@ -79,6 +92,7 @@ class SignUpPage extends React.Component {
 
         <Button
           title={'Login'}
+          type={'mainBlank'}
           buttonStyle={[
             styles.buttonStyle,
             styles.relative,
@@ -87,9 +101,8 @@ class SignUpPage extends React.Component {
               left: onLoginPage ? 0 : -LEFT - 160 * 2,
             },
           ]}
-          onPress={() => {
-            onPressLogin(username, password);
-          }}
+          textStyle={{ fontWeight: 'bold' }}
+          onPress={curried(onPressLogin)(username, password)}
         />
       </View>
     );
@@ -99,8 +112,9 @@ class SignUpPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: NAV_BAR_HEIGHT_FULL,
+    paddingTop: NAV_BAR_HEIGHT_FULL,
     justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   relative: {
     position: 'relative',
@@ -109,11 +123,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginHorizontal: 30,
   },
-  textInput: {},
+  textInput: { borderColor: colors.white },
   buttonStyle: {
     alignSelf: 'center',
     marginTop: 30,
     width: SCREEN_WIDTH - 60,
+    backgroundColor: 'transparent',
   },
 });
 export default SignUpPage;

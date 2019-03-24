@@ -7,6 +7,7 @@ import {
   Easing,
   SafeAreaView,
   LayoutAnimation,
+  findNodeHandle,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -21,12 +22,14 @@ import {
   Styles,
 } from '../../../re-kits';
 import {
+  SCREEN_HEIGHT,
   SCREEN_WIDTH,
   realSize,
   colors,
   EMAIL_REGEX,
   User,
   I18n,
+  isAndroid,
 } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
@@ -60,11 +63,11 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    // this.gradientBK&&this.gradientBK.play();
+    this.gradientBK && this.gradientBK.play();
   }
   componentWillUnmount() {
     this.props.dispatch('LOGIN_RESET_STATE');
-    // this.gradientBK && this.gradientBK.reset();
+    this.gradientBK && this.gradientBK.reset();
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
     this.keyboardWillShowSub.remove();
@@ -210,11 +213,18 @@ class Login extends Component {
       content: I18n.t('welcome'),
     });
   };
+  _onLayout = () => {
+    // if (isAndroid) {
+    //   setTimeout(() => {
+    //     this.setState({ viewRef: findNodeHandle(this.gradientBK) });
+    //   }, 50);
+    // }
+  };
   render() {
     const { onLoginPage, showSignUpPage } = this.props.state;
     return (
       <View style={styles.container}>
-        {/* <LottieView
+        <LottieView
           ref={r => {
             this.gradientBK = r;
           }}
@@ -222,7 +232,8 @@ class Login extends Component {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-        /> */}
+          onLayout={this._onLayout}
+        />
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'light'}
@@ -252,12 +263,12 @@ class Login extends Component {
           </Animated.View>
         </Touchable>
         <Button
-          title={onLoginPage ? 'New?' : 'Have an account?'}
+          title={onLoginPage ? '        New?      ' : 'Have an account?'}
           buttonStyle={[
             styles.buttonStyle,
             { backgroundColor: 'transparent', marginTop: 10 },
           ]}
-          textStyle={{ fontSize: 14, color: colors.main }}
+          textStyle={{ fontSize: 14, color: colors.main, textAlign: 'center' }}
           onPress={this._onChangeLoginSignup}
         />
         <NavBar
@@ -265,6 +276,8 @@ class Login extends Component {
           onPressLeft={this._goBack}
           title={'LogIn or SignUp'}
           style={styles.navBar}
+          titleStyle={{ color: colors.white }}
+          leftTint={colors.white}
         />
       </View>
     );
@@ -274,12 +287,13 @@ Login.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'red',
     // alignItems: 'center',
   },
   navBar: {
     position: 'absolute',
     top: 0,
+    backgroundColor: 'transparent',
   },
   contentContainer: {
     flex: 1,
@@ -289,7 +303,13 @@ const styles = StyleSheet.create({
   buttonStyle: {
     alignSelf: 'center',
     marginTop: 30,
-    width: SCREEN_WIDTH - 60,
+    // width: SCREEN_WIDTH - 60,
+  },
+  absoluteBK: {
+    position: 'absolute',
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    transform: [{ scale: 1.2 }],
   },
 });
 

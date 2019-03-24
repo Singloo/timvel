@@ -9,6 +9,7 @@ export * from './DateFormatter';
 export { connect2 } from './Setup';
 export * from './performance';
 export * from './$observable';
+export * from './$observableService'
 export * from './$helper';
 export * from './helper';
 import * as Vibration from './Vibration';

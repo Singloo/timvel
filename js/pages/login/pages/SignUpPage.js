@@ -7,6 +7,7 @@ import {
   TextInput,
   NAV_BAR_HEIGHT_FULL,
   Styles,
+  colors,
 } from '../../../../re-kits';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, I18n } from '../../../utils';
 const RIGHT = SCREEN_WIDTH;
@@ -81,6 +82,7 @@ class SignUpPage extends React.Component {
             style={styles.textInput}
             placeholderText={I18n.t('signUpUsername')}
             value={username}
+            textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangeUsername}
             clearText={() => this._clear('username')}
           />
@@ -99,6 +101,7 @@ class SignUpPage extends React.Component {
             style={styles.textInput}
             placeholderText={I18n.t('signUpPassword')}
             value={password}
+            textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangePassword}
             clearText={() => this._clear('password')}
           />
@@ -135,12 +138,14 @@ class SignUpPage extends React.Component {
             style={styles.textInput}
             placeholderText={I18n.t('signUpEmail')}
             value={email}
+            textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangeEmail}
             clearText={() => this._clear('email')}
           />
         </Animated.View>
         <Button
           title={'Sign up!!'}
+          type={'mainBlank'}
           buttonStyle={[
             styles.buttonStyle,
             styles.relative,
@@ -149,6 +154,7 @@ class SignUpPage extends React.Component {
               right: !onLoginPage ? 0 : -RIGHT - 160 * 3,
             },
           ]}
+          textStyle={{fontWeight:'bold'}}
           onPress={() => {
             onPressSignUp(username, password, email);
           }}
@@ -162,7 +168,7 @@ class SignUpPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: NAV_BAR_HEIGHT_FULL,
+    paddingTop: NAV_BAR_HEIGHT_FULL,
     justifyContent: 'center',
     backgroundColor: 'transparent',
   },
@@ -173,11 +179,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginHorizontal: 30,
   },
-  textInput: {},
+  textInput: { borderColor: colors.white },
   buttonStyle: {
     alignSelf: 'center',
     marginTop: 30,
     width: SCREEN_WIDTH - 60,
+    backgroundColor: 'transparent',
   },
 });
 export default SignUpPage;
