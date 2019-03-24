@@ -193,6 +193,7 @@ class HomePage extends React.Component {
   };
 
   _onPressEmoji = postId => emoji => {
+    Vibration.vibrate(50);
     this.props.dispatch('HOME_PAGE_PRESS_EMOJI', {
       emoji,
       postId,
@@ -278,7 +279,10 @@ class HomePage extends React.Component {
   };
   _renderActionButton = () => {
     return (
-      <ActionButton buttonSource={Assets.actionButton.source}>
+      <ActionButton
+        buttonSource={Assets.actionButton.source}
+        onPress={Vibration.vibrate}
+      >
         <ActionButton.Icon
           iconStyle={{ backgroundColor: colors.white }}
           iconProps={{

@@ -4,14 +4,20 @@
  * Created Date: Thursday March 21st 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 23rd 2019 4:09:05 pm
+ * Last Modified: Sunday March 24th 2019 11:19:09 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
-import { I18n, DateFormatter, colors } from '../../../utils';
+import {
+  I18n,
+  DateFormatter,
+  colors,
+  isAndroid,
+  booleanMap,
+} from '../../../utils';
 const BORDER_RADIUS = 8;
 class Card extends Component {
   componentWillMount() {}
@@ -31,18 +37,25 @@ class Card extends Component {
         })}
         {this._renderButton({
           title: formatter.mon,
-          type: datePrecision !== 'year' ? 'main' : 'mainBlank',
+          type: booleanMap(datePrecision !== 'year', 'main', 'mainBlank'),
           onPress: onPress('month'),
           buttonStyle: {
             borderLeftWidth: 0.5,
-            borderRightWidth: 0.5,
-            borderColor:
-              datePrecision === 'year' ? colors.mainLight : colors.white,
+            borderRightWidth: booleanMap(
+              isAndroid && datePrecision === 'day',
+              1,
+              0.5,
+            ),
+            borderColor: booleanMap(
+              datePrecision === 'year',
+              colors.mainLight,
+              colors.white,
+            ),
           },
         })}
         {this._renderButton({
           title: formatter.day,
-          type: datePrecision === 'day' ? 'main' : 'mainBlank',
+          type: booleanMap(datePrecision === 'day', 'main', 'mainBlank'),
           onPress: onPress('day'),
           buttonStyle: {
             borderTopRightRadius: BORDER_RADIUS,

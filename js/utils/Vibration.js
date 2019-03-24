@@ -4,16 +4,16 @@
  * Created Date: Saturday March 23rd 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 23rd 2019 11:48:17 am
+ * Last Modified: Sunday March 24th 2019 11:21:24 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import { Vibration } from 'react-native';
 import { isIOS } from './base';
-const PATTERN = [0, 100, 50, 100, 50, 100];
-export const vibrate = () => {
+const PATTERN = [0, 80];
+export const vibrate = num => {
   if (isIOS) {
     return;
   }
-  Vibration.vibrate(PATTERN);
+  Vibration.vibrate(num || PATTERN);
 };

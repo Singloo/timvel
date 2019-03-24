@@ -4,7 +4,7 @@ import { get } from 'lodash';
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
   concatMap(_ => timer(INTERVAL)),
-  switchMap(_ => from([1])),
+  switchMap(_ => from([{ data: [] }])),
   map(({ data }) => {
     if (get(data, 'length', 0) > 0) {
       INTERVAL = INTERVAL / 2;
@@ -23,11 +23,14 @@ const $sourceOneMinue = $sourceSecond.pipe(bufferCount(60));
 //{transaction:number}
 //show transaction animation
 const $coinTransaction = new Subject();
-
-const $all = {
+interface IAction {
+  type: string;
+  payload: object;
+}
+const $all: { [key: string]: Subject<any> } = {
   coinTransaction: $coinTransaction,
 };
-const $CENTER = new Subject();
+const $CENTER = new Subject<IAction>();
 
 const $TYPES = {
   coinTransaction: 'coinTransaction',
@@ -35,12 +38,6 @@ const $TYPES = {
   userUnmount: 'userUnmount',
 };
 $CENTER.subscribe({
-  // command = {
-  //   type:',
-  //   payload:{
-  //     ...parameters
-  //   }
-  // }
   next: ({ type, payload }) => {
     const $next = $all[type];
     if (!$next) {
@@ -50,7 +47,7 @@ $CENTER.subscribe({
   },
 });
 
-const showCoinIncreaseAnimation = transaction =>
+const showCoinIncreaseAnimation = (transaction: number) =>
   $CENTER.next({
     type: $TYPES.coinTransaction,
     payload: {

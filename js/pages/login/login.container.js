@@ -38,9 +38,6 @@ import SignUpPage from './pages/SignUpPage';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      viewRef: null,
-    };
     this.keyboardHeight = new Animated.Value(0);
   }
   componentWillMount() {
@@ -81,16 +78,6 @@ class Login extends Component {
       duration: 400,
       toValue: event.endCoordinates.height,
     }).start();
-    // Animated.parallel([
-    //     Animated.timing(this.keyboardHeight,{
-    //         duration: event.duration,
-    //         toValue: event.endCoordinates.height,
-    //     }),
-    //     Animated.timing(this.imageHeight,{
-    //         duration: event.duration,
-    //         toValue: IMAGE_HEIGHT_SMALL
-    //     })
-    // ]).start()
   };
   keyboardDidShow = event => {
     Animated.timing(this.keyboardHeight, {
@@ -103,15 +90,6 @@ class Login extends Component {
       duration: 400,
       toValue: 0,
     }).start();
-    // Animated.parallel([
-    //     Animated.timing(this.keyboardHeight,{
-    //         duration: event.duration,
-    //     }),
-    //     Animated.timing(this.imageHeight,{
-    //         duration: event.duration,
-    //         toValue: IMAGE_HEIGHT
-    //     })
-    // ]).start()
   };
   keyboardDidHide = event => {
     Animated.timing(this.keyboardHeight, {
@@ -213,13 +191,6 @@ class Login extends Component {
       content: I18n.t('welcome'),
     });
   };
-  _onLayout = () => {
-    // if (isAndroid) {
-    //   setTimeout(() => {
-    //     this.setState({ viewRef: findNodeHandle(this.gradientBK) });
-    //   }, 50);
-    // }
-  };
   render() {
     const { onLoginPage, showSignUpPage } = this.props.state;
     return (
@@ -232,14 +203,8 @@ class Login extends Component {
           speed={0.5}
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
-          onLayout={this._onLayout}
         />
-        <BlurView
-          viewRef={this.state.viewRef}
-          blurType={'light'}
-          style={Styles.absolute}
-          blurAmount={20}
-        />
+        <BlurView blurType={'light'} style={Styles.absolute} blurAmount={20} />
         <Touchable withoutFeedback={true} onPress={this._dismissKeyboard}>
           <Animated.View
             style={[
@@ -287,7 +252,7 @@ Login.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     // alignItems: 'center',
   },
   navBar: {
