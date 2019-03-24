@@ -11,6 +11,9 @@ import { CoinTransactionAnimation } from './components/CoinTransactionAnimation'
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
   'Module RCTImageLoader',
+  'Module RCTImagePickerManager',
+  'Warning: ViewPagerAndroid',
+  'Warning: Slider has been',
 ]);
 import AV from 'leancloud-storage';
 AV.init({

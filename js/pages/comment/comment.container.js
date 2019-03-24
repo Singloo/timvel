@@ -10,6 +10,8 @@ import {
   Assets,
   CommentBar,
   NAV_BAR_HEIGHT_FULL,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
 } from '../../../re-kits';
 import { colors, TAB_BAR_HEIGHT, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
@@ -49,7 +51,9 @@ class Comment extends Component {
     return (
       <View style={styles.container}>
         <FlatList
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+          }}
           data={comments}
           renderItem={this._renderItem}
           contentContainerStyle={{

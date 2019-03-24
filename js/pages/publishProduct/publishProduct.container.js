@@ -135,7 +135,7 @@ class Sample extends Component {
       coverImage,
       confirmedCustomTitle,
     } = this.props.state;
-    const { keyboardHeight } = this.props;
+    // const { keyboardHeight } = this.props;
     let ableToSend =
       title.length > 0 &&
       price.length > 0 &&
@@ -175,7 +175,7 @@ class Sample extends Component {
           style={{
             flex: 1,
             backgroundColor: colors.pureWhite,
-            marginBottom: keyboardHeight,
+            // paddingBottom: keyboardHeight,
           }}
           contentContainerStyle={{
             paddingBottom: 20,
@@ -298,5 +298,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
-
-export default withKeyboardListener(Sample);
+export default Sample
+// export default withKeyboardListener(Sample);

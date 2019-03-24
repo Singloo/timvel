@@ -38,7 +38,9 @@ import SignUpPage from './pages/SignUpPage';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.keyboardHeight = new Animated.Value(0);
+    this.state = {
+      keyboardHeight: new Animated.Value(0),
+    };
   }
   componentWillMount() {
     this.keyboardWillShowSub = Keyboard.addListener(
@@ -74,25 +76,25 @@ class Login extends Component {
 
   //listener
   keyboardWillShow = event => {
-    Animated.timing(this.keyboardHeight, {
+    Animated.timing(this.state.keyboardHeight, {
       duration: 400,
       toValue: event.endCoordinates.height,
     }).start();
   };
   keyboardDidShow = event => {
-    Animated.timing(this.keyboardHeight, {
+    Animated.timing(this.state.keyboardHeight, {
       duration: 400,
       toValue: event.endCoordinates.height,
     }).start();
   };
   keyboardWillHide = event => {
-    Animated.timing(this.keyboardHeight, {
+    Animated.timing(this.state.keyboardHeight, {
       duration: 400,
       toValue: 0,
     }).start();
   };
   keyboardDidHide = event => {
-    Animated.timing(this.keyboardHeight, {
+    Animated.timing(this.state.keyboardHeight, {
       duration: 400,
       toValue: 0,
     }).start();
@@ -209,7 +211,7 @@ class Login extends Component {
           <Animated.View
             style={[
               styles.contentContainer,
-              { marginBottom: this.keyboardHeight },
+              { marginBottom: this.state.keyboardHeight },
             ]}
           >
             <View style={{ flex: 1 }}>
