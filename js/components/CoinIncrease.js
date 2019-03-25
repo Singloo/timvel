@@ -121,7 +121,7 @@ class CoinIncrease extends React.PureComponent {
 
   _onPressBubble = (id, coin) => {
     this._destroyBubble(id);
-    if (!User.isLoggedIn()) {
+    if (!User.isLoggedIn) {
       console.warn('not log in');
       return;
     }

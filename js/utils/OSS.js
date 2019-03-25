@@ -59,7 +59,7 @@ export const upLoadImage = async image => {
     const filepath = image.path;
     let imageType = image.mime.replace('image/', '');
     imageType = imageType.length === 0 ? 'jpg' : imageType;
-    let filename = User.username() + Date.now() + '.' + imageType;
+    let filename = User.username + Date.now() + '.' + imageType;
     filename = filename.trim().toLowerCase();
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,

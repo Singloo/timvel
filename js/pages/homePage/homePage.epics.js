@@ -152,7 +152,7 @@ const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
         httpClient.post('/post/emoji', {
           emoji: payload.emoji,
           post_id: payload.postId,
-          user_id: User.objectId(),
+          user_id: User.objectId,
         }),
       ).pipe(
         tap(_ => console.warn('success')),

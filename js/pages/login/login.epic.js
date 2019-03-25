@@ -96,12 +96,12 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
             };
 
             await httpClient.post('/user/update', {
-              object_id: User.objectId(),
+              object_id: User.objectId,
               username: username,
               password: password,
               email: email,
               detail: JSON.stringify(info),
-              user_coin: User.userCoin(),
+              user_coin: User.userCoin,
             });
             // user.set('userId', data.id);
           } catch (error) {

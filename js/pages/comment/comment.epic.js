@@ -7,14 +7,14 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
   action$.pipe(
     ofType('COMMENT_COMMENT_POST'),
     switchMap(action => {
-      if (!User.isLoggedIn()) {
+      if (!User.isLoggedIn) {
         return of(dispatch('GLOBAL_SHOW_SIGN_UP'));
       }
       const { post, content, callback, associatedCommentId } = action.payload;
       return from(
         httpClient.post('/post/comments', {
           post_id: post.postId,
-          user_id: User.id(),
+          user_id: User.id,
           receiver_user_id: post.userId,
           content,
           associated_comment_id: associatedCommentId,
@@ -25,9 +25,9 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
           callback && callback();
         }),
         map(_ => ({
-          userId: User.id(),
-          username: User.username(),
-          avatar: User.avatar(),
+          userId: User.id,
+          username: User.username,
+          avatar: User.avatar,
           content: content,
           createdAt: Moment().format(),
         })),

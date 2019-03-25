@@ -64,12 +64,6 @@ class UUer {
     this.user.increment(key, value);
     return this.user.save();
   };
-  userCoin = () => {
-    return this.get('userCoin');
-  };
-  isLoggedIn = () => {
-    return !!this.user;
-  };
   logIn = async ({
     username,
     password,
@@ -99,21 +93,27 @@ class UUer {
     $CENTER.next(dispatch($TYPES.userMount));
     return this.user;
   };
-  username = () => {
+  get userCoin() {
+    return this.get('userCoin');
+  }
+  get isLoggedIn() {
+    return !!this.user;
+  }
+  get username() {
     return this.get('username');
-  };
-  email = () => {
+  }
+  get email() {
     return this.get('email');
-  };
-  objectId = () => {
+  }
+  get objectId() {
     return this.get('objectId');
-  };
-  id = () => {
-    return this.objectId();
-  };
-  avatar = () => {
+  }
+  get id() {
+    return this.objectId;
+  }
+  get avatar() {
     return this.get('avatar');
-  };
+  }
   updateAvatar = (url: string) => {
     this.set('avatar', url);
   };

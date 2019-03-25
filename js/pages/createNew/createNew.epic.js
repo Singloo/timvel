@@ -65,7 +65,7 @@ const createPost = (
           const { data } = await httpClient.post('/post', {
             content: content,
             image_urls: imageUrls,
-            user_id: User.id(),
+            user_id: User.id,
             weather_info: weatherInfo,
             post_type: 'normal',
             tag_id: tagId,
@@ -82,9 +82,9 @@ const createPost = (
                 happenedAt: date,
                 weatherInfo,
                 precision: datePrecision,
-                userId: User.id(),
-                avatar: User.avatar(),
-                username: User.username(),
+                userId: User.id,
+                avatar: User.avatar,
+                username: User.username,
                 ...postInitialValues,
               },
             }),
@@ -210,13 +210,13 @@ const fetchUserRecentlyUsedTags = (
   action$.pipe(
     ofType('CREATE_NEW_FETCH_USER_USED_TAGS'),
     switchMap(_ => {
-      if (!User.isLoggedIn()) {
+      if (!User.isLoggedIn) {
         return of(dispatch(null));
       }
       return from(
         httpClient.get('/tag/user_tag', {
           params: {
-            user_id: User.id(),
+            user_id: User.id,
           },
         }),
       );

@@ -26,7 +26,7 @@ const publishProduct = (
             confirmedCustomTitle,
           } = action.payload;
 
-          if (!User.isLoggedIn()) {
+          if (!User.isLoggedIn) {
             observer.next(
               dispatch('SHOW_SNAKE_BAR', {
                 content: 'Please log in first',
@@ -42,7 +42,7 @@ const publishProduct = (
             description: description,
             price,
             image_url: imageUrl,
-            user_id: User.id(),
+            user_id: User.id,
             product_type: productType,
             title: confirmedCustomTitle.title,
             color: confirmedCustomTitle.color,

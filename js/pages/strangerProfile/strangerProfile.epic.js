@@ -43,7 +43,7 @@ const sendGift = (action$, state, { httpClient, User, $retryDelay }) =>
     exhaustMap(({ payload }) =>
       from(
         httpClient.post('/gift/send', {
-          sender: User.id(),
+          sender: User.id,
           receiver: payload.receiver,
           gift_type: payload.giftType,
         }),

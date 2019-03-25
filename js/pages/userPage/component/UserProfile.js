@@ -45,9 +45,9 @@ class UserProfile extends Component {
           )}
         >
           <UserInfo
-            username={User.username()}
-            userCoin={User.userCoin()}
-            userAvatar={User.avatar()}
+            username={User.username}
+            userCoin={User.userCoin}
+            userAvatar={User.avatar}
             userTitles={userTitles}
             nScrollY={this._nscrollY}
             scrollY={this._scrollY}

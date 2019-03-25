@@ -42,7 +42,7 @@ class CoinTransactionAnimation {
     this._renderComp();
   };
   _getCurrentUserCoin = async () => {
-    const coin = User.userCoin();
+    const coin = User.userCoin;
     if (!coin) {
       return;
     }

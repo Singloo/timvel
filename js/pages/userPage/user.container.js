@@ -17,7 +17,7 @@ class UserPage extends Component {
   }
   componentWillMount() {}
   componentDidMount() {
-    if (User.isLoggedIn()) {
+    if (User.isLoggedIn) {
       this._initQuery();
     } else {
       this._generateRandomButtons();
@@ -85,7 +85,7 @@ class UserPage extends Component {
         </View>
       );
     });
-    if (!User.isLoggedIn()) {
+    if (!User.isLoggedIn) {
       return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
           {renderButton}

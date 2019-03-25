@@ -24,7 +24,7 @@ const fetchComments = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('NOTIFI_PAGE_FETCH_COMMENTS'),
     switchMap(_ => {
-      return from(ApiNotifications.getNotification(User.id(), 'comment')).pipe(
+      return from(ApiNotifications.getNotification(User.id, 'comment')).pipe(
         map(({ data }) =>
           dispatch('NOTIF_PAGE_SET_STATE', {
             comments: get(data, 'data', []),
