@@ -42,7 +42,7 @@ const publishProduct = (
             description: description,
             price,
             image_url: imageUrl,
-            user_id: User.id,
+            user_id: User.objectId,
             product_type: productType,
             title: confirmedCustomTitle.title,
             color: confirmedCustomTitle.color,

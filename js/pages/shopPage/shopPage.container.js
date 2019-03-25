@@ -115,7 +115,7 @@ class ShopPage extends Component {
 
   _transaction = product => {
     return Network.apiClient.post('/product/purchase', {
-      buyer_user_id: User.id,
+      buyer_user_id: User.objectId,
       price: product.price,
       product_id: product.productId,
       seller_user_id: product.userId,

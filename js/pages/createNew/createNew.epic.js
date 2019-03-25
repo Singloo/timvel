@@ -65,7 +65,7 @@ const createPost = (
           const { data } = await httpClient.post('/post', {
             content: content,
             image_urls: imageUrls,
-            user_id: User.id,
+            user_id: User.objectId,
             weather_info: weatherInfo,
             post_type: 'normal',
             tag_id: tagId,
@@ -82,7 +82,7 @@ const createPost = (
                 happenedAt: date,
                 weatherInfo,
                 precision: datePrecision,
-                userId: User.id,
+                userId: User.objectId,
                 avatar: User.avatar,
                 username: User.username,
                 ...postInitialValues,
@@ -216,7 +216,7 @@ const fetchUserRecentlyUsedTags = (
       return from(
         httpClient.get('/tag/user_tag', {
           params: {
-            user_id: User.id,
+            user_id: User.objectId,
           },
         }),
       );

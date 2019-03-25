@@ -8,7 +8,7 @@ const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
-          const userId = User.id;
+          const userId = User.objectId;
           if (userId === null) {
             observer.complete();
             return;
@@ -37,7 +37,7 @@ const fetchUserTitles = (action$, state$, { httpClient, User, dispatch }) =>
       from(
         httpClient.get('/title', {
           params: {
-            user_id: User.id,
+            user_id: User.objectId,
             just_wearing: true,
           },
         }),

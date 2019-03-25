@@ -14,7 +14,7 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
       return from(
         httpClient.post('/post/comments', {
           post_id: post.postId,
-          user_id: User.id,
+          user_id: User.objectId,
           receiver_user_id: post.userId,
           content,
           associated_comment_id: associatedCommentId,
@@ -25,7 +25,7 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
           callback && callback();
         }),
         map(_ => ({
-          userId: User.id,
+          userId: User.objectId,
           username: User.username,
           avatar: User.avatar,
           content: content,

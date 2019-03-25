@@ -108,9 +108,6 @@ class UUer {
   get objectId() {
     return this.get('objectId');
   }
-  get id() {
-    return this.objectId;
-  }
   get avatar() {
     return this.get('avatar');
   }

@@ -4,7 +4,7 @@
  * Created Date: Saturday March 16th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Monday March 25th 2019 9:11:47 am
+ * Last Modified: Monday March 25th 2019 9:13:57 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -14,7 +14,7 @@ import {} from 'rxjs/operators';
 const insertNewTransactionRecord = ({ type, amount }) => {
   from(
     Network.apiClient.post('/transaction_records', {
-      user_id: User.id,
+      user_id: User.objectId,
       type,
       amount,
     }),
