@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, of, merge } from 'rxjs';
 import {
   mergeMap,
   map,
@@ -124,9 +124,8 @@ const fetchProducts = (
           $retryDelay(500, 3),
         ),
       );
-      return next;
+      return merge(...next);
     }),
-    mergeAll(),
     catchError(error => {
       console.warn(error);
       return of(

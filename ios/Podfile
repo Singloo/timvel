@@ -42,6 +42,8 @@ target 'timvel' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
+
 end
 
 # very important to have, unless you removed React dependencies for Libraries 

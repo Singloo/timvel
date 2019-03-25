@@ -33,24 +33,25 @@ import {
 } from '../utils/$observable';
 const deleteObject = (obj, key) => () => delete obj[key];
 const MAXIMUM_BUBBLE = 3;
+const TIME = 3;
 const getRandomCoin = () => {
   const random = Math.random();
   if (random > 0.95) {
-    return 10;
+    return 10 * TIME;
   }
   if (random > 0.9) {
-    return 8;
+    return 8 * TIME;
   }
   if (random > 0.8) {
-    return 4;
+    return 4 * TIME;
   }
   if (random > 0.7) {
-    return 3;
+    return 3 * TIME;
   }
   if (random > 0.5) {
-    return 2;
+    return 2 * TIME;
   }
-  return 1;
+  return 1 * 2 * TIME;
 };
 class CoinIncrease extends React.PureComponent {
   constructor(props) {
