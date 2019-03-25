@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Image, InfiniteText, Assets } from '../../../../re-kits';
 import { colors, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
 class Card extends Component {
   componentWillMount() {}
 

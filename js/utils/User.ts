@@ -1,12 +1,11 @@
 import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES } from './$observable';
-const dispatch = (type, payload = {}) => ({ type, payload });
+const dispatch = (type: string, payload = {}) => ({ type, payload });
 class UUer {
-  constructor() {
-    this.user = null;
-  }
-  init = async callback => {
+  user?: AV.User;
+  constructor() {}
+  init = async (callback?: () => void) => {
     try {
       if (this.user) {
         return this.user;
@@ -15,22 +14,26 @@ class UUer {
       if (!user) {
         return null;
       }
-      this.user = await user.fetch();
-      invoke(callback)();
+      this.user = user;
+      invoke(callback!)();
       $CENTER.next(dispatch($TYPES.userMount));
+      user
+        .fetch()
+        .then(_user => (this.user = user))
+        .catch(() => {});
       return this.user;
     } catch (error) {
       console.warn('user init error', error);
       return null;
     }
   };
-  get = attribute => {
+  get = (attribute: string) => {
     if (!this.user) {
       return null;
     }
     return this.user.get(attribute);
   };
-  retryTimes = (func, times = 2) => {
+  retryTimes = (func: () => any, times = 2) => {
     let triedTimes = 0;
     const result = func();
     if (triedTimes >= times) {
@@ -42,7 +45,7 @@ class UUer {
     triedTimes = triedTimes + 1;
     this.init(this.retryTimes(func, triedTimes));
   };
-  set = async (key, value) => {
+  set = async (key: string, value: any) => {
     try {
       if (!this.user) {
         return null;
@@ -54,7 +57,7 @@ class UUer {
       console.warn('set error', key, error);
     }
   };
-  increment = async (key, value) => {
+  increment = async (key: string, value?: number) => {
     if (!this.user) {
       return null;
     }
@@ -67,11 +70,25 @@ class UUer {
   isLoggedIn = () => {
     return !!this.user;
   };
-  logIn = async ({ username, password }) => {
+  logIn = async ({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }) => {
     await AV.User.logIn(username, password);
     this.init();
   };
-  signUp = async ({ username, email, password }) => {
+  signUp = async ({
+    username,
+    email,
+    password,
+  }: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
     console.warn(username, email, password);
     const user = new AV.User();
     user.setUsername(username);
@@ -91,32 +108,29 @@ class UUer {
   objectId = () => {
     return this.get('objectId');
   };
-  userCoin = () => {
-    return this.get('userCoin');
-  };
   id = () => {
     return this.objectId();
   };
   avatar = () => {
     return this.get('avatar');
   };
-  updateAvatar = url => {
+  updateAvatar = (url: string) => {
     this.set('avatar', url);
   };
   logOut = () => {
     AV.User.logOut();
-    this.user = null;
+    this.user = undefined;
     $CENTER.next(dispatch($TYPES.userUnmount));
   };
-  increaseCoin = num => {
+  increaseCoin = (num?: number) => {
     return this.increment('userCoin', num);
   };
-  ableToBuy = amount => {
+  ableToBuy = (amount: number | string) => {
     if (!this.user) {
       console.warn('No user');
       return false;
     }
-    return this.userCoin() >= parseInt(amount);
+    return this.userCoin() >= parseInt(amount as string);
   };
 }
 const User = new UUer();

@@ -11,7 +11,10 @@ import {
   delay,
   catchError,
   tap,
+  mergeAll,
+  mapTo,
 } from 'rxjs/operators';
+import { Cache } from '../../utils';
 const changeAvatar = (action$, state$, { User, dispatch }) =>
   action$.pipe(
     ofType('SHOP_PAGE_CHANGE_AVATAR'),
@@ -83,33 +86,52 @@ const fetchProducts = (
 ) =>
   action$.pipe(
     ofType('SHOP_PAGE_FETCH_PRODUCTS'),
-    switchMap(action =>
-      from(httpClient.get('/product')).pipe(
-        tap(({ data }) => {
-          console.warn('products data: ', data.length);
-        }),
-        map(({ data }) => ({
-          type: 'SHOP_PAGE_SET_STATE',
-          payload: {
-            products: data,
-            isLoading: false,
-          },
-        })),
-      ),
-    ),
-    startWith({
-      type: 'SHOP_PAGE_SET_STATE',
-      payload: {
-        isLoading: true,
-        isError: false,
-      },
+    switchMap(_ => from(Cache.get(Cache.CACHE_KEYS.PRODUCTS))),
+    switchMap(cached => {
+      const next = [];
+      if (cached) {
+        next.push(
+          of(
+            dispatch('SHOP_PAGE_SET_STATE', {
+              products: cached,
+              isError: false,
+            }),
+          ),
+        );
+      } else {
+        next.push(
+          of(
+            dispatch('SHOP_PAGE_SET_STATE', {
+              isLoading: true,
+              isError: false,
+            }),
+          ),
+        );
+      }
+      next.push(
+        from(httpClient.get('/product')).pipe(
+          tap(({ data }) => {
+            Cache.set(Cache.CACHE_KEYS.PRODUCTS, data)
+              .then(() => {})
+              .catch(() => {});
+          }),
+          map(({ data }) =>
+            dispatch('SHOP_PAGE_SET_STATE', {
+              products: data,
+              isLoading: false,
+            }),
+          ),
+          $retryDelay(500, 3),
+        ),
+      );
+      return next;
     }),
-    $retryDelay(1000, 3),
-    catchError(error =>
-      of({
-        type: 'SHOP_PAGE_SET_STATE',
-        payload: { isError: true, isLoading: false },
-      }),
-    ),
+    mergeAll(),
+    catchError(error => {
+      console.warn(error);
+      return of(
+        dispatch('SHOP_PAGE_SET_STATE', { isError: true, isLoading: false }),
+      );
+    }),
   );
 export default [changeAvatar, saveImageToAlbum, fetchProducts];

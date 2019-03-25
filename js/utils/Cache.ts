@@ -4,7 +4,7 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 24th 2019 11:48:14 am
+ * Last Modified: Sunday March 24th 2019 3:18:36 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -14,8 +14,12 @@ interface ICacheKey {
   type: 'array' | 'object' | 'float' | 'number' | 'string';
 }
 const CACHE_KEYS: { [key: string]: ICacheKey } = {
-  VIDEO_CALL_OBJ_IDS: {
-    key: 'videoCallObjIds',
+  HOME_PAGE_FEEDS: {
+    key: 'homePageFeeds',
+    type: 'array',
+  },
+  PRODUCTS: {
+    key: 'products',
     type: 'array',
   },
 };

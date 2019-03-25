@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, of, throwError } from 'rxjs';
 import {
   mergeMap,
   throttleTime,
@@ -11,11 +11,12 @@ import {
   startWith,
   delay,
 } from 'rxjs/operators';
-import { randomItem } from '../../utils';
+import { randomItem, Cache } from '../../utils';
 import { colorSets } from '../../../re-kits';
+import * as R from 'ramda';
 const generateColorsUntil = (colors = [], toNum) => {
   const _colors = colors.concat(randomItem(colorSets, toNum - colors.length));
-  if (_colors.length === toNum) {
+  if (_colors.length >= toNum) {
     return _colors;
   }
   return generateColorsUntil(_colors, toNum);
@@ -52,21 +53,33 @@ const fetchPosts = (action$, state$, { dispatch, httpClient }) =>
       Observable.create(async observer => {
         try {
           const { happenedAt, offset } = action.payload;
-          observer.next(
-            dispatch('HOME_PAGE_SET_STATE', {
-              isHeaderLoading: true,
-            }),
-          );
+          const cached = await Cache.get(Cache.CACHE_KEYS.HOME_PAGE_FEEDS);
+          if (cached) {
+            observer.next(
+              dispatch('HOME_PAGE_MUTATE_POSTS', { posts: cached }),
+            );
+          } else {
+            observer.next(
+              dispatch('HOME_PAGE_SET_STATE', {
+                isHeaderLoading: true,
+              }),
+            );
+          }
           const { data } = await httpClient.get('/post', {
             happened_at: happenedAt,
             offset,
           });
           observer.next(dispatch('HOME_PAGE_MUTATE_POSTS', { posts: data }));
-          observer.next(
-            dispatch('HOME_PAGE_SET_STATE', {
-              isHeaderLoading: false,
-            }),
-          );
+          Cache.set(Cache.CACHE_KEYS.HOME_PAGE_FEEDS, data)
+            .then(() => {})
+            .catch(() => {});
+          if (!cached) {
+            observer.next(
+              dispatch('HOME_PAGE_SET_STATE', {
+                isHeaderLoading: false,
+              }),
+            );
+          }
         } catch (error) {
           console.warn(error.message);
           observer.next(
@@ -88,11 +101,11 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
     switchMap(({ payload }) =>
       from([1]).pipe(
         map(_ => {
+          throwError(new Error('aa'));
           return dispatch('HOME_PAGE_SET_STATE', {
             isFooterLoading: false,
           });
         }),
-        delay(3000),
         startWith({
           type: 'HOME_PAGE_SET_STATE',
           payload: {
@@ -101,6 +114,10 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
         }),
       ),
     ),
+    catchError(err => {
+      console.warn('err');
+      return of(null);
+    }),
   );
 const pressEmoji = (action$, state$, { dispatch }) =>
   action$.pipe(
@@ -142,7 +159,7 @@ const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
         map(_ => ({ type: 'null' })),
         catchError(err => {
           console.warn(err.message);
-          return of(null);
+          return of(dispatch(null));
         }),
       ),
     ),
@@ -153,9 +170,12 @@ const mutatePosts = (action$, state$, { dispatch }) =>
     map(({ payload }) => {
       const { posts: nextPosts } = payload;
       const { posts, colorsSets } = state$.value.homePage;
-      const next = Array.isArray(nextPosts)
-        ? posts.concat(nextPosts)
-        : [nextPosts].concat(posts);
+      const next = R.uniqBy(
+        a => a.postId,
+        Array.isArray(nextPosts)
+          ? posts.concat(nextPosts)
+          : [nextPosts].concat(posts),
+      );
       const nextColors = generateColorsUntil(colorsSets, next.length + 1);
       return dispatch('HOME_PAGE_SET_STATE', {
         colorsSets: nextColors,

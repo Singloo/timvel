@@ -4,7 +4,7 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 24th 2019 11:15:02 am
+ * Last Modified: Sunday March 24th 2019 3:55:58 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -23,7 +23,7 @@ const subscribeUploadImages = () =>
     $retryDelay(100, 5),
     catchError(err => {
       console.warn('auto upload err', err);
-      return of(null);
+      return of(dispatch(null));
     }),
     filter(x => x !== null),
   );

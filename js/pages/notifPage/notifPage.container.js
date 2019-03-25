@@ -41,7 +41,7 @@ class NotifPage extends Component {
             numOfMessage={numOfMessage}
             imgSource={Assets.NotificationReplay.source}
           />
-          <InfoCard title={'回复我的'} onPress={() => {}} />
+          {/* <InfoCard title={'回复我的'} onPress={() => {}} /> */}
         </ScrollView>
         <NavBar title={'Info'} style={{ position: 'absolute' }} />
       </View>

@@ -211,7 +211,7 @@ const fetchUserRecentlyUsedTags = (
     ofType('CREATE_NEW_FETCH_USER_USED_TAGS'),
     switchMap(_ => {
       if (!User.isLoggedIn()) {
-        return of(null);
+        return of(dispatch(null));
       }
       return from(
         httpClient.get('/tag/user_tag', {
@@ -229,7 +229,7 @@ const fetchUserRecentlyUsedTags = (
     $retryDelay(),
     catchError(error => {
       console.warn(error);
-      return of(null);
+      return of(dispatch(null));
     }),
   );
 export default [createPost, getWeather, fetchUserRecentlyUsedTags];

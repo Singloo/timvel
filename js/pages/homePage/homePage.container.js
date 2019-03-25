@@ -340,6 +340,7 @@ class HomePage extends React.Component {
         data={posts}
         scrollEventThrottle={6}
         initialNumToRender={5}
+        onEndReachedThreshold={0.1}
         keyExtractor={(_, index) => 'hpi' + index}
         // getItemLayout={(data, index) => ({
         //   length: cardHeight,

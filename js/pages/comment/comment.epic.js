@@ -7,6 +7,9 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
   action$.pipe(
     ofType('COMMENT_COMMENT_POST'),
     switchMap(action => {
+      if (!User.isLoggedIn()) {
+        return of(dispatch('GLOBAL_SHOW_SIGN_UP'));
+      }
       const { post, content, callback, associatedCommentId } = action.payload;
       return from(
         httpClient.post('/post/comments', {
@@ -28,17 +31,17 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
           content: content,
           createdAt: Moment().format(),
         })),
-      );
-    }),
-    switchMap(comment => {
-      const { comments } = state$.value.comment;
-      return of(
-        dispatch('COMMENT_SET_STATE', {
-          comments: [].concat(comments, comment),
-        }),
-        dispatch('SHOW_SNAKE_BAR', {
-          type: 'SUCCESS',
-          content: 'Comment successful',
+        switchMap(comment => {
+          const { comments } = state$.value.comment;
+          return [
+            dispatch('COMMENT_SET_STATE', {
+              comments: [].concat(comments, comment),
+            }),
+            dispatch('SHOW_SNAKE_BAR', {
+              type: 'SUCCESS',
+              content: 'Comment successful',
+            }),
+          ];
         }),
       );
     }),
@@ -48,49 +51,6 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
         content: 'Network error, try again',
       }),
     ),
-
-    // switchMap(action =>
-    //   Observable.create(async observer => {
-    //     try {
-    //       const { postId, content, callback } = action.payload;
-    //       const { comments } = state$.value.comment;
-    //       await httpClient.post('/post_comment', {
-    //         post_id: postId,
-    //         user_id: User.id(),
-    //         content,
-    //       });
-    //       let comment = {
-    //         userId: User.id(),
-    //         username: User.username(),
-    //         avatar: User.avatar(),
-    //         content: content,
-    //         createdAt: Moment().format(),
-    //       };
-    //       callback && callback();
-    //       observer.next(
-    //         dispatch('COMMENT_SET_STATE', {
-    //           comments: [].concat(comments, comment),
-    //         }),
-    //       );
-    //       observer.next(
-    //         dispatch('SHOW_SNAKE_BAR', {
-    //           type: 'SUCCESS',
-    //           content: 'Comment successful',
-    //         }),
-    //       );
-    //     } catch (error) {
-    //       console.warn(error);
-    //       observer.next(
-    //         dispatch('SHOW_SNAKE_BAR', {
-    //           type: 'ERROR',
-    //           content: 'Network error, try again',
-    //         }),
-    //       );
-    //     } finally {
-    //       observer.complete();
-    //     }
-    //   }),
-    // ),
   );
 
 const fetchComments = (action$, _, { httpClient, dispatch }) =>
@@ -107,10 +67,10 @@ const fetchComments = (action$, _, { httpClient, dispatch }) =>
         }),
       ).pipe(map(({ data }) => data));
     }),
-    map(data =>
-      dispatch('COMMENT_SET_STATE', {
+    map(data => {
+      return dispatch('COMMENT_SET_STATE', {
         comments: data,
-      }),
-    ),
+      });
+    }),
   );
 export default [fetchComments, sendComment];

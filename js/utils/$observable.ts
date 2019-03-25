@@ -1,6 +1,7 @@
 import { interval, from, Subject, timer, range } from 'rxjs';
 import { switchMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { get } from 'lodash';
+import {IAction} from '../models'
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
   concatMap(_ => timer(INTERVAL)),
@@ -23,10 +24,6 @@ const $sourceOneMinue = $sourceSecond.pipe(bufferCount(60));
 //{transaction:number}
 //show transaction animation
 const $coinTransaction = new Subject();
-interface IAction {
-  type: string;
-  payload: object;
-}
 const $all: { [key: string]: Subject<any> } = {
   coinTransaction: $coinTransaction,
 };

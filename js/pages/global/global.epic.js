@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, empty } from 'rxjs';
+import { map, switchMap, startWith } from 'rxjs/operators';
 import { $CENTER, $TYPES } from '../../utils/$observable';
 import DeviceInfo from 'react-native-device-info';
 const coinTransaction = (action$, state$, { User, dispatch }) =>
@@ -95,4 +95,27 @@ const updateUserinfoFromLeanCloud = (
     ),
   );
 
-export default [coinTransaction, updateUserinfoFromLeanCloud];
+const globalShowSignUp = (action$, state$, { User, dispatch }) =>
+  action$.pipe(
+    ofType('GLOBAL_SHOW_SIGN_UP'),
+    switchMap(({ payload }) => {
+      console.warn('not loggedin');
+      // const { transaction } = payload;
+      // $CENTER.next({
+      //   type: $TYPES.coinTransaction,
+      //   payload: {
+      //     transaction,
+      //   },
+      // });
+      // User.increaseCoin(parseInt(transaction, 10));
+      return empty().pipe(
+        startWith(
+          dispatch('SHOW_SNAKE_BAR', {
+            type: 'ERROR',
+            content: 'Network error, try again',
+          }),
+        ),
+      );
+    }),
+  );
+export default [coinTransaction, updateUserinfoFromLeanCloud, globalShowSignUp];
