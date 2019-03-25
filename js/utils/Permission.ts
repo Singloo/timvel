@@ -4,7 +4,7 @@
  * Created Date: Monday March 25th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Monday March 25th 2019 10:11:55 am
+ * Last Modified: Monday March 25th 2019 5:54:19 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -15,7 +15,7 @@ import {
   PermissionsAndroidStatic,
   Permission,
 } from 'react-native';
-type IPermission = 'microphone' | 'camera';
+type IPermission = 'microphone' | 'camera' | 'photo';
 const platformMap = (ios: any, android: any) =>
   Platform.select({
     ios,
@@ -30,9 +30,11 @@ const permissionMap = (permission: IPermission) => {
       );
     case 'camera':
       return platformMap('camera', PermissionsAndroid.PERMISSIONS.CAMERA);
+    case 'photo':
+      return platformMap('photo', null);
   }
 };
-const checkPermission = (permission: IPermission) => async (
+const checkPermission = (permission: IPermission, message: string) => async (
   onDeny?: () => void,
   onGrant?: () => void,
 ) => {
@@ -67,8 +69,8 @@ const checkPermission = (permission: IPermission) => async (
     const granted = await PermissionsAndroid.request(
       fixedPermission as Permission,
       {
-        title: 'Ask for permission',
-        message: 'We need access to microphone' + ' to start video call',
+        title: 'Pending permission',
+        message: message || 'We need access to continue',
         buttonNegative: 'Cancel',
         buttonPositive: 'Of course',
       },
@@ -81,8 +83,21 @@ const checkPermission = (permission: IPermission) => async (
     }
   }
 };
-const checkMicrophonePermission = checkPermission('microphone');
+const checkMicrophonePermission = checkPermission(
+  'microphone',
+  'We need access to microphone to record audio',
+);
 
-const checkCameraPermission = checkPermission('camera');
-
-export default { checkMicrophonePermission, checkCameraPermission };
+const checkCameraPermission = checkPermission(
+  'camera',
+  'We use access to your camera to shoot picture and set your avatar',
+);
+const checkPhotoPermission = checkPermission(
+  'photo',
+  'We need access to your photo album to share picture with other users',
+);
+export default {
+  checkMicrophonePermission,
+  checkCameraPermission,
+  checkPhotoPermission,
+};

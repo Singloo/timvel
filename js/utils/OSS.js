@@ -52,18 +52,21 @@ export async function initAliyunOSS() {
 // size: 2604768
 // sourceURL: "file:///Users/origami/Library/Developer/CoreSimulator/Devices/1575DB38-2B32-4A34-A30A-A42FCFEFDC25/data/Media/DCIM/100APPLE/IMG_0002.JPG"
 // width: 4288
-export const upLoadImage = async image => {
+//path, mime necessary
+export const upLoadImage = async (image, { type, ossPath } = {}) => {
   try {
     console.warn('upload start', image.path);
     await initAliyunOSS();
     const filepath = image.path;
-    let imageType = image.mime.replace('image/', '');
+    let imageType = type || image.mime.replace('image/', '');
     imageType = imageType.length === 0 ? 'jpg' : imageType;
     let filename = User.username + Date.now() + '.' + imageType;
     filename = filename.trim().toLowerCase();
+    const OSS_PATH =
+      typeof ossPath === 'string' ? 'images/' + ossPath.trim() : 'images';
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,
-      `images/${filename}`,
+      `${OSS_PATH}/${filename}`,
       filepath,
     );
     console.warn('upload finish', image.path);

