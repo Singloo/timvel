@@ -2,8 +2,7 @@ import AliyunOSS from 'aliyun-oss-react-native';
 import Axios from 'axios';
 import { API_V1 } from '../constants';
 import User from './User';
-// AliyunOSS.enableDevMode();
-
+// AliyunOSS.enableDevMode()
 const configuration = {
   maxRetryCount: 3,
   timeoutIntervalForRequest: 30,
@@ -53,23 +52,34 @@ export async function initAliyunOSS() {
 // sourceURL: "file:///Users/origami/Library/Developer/CoreSimulator/Devices/1575DB38-2B32-4A34-A30A-A42FCFEFDC25/data/Media/DCIM/100APPLE/IMG_0002.JPG"
 // width: 4288
 //path, mime necessary
+const getFilename = path => {
+  const arr = path.split('/');
+  return arr[arr.length - 1] || `${Date.now()}.jpg`;
+};
 export const upLoadImage = async (image, { type, ossPath } = {}) => {
   try {
-    console.warn('upload start', image.path);
     await initAliyunOSS();
     const filepath = image.path;
-    let imageType = type || image.mime.replace('image/', '');
-    imageType = imageType.length === 0 ? 'jpg' : imageType;
-    let filename = User.username + Date.now() + '.' + imageType;
-    filename = filename.trim().toLowerCase();
+    // let imageType = type || image.mime.replace('image/', '');
+    // imageType = imageType.length === 0 ? 'jpg' : imageType;
+    let filename = User.objectId + getFilename(filepath);
     const OSS_PATH =
       typeof ossPath === 'string' ? 'images/' + ossPath.trim() : 'images';
+    const exists = await AliyunOSS.doesObjectExist(
+      BUCKET_TIMVEL_1,
+      `${OSS_PATH}/${filename}`,
+    );
+    console.warn(exists);
+    return;
+    if (exists == 'object exist') {
+      return;
+    }
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,
       `${OSS_PATH}/${filename}`,
       filepath,
     );
-    console.warn('upload finish', image.path);
+    console.warn('upload finish', filename);
     return imageUrlPrefix + filename;
   } catch (error) {
     console.warn(error);

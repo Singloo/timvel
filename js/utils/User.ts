@@ -1,6 +1,7 @@
 import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES } from './$observable';
+import DeviceInfo from 'react-native-device-info';
 const dispatch = (type: string, payload = {}) => ({ type, payload });
 class UUer {
   user?: AV.User;
@@ -111,6 +112,12 @@ class UUer {
   get avatar() {
     return this.get('avatar');
   }
+  get uniqueId() {
+    return DeviceInfo.getUniqueID();
+  }
+  get appVersion() {
+    return DeviceInfo.getVersion();
+  }
   updateAvatar = (url: string) => {
     this.set('avatar', url);
   };
@@ -127,7 +134,7 @@ class UUer {
       console.warn('No user');
       return false;
     }
-    return this.userCoin() >= parseInt(amount as string);
+    return this.userCoin >= parseInt(amount as string);
   };
 }
 const User = new UUer();
