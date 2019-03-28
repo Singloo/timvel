@@ -429,13 +429,13 @@ class HomePage extends React.Component {
             resizeMode: 'contain',
           }}
         />
-        <ActionButton.Icon
+        {/* <ActionButton.Icon
           source={Assets.comment.source}
           onPress={() => {}}
           iconProps={{
             style: { backgroundColor: colors.white, margin: 4 },
           }}
-        />
+        /> */}
       </ActionButton>
     );
   };
