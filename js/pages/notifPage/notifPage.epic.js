@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
-import { $retryDelay, $catchError, ApiNotifications } from '../../utils';
-import { from } from 'rxjs';
+import { $retryDelay, $catchError, ApiNotifications, Cache } from '../../utils';
+import { from, merge } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { get } from 'lodash';
 const readNotification = (action$, state$, { httpClient, User, dispatch }) =>
@@ -24,13 +24,36 @@ const fetchComments = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('NOTIFI_PAGE_FETCH_COMMENTS'),
     switchMap(_ => {
-      return from(ApiNotifications.getNotification(User.objectId, 'comment')).pipe(
-        map(({ data }) =>
-          dispatch('NOTIF_PAGE_SET_STATE', {
-            comments: get(data, 'data', []),
-          }),
+      const arr = [];
+      arr.push(
+        from(Cache.get(Cache.CACHE_KEYS.NOTIFICATION_COMMENT)).pipe(
+          map(data =>
+            data
+              ? dispatch('NOTIF_PAGE_SET_STATE', {
+                  comments: get(data, 'data', []),
+                })
+              : dispatch(null),
+          ),
         ),
       );
+      arr.push(
+        from(ApiNotifications.getNotification(User.objectId, 'comment')).pipe(
+          tap(({ data }) => {
+            if (data.data.length === 0) {
+              return;
+            }
+            Cache.set(Cache.CACHE_KEYS.NOTIFICATION_COMMENT, data.data).then(
+              () => {},
+            );
+          }),
+          map(({ data }) =>
+            dispatch('NOTIF_PAGE_SET_STATE', {
+              comments: get(data, 'data', []),
+            }),
+          ),
+        ),
+      );
+      return merge(...arr);
     }),
     $retryDelay(100),
     $catchError(dispatch(null)),

@@ -4,7 +4,7 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 30th 2019 9:09:29 am
+ * Last Modified: Saturday March 30th 2019 10:01:24 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -24,6 +24,10 @@ const CACHE_KEYS: { [key: string]: ICacheKey } = {
   },
   PRODUCTS: {
     key: 'products',
+    type: 'array',
+  },
+  NOTIFICATION_COMMENT: {
+    key: 'notificationComment',
     type: 'array',
   },
 };
