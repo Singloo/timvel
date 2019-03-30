@@ -186,6 +186,7 @@ class ShopPage extends Component {
   render() {
     const { products, isLoading, isError } = this.props.state;
     const renderProducts = products.map(this._renderItem);
+    console.warn(isError);
     return (
       <View style={styles.container}>
         <BasicView

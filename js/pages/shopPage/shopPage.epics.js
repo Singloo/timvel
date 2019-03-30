@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { Observable, from, of, merge } from 'rxjs';
+import { Observable, from, of, merge, throwError } from 'rxjs';
 import {
   mergeMap,
   map,
@@ -62,19 +62,22 @@ const changeAvatar = (action$, state$, { User, dispatch }) =>
 const saveImageToAlbum = (action$, state$, { Network, dispatch }) =>
   action$.pipe(
     ofType('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM'),
-    switchMap(action => from(Network.saveImageToAlbum(imageUrl))),
-    map(_ =>
-      dispatch('SHOW_SNAKE_BAR', {
-        content: 'Avatar updated!',
-        type: 'SUCCESS',
-      }),
-    ),
-    catchError(error =>
-      of(
-        dispatch('SHOW_SNAKE_BAR', {
-          content: 'Avatar updated!',
-          type: 'ERROR',
-        }),
+    switchMap(action =>
+      from(Network.saveImageToAlbum(imageUrl)).pipe(
+        map(_ =>
+          dispatch('SHOW_SNAKE_BAR', {
+            content: 'Avatar updated!',
+            type: 'SUCCESS',
+          }),
+        ),
+        catchError(error =>
+          of(
+            dispatch('SHOW_SNAKE_BAR', {
+              content: 'Avatar updated!',
+              type: 'ERROR',
+            }),
+          ),
+        ),
       ),
     ),
   );
@@ -86,51 +89,58 @@ const fetchProducts = (
 ) =>
   action$.pipe(
     ofType('SHOP_PAGE_FETCH_PRODUCTS'),
-    switchMap(_ => from(Cache.get(Cache.CACHE_KEYS.PRODUCTS))),
-    switchMap(cached => {
-      const next = [];
-      if (cached) {
-        next.push(
-          of(
+    switchMap(_ =>
+      from(Cache.get(Cache.CACHE_KEYS.PRODUCTS)).pipe(
+        switchMap(cached => {
+          const next = [];
+          if (cached) {
+            next.push(
+              of(
+                dispatch('SHOP_PAGE_SET_STATE', {
+                  products: cached,
+                  isError: false,
+                }),
+              ),
+            );
+          } else {
+            next.push(
+              of(
+                dispatch('SHOP_PAGE_SET_STATE', {
+                  isLoading: true,
+                  isError: false,
+                }),
+              ),
+            );
+          }
+          next.push(
+            from(httpClient.get('/product')).pipe(
+              tap(({ data }) => {
+                Cache.set(Cache.CACHE_KEYS.PRODUCTS, data)
+                  .then(() => {})
+                  .catch(() => {});
+              }),
+              map(({ data }) =>
+                dispatch('SHOP_PAGE_SET_STATE', {
+                  products: data,
+                  isLoading: false,
+                }),
+              ),
+              $retryDelay(500, 3),
+            ),
+          );
+          return next;
+        }),
+        mergeAll(),
+        catchError(error => {
+          console.warn(error);
+          return of(
             dispatch('SHOP_PAGE_SET_STATE', {
-              products: cached,
-              isError: false,
-            }),
-          ),
-        );
-      } else {
-        next.push(
-          of(
-            dispatch('SHOP_PAGE_SET_STATE', {
-              isLoading: true,
-              isError: false,
-            }),
-          ),
-        );
-      }
-      next.push(
-        from(httpClient.get('/product')).pipe(
-          tap(({ data }) => {
-            Cache.set(Cache.CACHE_KEYS.PRODUCTS, data)
-              .then(() => {})
-              .catch(() => {});
-          }),
-          map(({ data }) =>
-            dispatch('SHOP_PAGE_SET_STATE', {
-              products: data,
+              isError: true,
               isLoading: false,
             }),
-          ),
-          $retryDelay(500, 3),
-        ),
-      );
-      return merge(...next);
-    }),
-    catchError(error => {
-      console.warn(error);
-      return of(
-        dispatch('SHOP_PAGE_SET_STATE', { isError: true, isLoading: false }),
-      );
-    }),
+          );
+        }),
+      ),
+    ),
   );
 export default [changeAvatar, saveImageToAlbum, fetchProducts];

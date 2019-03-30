@@ -230,17 +230,18 @@ const fetchUserRecentlyUsedTags = (
             user_id: User.objectId,
           },
         }),
+      ).pipe(
+        map(({ data }) =>
+          dispatch('CREATE_NEW_SET_STATE', {
+            tags: data,
+          }),
+        ),
+        $retryDelay(),
+        catchError(error => {
+          console.warn(error);
+          return of(dispatch(null));
+        }),
       );
-    }),
-    map(({ data }) =>
-      dispatch('CREATE_NEW_SET_STATE', {
-        tags: data,
-      }),
-    ),
-    $retryDelay(),
-    catchError(error => {
-      console.warn(error);
-      return of(dispatch(null));
     }),
   );
 export default [createPost, getWeather, fetchUserRecentlyUsedTags];

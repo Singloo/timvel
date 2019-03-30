@@ -43,14 +43,14 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
             }),
           ];
         }),
+        $catchError(
+          dispatch('SHOW_SNAKE_BAR', {
+            type: 'ERROR',
+            content: 'Network error, try again',
+          }),
+        ),
       );
     }),
-    $catchError(
-      dispatch('SHOW_SNAKE_BAR', {
-        type: 'ERROR',
-        content: 'Network error, try again',
-      }),
-    ),
   );
 
 const fetchComments = (action$, _, { httpClient, dispatch }) =>

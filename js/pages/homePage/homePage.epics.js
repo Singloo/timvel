@@ -123,12 +123,12 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
             isFooterLoading: true,
           },
         }),
+        catchError(err => {
+          console.warn('err');
+          return of(null);
+        }),
       ),
     ),
-    catchError(err => {
-      console.warn('err');
-      return of(null);
-    }),
   );
 const pressEmoji = (action$, state$, { dispatch }) =>
   action$.pipe(

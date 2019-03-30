@@ -53,9 +53,10 @@ const fetchComments = (action$, state$, { httpClient, User, dispatch }) =>
           ),
         ),
       );
-      return merge(...arr);
+      return merge(...arr).pipe(
+        $retryDelay(100),
+        $catchError(dispatch(null)),
+      );
     }),
-    $retryDelay(100),
-    $catchError(dispatch(null)),
   );
 export default [readNotification, fetchComments];
