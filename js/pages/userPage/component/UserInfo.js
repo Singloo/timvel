@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { InfiniteText, PADDING_TOP_FULL, Styles } from '../../../../re-kits';
-import { SCREEN_WIDTH, colors } from '../../../utils';
+import {
+  InfiniteText,
+  PADDING_TOP_FULL,
+  Styles,
+  AnimatedImage,
+} from '../../../../re-kits';
+import { SCREEN_WIDTH, colors, isIOS } from '../../../utils';
 import Title from '../../../components/Title';
+import { BlurView } from 'react-native-blur';
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 const width = SCREEN_WIDTH;
 const height = 200;
 const avatarSize = 80;
@@ -55,28 +62,51 @@ class UserInfo extends Component {
 
   _renderBkImage = () => {
     const { userAvatar } = this.props;
-    const scale = this.props.nScrollY.interpolate({
-      inputRange: [-25, 0],
-      outputRange: [1.1, 1],
-      extrapolateRight: 'clamp',
-    });
-    const transform = [{ scale }];
     return (
-      <Animated.Image
+      <AnimatedImage
+        scrollY={this.props.nScrollY}
         source={{ uri: userAvatar }}
-        style={[styles.bkImage, { transform }]}
+        style={styles.bkImage}
+        height={200}
         resizeMode={'cover'}
+        translateY={false}
       />
     );
   };
   _renderNavBk = () => {
-    const backgroundColor = this.props.scrollY.interpolate({
+    if (isIOS) {
+      const blurAmount = this.props.nScrollY.interpolate({
+        inputRange: [-25, 0, scroll_height],
+        outputRange: [3, 0, 12],
+      });
+      const opacity = this.props.nScrollY.interpolate({
+        inputRange: [-30, 0, 10, scroll_height],
+        outputRange: [1, 0, 1, 1],
+        extrapolate: 'clamp',
+      });
+      const scale = this.props.nScrollY.interpolate({
+        inputRange: [-25, 0],
+        outputRange: [1.1, 1],
+        extrapolateRight: 'clamp',
+      });
+      return (
+        <AnimatedBlurView
+          blurType={'light'}
+          blurAmount={blurAmount}
+          style={[
+            Styles.absolute,
+            {
+              bottom: 40,
+              opacity,
+              transform: [{ scale }],
+            },
+          ]}
+        />
+      );
+    }
+    const opacity = this.props.nScrollY.interpolate({
       inputRange: [0, scroll_height - 1, scroll_height],
-      outputRange: [
-        'rgba(33,33,33,0)',
-        'rgba(33,33,33,0)',
-        'rgba(33,33,33,0.1)',
-      ],
+      outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     });
     return (
@@ -85,7 +115,8 @@ class UserInfo extends Component {
           Styles.absolute,
           {
             bottom: 40,
-            backgroundColor,
+            opacity,
+            backgroundColor: 'rgba(33,33,33,0.1)',
           },
         ]}
       />
