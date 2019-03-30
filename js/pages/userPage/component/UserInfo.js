@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import {
-  Button,
-  Text,
-  Image,
-  InfiniteText,
-  PADDING_TOP_FULL,
-  Styles,
-} from '../../../../re-kits';
+import { InfiniteText, PADDING_TOP_FULL, Styles } from '../../../../re-kits';
 import { SCREEN_WIDTH, colors } from '../../../utils';
 import Title from '../../../components/Title';
 const width = SCREEN_WIDTH;
@@ -22,50 +15,62 @@ class UserInfo extends Component {
       viewRef: null,
     };
   }
-  componentWillMount() {}
 
   render() {
-    const {
-      username,
-      userCoin,
-      userAvatar,
-      userTitles,
-      nScrollY,
-      scrollY,
-    } = this.props;
-    let imgScale = nScrollY.interpolate({
-      inputRange: [-25, 0],
-      outputRange: [1.1, 1],
-      extrapolateRight: 'clamp',
-    });
-
-    let animatedAvatarSize = scrollY.interpolate({
-      inputRange: [0, scroll_height],
-      outputRange: [avatarSize, avatarSizeSmall],
-      extrapolate: 'clamp',
-    });
-    let animatedAavatarBorderRadius = scrollY.interpolate({
-      inputRange: [0, scroll_height],
-      outputRange: [avatarSize / 2, avatarSizeSmall / 2],
-      extrapolate: 'clamp',
-    });
-    let viewY = nScrollY.interpolate({
+    const translateY = this.props.nScrollY.interpolate({
       inputRange: [0, scroll_height],
       outputRange: [0, -50],
       extrapolate: 'clamp',
     });
-    let viewX = nScrollY.interpolate({
+    const translateX = this.props.nScrollY.interpolate({
       inputRange: [0, scroll_height, 200],
       outputRange: [0, 60, 80],
       extrapolate: 'clamp',
     });
 
-    let containerY = nScrollY.interpolate({
+    let containerY = this.props.nScrollY.interpolate({
       inputRange: [-25, 0, scroll_height],
       outputRange: [-18, 0, -(scroll_height - 40)],
       extrapolateRight: 'clamp',
     });
-    let bkColor = scrollY.interpolate({
+    const transform = [{ translateY }, { translateX }];
+    return (
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            transform: [{ translateY: containerY }],
+          },
+        ]}
+      >
+        {this._renderBkImage()}
+        {this._renderNavBk()}
+        <Animated.View style={[styles.infoContainer, { transform }]}>
+          {this._renderAvatar()}
+          {this._renderTitleAndUsername()}
+        </Animated.View>
+      </Animated.View>
+    );
+  }
+
+  _renderBkImage = () => {
+    const { userAvatar } = this.props;
+    const scale = this.props.nScrollY.interpolate({
+      inputRange: [-25, 0],
+      outputRange: [1.1, 1],
+      extrapolateRight: 'clamp',
+    });
+    const transform = [{ scale }];
+    return (
+      <Animated.Image
+        source={{ uri: userAvatar }}
+        style={[styles.bkImage, { transform }]}
+        resizeMode={'cover'}
+      />
+    );
+  };
+  _renderNavBk = () => {
+    const backgroundColor = this.props.scrollY.interpolate({
       inputRange: [0, scroll_height - 1, scroll_height],
       outputRange: [
         'rgba(33,33,33,0)',
@@ -77,88 +82,71 @@ class UserInfo extends Component {
     return (
       <Animated.View
         style={[
-          styles.container,
+          Styles.absolute,
           {
-            transform: [{ translateY: containerY }],
+            bottom: 40,
+            backgroundColor,
           },
         ]}
-      >
-        <Animated.Image
-          source={{ uri: userAvatar }}
-          style={[
-            styles.bkImage,
-            {
-              transform: [
-                {
-                  scale: imgScale,
-                },
-              ],
-            },
-          ]}
-          resizeMode={'cover'}
-        />
-        <Animated.View
-          style={[
-            Styles.absolute,
-            {
-              bottom: 40,
-              backgroundColor: bkColor,
-            },
-          ]}
-        />
-        <Animated.View
-          style={[
-            styles.infoContainer,
-            {
-              zIndex: 5,
-            },
-            {
-              transform: [
-                {
-                  translateY: viewY,
-                },
-                {
-                  translateX: viewX,
-                },
-              ],
-            },
-          ]}
-        >
-          <Animated.Image
-            source={{ uri: userAvatar }}
-            style={[
-              styles.avatarNormal,
-              {
-                width: animatedAvatarSize,
-                height: animatedAvatarSize,
-                borderRadius: animatedAavatarBorderRadius,
-              },
-            ]}
-          />
-          <View style={styles.textContainer}>
-            <InfiniteText
-              text={username + '  ' + userCoin}
-              style={{}}
-              textStyle={{ color: colors.depGrey }}
-            >
-              {userTitles.map(item => (
-                <Title title={item.title} />
-              ))}
-              <View
-                style={{
-                  width: 1,
-                  height: 18,
-                  backgroundColor: colors.white,
-                  marginRight: 4,
-                  alignSelf: 'center',
-                }}
-              />
-            </InfiniteText>
-          </View>
-        </Animated.View>
-      </Animated.View>
+      />
     );
-  }
+  };
+
+  _renderAvatar = () => {
+    const { userAvatar } = this.props;
+    const size = this.props.scrollY.interpolate({
+      inputRange: [0, scroll_height],
+      outputRange: [avatarSize, avatarSizeSmall],
+      extrapolate: 'clamp',
+    });
+    const borderRadius = this.props.scrollY.interpolate({
+      inputRange: [0, scroll_height],
+      outputRange: [avatarSize / 2, avatarSizeSmall / 2],
+      extrapolate: 'clamp',
+    });
+    return (
+      <Animated.Image
+        source={{ uri: userAvatar }}
+        style={[
+          styles.avatarNormal,
+          {
+            width: size,
+            height: size,
+            borderRadius,
+          },
+        ]}
+      />
+    );
+  };
+  _renderTitleAndUsername = () => {
+    const { username, userCoin, userTitles } = this.props;
+    return (
+      <View style={styles.textContainer}>
+        <InfiniteText
+          text={username + '  ' + userCoin}
+          style={{}}
+          textStyle={{ color: colors.depGrey }}
+        >
+          {userTitles.map((item, index) => (
+            <Title
+              key={'ut' + index}
+              title={item.title}
+              customStyle={{ borderColor: item.color, color: item.color }}
+            />
+          ))}
+          <View
+            style={{
+              width: 1,
+              height: 18,
+              backgroundColor: colors.white,
+              marginRight: 4,
+              alignSelf: 'center',
+            }}
+          />
+        </InfiniteText>
+      </View>
+    );
+  };
 }
 UserInfo.propTypes = {};
 
@@ -191,7 +179,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     marginLeft: 20,
-    zIndex: 2,
+    zIndex: 5,
   },
   textContainer: {
     height: 30,

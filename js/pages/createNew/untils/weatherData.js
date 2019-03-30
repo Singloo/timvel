@@ -1,4 +1,4 @@
-export const xiaomiWeatherinfo = [
+export const XIAOMI_WEATHER_TYPE = [
   {
     code: 0,
     wea: '晴',
@@ -192,7 +192,7 @@ export const xiaomiWeatherinfo = [
   },
 ];
 
-export const darkSkyWeatherType = {
+export const DARK_SKY_WEATHER_TYPE = {
   'clear-day': 'sunny',
   'clear-night': 'clearNight',
   rain: 'smallRain',

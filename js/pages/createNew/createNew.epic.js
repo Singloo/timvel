@@ -8,7 +8,10 @@ import {
   map,
 } from 'rxjs/operators';
 import Moment from 'moment';
-import { xiaomiWeatherinfo, darkSkyWeatherType } from './untils/weatherData';
+import {
+  XIAOMI_WEATHER_TYPE,
+  DARK_SKY_WEATHER_TYPE,
+} from './untils/weatherData';
 const postInitialValues = {
   postType: 'normal',
   angry: 0,
@@ -18,6 +21,14 @@ const postInitialValues = {
   vomit: 0,
   popularity: 0,
   numOfComments: 0,
+};
+const getXiaomiWeather = weatherCode => {
+  const found = XIAOMI_WEATHER_TYPE.find(o => o.code == weatherCode);
+  if (found) {
+    return found;
+  } else {
+    return XIAOMI_WEATHER_TYPE[0];
+  }
 };
 const createPost = (
   action$,
@@ -167,7 +178,7 @@ const getWeather = (action$, _, { dispatch, Network }) =>
             );
             weatherInfo = {
               temperature: xiaomiWeather.current.temperature.value,
-              weather: xiaomiWeatherinfo[xiaomiWeather.current.weather].icon,
+              weather: getXiaomiWeather(xiaomiWeather.current.weather).icon,
               weatherCode: xiaomiWeather.current.weather,
             };
           } else {
@@ -178,7 +189,7 @@ const getWeather = (action$, _, { dispatch, Network }) =>
             );
             weatherInfo = {
               temperature: darkSkyWeather.currently.temperature.toFixed(0),
-              weather: darkSkyWeatherType[darkSkyWeather.currently.icon],
+              weather: DARK_SKY_WEATHER_TYPE[darkSkyWeather.currently.icon],
               weatherCode: darkSkyWeather.currently.icon,
             };
           }
@@ -196,7 +207,7 @@ const getWeather = (action$, _, { dispatch, Network }) =>
               isFetchingWeather: false,
             }),
           );
-          console.warn(error);
+          console.warn(error.message);
           observer.complete();
         }
       }),
