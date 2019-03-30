@@ -19,6 +19,15 @@ const fetchUserPosts = (action$, state, { httpClient, dispatch, User }) =>
       Observable.create(async observer => {
         try {
           const { userId } = action.payload;
+          const cahced = await Cache.get(Cache.USER_POSTS_CACHE_KEYS(userId));
+          if (cahced) {
+            const postsByTag = filterPostsByTag(cahced);
+            observer.next(
+              dispatch('USER_SET_STATE', {
+                userPosts: postsByTag,
+              }),
+            );
+          }
           const { data } = await httpClient.get('/post/condition', {
             params: { user_id: userId },
           });
@@ -28,6 +37,9 @@ const fetchUserPosts = (action$, state, { httpClient, dispatch, User }) =>
               postsByTag,
             }),
           );
+          Cache.set(Cache.USER_POSTS_CACHE_KEYS(userId), data)
+            .then(() => {})
+            .catch(() => {});
         } catch (error) {
           console.warn(error);
         } finally {

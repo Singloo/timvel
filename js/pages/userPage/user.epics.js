@@ -1,7 +1,7 @@
 import { ofType } from 'redux-observable';
 import { Observable, from, of } from 'rxjs';
 import { mergeMap, switchMap, tap, map, catchError } from 'rxjs/operators';
-import { filterPostsByTag } from '../../utils';
+import { filterPostsByTag, Cache } from '../../utils';
 const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
   action$.pipe(
     ofType('USER_PAGE_FETCH_USER_POSTS'),
@@ -13,6 +13,17 @@ const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
             observer.complete();
             return;
           }
+          const cahced = await Cache.get(
+            Cache.USER_POSTS_CACHE_KEYS(User.objectId),
+          );
+          if (cahced) {
+            const postsByTag = filterPostsByTag(cahced);
+            observer.next(
+              dispatch('USER_SET_STATE', {
+                userPosts: postsByTag,
+              }),
+            );
+          }
           const { data } = await httpClient.get('/post/condition', {
             params: { user_id: userId },
           });
@@ -22,6 +33,9 @@ const fetchUserPosts = (action$, state$, { User, httpClient, dispatch }) =>
               userPosts: postsByTag,
             }),
           );
+          Cache.set(Cache.USER_POSTS_CACHE_KEYS(User.objectId), data)
+            .then(() => {})
+            .catch(() => {});
         } catch (error) {
           console.warn(error.message);
         } finally {

@@ -4,7 +4,7 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 24th 2019 3:18:36 pm
+ * Last Modified: Saturday March 30th 2019 9:09:29 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -18,13 +18,21 @@ const CACHE_KEYS: { [key: string]: ICacheKey } = {
     key: 'homePageFeeds',
     type: 'array',
   },
+  HOME_PAGE_POPULAR: {
+    key: 'homePagePopular',
+    type: 'array',
+  },
   PRODUCTS: {
     key: 'products',
     type: 'array',
   },
 };
+const USER_POSTS_CACHE_KEYS = (userId: string): ICacheKey => ({
+  key: `userPosts${userId}`,
+  type: 'array',
+});
 const _switchCacheResult = (result: null | string, key: ICacheKey) => {
-  if (!result) {
+  if (result === null) {
     return result;
   }
   if (key.type === 'array' || key.type === 'object') {
@@ -66,4 +74,5 @@ export default {
   get,
   clearCache,
   CACHE_KEYS,
+  USER_POSTS_CACHE_KEYS,
 };

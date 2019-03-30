@@ -27,6 +27,14 @@ const fetchMostPopularPosts = (action$, state$, { httpClient, dispatch }) =>
     mergeMap(action =>
       Observable.create(async observer => {
         try {
+          const cached = await Cache.get(Cache.CACHE_KEYS.HOME_PAGE_POPULAR);
+          if (cached) {
+            observer.next(
+              dispatch('HOME_PAGE_SET_STATE', {
+                popularPosts: cached,
+              }),
+            );
+          }
           const { data } = await httpClient.get('/post/popular', {
             params: {
               limit: 5,
@@ -37,6 +45,9 @@ const fetchMostPopularPosts = (action$, state$, { httpClient, dispatch }) =>
               popularPosts: data,
             }),
           );
+          Cache.set(Cache.CACHE_KEYS.HOME_PAGE_POPULAR, data)
+            .then(() => {})
+            .catch(() => {});
         } catch (error) {
           console.warn(error.message);
         } finally {

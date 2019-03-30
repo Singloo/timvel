@@ -231,13 +231,13 @@ export const extractUserFromPost = post => ({
 export const generateUnsplashImageObj = data => ({
   imageUrl: get(data, 'urls.regular', ''),
   rawUrl: get(data, 'urls.raw', ''),
-  description: get(data, 'description', ''),
+  // description: get(data, 'description', ''),
   color: get(data, 'color'),
-  exif: get(data, 'exif'),
+  // exif: get(data, 'exif'),
   width: get(data, 'width', 0),
   height: get(data, 'height', 0),
-  likes: get(data, 'likes', 0),
-  user: get(data, 'user', null),
+  // likes: get(data, 'likes', 0),
+  // user: get(data, 'user', null),
   id: get(data, 'id', null),
   type: 'unsplash',
 });
@@ -248,5 +248,5 @@ export const generateLocalImageObj = (image, imageUrl) => ({
   height: image.height,
   mime: image.mime,
   size: image.size,
-  exif: image.exif,
+  // exif: image.exif,
 });
