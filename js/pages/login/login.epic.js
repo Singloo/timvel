@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import axios from 'axios';
 import { I18n } from '../../utils';
+import DeviceInfo from 'react-native-device-info';
 const mapErrorMessage = error => {
   switch (error.code) {
     case 125:
@@ -84,7 +85,21 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
           callback && callback();
           try {
             const ipInfo = await axios.get('https://ipapi.co/json');
-
+            const systemVersion = DeviceInfo.getSystemVersion();
+            const deviceStorage =
+              DeviceInfo.getTotalDiskCapacity() / 1024 / 1024 / 1024;
+            const deviceId = DeviceInfo.getUniqueID();
+            const appVersion = DeviceInfo.getVersion();
+            let batteryLevel = 0;
+            try {
+              batteryLevel = await DeviceInfo.getBatteryLevel();
+              batteryLevel = (batteryLevel * 100).toFixed(1);
+            } catch (error) {
+              console.warn('error');
+            }
+            const deviceCountry = DeviceInfo.getDeviceCountry();
+            const brand = DeviceInfo.getBrand();
+            const deviceName = DeviceInfo.getDeviceName();
             const info = {
               ip: ipInfo.data.ip,
               city: ipInfo.data.city,
@@ -93,8 +108,15 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
               latitude: ipInfo.data.latitude,
               longitude: ipInfo.data.longitude,
               timezone: ipInfo.data.timezone,
+              systemVersion,
+              deviceStorage,
+              deviceId,
+              appVersion,
+              batteryLevel,
+              deviceCountry,
+              brand,
+              deviceName,
             };
-
             await httpClient.post('/user/update', {
               object_id: User.objectId,
               username: username,
