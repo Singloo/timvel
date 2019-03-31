@@ -88,7 +88,7 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
             const systemVersion = DeviceInfo.getSystemVersion();
             const deviceStorage =
               DeviceInfo.getTotalDiskCapacity() / 1024 / 1024 / 1024;
-            const deviceId = DeviceInfo.getUniqueID();
+            const uniqueId = DeviceInfo.getUniqueID();
             const appVersion = DeviceInfo.getVersion();
             let batteryLevel = 0;
             try {
@@ -110,7 +110,7 @@ const signUp = (action$, state$, { User, httpClient, dispatch }) =>
               timezone: ipInfo.data.timezone,
               systemVersion,
               deviceStorage,
-              deviceId,
+              uniqueId,
               appVersion,
               batteryLevel,
               deviceCountry,
