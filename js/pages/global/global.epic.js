@@ -1,8 +1,9 @@
 import { ofType } from 'redux-observable';
-import { Observable, empty } from 'rxjs';
+import { Observable, empty, of } from 'rxjs';
 import { map, switchMap, startWith } from 'rxjs/operators';
 import { $CENTER, $TYPES } from '../../utils/$observable';
 import DeviceInfo from 'react-native-device-info';
+import { Navigation } from '../../utils';
 const coinTransaction = (action$, state$, { User, dispatch }) =>
   action$.pipe(
     ofType('COIN_TRANSACTION'),
@@ -99,7 +100,6 @@ const globalShowSignUp = (action$, state$, { User, dispatch }) =>
   action$.pipe(
     ofType('GLOBAL_SHOW_SIGN_UP'),
     switchMap(({ payload }) => {
-      console.warn('not loggedin');
       // const { transaction } = payload;
       // $CENTER.next({
       //   type: $TYPES.coinTransaction,
@@ -108,11 +108,12 @@ const globalShowSignUp = (action$, state$, { User, dispatch }) =>
       //   },
       // });
       // User.increaseCoin(parseInt(transaction, 10));
+      Navigation.navigate('login');
       return empty().pipe(
         startWith(
           dispatch('SHOW_SNAKE_BAR', {
-            type: 'ERROR',
-            content: 'Network error, try again',
+            type: 'NORMAL',
+            content: 'O__O "… 让我知道你是谁吧~',
           }),
         ),
       );

@@ -62,7 +62,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.gradientBK && this.gradientBK.play();
+    setTimeout(() => this.gradientBK && this.gradientBK.play(), 800);
   }
   componentWillUnmount() {
     this.props.dispatch('LOGIN_RESET_STATE');

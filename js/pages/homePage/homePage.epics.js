@@ -158,8 +158,11 @@ const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST'),
     throttleTime(500),
-    concatMap(({ payload }) =>
-      from(
+    concatMap(({ payload }) => {
+      if (!User.isLoggedIn) {
+        return of(dispatch('GLOBAL_SHOW_SIGN_UP'));
+      }
+      return from(
         httpClient.post('/post/emoji', {
           emoji: payload.emoji,
           post_id: payload.postId,
@@ -172,8 +175,8 @@ const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
           console.warn(err.message);
           return of(dispatch(null));
         }),
-      ),
-    ),
+      );
+    }),
   );
 const mutatePosts = (action$, state$, { dispatch }) =>
   action$.pipe(

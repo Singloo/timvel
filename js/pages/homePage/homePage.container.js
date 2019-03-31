@@ -234,6 +234,10 @@ class HomePage extends React.Component {
     });
   };
   _onPressCreateNew = () => {
+    if(!User.isLoggedIn){
+      this.props.dispatch('GLOBAL_SHOW_SIGN_UP')
+      return
+    }
     this.props.navigation.navigate({
       routeName: 'createNew',
     });
