@@ -41,6 +41,13 @@ class Sample extends React.PureComponent {
   _goBack = () => {
     this.props.navigation.goBack();
   };
+  _onPressSend = (value, callback) => {
+    this.props.dispatch('COMMENT_COMMENT_POST', {
+      content: value,
+      post: this.post,
+      callback: callback,
+    });
+  };
   _onPressAvatar = user => {
     this.props.navigation.navigate({
       routeName: 'strangerProfile',
@@ -68,7 +75,7 @@ class Sample extends React.PureComponent {
             {this.renderContent()}
           </View>
         </Animated.ScrollView>
-        <CommentBar />
+        <CommentBar onPressSend={this._onPressSend} />
         {this._renderNavBar()}
       </View>
     );

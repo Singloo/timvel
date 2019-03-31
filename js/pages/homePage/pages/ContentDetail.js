@@ -298,6 +298,7 @@ class ContentDetail extends React.Component {
         animation={'fadeInUp'}
         useNativeDriver={true}
         delay={400}
+        onPressSend={this.props.onPressSend}
         style={{
           position: 'absolute',
           bottom: 0,

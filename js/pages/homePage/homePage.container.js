@@ -282,6 +282,13 @@ class HomePage extends React.Component {
     }, 2000);
   };
 
+  _onPressSend = (value, callback) => {
+    this.props.dispatch('COMMENT_COMMENT_POST', {
+      content: value,
+      post: this.props.state.currentPost,
+      callback: callback,
+    });
+  };
   _onPressComment = post => {
     this.props.navigation.navigate({
       routeName: 'comment',
@@ -488,6 +495,7 @@ class HomePage extends React.Component {
         onEnd={curried(this._contentDetailAnimatingController)(false)}
         modalController={this._contentDetailModalController}
         isAnimating={contentDetailIsAnimating}
+        onPressSend={this._onPressSend}
       />
     );
   };
