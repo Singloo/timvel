@@ -70,7 +70,7 @@ export const upLoadImage = async (image, { type, ossPath } = {}) => {
       `${OSS_PATH}/${filename}`,
     );
     console.warn(exists);
-    return;
+    // return;
     if (exists == 'object exist') {
       return;
     }
