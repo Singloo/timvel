@@ -32,10 +32,10 @@ import { get } from 'lodash';
 const AnimatableUserInfoBar = Animatable.createAnimatableComponent(UserInfoBar);
 const AnimatableCommentBar = Animatable.createAnimatableComponent(CommentBar);
 const AnimatedImageSwiper = Animated.createAnimatedComponent(ImageSwiper);
-let image_height = SCREEN_WIDTH * 0.6;
-let image_width = SCREEN_WIDTH;
-let content_width = SCREEN_WIDTH - 40;
-let scrollY = image_height - PADDING_TOP_FULL - 44;
+const image_height = SCREEN_WIDTH * 0.6;
+const image_width = SCREEN_WIDTH;
+const content_width = SCREEN_WIDTH - 40;
+const scrollY = image_height - NAV_BAR_HEIGHT_FULL;
 const goingToOpen = (prev, curr) => {
   return !prev.show && curr.show;
 };
@@ -153,7 +153,7 @@ class ContentDetail extends React.Component {
       return null;
     }
     return (
-      <Animated.View
+      <View
         style={[
           Styles.absolute,
           { backgroundColor: isAnimating ? 'transparent' : 'white' },
@@ -177,7 +177,7 @@ class ContentDetail extends React.Component {
         </Animated.ScrollView>
         {this.renderCommentBar()}
         {this.renderHeader()}
-      </Animated.View>
+      </View>
     );
   }
 
@@ -351,7 +351,6 @@ class ContentDetail extends React.Component {
     );
   };
 }
-ContentDetail.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

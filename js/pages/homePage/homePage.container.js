@@ -25,7 +25,6 @@ import {
   Network,
   retry3,
   User,
-  HANDLE,
   OSS,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
@@ -34,18 +33,8 @@ import ContentDetail from './pages/ContentDetail';
 import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { get } from 'lodash';
-import {
-  switchMap,
-  mergeMap,
-  map,
-  tap,
-  concatMap,
-  catchError,
-  concat,
-  bufferCount,
-} from 'rxjs/operators';
-import { empty, from, of, throwError, merge } from 'rxjs';
-import DeviceInfo from 'react-native-device-info';
+import { tap, concatMap, catchError, bufferCount } from 'rxjs/operators';
+import { from, throwError, merge } from 'rxjs';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const getGradientColors = (colors, currentIndex) => [
   colors[currentIndex],
