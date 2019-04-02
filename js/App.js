@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { View, UIManager, PushNotificationIOS, YellowBox } from 'react-native';
+import {
+  View,
+  UIManager,
+  PushNotificationIOS,
+  YellowBox,
+  BackHandler,
+} from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';
@@ -28,6 +34,7 @@ Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends React.Component {
+  _alert;
   componentDidMount() {
     this._init();
     let notification = new Notification(Installation);
@@ -41,13 +48,35 @@ export default class App extends React.Component {
     //   return;
     // }
     // console.warn(this._navigation)
-    // Setup.androidBackButton(this._navigation, store);
+    // this._subscribeBackHandler();
   }
   componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');
     store.dispatch({ type: 'UPDATE_USERINFO', payload: {} });
+    // this._unsubscribeBackHandler();
   }
-
+  onBackButtonPressAndroid = () => {
+    const { show } = store.getState().alert;
+    console.warn(show);
+    if (show) {
+      console.warn(this._alert);
+      return true;
+    } else {
+      return false;
+    }
+  };
+  _subscribeBackHandler = () => {
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.onBackButtonPressAndroid,
+    );
+  };
+  _unsubscribeBackHandler = () => {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.onBackButtonPressAndroid,
+    );
+  };
   _init = async () => {
     try {
       CoinTransactionAnimation.init();
@@ -68,7 +97,7 @@ export default class App extends React.Component {
           />
 
           <Connectors.global />
-          <Connectors.alert />
+          <Connectors.alert ref={r => (this._alert = r)} />
           <Connectors.snakeBar />
           <CoinIncrease />
         </View>

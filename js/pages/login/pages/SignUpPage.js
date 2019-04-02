@@ -85,6 +85,7 @@ class SignUpPage extends React.Component {
             textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangeUsername}
             clearText={() => this._clear('username')}
+            iconStyle={{ tintColor: colors.pureWhite }}
           />
         </Animated.View>
         <Animated.View
@@ -104,6 +105,7 @@ class SignUpPage extends React.Component {
             textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangePassword}
             clearText={() => this._clear('password')}
+            iconStyle={{ tintColor: colors.pureWhite }}
           />
         </Animated.View>
         {/* <Animated.View
@@ -141,6 +143,7 @@ class SignUpPage extends React.Component {
             textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangeEmail}
             clearText={() => this._clear('email')}
+            iconStyle={{ tintColor: colors.pureWhite }}
           />
         </Animated.View>
         <Button
@@ -154,7 +157,7 @@ class SignUpPage extends React.Component {
               right: !onLoginPage ? 0 : -RIGHT - 160 * 3,
             },
           ]}
-          textStyle={{fontWeight:'bold'}}
+          textStyle={{ fontWeight: 'bold' }}
           onPress={() => {
             onPressSignUp(username, password, email);
           }}
@@ -179,7 +182,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginHorizontal: 30,
   },
-  textInput: { borderColor: colors.white },
+  textInput: { borderColor: colors.white, color: colors.pureWhite },
   buttonStyle: {
     alignSelf: 'center',
     marginTop: 30,

@@ -59,8 +59,9 @@ class Alert extends Component {
       useNativeDriver: true,
     });
   }
+  componentDidMount() {}
   componentWillMount() {}
-
+  componentWillUnmount() {}
   componentDidUpdate() {
     const { show } = this.props.state;
     if (show) {
@@ -68,7 +69,7 @@ class Alert extends Component {
     }
   }
   _onPressChoices = onPress => () => {
-    this._dismiss();
+    this.dismiss();
     onPress && onPress();
   };
   _renderChoices = () => {
@@ -90,7 +91,7 @@ class Alert extends Component {
     this.state.animationState.setValue(0);
     this.animationStart.start();
   };
-  _dismiss = () => {
+  dismiss = () => {
     this.animationDismiss.start(() => {
       this.props.dispatch('ALERT_RESET_STATE');
     });

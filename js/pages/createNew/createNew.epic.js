@@ -1,4 +1,4 @@
-import { from, Observable, of } from 'rxjs';
+import { from, Observable, of, merge } from 'rxjs';
 import { ofType } from 'redux-observable';
 import {
   exhaustMap,
@@ -12,6 +12,7 @@ import {
   XIAOMI_WEATHER_TYPE,
   DARK_SKY_WEATHER_TYPE,
 } from './untils/weatherData';
+import { Cache } from '../../utils';
 const postInitialValues = {
   postType: 'normal',
   angry: 0,
@@ -224,24 +225,39 @@ const fetchUserRecentlyUsedTags = (
       if (!User.isLoggedIn) {
         return of(dispatch(null));
       }
-      return from(
-        httpClient.get('/tag/user_tag', {
-          params: {
-            user_id: User.objectId,
-          },
-        }),
-      ).pipe(
-        map(({ data }) =>
-          dispatch('CREATE_NEW_SET_STATE', {
-            tags: data,
+      const arr = [];
+      arr.push(
+        from(Cache.get(Cache.CACHE_KEYS.USER_USED_TAGS)).pipe(
+          map(data =>
+            data
+              ? dispatch('CREATE_NEW_SET_STATE', {
+                  tags: data,
+                })
+              : dispatch(null),
+          ),
+        ),
+      );
+      arr.push(
+        from(
+          httpClient.get('/tag/user_tag', {
+            params: {
+              user_id: User.objectId,
+            },
+          }),
+        ).pipe(
+          map(({ data }) =>
+            dispatch('CREATE_NEW_SET_STATE', {
+              tags: data,
+            }),
+          ),
+          $retryDelay(),
+          catchError(error => {
+            console.warn(error);
+            return of(dispatch(null));
           }),
         ),
-        $retryDelay(),
-        catchError(error => {
-          console.warn(error);
-          return of(dispatch(null));
-        }),
       );
+      return merge(...arr);
     }),
   );
 export default [createPost, getWeather, fetchUserRecentlyUsedTags];

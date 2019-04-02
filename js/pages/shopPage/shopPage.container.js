@@ -62,6 +62,10 @@ class ShopPage extends Component {
   };
 
   _onPressPurchase = product => {
+    if (!User.isLoggedIn) {
+      this.props.dispatch('GLOBAL_SHOW_SIGN_UP');
+      return;
+    }
     if (!PRODUCT_TYPES.includes(product.productType)) {
       this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',

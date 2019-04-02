@@ -63,7 +63,7 @@ const saveImageToAlbum = (action$, state$, { Network, dispatch }) =>
   action$.pipe(
     ofType('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM'),
     switchMap(action =>
-      from(Network.saveImageToAlbum(imageUrl)).pipe(
+      from(Network.saveImageToAlbum(action.payload.imageUrl)).pipe(
         map(_ =>
           dispatch('SHOW_SNAKE_BAR', {
             content: 'Avatar updated!',

@@ -42,7 +42,7 @@ const getRandomFS = (isF = true, giftType = null, size = fs_size) => {
         y: randomNumber(NAV_BAR_HEIGHT_FULL, SCREEN_HEIGHT - fs_size),
         source:
           shitPatterns[
-            giftType ? giftType : Object.keys(randomItem(shitPatterns))
+            giftType ? giftType : randomItem(Object.keys(shitPatterns))
           ],
         size: size,
       };
@@ -136,7 +136,14 @@ class StrangerProfile extends Component {
       this.props.snakeBar('Network error', 'ERROR');
     }
   };
-
+  _goToPostDetail = post => {
+    this.props.navigation.navigate({
+      routeName: 'postDetail',
+      params: {
+        post,
+      },
+    });
+  };
   render() {
     const { flowers, shits } = this.props.state;
     return (
@@ -209,7 +216,12 @@ class StrangerProfile extends Component {
     const { postsByTag } = this.props.state;
     return Object.keys(postsByTag).map((key, index) => {
       return (
-        <ContentByTag key={'sp' + index} tag={key} posts={postsByTag[key]} />
+        <ContentByTag
+          key={'sp' + index}
+          tag={key}
+          posts={postsByTag[key]}
+          onPressCard={this._goToPostDetail}
+        />
       );
     });
   };

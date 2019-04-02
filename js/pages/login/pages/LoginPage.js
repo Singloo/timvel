@@ -68,6 +68,7 @@ class SignUpPage extends React.Component {
             textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangeUsername}
             clearText={this._clearUsername}
+            iconStyle={{ tintColor: colors.pureWhite }}
           />
         </Animated.View>
         <Animated.View
@@ -87,6 +88,8 @@ class SignUpPage extends React.Component {
             textStyle={{ color: colors.pureWhite }}
             onChangeText={this._onChangePassword}
             clearText={this._clearPassword}
+            secureTextEntry={true}
+            iconStyle={{ tintColor: colors.pureWhite }}
           />
         </Animated.View>
 
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginHorizontal: 30,
   },
-  textInput: { borderColor: colors.white },
+  textInput: { borderColor: colors.white, color: colors.pureWhite },
   buttonStyle: {
     alignSelf: 'center',
     marginTop: 30,

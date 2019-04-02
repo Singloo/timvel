@@ -18,3 +18,4 @@ export { default as Navigation } from './Navigation';
 export { default as ApiNotifications } from './apiNotifications';
 export { OSS, Network, Setup, Vibration };
 export { default as Permission } from './Permission';
+export * from './NetInfo'

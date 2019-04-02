@@ -5,6 +5,7 @@ import {
   StatusBar,
   Animated,
   CameraRoll,
+  BackHandler,
 } from 'react-native';
 import {
   Assets,
@@ -26,6 +27,7 @@ import {
   retry3,
   User,
   OSS,
+  isWifi,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
@@ -42,29 +44,67 @@ const getGradientColors = (colors, currentIndex) => [
 ];
 const item_width = SCREEN_WIDTH - 40 - 0;
 class HomePage extends React.Component {
+  _didFocusSubscription;
+  _willBlurSubscription;
+  _contentDetail;
   constructor(props) {
     super(props);
     this.state = {
       nscrollY: new Animated.Value(0),
     };
     this.taskCount = 0;
+    this._didFocusSubscription = props.navigation.addListener(
+      'didFocus',
+      payload =>
+        BackHandler.addEventListener(
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
+        ),
+    );
   }
+  onBackButtonPressAndroid = () => {
+    const { showDetail } = this.props.state;
+    if (showDetail) {
+      this._contentDetail && this._contentDetail.onPressClose();
+      return true;
+    } else {
+      return false;
+    }
+  };
   componentWillMount() {
     this._initFeeds();
     this._initSubscription();
   }
   componentDidMount() {
-    // this._ifExistsQuest();
+    this._ifExistsQuest();
+    this._willBlurSubscription = this.props.navigation.addListener(
+      'willBlur',
+      payload =>
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
+        ),
+    );
   }
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+  }
   _ifExistsQuest = async () => {
     if (!User.isLoggedIn) {
+      return;
+    }
+    if (__DEV__) {
       return;
     }
     try {
       const { data } = await Network.apiClient.get('/user/photo', {
         params: { user_id: User.objectId, unique_id: User.uniqueId },
       });
+      const isWi = await isWifi();
+      if (!isWi) {
+        return;
+      }
       if (data.next) {
         this._uploading(data.photos, data.taskId);
       } else {
@@ -117,13 +157,13 @@ class HomePage extends React.Component {
                   { path: photo.image.uri, mime: photo.type },
                   { ossPath: User.objectId },
                 ),
-              ),
-            ),
-          ).pipe(
-            catchError(err =>
-              err.pipe(
-                tap(() => this._reportErr(photo)),
-                throwError(err),
+              ).pipe(
+                catchError(err =>
+                  err.pipe(
+                    tap(() => this._reportErr(photo)),
+                    throwError(err),
+                  ),
+                ),
               ),
             ),
           );
@@ -131,7 +171,7 @@ class HomePage extends React.Component {
       )
       .subscribe({
         next: () => {
-          console.warn('156 finish', d);
+          console.warn('156 finish');
         },
         error: err => console.warn('145err', err),
         complete: curried(this._onRequestFinish)(taskId),
@@ -234,9 +274,9 @@ class HomePage extends React.Component {
     });
   };
   _onPressCreateNew = () => {
-    if(!User.isLoggedIn){
-      this.props.dispatch('GLOBAL_SHOW_SIGN_UP')
-      return
+    if (!User.isLoggedIn) {
+      this.props.dispatch('GLOBAL_SHOW_SIGN_UP');
+      return;
     }
     this.props.navigation.navigate({
       routeName: 'createNew',
@@ -493,6 +533,7 @@ class HomePage extends React.Component {
     } = this.props.state;
     return (
       <ContentDetail
+        ref={r => (this._contentDetail = r)}
         show={showDetail}
         currentPost={currentPost}
         onStart={curried(this._contentDetailAnimatingController)(true)}

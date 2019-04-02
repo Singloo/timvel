@@ -24,11 +24,16 @@ class UserProfile extends Component {
   componentWillMount() {}
 
   render() {
-    const { userPosts, userTitles } = this.props;
+    const { userPosts, userTitles, onPressCard } = this.props;
 
     const renderCards = Object.keys(userPosts).map((key, index) => {
       return (
-        <ContentByTag key={'up' + index} tag={key} posts={userPosts[key]} />
+        <ContentByTag
+          key={'up' + index}
+          tag={key}
+          posts={userPosts[key]}
+          onPressCard={onPressCard}
+        />
       );
     });
     return (

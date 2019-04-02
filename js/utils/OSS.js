@@ -72,7 +72,7 @@ export const upLoadImage = async (image, { type, ossPath } = {}) => {
     console.warn(exists);
     // return;
     if (exists == 'object exist') {
-      return;
+      return imageUrlPrefix + filename;
     }
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,

@@ -25,7 +25,7 @@ import {
 } from '../../../../re-kits';
 import { curried, extractUserFromPost } from '../../../utils';
 import UserInfoBar from '../components/UserInfoBar';
-import BottomInfoBar from '../components/BottomInfoBar';
+// import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 import * as Animatable from 'react-native-animatable';
 import { get } from 'lodash';
@@ -123,7 +123,7 @@ class ContentDetail extends React.Component {
       isAnimating: bool,
     });
   };
-  _onPressClose = async () => {
+  onPressClose = async () => {
     const { modalController, onStart } = this.props;
     this._fadeAnimation();
     await sleep(350);
@@ -339,7 +339,7 @@ class ContentDetail extends React.Component {
         />
         <Image
           source={Assets.close.source}
-          onPress={this._onPressClose}
+          onPress={this.onPressClose}
           style={{ marginLeft: 20 }}
           tintColor={colors.white}
           size={'small'}
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     lineHeight: 25,
     marginTop: 10,
-    textShadowRadius: 5,
+    textShadowRadius: 2,
     marginHorizontal: 10,
   },
   close: {

@@ -27,6 +27,7 @@ const product_types = [
   'title',
   'draw_title',
 ];
+const available_product_types = ['avatar', 'sticker', 'title'];
 class Sample extends Component {
   constructor(props) {
     super(props);
@@ -146,7 +147,7 @@ class Sample extends Component {
       ableToSend =
         ableToSend && !!confirmedCustomTitle.color && description.length > 0;
     }
-    const renderTypes = product_types.map((item, index) => {
+    const renderTypes = available_product_types.map((item, index) => {
       return (
         <Tag
           key={index}
@@ -298,5 +299,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
-export default Sample
+export default Sample;
 // export default withKeyboardListener(Sample);

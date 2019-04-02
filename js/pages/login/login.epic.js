@@ -45,6 +45,11 @@ const login = (action$, state$, { dispatch, User }) =>
               isLoading: false,
             }),
           );
+          observer.next(
+            dispatch('SHOW_SNAKE_BAR', {
+              content: '欢迎回来, 我已等候多时',
+            }),
+          );
           callback && callback();
         } catch (error) {
           observer.next(

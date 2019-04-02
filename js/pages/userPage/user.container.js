@@ -67,6 +67,14 @@ class UserPage extends Component {
     this._generateRandomButtons();
     this._initUserMountListener();
   };
+  _goToPostDetail = post => {
+    this.props.navigation.navigate({
+      routeName: 'postDetail',
+      params: {
+        post,
+      },
+    });
+  };
   render() {
     const { buttonLocations, userPosts, userTitles } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
@@ -95,7 +103,11 @@ class UserPage extends Component {
 
     return (
       <View style={styles.container}>
-        <UserProfile userPosts={userPosts} userTitles={userTitles} />
+        <UserProfile
+          userPosts={userPosts}
+          userTitles={userTitles}
+          onPressCard={this._goToPostDetail}
+        />
         <Button title={'log out'} onPress={this._onPressLogout} />
       </View>
     );

@@ -27,5 +27,6 @@ module.exports = {
     'no-useless-escape': 0,
     'no-empty-pattern': 0,
     'no-empty': 0,
+    'no-undef':0
   },
 };
