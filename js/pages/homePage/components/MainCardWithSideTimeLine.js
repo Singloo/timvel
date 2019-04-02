@@ -56,7 +56,6 @@ class MainCard extends React.Component {
   _onPressItem = () => {
     const { onPress } = this.props;
     onPress(this.moveTo);
-    // setTimeout(this.moveTo, 0);
   };
   shouldComponentUpdate(nextProps) {
     return (
@@ -65,7 +64,6 @@ class MainCard extends React.Component {
       diffGradientColors(this.props, nextProps)
     );
   }
-  // _onIndexChange = index => (this.currentIndex = index);
   moveTo = () => {
     this._animatedWrapper && this._animatedWrapper.moveTo();
   };
@@ -78,10 +76,10 @@ class MainCard extends React.Component {
     }
   };
   fadeIn = () => {
-    this._userInfo.animate('fadeInLeft', 500, 0);
-    this._weatherInfo.animate('fadeInRight', 500, 50);
-    this._bottomInfo.animate('fadeInRight', 500, 100);
-    this._timebar.animate('fadeInLeft', 500, 100);
+    this._userInfo.animate('fadeInLeft', 400, 0);
+    this._weatherInfo.animate('fadeInRight', 400, 50);
+    this._bottomInfo.animate('fadeInRight', 400, 100);
+    this._timebar.animate('fadeInLeft', 400, 100);
   };
   fadeOut = () => {
     this._userInfo.animate('fadeOutLeft', 500, 0);
@@ -131,6 +129,8 @@ class MainCard extends React.Component {
               <ImageSwiper
                 imageUrls={post.imageUrls.map(o => o.imageUrl)}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
+                width={cardWidth}
+                height={cardHeight}
                 showsPagination={!hidden}
                 onIndexChanged={this._onIndexChange}
               />
@@ -144,7 +144,7 @@ class MainCard extends React.Component {
     );
   };
   _renderText = () => {
-    const { post } = this.props;
+    const { post, hidden } = this.props;
     if (post.content.length <= 0) {
       return null;
     }
@@ -158,7 +158,9 @@ class MainCard extends React.Component {
         }}
         hitSlop={{ top: -10, left: 8, bottom: 8, right: 9 }}
       >
-        <Text numberOfLines={2}>{post.content}</Text>
+        <Text numberOfLines={2} style={{ opacity: hidden ? 0 : 1 }}>
+          {post.content}
+        </Text>
       </Touchable>
     );
   };

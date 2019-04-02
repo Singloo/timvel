@@ -37,9 +37,10 @@ export default class App extends React.Component {
       notification.AndroidinitPush();
     }
     // try to prevent crash n._navigation.state
-    if (isIOS) {
-      return;
-    }
+    // if (isIOS) {
+    //   return;
+    // }
+    // console.warn(this._navigation)
     // Setup.androidBackButton(this._navigation, store);
   }
   componentWillUnmount() {

@@ -154,7 +154,7 @@ const pressEmoji = (action$, state$, { dispatch }) =>
     }),
   );
 
-const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
+const onPressEmojiRequest = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('HOME_PAGE_PRESS_EMOJI_SEND_REQUEST'),
     throttleTime(500),
@@ -170,7 +170,7 @@ const onPressEmojiRequest = (action$, state$, { httpClient, User }) =>
         }),
       ).pipe(
         tap(_ => console.warn('success')),
-        map(_ => ({ type: 'null' })),
+        map(_ => dispatch(null)),
         catchError(err => {
           console.warn(err.message);
           return of(dispatch(null));

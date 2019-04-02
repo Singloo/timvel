@@ -158,7 +158,7 @@ class StrangerProfile extends Component {
           onPress={curried(this._modalController)(true)}
         />
         <NavBar
-          title={'f' + `${flowers.length}`}
+          title={this.user.username}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           style={{ position: 'absolute', top: 0 }}
@@ -195,7 +195,7 @@ class StrangerProfile extends Component {
     return (
       <Animated.View>
         <Animated.Image
-          source={Assets.bk2.source}
+          source={{ uri: this.user.avatar }}
           style={{
             height: IMAGE_HEIGHT,
             width: IMAGE_WIDTH,

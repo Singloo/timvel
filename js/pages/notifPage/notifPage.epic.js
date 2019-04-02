@@ -1,12 +1,15 @@
 import { ofType } from 'redux-observable';
 import { $retryDelay, $catchError, ApiNotifications, Cache } from '../../utils';
-import { from, merge } from 'rxjs';
+import { from, merge, of } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { get } from 'lodash';
 const readNotification = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('NOTIFI_PAGE_READ_NOTIFICATION'),
     switchMap(action => {
+      if (!User.isLoggedIn) {
+        return of(dispatch(null));
+      }
       const { notificationId } = action.payload;
       return from(
         httpClient.post('/read_notification', {
@@ -24,6 +27,9 @@ const fetchComments = (action$, state$, { httpClient, User, dispatch }) =>
   action$.pipe(
     ofType('NOTIFI_PAGE_FETCH_COMMENTS'),
     switchMap(_ => {
+      if (!User.isLoggedIn) {
+        return of(dispatch(null));
+      }
       const arr = [];
       arr.push(
         from(Cache.get(Cache.CACHE_KEYS.NOTIFICATION_COMMENT)).pipe(
@@ -42,9 +48,9 @@ const fetchComments = (action$, state$, { httpClient, User, dispatch }) =>
             if (data.data.length === 0) {
               return;
             }
-            Cache.set(Cache.CACHE_KEYS.NOTIFICATION_COMMENT, data.data).then(
-              () => {},
-            );
+            Cache.set(Cache.CACHE_KEYS.NOTIFICATION_COMMENT, data.data)
+              .then(() => {})
+              .catch(() => {});
           }),
           map(({ data }) =>
             dispatch('NOTIF_PAGE_SET_STATE', {

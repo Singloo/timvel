@@ -52,6 +52,10 @@ class ShopPage extends Component {
   };
 
   _onPressRight = () => {
+    if (!User.isLoggedIn) {
+      this.props.dispatch('GLOBAL_SHOW_SIGN_UP');
+      return;
+    }
     this.props.navigation.navigate({
       routeName: 'publishProduct',
     });

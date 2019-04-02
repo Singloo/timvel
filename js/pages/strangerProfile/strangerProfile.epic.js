@@ -11,7 +11,7 @@ import {
   concatMap,
   tap,
 } from 'rxjs/operators';
-import { filterPostsByTag } from '../../utils';
+import { filterPostsByTag, Cache } from '../../utils';
 const fetchUserPosts = (action$, state, { httpClient, dispatch, User }) =>
   action$.pipe(
     ofType('STRANGER_PROFILE_FETCH_POSTS'),
