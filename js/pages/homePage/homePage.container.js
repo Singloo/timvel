@@ -245,7 +245,11 @@ class HomePage extends React.Component {
   };
 
   _fetchMorePosts = () => {
-    this.props.dispatch('HOME_PAGE_FETCH_MORE_POSTS');
+    const { date, posts } = this.props.state;
+    this.props.dispatch('HOME_PAGE_FETCH_MORE_POSTS', {
+      date,
+      postIds: posts.map(o => o.postId),
+    });
   };
   _renderCarouselItem = ({ item, index }) => {
     // const isOdd = (index + 2) % 2 !== 0;

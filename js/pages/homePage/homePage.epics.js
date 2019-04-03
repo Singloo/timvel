@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { Observable, from, of, throwError } from 'rxjs';
+import { Observable, from, of, throwError, merge } from 'rxjs';
 import {
   mergeMap,
   throttleTime,
@@ -11,7 +11,7 @@ import {
   startWith,
   delay,
 } from 'rxjs/operators';
-import { randomItem, Cache } from '../../utils';
+import { randomItem, Cache, retry3 } from '../../utils';
 import { colorSets } from '../../../re-kits';
 import * as R from 'ramda';
 const generateColorsUntil = (colors = [], toNum) => {
@@ -109,26 +109,49 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
   action$.pipe(
     ofType('HOME_PAGE_FETCH_MORE_POSTS'),
     throttleTime(3000),
-    switchMap(({ payload }) =>
-      from([1]).pipe(
-        map(_ => {
-          throwError(new Error('aa'));
-          return dispatch('HOME_PAGE_SET_STATE', {
-            isFooterLoading: false,
-          });
-        }),
-        startWith({
-          type: 'HOME_PAGE_SET_STATE',
-          payload: {
+    switchMap(({ payload }) => {
+      const { date, postIds } = payload;
+      const actions = [];
+      actions.push(
+        of(
+          dispatch('HOME_PAGE_SET_STATE', {
             isFooterLoading: true,
-          },
-        }),
-        catchError(err => {
-          console.warn('err');
-          return of(null);
-        }),
-      ),
-    ),
+          }),
+        ),
+      );
+      actions.push(
+        retry3(
+          httpClient.get('/post/more', {
+            params: {
+              happened_at: date,
+              post_ids: postIds,
+            },
+          }),
+        ).pipe(
+          tap(({ data }) => console.warn(data.length)),
+          map(({ data }) =>
+            data.length === 0
+              ? dispatch('SHOW_SNAKE_BAR', {
+                  message: '没有更多了....说说关于你的事吧?',
+                })
+              : dispatch('HOME_PAGE_MUTATE_POSTS', {
+                  posts: data,
+                  isFooterLoading: false,
+                }),
+          ),
+          catchError(err => {
+            console.warn('err', err.message);
+            return of(
+              dispatch('HOME_PAGE_SET_STATE', {
+                isFooterLoading: false,
+              }),
+            );
+          }),
+        ),
+      );
+
+      return merge(...actions);
+    }),
   );
 const pressEmoji = (action$, state$, { dispatch }) =>
   action$.pipe(
@@ -182,7 +205,7 @@ const mutatePosts = (action$, state$, { dispatch }) =>
   action$.pipe(
     ofType('HOME_PAGE_MUTATE_POSTS'),
     map(({ payload }) => {
-      const { posts: nextPosts } = payload;
+      const { posts: nextPosts, ...additionalProps } = payload;
       const { posts, colorsSets } = state$.value.homePage;
       const next = R.uniqBy(
         a => a.postId,
@@ -194,6 +217,7 @@ const mutatePosts = (action$, state$, { dispatch }) =>
       return dispatch('HOME_PAGE_SET_STATE', {
         colorsSets: nextColors,
         posts: next,
+        ...additionalProps,
       });
     }),
   );

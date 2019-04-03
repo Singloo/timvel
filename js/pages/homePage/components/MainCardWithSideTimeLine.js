@@ -155,6 +155,7 @@ class MainCard extends React.Component {
           paddingVertical: 5,
           paddingHorizontal: 10,
           height: 60,
+          width: cardWidth,
         }}
         hitSlop={{ top: -10, left: 8, bottom: 8, right: 9 }}
       >
