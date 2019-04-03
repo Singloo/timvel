@@ -26,7 +26,8 @@ const AUTHOR_NAME = [
   '杨同学',
   '杨某人',
   '不愿透露姓名的杨同学',
-  'Human',
+  'Human on Earth',
+  'Riccardo Compagno',
 ];
 class LaunchPage extends Component {
   constructor(props) {
