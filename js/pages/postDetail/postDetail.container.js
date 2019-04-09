@@ -1,22 +1,19 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Animated } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import {
-  Button,
   Image,
-  InfiniteText,
   Text,
   Assets,
   CommentBar,
   AnimatedImage,
   ImageSwiper,
-  TAB_BAR_HEIGHT,
   NAV_BAR_HEIGHT_FULL,
   SCREEN_WIDTH,
   colors,
   PADDING_TOP_FULL,
 } from '../../../re-kits';
 import { I18n, extractUserFromPost, curried, isIOS } from '../../utils';
-import UserInfoBar from '../homePage/components/UserInfoBar';
+import { UserInfoBar } from '../../components';
 import { get } from 'lodash';
 import { BlurView } from 'react-native-blur';
 const NavBar = isIOS
@@ -25,7 +22,6 @@ const NavBar = isIOS
 const AnimatedImageSwiper = Animated.createAnimatedComponent(ImageSwiper);
 const image_height = SCREEN_WIDTH * 0.6;
 const image_width = SCREEN_WIDTH;
-const content_width = SCREEN_WIDTH - 40;
 const scrollY = image_height - NAV_BAR_HEIGHT_FULL;
 class Sample extends React.PureComponent {
   constructor(props) {
@@ -171,7 +167,6 @@ class Sample extends React.PureComponent {
     );
   };
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

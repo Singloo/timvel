@@ -16,7 +16,9 @@ import login from './pages/login/login.epic';
 import alert from './pages/alert/alert.epic';
 import comment from './pages/comment/comment.epic';
 import launchPage from './pages/launchPage/launchPage.epic';
+import postByTag from './pages/postByTag/postByTag.epics';
 const epics = [].concat(
+  postByTag,
   launchPage,
   comment,
   alert,

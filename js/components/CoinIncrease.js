@@ -76,11 +76,13 @@ class CoinIncrease extends React.PureComponent {
     const listener = $CENTER
       .pipe(filter(({ type }) => type === $TYPES.userMount))
       .subscribe(() => {
-        this.setState({
-          show: true,
-        });
         console.warn('timer init');
-        this._init();
+        setTimeout(() => {
+          this.setState({
+            show: true,
+          });
+          this._init();
+        }, 5000);
         listener.unsubscribe();
         this._userUnmountListener();
       });
@@ -105,6 +107,9 @@ class CoinIncrease extends React.PureComponent {
           second,
         }),
       );
+    if (__DEV__) {
+      return;
+    }
     this.$bubbleSubscriber = $sourceOneMinue.subscribe(
       runAfter(this._renderCoinBubble),
     );

@@ -7,9 +7,10 @@ import {
   ImageSwiper,
   flattenStyles,
   Styles,
+  Tag,
 } from '../../../../re-kits';
-import { colors, DateFormatter, curried, SCREEN_WIDTH } from '../../../utils';
-import UserInfoBar from './UserInfoBar';
+import { DateFormatter, curried, SCREEN_WIDTH } from '../../../utils';
+import { UserInfoBar } from '../../../components';
 import BottomInfoBar from './BottomInfoBar';
 import LinearGradient from 'react-native-linear-gradient';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
@@ -101,6 +102,10 @@ class MainCard extends React.Component {
         >
           {this.renderChildren()}
           {this.renderUserInfoBar()}
+          <View style={{ position: 'absolute', right: 0, top: 0 }}>
+            {this._renderTag()}
+            {this.renderWeather()}
+          </View>
         </View>
         {this.renderTimeBar()}
       </View>
@@ -139,7 +144,6 @@ class MainCard extends React.Component {
         </View>
         {this._renderBottomBar()}
         {this._renderText()}
-        {this.renderWeather()}
       </View>
     );
   };
@@ -175,6 +179,19 @@ class MainCard extends React.Component {
       />
     );
   };
+  _renderTag = () => {
+    const { post, onPressTag } = this.props;
+    return (
+      <Tag
+        title={post.tag}
+        style={{ height: 26, marginVertical: 2, marginRight: 4 }}
+        onPress={curried(onPressTag)({
+          tagId: post.tagId,
+          tag: post.tag,
+        })}
+      />
+    );
+  };
   renderWeather = () => {
     const { post } = this.props;
     return (
@@ -183,7 +200,6 @@ class MainCard extends React.Component {
         ref={r => (this._weatherInfo = r)}
         weather={post.weatherInfo.weather}
         temperature={post.weatherInfo.temperature}
-        style={{ position: 'absolute', right: 0, top: 0 }}
       />
     );
   };

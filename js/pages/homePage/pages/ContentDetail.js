@@ -24,7 +24,7 @@ import {
   TAB_BAR_HEIGHT,
 } from '../../../../re-kits';
 import { curried, extractUserFromPost } from '../../../utils';
-import UserInfoBar from '../components/UserInfoBar';
+import { UserInfoBar } from '../../../components';
 // import BottomInfoBar from '../components/BottomInfoBar';
 import { AnimatedWrapper } from '../../../../re-kits/animationEasy';
 import * as Animatable from 'react-native-animatable';

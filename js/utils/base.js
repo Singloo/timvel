@@ -250,3 +250,25 @@ export const generateLocalImageObj = (image, imageUrl) => ({
   size: image.size,
   // exif: image.exif,
 });
+
+const postPrecisionPriority = post => {
+  switch (get(post, 'precision', 'day')) {
+    case 'day':
+      return 2;
+    case 'month':
+      return 1;
+    case 'year':
+      return 0;
+    default:
+      return 0;
+  }
+};
+export const sortPosts = posts => {
+  return posts.sort((a, b) => {
+    return (
+      Moment(b.happenedAt).unix() +
+      postPrecisionPriority(b) -
+      (Moment(a.happenedAt).unix() + postPrecisionPriority(a))
+    );
+  });
+};

@@ -1,15 +1,17 @@
+/*
+ * File: /Users/origami/Desktop/timvel/js/components/UserInfoBar.js
+ * Project: /Users/origami/Desktop/timvel
+ * Created Date: Tuesday April 9th 2019
+ * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
+ * -----
+ * Last Modified: Tuesday April 9th 2019 9:17:49 am
+ * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
+ * -----
+ */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  Button,
-  Image,
-  InfiniteText,
-  Text,
-  Assets,
-  Styles,
-} from '../../../../re-kits';
-import { colors } from '../../../utils';
-import TimeBar from './TimeBar';
+import { Image, InfiniteText, Styles } from '../../re-kits';
+import { colors } from '../utils';
 class UserInfoBar extends Component {
   componentWillMount() {}
 
@@ -31,13 +33,13 @@ class UserInfoBar extends Component {
             text={username}
             textStyle={StyleSheet.flatten([styles.username, textStyle])}
           />
-          <View
+          {/* <View
             style={{
               height: 30,
               backgroundColor: 'transparent',
               alignItems: 'flex-end',
             }}
-          />
+          /> */}
         </View>
       </View>
     );
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     marginHorizontal: 10,
+    paddingBottom: 30,
   },
 });
 

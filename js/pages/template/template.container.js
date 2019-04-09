@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
@@ -8,18 +7,16 @@ import {
   InfiniteText,
   Text,
   Assets,
-  PriceTag,
 } from '../../../re-kits';
 import { I18n } from '../../utils';
+import { connect2 } from '../../utils/Setup';
 
+@connect2('sample')
 class Sample extends Component {
   componentWillMount() {}
 
   _goBack = () => {
     this.props.navigation.goBack();
-  };
-  _onPress = amount => () => {
-    this._priceTag.toValue(amount, 17);
   };
 
   render() {
@@ -30,11 +27,7 @@ class Sample extends Component {
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
         />
-        <PriceTag ref={r => (this._priceTag = r)} price={100} />
-        <View>
-          <Button title={'add'} onPress={this._onPress(1000)} />
-          <Button title={'minus'} onPress={this._onPress(0)} />
-        </View>
+        <Text>{'welcome'}</Text>
       </View>
     );
   }

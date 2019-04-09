@@ -19,7 +19,9 @@ import publishProduct from './pages/publishProduct/publishProduct.reducer';
 import testPage from './pages/testPage/testPage.reducer';
 import postDetail from './pages/postDetail/postDetail.reducer';
 import postReplies from './pages/postReplies/postReplies.reducer';
+import postByTag from './pages/postByTag/postByTag.reducer';
 const reducers = combineReducers({
+  postByTag,
   postReplies,
   postDetail,
   testPage,

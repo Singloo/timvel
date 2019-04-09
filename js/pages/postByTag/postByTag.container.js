@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
@@ -8,13 +7,19 @@ import {
   InfiniteText,
   Text,
   Assets,
+  RFlatList,
 } from '../../../re-kits';
 import { I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
-
-@connect2('sample')
+import { get } from 'lodash';
+@connect2('postByTag')
 class Sample extends Component {
-  componentWillMount() {}
+  componentWillMount() {
+    this.tag = this.props.navigation.getParam('tag', {});
+    this.props.dispatch('POST_BY_TAG_FETCH_POSTS_BY_TAG', {
+      tagId: get(this.tag, 'tagId', 1),
+    });
+  }
 
   _goBack = () => {
     this.props.navigation.goBack();
@@ -24,16 +29,15 @@ class Sample extends Component {
     return (
       <View style={styles.container}>
         <NavBar
-          title={'welcome'}
+          title={get(this.tag, 'tag', '')}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
         />
-        <Text>{'welcome'}</Text>
+        <RFlatList />
       </View>
     );
   }
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

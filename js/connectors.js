@@ -18,7 +18,9 @@ import publishProduct from './pages/publishProduct/publishProduct.connect';
 import testPage from './pages/testPage/testPage.connect';
 import postDetail from './pages/postDetail/postDetail.connect';
 import postReplies from './pages/postReplies/postReplies.container';
+import postByTag from './pages/postByTag/postByTag.container';
 export {
+  postByTag,
   postReplies,
   postDetail,
   testPage,

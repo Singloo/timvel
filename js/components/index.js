@@ -1,4 +1,5 @@
 import CoinIncrease from './CoinIncrease';
 import { CoinTransactionAnimation } from './CoinTransactionAnimation';
 import Title from './Title';
-export { CoinIncrease, CoinTransactionAnimation, Title };
+import UserInfoBar from './UserInfoBar';
+export { CoinIncrease, CoinTransactionAnimation, Title, UserInfoBar };

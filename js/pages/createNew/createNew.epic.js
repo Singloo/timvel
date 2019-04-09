@@ -46,6 +46,7 @@ const createPost = (
             content,
             weatherInfo,
             tagId,
+            tag,
             date,
             datePrecision,
           } = payload;
@@ -91,6 +92,7 @@ const createPost = (
                 content,
                 imageUrls,
                 tagId,
+                tag,
                 happenedAt: date,
                 weatherInfo,
                 precision: datePrecision,

@@ -89,7 +89,6 @@ class Sample extends Component {
     return <Card item={item} onPress={curried(this._goToComment)(item)} />;
   };
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -11,7 +11,7 @@ import {
   startWith,
   delay,
 } from 'rxjs/operators';
-import { randomItem, Cache, retry3 } from '../../utils';
+import { randomItem, Cache, retry3, sortPosts } from '../../utils';
 import { colorSets } from '../../../re-kits';
 import * as R from 'ramda';
 const generateColorsUntil = (colors = [], toNum) => {
@@ -128,7 +128,6 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
             },
           }),
         ).pipe(
-          tap(({ data }) => console.warn(data.length)),
           map(({ data }) =>
             data.length === 0
               ? dispatch('SHOW_SNAKE_BAR', {
@@ -216,7 +215,7 @@ const mutatePosts = (action$, state$, { dispatch }) =>
       const nextColors = generateColorsUntil(colorsSets, next.length + 1);
       return dispatch('HOME_PAGE_SET_STATE', {
         colorsSets: nextColors,
-        posts: next,
+        posts: sortPosts(next),
         ...additionalProps,
       });
     }),
