@@ -12,6 +12,7 @@ import {
 import { I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { get } from 'lodash';
+import Card from './components/Card';
 @connect2('postByTag')
 class Sample extends Component {
   componentWillMount() {
@@ -26,6 +27,7 @@ class Sample extends Component {
   };
 
   render() {
+    const { data } = this.props.state;
     return (
       <View style={styles.container}>
         <NavBar
@@ -33,10 +35,13 @@ class Sample extends Component {
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
         />
-        <RFlatList />
+        <RFlatList data={data} renderItem={this._renderItem} />
       </View>
     );
   }
+  _renderItem = ({ item, index }) => {
+    return <Card key={'pbt' + index} />;
+  };
 }
 const styles = StyleSheet.create({
   container: {

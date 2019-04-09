@@ -12,7 +12,7 @@ import {
   colors,
   PADDING_TOP_FULL,
 } from '../../../re-kits';
-import { I18n, extractUserFromPost, curried, isIOS } from '../../utils';
+import { extractUserFromPost, curried, isIOS } from '../../utils';
 import { UserInfoBar } from '../../components';
 import { get } from 'lodash';
 import { BlurView } from 'react-native-blur';
