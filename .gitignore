@@ -64,3 +64,5 @@ buck-out/
 # Jest
 #
 .jest/
+
+android/app/release/
