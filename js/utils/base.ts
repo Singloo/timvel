@@ -1,57 +1,22 @@
-import { Platform, Dimensions, StyleSheet, Text } from 'react-native';
+import { Platform, Dimensions, LayoutChangeEvent } from 'react-native';
 import Moment from 'moment';
 import { get, difference } from 'lodash';
+import { LayoutEvent } from 'react-navigation';
+import { IPost, TDict, ILocalImage } from '../models';
 Moment.locale();
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );
-// const getItemPosition = (n, r) => {
-//   let f = {
-//     x: -sinR(15, r),
-//     y: cosR(15, r),
-//   };
-//   let l = {
-//     x: cosR(15, r),
-//     y: -sinR(15, r),
-//   };
-//   const wide = 120;
-//   switch (n) {
-//     case 1:
-//       return [f];
-//     case 2:
-//       return [f, l];
-//     case 3: {
-//       let s = {
-//         x: sinR(60 - 15, r),
-//         y: cosR(60 - 15, r),
-//       };
-//       return [f, s, l];
-//     }
-//     case 4: {
-//       let ss = {
-//         x: sinR(40 - 15, r),
-//         y: cosR(40 - 15, r),
-//       };
-//       let tt = {
-//         x: sinR(40 * 2 - 15, r),
-//         y: cosR(40 * 2 - 15, r),
-//       };
-//       return [f, ss, tt, l];
-//     }
-//     default:
-//       break;
-//   }
-// };
 
 const days31 = [1, 3, 5, 7, 8, 10, 12];
 const days30 = [4, 6, 9, 11];
 
-export const randomNumber = (n, m) => {
+export const randomNumber = (n: number, m: number) => {
   const c = m - n + 1;
-  return parseInt(Math.random() * c + n, 10);
+  return Math.random() * c + n;
 };
 
-export const getRandomDate = () => {
+export const getRandomDate = (): string => {
   let date = Moment();
   let year = 2018;
   if (Math.random() > 0.1) {
@@ -89,19 +54,18 @@ export const getRandomDate = () => {
     return getRandomDate();
   }
 };
-export const getLayoutAttributes = event => {
-  const { nativeEvent } = layout;
-  const { target, layout } = nativeEvent;
+export const getLayoutAttributes = (event: LayoutChangeEvent) => {
+  const { nativeEvent } = event;
+  const { layout } = nativeEvent;
   return {
-    target,
     width: layout.width,
     height: layout.height,
     x: layout.x,
     y: layout.y,
   };
 };
-export const filterPostsByTag = posts => {
-  let returnObj = {};
+export const filterPostsByTag = (posts: IPost[]) => {
+  let returnObj: { [tag: string]: IPost[] } = {};
 
   posts.forEach(item => {
     if (typeof returnObj[item.tag] === 'undefined') {
@@ -114,24 +78,28 @@ export const filterPostsByTag = posts => {
 
 export const isIOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
-const toDegree = angle => {
+const toDegree = (angle: number) => {
   return angle * (Math.PI / 180);
 };
-export function cosR(degree, r) {
+export function cosR(degree: number, r: number) {
   let de = toDegree(degree);
   return Math.cos(de) * r;
 }
-export function sinR(degree, r) {
+export function sinR(degree: number, r: number) {
   let de = toDegree(degree);
   return Math.sin(de) * r;
 }
-export function realSize(px) {
+export function realSize(px: number) {
   return (px * SCREEN_WIDTH) / 375;
 }
 
 export const EMAIL_REGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 
-export function randomItem(arr = [], returnLength = 1, returnArray = []) {
+export function randomItem(
+  arr = [],
+  returnLength = 1,
+  returnArray = [],
+): any | any[] {
   let returnNum = returnLength || 1;
   let returnArr = returnArray || [];
   let i = Math.floor(Math.random() * arr.length);
@@ -153,7 +121,7 @@ export function randomItem(arr = [], returnLength = 1, returnArray = []) {
   }
 }
 
-export function lenOfText(text) {
+export function lenOfText(text: string) {
   let len = 0;
   for (let i = 0; i < text.length; i++) {
     if (text.charCodeAt(i) > 127 || text.charCodeAt(i) == 94) {
@@ -222,26 +190,29 @@ export const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
 export const PADDING_BOTTOM = isIphoneX ? 34 : 0;
 export const NAV_BAR_HEIGHT = isIOS ? (isIphoneX ? 44 + 44 : 20 + 44) : 44;
 export const TAB_BAR_HEIGHT = isIphoneX ? 34 + 48 : 48;
-export const extractUserFromPost = post => ({
+export const extractUserFromPost = (post: IPost) => ({
   userId: post.userId,
   avatar: post.avatar,
   username: post.username,
 });
 
-export const generateUnsplashImageObj = data => ({
+export const generateUnsplashImageObj = (data: any) => ({
   imageUrl: get(data, 'urls.regular', ''),
   rawUrl: get(data, 'urls.raw', ''),
-  // description: get(data, 'description', ''),
+  description: get(data, 'description', ''),
   color: get(data, 'color'),
   // exif: get(data, 'exif'),
   width: get(data, 'width', 0),
   height: get(data, 'height', 0),
-  // likes: get(data, 'likes', 0),
-  // user: get(data, 'user', null),
+  likes: get(data, 'likes', 0),
+  user: get(data, 'user', null),
   id: get(data, 'id', null),
   type: 'unsplash',
 });
-export const generateLocalImageObj = (image, imageUrl) => ({
+export const generateLocalImageObj = (
+  image: ILocalImage,
+  imageUrl: string,
+): ILocalImage => ({
   imageUrl,
   type: 'local',
   width: image.width,
@@ -251,7 +222,7 @@ export const generateLocalImageObj = (image, imageUrl) => ({
   // exif: image.exif,
 });
 
-const postPrecisionPriority = post => {
+const postPrecisionPriority = (post: IPost) => {
   switch (get(post, 'precision', 'day')) {
     case 'day':
       return 2;
@@ -263,7 +234,7 @@ const postPrecisionPriority = post => {
       return 0;
   }
 };
-export const sortPosts = posts => {
+export const sortPosts = (posts: IPost[]) => {
   return posts.sort((a, b) => {
     return (
       Moment(b.happenedAt).unix() +

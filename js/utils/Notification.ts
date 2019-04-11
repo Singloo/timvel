@@ -5,9 +5,12 @@ import {
   NativeModules,
   DeviceEventEmitter,
 } from 'react-native';
+//@ts-ignore
+import Installation from 'leancloud-installation';
 const AndroidNotification = NativeModules.AndroidNotification;
 export default class Notification {
-  constructor(installation) {
+  Installation: Installation;
+  constructor(installation: Installation) {
     this.Installation = installation;
   }
   IOSinitPush = () => {
@@ -20,7 +23,7 @@ export default class Notification {
   };
 
   //权限获取成功回调
-  IOSonRegister = deviceToken => {
+  IOSonRegister = (deviceToken: string) => {
     console.warn(deviceToken);
     if (deviceToken) {
       this.IOSsaveInstallation(deviceToken);
@@ -28,19 +31,19 @@ export default class Notification {
   };
 
   //保存deviceToken到Installation
-  IOSsaveInstallation = deviceToken => {
+  IOSsaveInstallation = (deviceToken: string) => {
     const info = {
       apnsTopic: 'com.timvel',
       deviceType: 'ios',
       deviceToken: deviceToken,
     };
     this.Installation.getCurrent()
-      .then(installation => installation.save(info))
-      .then(result => console.warn(result))
-      .catch(error => console.warn(error));
+      .then((installation: any) => installation.save(info))
+      .then((result: any) => console.warn(result))
+      .catch((error: any) => console.warn(error));
   };
 
-  IOSonNotification = notification => {
+  IOSonNotification = (notification: any) => {
     //如果app在前台则显示alert
     if (AppState.currentState === 'active') {
       // this._showAlert(notification._alert);
@@ -52,14 +55,14 @@ export default class Notification {
   };
   IOScleanBadge = () => {
     this.Installation.getCurrent()
-      .then(installation => {
+      .then((installation: any) => {
         installation.set('badge', 0);
         return installation.save();
       })
-      .then(result => {
+      .then((result: any) => {
         PushNotificationIOS.setApplicationIconBadgeNumber(0);
       })
-      .catch(error => console.log(error));
+      .catch((error: any) => console.log(error));
   };
 
   //android
@@ -68,7 +71,7 @@ export default class Notification {
   };
 
   AndroidInstallation = () => {
-    AndroidNotification.saveInstaillation(installationId => {
+    AndroidNotification.saveInstaillation((installationId: any) => {
       if (installationId) {
         // console.warn('Android installation', installationId);
         DeviceEventEmitter.addListener(

@@ -1,3 +1,4 @@
+//@ts-ignore
 import Unsplash, { toJson } from 'unsplash-js/native';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';

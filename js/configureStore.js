@@ -4,7 +4,7 @@ import epics from './epics';
 import { User, I18n, Network, OSS, Navigation } from './utils';
 import { createEpicMiddleware } from 'redux-observable';
 // import logger from 'redux-logger';
-import { $retryDelay, $checkIfLoggedIn } from './utils/$helper';
+import { $retryDelay } from './utils/$helper';
 const httpClient = Network.apiClient;
 const dispatch = (type, payload) => ({
   type,
@@ -26,7 +26,6 @@ const deps = {
   Network,
   OSS,
   $retryDelay,
-  $checkIfLoggedIn,
   navigation: Navigation,
 };
 const configureStore = () => {

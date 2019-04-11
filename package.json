@@ -64,6 +64,7 @@
     "@types/react-navigation": "^3.0.6",
     "@types/react-redux": "^7.0.3",
     "@types/react-test-renderer": "^16.8.1",
+    "@types/unsplash-js": "^5.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.5.0",
     "eslint": "^5.15.3",
