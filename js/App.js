@@ -30,7 +30,7 @@ AV.init({
 import Installation from 'leancloud-installation';
 Installation(AV);
 const store = configureStore();
-Setup.preventDoublePress(SimpleApp);
+// Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 export default class App extends React.Component {
