@@ -4,14 +4,15 @@
  * Created Date: Saturday March 23rd 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 23rd 2019 4:11:46 pm
+ * Last Modified: Wednesday April 10th 2019 10:16:40 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import Moment from 'moment';
 Moment.locale();
 export class DateFormatter {
-  constructor(date) {
+  date: Moment.Moment;
+  constructor(date: string) {
     if (!date) {
       throw 'Init failed, date needed';
     }
@@ -42,8 +43,8 @@ export class DateFormatter {
   }
 
   get yearMonthDayTime() {
-    if (this.isToday()) {
-      return 'Today ' + this.hourMinSecond();
+    if (this.isToday) {
+      return 'Today ' + this.hourMinSecond;
     }
     return this.date.format('YYYY MMM DD h:mm:ss a');
   }
@@ -52,7 +53,7 @@ export class DateFormatter {
     return Moment(this.date).fromNow();
   }
 
-  getHappenedAt = datePrecision => {
+  getHappenedAt = (datePrecision: 'year' | 'month' | 'day' | string) => {
     let str;
     switch (datePrecision) {
       case 'year':

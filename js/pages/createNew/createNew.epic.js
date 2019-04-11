@@ -63,7 +63,7 @@ const createPost = (
             ) {
               imageUrls.push({ ...image });
             } else {
-              const imageUrl = await OSS.upLoadImage(image);
+              const imageUrl = await OSS.upLoadImage(image.path);
               imageUrls.push({
                 imageUrl,
                 type: 'local',

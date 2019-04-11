@@ -4,7 +4,7 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 24th 2019 3:55:58 pm
+ * Last Modified: Thursday April 11th 2019 8:26:40 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -18,7 +18,9 @@ const subscribeUploadImages = () =>
   $UPLOAD_IMAGES.pipe(
     filter(image => get(image, 'path', null) && get(image, 'mime', null)),
     mergeMap(image =>
-      from(upLoadImage(image)).pipe(map(imageUrl => ({ image, imageUrl }))),
+      from(upLoadImage(image.path)).pipe(
+        map(imageUrl => ({ image, imageUrl })),
+      ),
     ),
     $retryDelay(100, 5),
     catchError(err => {

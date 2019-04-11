@@ -40,7 +40,7 @@ class Sample extends Component {
     );
   }
   _renderItem = ({ item, index }) => {
-    return <Card key={'pbt' + index} />;
+    return <Card key={'pbt' + index} post={item} />;
   };
 }
 const styles = StyleSheet.create({

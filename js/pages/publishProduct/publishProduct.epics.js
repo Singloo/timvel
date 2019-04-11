@@ -5,7 +5,7 @@ import AV from 'leancloud-storage';
 const publishProduct = (
   action$,
   state$,
-  { User, httpClient, OSS, dispatch ,navigation},
+  { User, httpClient, OSS, dispatch, navigation },
 ) =>
   action$.pipe(
     ofType('PUBLISH_PRODUCT_PUBLISH_PRODUCT'),
@@ -22,7 +22,7 @@ const publishProduct = (
             price,
             description,
             productType,
-            coverImage,
+            imagePath,
             confirmedCustomTitle,
           } = action.payload;
 
@@ -36,7 +36,7 @@ const publishProduct = (
             observer.complete();
             return;
           }
-          const imageUrl = await OSS.upLoadImage(coverImage);
+          const imageUrl = await OSS.upLoadImage(imagePath);
           await httpClient.post('/product', {
             name: title,
             description: description,
@@ -52,7 +52,7 @@ const publishProduct = (
               isLoading: false,
             }),
           );
-          navigation.back()
+          navigation.back();
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
               content: 'Sent success, waiting for review',

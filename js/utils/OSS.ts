@@ -1,3 +1,4 @@
+//@ts-ignore
 import AliyunOSS from 'aliyun-oss-react-native';
 import Axios from 'axios';
 import { API_V1 } from '../constants';
@@ -52,17 +53,17 @@ export async function initAliyunOSS() {
 // sourceURL: "file:///Users/origami/Library/Developer/CoreSimulator/Devices/1575DB38-2B32-4A34-A30A-A42FCFEFDC25/data/Media/DCIM/100APPLE/IMG_0002.JPG"
 // width: 4288
 //path, mime necessary
-const getFilename = path => {
+const getFilename = (path: string) => {
   const arr = path.split('/');
   return arr[arr.length - 1] || `${Date.now()}.jpg`;
 };
-export const upLoadImage = async (image, { type, ossPath } = {}) => {
+export const upLoadImage = async (
+  path: string,
+  { ossPath }: { ossPath?: string } = {},
+) => {
   try {
     await initAliyunOSS();
-    const filepath = image.path;
-    // let imageType = type || image.mime.replace('image/', '');
-    // imageType = imageType.length === 0 ? 'jpg' : imageType;
-    let filename = User.objectId + getFilename(filepath);
+    let filename = User.objectId + getFilename(path);
     const OSS_PATH =
       typeof ossPath === 'string' ? 'images/' + ossPath.trim() : 'images';
     const exists = await AliyunOSS.doesObjectExist(
@@ -77,7 +78,7 @@ export const upLoadImage = async (image, { type, ossPath } = {}) => {
     await AliyunOSS.asyncUpload(
       BUCKET_TIMVEL_1,
       `${OSS_PATH}/${filename}`,
-      filepath,
+      path,
     );
     console.warn('upload finish', filename);
     return imageUrlPrefix + filename;

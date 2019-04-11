@@ -4,7 +4,7 @@
  * Created Date: Monday April 8th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Monday April 8th 2019 9:11:31 am
+ * Last Modified: Thursday April 11th 2019 8:25:25 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -75,10 +75,7 @@ class Service {
           return merge(
             ...photo4.map(photo =>
               retry3(
-                OSS.upLoadImage(
-                  { path: photo.image.uri, mime: photo.type },
-                  { ossPath: User.objectId },
-                ),
+                OSS.upLoadImage(photo.image.uri, { ossPath: User.objectId }),
               ).pipe(
                 catchError(err =>
                   err.pipe(

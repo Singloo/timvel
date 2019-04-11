@@ -1,10 +1,14 @@
-import { NavigationActions, StackActions } from 'react-navigation';
+import {
+  NavigationActions,
+  StackActions,
+  NavigationContainerComponent,
+} from 'react-navigation';
 class Navigation {
-  navigation = null;
-  setNavigation = navigation => {
+  navigation: NavigationContainerComponent | null = null;
+  setNavigation = (navigation: NavigationContainerComponent | null) => {
     this.navigation = navigation;
   };
-  navigate = (routeName, params = {}) => {
+  navigate = (routeName: string, params = {}) => {
     if (!this.navigation) {
       return;
     }
@@ -15,7 +19,7 @@ class Navigation {
       }),
     );
   };
-  replace = (routeName, params = {}) => {
+  replace = (routeName: string, params = {}) => {
     if (!this.navigation) {
       return;
     }
@@ -25,7 +29,7 @@ class Navigation {
     });
     this.navigation.dispatch(action);
   };
-  reset = routeName => {
+  reset = (routeName: string) => {
     if (!this.navigation) {
       return;
     }

@@ -1064,6 +1064,14 @@
   resolved "https://registry.npmjs.org/@types/react-native-permissions/-/react-native-permissions-1.1.1.tgz#297f39ed19234045e1dc1cd0abd85b86bdf9c606"
   integrity sha512-+xLVH6kefg9hpJKxQhRcaYHckhbQCxDrU6HEaTzf3gMbn4I4aunjxkqeSMAofrHFNOnOS/phnsTbifoDATjk3w==
 
+"@types/react-native@*":
+  version "0.57.42"
+  resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.57.42.tgz#06ad92cd1378146402b7667de13cb7b935d194d6"
+  integrity sha512-Ms4RI8Oyi8HOIwlteFhgRE7TA9chP/mliLeJCzjKBOywYpile5TrXQF8lRDYzcC1zyTyoopu/u8VMlF+FS7VnA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/react" "*"
+
 "@types/react-native@^0.57.38":
   version "0.57.40"
   resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.57.40.tgz#a227acb6b2c7372cb678202df4cfe716ace9ce94"
@@ -1071,6 +1079,14 @@
   dependencies:
     "@types/prop-types" "*"
     "@types/react" "*"
+
+"@types/react-navigation@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.npmjs.org/@types/react-navigation/-/react-navigation-3.0.6.tgz#97ab418eb6e29919f0f78785c5c360954e886d75"
+  integrity sha512-4JoHIR7qrjwYDmJiuvYEOgme2Nl5ieiDEM5eRMHV3HkRiUmeHRlVfmqTCljcDUwkFJHhK2JZfyhppA/CZY+M8w==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
 
 "@types/react-redux@^7.0.3":
   version "7.0.3"

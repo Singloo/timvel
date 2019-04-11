@@ -115,7 +115,7 @@ class Sample extends Component {
       price: price.trim(),
       description: description.trim(),
       productType,
-      coverImage,
+      imagePath: coverImage.path,
       confirmedCustomTitle,
     });
   };

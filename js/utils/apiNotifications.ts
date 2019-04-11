@@ -4,35 +4,37 @@
  * Created Date: Wednesday March 6th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Tuesday March 12th 2019 7:30:54 pm
+ * Last Modified: Wednesday April 10th 2019 10:40:33 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import { apiClient } from './Network';
 import { retry3, HANDLE } from './$helper';
 import { clearTimers } from './helper';
+import { INotification } from '../models';
 class ApiNotifications {
-  notificationIdsToRead = [];
-  readNotificationTimer;
+  notificationIdsToRead: number[] = [];
+  readNotificationTimer?: NodeJS.Timeout;
   insertCommentNotification = ({
-    sender_user_id,
-    receiver_user_id,
-    post_id,
-    comment_id,
+    senderUserId,
+    receiverUserId,
+    postId,
+    commentId,
     content,
-    associated_comment_id = null,
-  }) => {
+    type = 'comment',
+    associatedCommentId = null,
+  }: INotification) => {
     return apiClient.post('/notification', {
-      sender_user_id,
-      receiver_user_id,
-      post_id,
-      comment_id,
+      sender_user_id: senderUserId,
+      receiver_user_id: receiverUserId,
+      post_id: postId,
+      comment_id: commentId,
       content,
-      type: 'comment',
-      associated_comment_id,
+      type,
+      associated_comment_id: associatedCommentId,
     });
   };
-  readNotification = (...notificationIds) => {
+  readNotification = (...notificationIds: number[]) => {
     this.notificationIdsToRead.push(...notificationIds);
     this._schedule();
   };
@@ -49,7 +51,7 @@ class ApiNotifications {
       }),
     ).subscribe(
       HANDLE(() => {
-        this._readNotifications = [];
+        this.notificationIdsToRead = [];
         this._clearTimer();
       }),
     );
@@ -61,7 +63,7 @@ class ApiNotifications {
       this.readNotificationTimer = undefined;
     }
   };
-  getNotification = (user_id, type) => {
+  getNotification = (user_id: number, type: string) => {
     return apiClient.get('/notification', {
       params: {
         user_id,

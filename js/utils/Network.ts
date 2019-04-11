@@ -1,8 +1,7 @@
 import Axios from 'axios';
 import { CameraRoll, Platform } from 'react-native';
-import * as Constants from '../constants';
 import RNFS from 'react-native-fs';
-import { API_V1 } from '../constants';
+import { API_V1, darkSkyKey } from '../constants';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
 const axios = Axios.create({
   timeout: 10000,
@@ -18,7 +17,10 @@ async function getIpInfo() {
   return axios.get('http://ip-api.com/json');
 }
 
-async function getWeatherInfoToday(latitude, longitude) {
+async function getWeatherInfoToday(
+  latitude: number | string,
+  longitude: number | string,
+) {
   return axios.get('https://weatherapi.market.xiaomi.com/wtr-v3/weather/all', {
     params: {
       latitude: latitude,
@@ -31,10 +33,12 @@ async function getWeatherInfoToday(latitude, longitude) {
   });
 }
 
-async function getWeatherInfoBefore(latitude, longitude, timestamp) {
-  let darkSkyUrl = `https://api.darksky.net/forecast/${
-    Constants.darkSkyKey
-  }/${latitude},${longitude},${timestamp}`;
+async function getWeatherInfoBefore(
+  latitude: number | string,
+  longitude: number | string,
+  timestamp: number,
+) {
+  let darkSkyUrl = `https://api.darksky.net/forecast/${darkSkyKey}/${latitude},${longitude},${timestamp}`;
   return axios.get(darkSkyUrl, {
     params: {
       exclude: ['hourly', 'minutely'],
@@ -43,7 +47,7 @@ async function getWeatherInfoBefore(latitude, longitude, timestamp) {
   });
 }
 
-async function saveImageToAlbum(imageUrl) {
+async function saveImageToAlbum(imageUrl: string) {
   const cachedFilepath =
     RNFS.CachesDirectoryPath + '/' + Date.now().toString() + '.jpg';
   try {
@@ -76,7 +80,7 @@ async function saveImageToAlbum(imageUrl) {
       });
   }
 }
-const getUserInfo = user_id => {
+const getUserInfo = (user_id: string) => {
   return apiClient.get(`/user/${user_id}`);
 };
 
