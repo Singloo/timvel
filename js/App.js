@@ -43,12 +43,10 @@ export default class App extends React.Component {
     } else {
       notification.AndroidinitPush();
     }
-    // try to prevent crash n._navigation.state
-    // if (isIOS) {
-    //   return;
-    // }
-    // console.warn(this._navigation)
-    // this._subscribeBackHandler();
+    if (isIOS) {
+      return;
+    }
+    Setup.HandleBack(this._navigation);
   }
   componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');
@@ -91,8 +89,8 @@ export default class App extends React.Component {
         <View style={{ flex: 1 }}>
           <SimpleApp
             ref={navigation => {
-              Navigation.setNavigation(navigation);
               this._navigation = navigation;
+              Navigation.setNavigation(navigation);
             }}
           />
 
