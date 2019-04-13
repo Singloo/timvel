@@ -162,6 +162,7 @@ class Sample extends React.PureComponent {
           style={{ width: 25, height: 25 }}
           onPress={this._goBack}
           resizeMode={'contain'}
+          tintColor={colors.midGrey}
         />
       </View>
     );

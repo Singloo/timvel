@@ -45,7 +45,7 @@ const diffGradientColors = (currentProps, nextProps) => {
     return true;
   }
   return (
-    currentProps.gradientColors[0] ===
+    currentProps.gradientColors[0] !==
     get(nextProps.gradientColors, '[0]', null)
   );
 };
@@ -156,9 +156,9 @@ class MainCard extends React.Component {
       <Touchable
         onPress={this._onPressItem}
         style={{
-          paddingVertical: 5,
+          paddingTop: 5,
           paddingHorizontal: 10,
-          height: 60,
+          paddingBottom: 10,
           width: cardWidth,
         }}
         hitSlop={{ top: -10, left: 8, bottom: 8, right: 9 }}

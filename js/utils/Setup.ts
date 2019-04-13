@@ -3,6 +3,7 @@ import { BackHandler, ToastAndroid } from 'react-native';
 import Navigation from './Navigation';
 import { NavigationContainer } from 'react-navigation';
 import { get } from 'lodash';
+import { isIOS } from './base';
 const dispatch = (type: string, payload: any) => ({
   type,
   payload,
@@ -85,6 +86,9 @@ class handleBack {
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
   };
   addHandler = (routeName: string, handler: () => void) => {
+    if (isIOS) {
+      return;
+    }
     Object.assign(this.handlers, { [routeName]: handler });
   };
   _getRoutes = () => {

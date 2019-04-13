@@ -4,12 +4,13 @@
  * Created Date: Monday April 8th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Monday April 8th 2019 10:11:28 am
+ * Last Modified: Saturday April 13th 2019 11:19:20 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 const initialState = {
-  data:[]
+  data: [],
+  isLoading: false,
 };
 
 function reducer(state = initialState, action) {

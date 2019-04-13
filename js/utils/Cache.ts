@@ -4,14 +4,15 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Tuesday April 2nd 2019 9:15:25 am
+ * Last Modified: Saturday April 13th 2019 11:14:29 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import AsyncStorage from '@react-native-community/async-storage';
+type TCacheType = 'array' | 'object' | 'float' | 'number' | 'string';
 interface ICacheKey {
   key: string;
-  type: 'array' | 'object' | 'float' | 'number' | 'string';
+  type: TCacheType;
 }
 const CACHE_KEYS: { [key: string]: ICacheKey } = {
   HOME_PAGE_FEEDS: {
@@ -35,10 +36,14 @@ const CACHE_KEYS: { [key: string]: ICacheKey } = {
     type: 'array',
   },
 };
-const USER_POSTS_CACHE_KEYS = (userId: string): ICacheKey => ({
-  key: `userPosts${userId}`,
-  type: 'array',
+const generateCommonKeys = (keyName: string, type: TCacheType = 'array') => (
+  id: any,
+): ICacheKey => ({
+  key: `${keyName}${id}`,
+  type,
 });
+const USER_POSTS_CACHE_KEYS = generateCommonKeys('userPosts');
+const POSTS_BY_TAG_KEYS = generateCommonKeys('postsByTag', 'array');
 const _switchCacheResult = (result: null | string, key: ICacheKey) => {
   if (result === null) {
     return result;
@@ -83,4 +88,5 @@ export default {
   clearCache,
   CACHE_KEYS,
   USER_POSTS_CACHE_KEYS,
+  POSTS_BY_TAG_KEYS,
 };

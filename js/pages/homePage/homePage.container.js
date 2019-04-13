@@ -29,6 +29,7 @@ import {
   OSS,
   isWifi,
   Navigation,
+  Setup,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
@@ -44,8 +45,6 @@ const getGradientColors = (colors, currentIndex) => [
 ];
 const item_width = SCREEN_WIDTH - 40 - 0;
 class HomePage extends React.Component {
-  _didFocusSubscription;
-  _willBlurSubscription;
   _contentDetail;
   constructor(props) {
     super(props);
@@ -53,14 +52,7 @@ class HomePage extends React.Component {
       nscrollY: new Animated.Value(0),
     };
     this.taskCount = 0;
-    this._didFocusSubscription = props.navigation.addListener(
-      'didFocus',
-      payload =>
-        BackHandler.addEventListener(
-          'hardwareBackPress',
-          this.onBackButtonPressAndroid,
-        ),
-    );
+    Setup.HandleBack.addHandler('homePage', this.onBackButtonPressAndroid);
   }
   onBackButtonPressAndroid = () => {
     const { showDetail } = this.props.state;
@@ -68,6 +60,7 @@ class HomePage extends React.Component {
       this._contentDetail && this._contentDetail.onPressClose();
       return true;
     } else {
+      Navigation.back();
       return false;
     }
   };
@@ -77,19 +70,8 @@ class HomePage extends React.Component {
   }
   componentDidMount() {
     HomePageService.ifExistsQuest();
-    this._willBlurSubscription = this.props.navigation.addListener(
-      'willBlur',
-      payload =>
-        BackHandler.removeEventListener(
-          'hardwareBackPress',
-          this.onBackButtonPressAndroid,
-        ),
-    );
   }
-  componentWillUnmount() {
-    this._didFocusSubscription && this._didFocusSubscription.remove();
-    this._willBlurSubscription && this._willBlurSubscription.remove();
-  }
+  componentWillUnmount() {}
 
   _pendingPermissions = () => {
     Permission.checkPhotoPermission()

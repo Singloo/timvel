@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
 import { I18n } from '../../../utils';
-import PropTypes from 'prop-types';
 
 class Card extends Component {
   componentWillMount() {}
@@ -15,7 +14,6 @@ class Card extends Component {
     );
   }
 }
-Card.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -23,5 +21,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
-
 export default Card;
