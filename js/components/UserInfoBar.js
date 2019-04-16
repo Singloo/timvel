@@ -4,7 +4,7 @@
  * Created Date: Tuesday April 9th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Tuesday April 9th 2019 9:17:49 am
+ * Last Modified: Monday April 15th 2019 10:23:41 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -12,45 +12,58 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Image, InfiniteText, Styles } from '../../re-kits';
 import { colors } from '../utils';
+import Title from './Title';
 class UserInfoBar extends Component {
-  componentWillMount() {}
-
   render() {
-    const { style, textStyle, onPressAvatar, username, avatar } = this.props;
+    const { style, textStyle, username } = this.props;
     return (
       <View style={[styles.headerBar, style]}>
-        <View style={[{ marginLeft: 20 }, Styles.shadow]}>
-          <Image
-            uri={avatar}
-            resizeMode={'cover'}
-            style={{ width: 60, height: 60 }}
-            onPress={onPressAvatar}
-          />
-        </View>
+        {this._renderAvatar()}
         <View style={styles.headerTextContainer}>
           <InfiniteText
             style={{}}
             text={username}
-            textStyle={StyleSheet.flatten([styles.username, textStyle])}
-          />
-          {/* <View
-            style={{
-              height: 30,
-              backgroundColor: 'transparent',
-              alignItems: 'flex-end',
-            }}
-          /> */}
+            textStyle={StyleSheet.flatten(styles.username, textStyle)}
+          >
+            {this._renderUserTitle()}
+          </InfiniteText>
         </View>
       </View>
     );
   }
+  _renderAvatar = () => {
+    const { onPressAvatar, avatar, avatarStyle, shadow = true } = this.props;
+    const avatarComp = (
+      <Image
+        uri={avatar}
+        resizeMode={'cover'}
+        style={[{ width: 60, height: 60 }, avatarStyle]}
+        onPress={onPressAvatar}
+      />
+    );
+    if (shadow) return <View style={Styles.shadow}>{avatarComp}</View>;
+    return avatarComp;
+  };
+  _renderUserTitle = () => {
+    const { userTitles } = this.props;
+    if (!userTitles) {
+      return null;
+    }
+    return userTitles.map((item, index) => (
+      <Title
+        key={'ut' + index}
+        title={item.title}
+        customStyle={{ borderColor: item.color, color: item.color }}
+      />
+    ));
+  };
 }
-UserInfoBar.propTypes = {};
 
 const styles = StyleSheet.create({
   headerBar: {
     flexDirection: 'row',
     height: 60,
+    paddingLeft: 20,
   },
   username: {
     fontSize: 17,
