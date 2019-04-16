@@ -7,6 +7,7 @@ import {
   Assets,
   ContentByTag,
   NAV_BAR_HEIGHT_FULL,
+  Text,
 } from '../../../re-kits';
 import {
   SCREEN_WIDTH,
@@ -18,7 +19,7 @@ import {
 } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { interval, Subject } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, delay } from 'rxjs/operators';
 import GiftsModal from './components/GiftsModal';
 import { flowerPatterns, shitPatterns } from './data/gifts';
 import { CoinTransactionRecords } from '../../services';
@@ -55,6 +56,7 @@ class StrangerProfile extends Component {
     this.state = {
       nScrollY: new Animated.Value(0),
     };
+    this.giftSubject$ = new Subject();
   }
   componentWillMount() {
     this.user = this.props.navigation.getParam('user', {});
@@ -69,25 +71,10 @@ class StrangerProfile extends Component {
   componentWillUnmount() {
     this.props.dispatch('STRANGER_PROFILE_RESET_STATE');
     this.addFS$ && this.addFS$.unsubscribe();
+    this.sourceSubscriber && this.sourceSubscriber.unsubscribe();
   }
-  componentDidMount() {}
-
-  _startRenderFS = (flowerAmount = 0, shitAmount = 0) => {
-    let source$ = interval(300).pipe(
-      take(Math.max(flowerAmount, shitAmount)),
-      map(() => {
-        const { flowers, shits } = this.props.state;
-        let flower = flowers.length < flowerAmount ? getRandomFS(true) : null;
-        let shit = shits.length < shitAmount ? getRandomFS(false) : null;
-        return {
-          flower,
-          shit,
-        };
-      }),
-    );
-    this.giftSubject$ = new Subject();
-    source$.subscribe(value => this.giftSubject$.next(value));
-    return this.giftSubject$.subscribe({
+  componentDidMount() {
+    this.addFS$ = this.giftSubject$.subscribe({
       next: ({ flower, shit }) => {
         const { flowers, shits } = this.props.state;
         this.props.dispatch('STRANGER_PROFILE_SET_STATE', {
@@ -99,10 +86,29 @@ class StrangerProfile extends Component {
         console.warn('complete');
       },
     });
+  }
+
+  _startRenderFS = (flowerAmount = 0, shitAmount = 0) => {
+    const source$ = interval(300).pipe(
+      delay(1500),
+      take(Math.max(flowerAmount, shitAmount)),
+      map(() => {
+        const { flowers, shits } = this.props.state;
+        let flower = flowers.length < flowerAmount ? getRandomFS(true) : null;
+        let shit = shits.length < shitAmount ? getRandomFS(false) : null;
+        return {
+          flower,
+          shit,
+        };
+      }),
+    );
+    this.sourceSubscriber = source$.subscribe(value =>
+      this.giftSubject$.next(value),
+    );
   };
   _connect = (f, s) => {
     console.warn('connect');
-    this.addFS$ = this._startRenderFS(f, s);
+    this._startRenderFS(f, s);
   };
   _goBack = () => {
     this.props.navigation.goBack();
@@ -169,6 +175,7 @@ class StrangerProfile extends Component {
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           style={{ position: 'absolute', top: 0 }}
+          renderCenter={this._renderNavBarCenter}
         />
         {this.renderFS(flowers)}
         {this.renderFS(shits)}
@@ -176,7 +183,16 @@ class StrangerProfile extends Component {
       </View>
     );
   }
-
+  _renderNavBarCenter = () => {
+    return (
+      <View style={[styles.rowCenter, { flex: 1, justifyContent: 'center' }]}>
+        <Image uri={this.user.avatar} size={'small'} isRound={true} />
+        <Text style={{ fontSize: 16, marginLeft: 10 }}>
+          {this.user.username}
+        </Text>
+      </View>
+    );
+  };
   renderGiftsModal = () => {
     const { showModal } = this.props.state;
     return (
@@ -249,11 +265,14 @@ class StrangerProfile extends Component {
     ));
   };
 }
-StrangerProfile.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  rowCenter: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
