@@ -20,7 +20,9 @@ import testPage from './pages/testPage/testPage.reducer';
 import postDetail from './pages/postDetail/postDetail.reducer';
 import postReplies from './pages/postReplies/postReplies.reducer';
 import postByTag from './pages/postByTag/postByTag.reducer';
+import photoBrowser from './pages/photoBrowser/photoBrowser.reducer';
 const reducers = combineReducers({
+  photoBrowser,
   postByTag,
   postReplies,
   postDetail,

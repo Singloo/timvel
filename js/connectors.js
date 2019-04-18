@@ -19,7 +19,9 @@ import testPage from './pages/testPage/testPage.connect';
 import postDetail from './pages/postDetail/postDetail.connect';
 import postReplies from './pages/postReplies/postReplies.container';
 import postByTag from './pages/postByTag/postByTag.container';
+import photoBrowser from './pages/photoBrowser/photoBrowser.container';
 export {
+  photoBrowser,
   postByTag,
   postReplies,
   postDetail,

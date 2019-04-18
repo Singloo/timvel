@@ -225,6 +225,12 @@ class HomePage extends React.Component {
       },
     });
   };
+  _showPhotoBrowser = (images, index = 0) => {
+    this.props.dispatch('PHOTO_BROWSER_SHOW', {
+      images,
+      index,
+    });
+  };
   _onPressTag = tag => {
     Navigation.navigate('postByTag', {
       tag,
@@ -268,6 +274,7 @@ class HomePage extends React.Component {
       }),
       onPressEmoji: this._onPressEmoji(item.postId),
       onPressTag: this._onPressTag,
+      onPressImage: this._showPhotoBrowser,
     };
     return <MainCard {...cardProps} />;
   };

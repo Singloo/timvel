@@ -219,7 +219,7 @@ class ContentDetail extends React.Component {
               height: image_height,
               transform,
             },
-            onIndexChange: this._onIndexChange,
+            additionalProps: { onIndexChange: this._onIndexChange },
           };
     return (
       <AnimatedWrapper

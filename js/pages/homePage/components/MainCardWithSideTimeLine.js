@@ -65,6 +65,9 @@ class MainCard extends React.Component {
       diffGradientColors(this.props, nextProps)
     );
   }
+  _onIndexChange = index => {
+    this.currentIndex = index;
+  };
   moveTo = () => {
     this._animatedWrapper && this._animatedWrapper.moveTo();
   };
@@ -113,7 +116,8 @@ class MainCard extends React.Component {
   }
 
   renderChildren = () => {
-    const { post, hidden } = this.props;
+    const { post, hidden, onPressImage } = this.props;
+    const imageUrls = post.imageUrls.map(o => o.imageUrl);
     return (
       <View
         style={[
@@ -132,12 +136,13 @@ class MainCard extends React.Component {
           >
             <View style={[styles.container, { overflow: 'hidden' }]}>
               <ImageSwiper
-                imageUrls={post.imageUrls.map(o => o.imageUrl)}
+                imageUrls={imageUrls}
                 imageStyle={{ width: cardWidth, height: cardHeight }}
                 width={cardWidth}
                 height={cardHeight}
                 showsPagination={!hidden}
-                onIndexChanged={this._onIndexChange}
+                additionalProps={{ onIndexChanged: this._onIndexChange }}
+                onPressImage={() => onPressImage(imageUrls, this.currentIndex)}
               />
             </View>
           </AnimatedWrapper>

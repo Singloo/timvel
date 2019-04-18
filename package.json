@@ -32,6 +32,7 @@
     "react-native-gesture-handler": "^1.0.9",
     "react-native-image-crop-picker": "^0.21.3",
     "react-native-image-picker": "^0.27.1",
+    "react-native-image-zoom-viewer": "^2.2.25",
     "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-localize": "^1.0.4",

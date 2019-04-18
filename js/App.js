@@ -93,7 +93,7 @@ export default class App extends React.Component {
               Navigation.setNavigation(navigation);
             }}
           />
-
+          <Connectors.photoBrowser />
           <Connectors.global />
           <Connectors.alert ref={r => (this._alert = r)} />
           <Connectors.snakeBar />
