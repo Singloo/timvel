@@ -5932,6 +5932,13 @@ react-native-calendars@^1.19.3:
     prop-types "^15.5.10"
     xdate "^0.8.0"
 
+react-native-camera@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/react-native-camera/-/react-native-camera-2.6.0.tgz#bf97b0fc68aa8732d815e9bbd92e63529f51d598"
+  integrity sha512-g0Hi4yhUg1yBsYbW9aLxVaX+rgl9sKrrDAGF6difiRTvwCUEqlID2DosLCQQPkLSniJHVa8gc+SwCegahU23aA==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-datepicker@^1.7.2:
   version "1.7.2"
   resolved "https://registry.npmjs.org/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"

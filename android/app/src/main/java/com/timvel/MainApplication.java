@@ -5,6 +5,7 @@ import android.app.Application;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.PushService;
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
             new ReactSliderPackage(),
             new AsyncStoragePackage(),
             new RNLocalizePackage(),

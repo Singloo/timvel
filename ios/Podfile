@@ -44,6 +44,8 @@ target 'timvel' do
 
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 end
 
 # very important to have, unless you removed React dependencies for Libraries 
