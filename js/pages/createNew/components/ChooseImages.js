@@ -52,13 +52,17 @@ class ChooseImages extends React.PureComponent {
   };
 
   _renderSelectedImage = (item, index) => {
-    const { onPressDeleteImage } = this.props;
+    const { onPressDeleteImage, onPressImage, pickedImages } = this.props;
     const isUnsplash = item.type === 'unsplash';
+    const imageUrls = pickedImages.map(i =>
+      isUnsplash ? i.imageUrl : (i.path),
+    );
     return (
       <View style={styles.image} key={index}>
         <Image
           uri={item.path || item.imageUrl}
           style={{ width: 120, height: 120 }}
+          onPress={() => onPressImage(imageUrls, index)}
         />
         <View style={{ position: 'absolute', right: 5, top: 5 }}>
           <Image
@@ -71,7 +75,6 @@ class ChooseImages extends React.PureComponent {
     );
   };
 }
-ChooseImages.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

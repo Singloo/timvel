@@ -5,7 +5,6 @@ import {
   Text,
   Assets,
   CommentBar,
-  AnimatedImage,
   ImageSwiper,
   NAV_BAR_HEIGHT_FULL,
   SCREEN_WIDTH,

@@ -63,7 +63,7 @@ export const upLoadImage = async (
 ) => {
   try {
     await initAliyunOSS();
-    let filename = User.objectId + getFilename(path);
+    let filename = User.objectId + '_' + getFilename(path);
     const OSS_PATH =
       typeof ossPath === 'string' ? 'images/' + ossPath.trim() : 'images';
     const exists = await AliyunOSS.doesObjectExist(

@@ -255,6 +255,12 @@ class CreateNew extends React.Component {
       currentTag,
     });
   };
+  _showPhotoBrowser = (images, index = 0) => {
+    this.props.dispatch('PHOTO_BROWSER_SHOW', {
+      images,
+      index,
+    });
+  };
   render() {
     const {
       date,
@@ -322,6 +328,7 @@ class CreateNew extends React.Component {
               pickedImages={images}
               onPressDeleteImage={this._onPressDeleteImage}
               onPressGetRandomImage={this._onPressGetRandomImage}
+              onPressImage={this._showPhotoBrowser}
             />
             {this._renderContent()}
           </View>

@@ -4,12 +4,12 @@
  * Created Date: Thursday April 18th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Friday April 19th 2019 9:06:38 am
+ * Last Modified: Friday April 19th 2019 9:58:36 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import React, { Component } from 'react';
-import { StyleSheet, View, Modal } from 'react-native';
+import { StyleSheet, View, Modal, ActivityIndicator } from 'react-native';
 import { Styles, Image, SCREEN_WIDTH, NavBar, Assets } from '../../../re-kits';
 import { I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
@@ -42,6 +42,9 @@ class Sample extends Component {
           renderImage={this._renderImage}
           enableSwipeDown={true}
           saveToLocalByLongPress={false}
+          loadingRender={() => (
+            <ActivityIndicator size={'large'} color={'white'} />
+          )}
         />
         {this._renderHeader()}
       </Modal>
@@ -53,7 +56,7 @@ class Sample extends Component {
       style: props.style,
     };
     if (props.uri) {
-      Object.assign(prop, { uri: props.uri });
+      Object.assign(prop, { uri: props.uri, processType: 'post' });
     } else {
       Object.assign(prop, { source: props.source });
     }
@@ -66,6 +69,7 @@ class Sample extends Component {
         sourceLeft={Assets.close.source}
         onPressLeft={this._onCancel}
         leftTint={'white'}
+        leftIconStyle={{ marginLeft: 10 }}
       />
     );
   };
