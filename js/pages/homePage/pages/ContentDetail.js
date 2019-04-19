@@ -145,7 +145,6 @@ class ContentDetail extends React.Component {
     this._content.current.animate('fadeOutDown', 500, 50);
     this._userInfo.current.animate('fadeOutDown', 500, 100);
   };
-
   render() {
     const {} = this.props;
     const { show, isAnimating } = this.state;
@@ -183,7 +182,7 @@ class ContentDetail extends React.Component {
 
   renderImage = () => {
     const { currentPost, isAnimating } = this.state;
-    const {} = this.props;
+    const { onPressImage } = this.props;
     //after animation
     const scale = this.state.nscrollY.interpolate({
       inputRange: [-25, 0],
@@ -197,30 +196,20 @@ class ContentDetail extends React.Component {
     });
     const transform = [{ scale }, { translateY }];
     const opacity = isAnimating ? 0 : 1;
-    const ImageComp =
-      currentPost.imageUrls.length <= 1 ? Animated.Image : AnimatedImageSwiper;
-    const imageProps =
-      currentPost.imageUrls.length <= 1
-        ? {
-            source: { uri: get(currentPost, 'imageUrls[0].imageUrl', '') },
-            style: {
-              width: image_width,
-              height: image_height,
-              opacity,
-              transform,
-            },
-          }
-        : {
-            imageUrls: get(currentPost, 'imageUrls', []).map(o => o.imageUrl),
-            imageStyle: { width: SCREEN_WIDTH, height: 200 },
-            style: {
-              opacity,
-              width: image_width,
-              height: image_height,
-              transform,
-            },
-            additionalProps: { onIndexChange: this._onIndexChange },
-          };
+    const imageUrls = get(currentPost, 'imageUrls', []).map(o => o.imageUrl);
+    const ImageComp = AnimatedImageSwiper;
+    const imageProps = {
+      imageUrls,
+      imageStyle: { width: SCREEN_WIDTH, height: 200 },
+      style: {
+        opacity,
+        width: image_width,
+        height: image_height,
+        transform,
+      },
+      additionalProps: { onIndexChange: this._onIndexChange },
+      onPressImage: () => onPressImage(imageUrls, this.currentIndex),
+    };
     return (
       <AnimatedWrapper
         ref={r => (this._anmiatedWrapper = r)}

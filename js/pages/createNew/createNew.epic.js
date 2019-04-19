@@ -85,24 +85,24 @@ const createPost = (
             happened_at: date,
             precision: datePrecision,
           });
-          observer.next(
-            dispatch('HOME_PAGE_MUTATE_POSTS', {
-              posts: {
-                postId: data.postId,
-                content,
-                imageUrls,
-                tagId,
-                tag,
-                happenedAt: date,
-                weatherInfo,
-                precision: datePrecision,
-                userId: User.objectId,
-                avatar: User.avatar,
-                username: User.username,
-                ...postInitialValues,
-              },
-            }),
-          );
+          // observer.next(
+          //   dispatch('HOME_PAGE_MUTATE_POSTS', {
+          //     posts: {
+          //       postId: data.postId,
+          //       content,
+          //       imageUrls,
+          //       tagId,
+          //       tag,
+          //       happenedAt: date,
+          //       weatherInfo,
+          //       precision: datePrecision,
+          //       userId: User.objectId,
+          //       avatar: User.avatar,
+          //       username: User.username,
+          //       ...postInitialValues,
+          //     },
+          //   }),
+          // );
           observer.next(
             dispatch('GLOBAL_SET_STATE', {
               isLoading: false,

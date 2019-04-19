@@ -4,13 +4,13 @@
  * Created Date: Thursday April 18th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Thursday April 18th 2019 10:22:32 am
+ * Last Modified: Friday April 19th 2019 9:06:38 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import React, { Component } from 'react';
 import { StyleSheet, View, Modal } from 'react-native';
-import { Styles, Image, SCREEN_WIDTH } from '../../../re-kits';
+import { Styles, Image, SCREEN_WIDTH, NavBar, Assets } from '../../../re-kits';
 import { I18n } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import PhotoBrowser from 'react-native-image-zoom-viewer';
@@ -30,17 +30,6 @@ class Sample extends Component {
     if (typeof onCancel === 'function') onCancel();
     this.props.dispatch('PHOTO_BROWSER_RESET_STATE');
   };
-  _renderImage = props => {
-    const prop = {
-      style: props.style,
-    };
-    if (props.uri) {
-      Object.assign(prop, { uri: props.uri });
-    } else {
-      Object.assign(prop, { source: props.source });
-    }
-    return <Image {...prop} />;
-  };
   render() {
     const { show, imageUrls, index } = this.props.state;
     return (
@@ -52,11 +41,34 @@ class Sample extends Component {
           index={index}
           renderImage={this._renderImage}
           enableSwipeDown={true}
+          saveToLocalByLongPress={false}
         />
+        {this._renderHeader()}
       </Modal>
       // </View>
     );
   }
+  _renderImage = props => {
+    const prop = {
+      style: props.style,
+    };
+    if (props.uri) {
+      Object.assign(prop, { uri: props.uri });
+    } else {
+      Object.assign(prop, { source: props.source });
+    }
+    return <Image {...prop} />;
+  };
+  _renderHeader = () => {
+    return (
+      <NavBar
+        style={{ backgroundColor: 'transparent', position: 'absolute', top: 0 }}
+        sourceLeft={Assets.close.source}
+        onPressLeft={this._onCancel}
+        leftTint={'white'}
+      />
+    );
+  };
 }
 const styles = StyleSheet.create({
   container: {

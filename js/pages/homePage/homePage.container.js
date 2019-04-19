@@ -428,6 +428,7 @@ class HomePage extends React.Component {
         modalController={this._contentDetailModalController}
         isAnimating={contentDetailIsAnimating}
         onPressSend={this._onPressSend}
+        onPressImage={this._showPhotoBrowser}
       />
     );
   };

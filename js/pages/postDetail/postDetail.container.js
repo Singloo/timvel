@@ -29,6 +29,7 @@ class Sample extends React.PureComponent {
     this.state = {
       nscrollY: new Animated.Value(0),
     };
+    this.currentIndex = 0;
   }
   componentWillMount() {
     this.post = this.props.navigation.getParam('post', {});
@@ -50,6 +51,13 @@ class Sample extends React.PureComponent {
       params: {
         user: user,
       },
+    });
+  };
+  _onIndexChange = index => (this.currentIndex = index);
+  _showPhotoBrowser = (images, index = 0) => {
+    this.props.dispatch('PHOTO_BROWSER_SHOW', {
+      images,
+      index,
     });
   };
   render() {
@@ -91,29 +99,20 @@ class Sample extends React.PureComponent {
       // extrapolateLeft: 'clamp',
     });
     const transform = [{ scale }, { translateY }];
-    const ImageComp =
-      this.post.imageUrls.length <= 1 ? AnimatedImage : AnimatedImageSwiper;
-    const imageProps =
-      this.post.imageUrls.length <= 1
-        ? {
-            source: { uri: get(this.post, 'imageUrls[0].imageUrl', '') },
-            style: {
-              width: image_width,
-              height: image_height,
-            },
-            height: image_height,
-            scrollY: this.state.nscrollY,
-          }
-        : {
-            imageUrls: get(this.post, 'imageUrls', []).map(o => o.imageUrl),
-            imageStyle: { width: image_width, height: image_height },
-            style: {
-              width: image_width,
-              height: image_height,
-              transform,
-            },
-          };
-    return <ImageComp translateY {...imageProps} />;
+    const imageUrls = get(this.post, 'imageUrls', []).map(o => o.imageUrl);
+    const ImageComp = AnimatedImageSwiper;
+    const imageProps = {
+      imageUrls,
+      imageStyle: { width: image_width, height: image_height },
+      style: {
+        width: image_width,
+        height: image_height,
+        transform,
+      },
+      additionalProps: { onIndexChange: this._onIndexChange },
+      onPressImage: () => this._showPhotoBrowser(imageUrls, this.currentIndex),
+    };
+    return <ImageComp {...imageProps} />;
   };
   renderUserInfo = () => {
     return (
