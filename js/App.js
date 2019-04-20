@@ -46,7 +46,7 @@ export default class App extends React.Component {
     if (isIOS) {
       return;
     }
-    Setup.HandleBack(this._navigation);
+    Setup.HandleBack.init(this._navigation);
   }
   componentWillUnmount() {
     PushNotificationIOS.removeEventListener('register');

@@ -151,6 +151,8 @@ android {
          //react-native-blur
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
+        // react-native-camera
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
