@@ -62,6 +62,7 @@ class CreateNew extends React.Component {
     }
   }
   componentWillUnmount() {
+    this.autoUploadSubscription && this.autoUploadSubscription.unsubscribe();
     this.props.dispatch('CREATE_NEW_RESET_STATE');
   }
   _setState = nextState => {
@@ -173,27 +174,27 @@ class CreateNew extends React.Component {
     const { weatherInfo } = this.props.state;
     let newWeather = {
       ...weatherInfo,
-      ...{ weather: weather },
+      weather,
     };
     this.props.dispatch('CREATE_NEW_SET_STATE', {
       weatherInfo: newWeather,
     });
   };
 
-  _onChangeTemperature = temperature => {
-    let fixed = parseInt(temperature, 10);
-    if (fixed > 60) {
-      return;
-    }
-    const { weatherInfo } = this.props.state;
-    let newWeather = {
-      ...weatherInfo,
-      ...{ temperature: fixed },
-    };
-    this.props.dispatch('CREATE_NEW_SET_STATE', {
-      weatherInfo: newWeather,
-    });
-  };
+  // _onChangeTemperature = temperature => {
+  //   let fixed = parseInt(temperature, 10);
+  //   if (fixed > 60) {
+  //     return;
+  //   }
+  //   const { weatherInfo } = this.props.state;
+  //   let newWeather = {
+  //     ...weatherInfo,
+  //     ...{ temperature: fixed },
+  //   };
+  //   this.props.dispatch('CREATE_NEW_SET_STATE', {
+  //     weatherInfo: newWeather,
+  //   });
+  // };
   _onPressGetRandomImage = () => {
     const { images } = this.props.state;
     if (images.length > 8) {
@@ -312,7 +313,7 @@ class CreateNew extends React.Component {
                 isLoading={isFetchingWeather}
                 onPressAutoGetWeather={this._getWeather}
                 onChangeWeather={this._onChangeWeather}
-                onChangeTemperature={this._onChangeTemperature}
+                // onChangeTemperature={this._onChangeTemperature}
               />
             </View>
 
@@ -367,7 +368,6 @@ class CreateNew extends React.Component {
     );
   };
 }
-CreateNew.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

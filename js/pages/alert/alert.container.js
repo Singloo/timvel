@@ -4,6 +4,7 @@ import { Text, Styles } from '../../../re-kits';
 import { SCREEN_WIDTH, colors, I18n } from '../../utils';
 const card_width = SCREEN_WIDTH - 20;
 const card_height = (card_width * 3) / 5;
+const card_width_vertical = SCREEN_WIDTH - 80;
 const alertStyles = {
   NORMAL: {
     title: 'Info',
@@ -97,11 +98,11 @@ class Alert extends Component {
     });
   };
   render() {
-    const { show, type } = this.props.state;
+    const { show, type, vertical } = this.props.state;
     if (!show) {
       return null;
     }
-    let alertStyle = alertStyles[type];
+    const alertStyle = alertStyles[type];
     const scale = this.state.animationState.interpolate({
       inputRange: [0, 1],
       outputRange: [0.01, 1],
@@ -115,6 +116,8 @@ class Alert extends Component {
             Styles.shadow,
             {
               borderColor: alertStyle.color,
+              width: vertical ? card_width_vertical : card_width,
+              minHeight: vertical ? undefined : card_height,
               transform,
             },
           ]}
@@ -127,8 +130,11 @@ class Alert extends Component {
     );
   }
   _renderTitle = () => {
-    const { type } = this.props.state;
+    const { type, vertical } = this.props.state;
     let alertStyle = alertStyles[type];
+    if (vertical) {
+      return null;
+    }
     return (
       <View
         style={{
@@ -151,13 +157,36 @@ class Alert extends Component {
     );
   };
   _renderBottom = () => {
-    const { onCancel, cancelTitle } = this.props.state;
+    const { onCancel, cancelTitle, vertical } = this.props.state;
+    if (vertical) {
+      return this._renderVerticalBottom();
+    }
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          marginTop: 'auto',
+        }}
+      >
         <Text style={styles.choices} onPress={this._onPressChoices(onCancel)}>
           {cancelTitle || 'No'}
         </Text>
         {this._renderChoices()}
+      </View>
+    );
+  };
+  _renderVerticalBottom = () => {
+    const { onCancel, cancelTitle } = this.props.state;
+    return (
+      <View style={{ alignItems: 'center', marginTop: 20 }}>
+        {this._renderChoices()}
+        <Text
+          style={[styles.choices, { marginTop: 20 }]}
+          onPress={this._onPressChoices(onCancel)}
+        >
+          {cancelTitle || 'Cancel'}
+        </Text>
       </View>
     );
   };
@@ -168,8 +197,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(33,33,33,0.3)',
   },
   card: {
-    width: card_width,
-    minHeight: card_height,
     backgroundColor: colors.white,
     paddingVertical: 10,
     borderBottomWidth: 3,
@@ -182,7 +209,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.lightGrey,
   },
   contentContainer: {
-    flex: 1,
+    // flex: 1,
     marginTop: 10,
     paddingLeft: 20,
     paddingRight: 10,
@@ -190,13 +217,14 @@ const styles = StyleSheet.create({
   choices: {
     marginHorizontal: 10,
     marginLeft: 15,
-    fontSize: 25,
-    fontWeight: '200',
+    fontSize: 20,
+    fontWeight: '400',
+    marginVertical: 5,
   },
   content: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '400',
-    flex: 1,
+    // flex: 1,
   },
 });
 

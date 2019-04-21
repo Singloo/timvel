@@ -53,7 +53,6 @@ class ChooseWeather extends Component {
     );
   }
 }
-ChooseWeather.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

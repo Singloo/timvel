@@ -10,7 +10,14 @@ const showAlert = (action$, state$, { dispatch }) =>
       if (show) {
         return dispatch(null);
       }
-      const { choices, cancelTitle, type, onCancel, content } = action.payload;
+      const {
+        choices,
+        cancelTitle,
+        type,
+        onCancel,
+        content,
+        vertical = false,
+      } = action.payload;
       return dispatch('ALERT_SET_STATE', {
         show: true,
         choices,
@@ -18,6 +25,7 @@ const showAlert = (action$, state$, { dispatch }) =>
         content,
         type: type || 'NORMAL',
         onCancel,
+        vertical,
       });
     }),
   );

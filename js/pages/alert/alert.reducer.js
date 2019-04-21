@@ -5,6 +5,7 @@ const initialState = {
   type: 'NORMAL',
   onCancel: null,
   content: '',
+  vertical: false,
 };
 
 function reducer(state = initialState, action) {

@@ -8,8 +8,11 @@ import {
   $CENTER,
   $TYPES,
   HANDLE,
+  Navigation,
+  OSS,
 } from '../../utils';
 import UserProfile from './component/UserProfile';
+import ImagePicker from 'react-native-image-crop-picker';
 class UserPage extends Component {
   constructor(props) {
     super(props);
@@ -75,16 +78,62 @@ class UserPage extends Component {
       },
     });
   };
+  _onPressAvatar = () => {
+    this.props.dispatch('SHOW_ALERT', {
+      choices: [
+        {
+          title: 'Open camera',
+          onPress: this._goToCamera,
+        },
+        {
+          title: 'Open photo album',
+          onPress: this._openPhotoAlbum,
+        },
+      ],
+      content: 'Change avatar',
+      vertical: true,
+    });
+  };
+  _goToCamera = () => {
+    Navigation.navigate('camera');
+  };
+  _openPhotoAlbum = async () => {
+    try {
+      const image = await ImagePicker.openPicker({
+        multiple: false,
+        cropping: true,
+      });
+      try {
+        this.props.dispatch('GLOABL_SET_STATE', {
+          isLoading: true,
+        });
+        const imageUrl = await OSS.upLoadImage(image.path);
+        await User.updateAvatar(imageUrl);
+        this.forceUpdate();
+        this.props.dispatch('SHOW_SNAKE_BAR', {
+          content: 'Avatar changed successfully',
+        });
+      } catch (err) {
+        this.props.dispatch('SHOW_SNAKE_BAR', {
+          type: 'ERROR',
+          content: 'Network error...',
+        });
+      } finally {
+        this.props.dispatch('GLOABL_SET_STATE', {
+          isLoading: false,
+        });
+      }
+    } catch (error) {}
+  };
   render() {
     const { buttonLocations, userPosts, userTitles } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
       return (
         <View
-          key={index}
+          key={'tpm' + index}
           style={[styles.loginButton, { left: item.x, top: item.y }]}
         >
           <Button
-            key={index}
             // buttonStyle={[styles.loginButton, { left: item.x, top: item.y }]}
             title={'tap me'}
             size={'small'}
@@ -107,6 +156,7 @@ class UserPage extends Component {
           userPosts={userPosts}
           userTitles={userTitles}
           onPressCard={this._goToPostDetail}
+          onPressAvatar={this._onPressAvatar}
         />
         <Button title={'log out'} onPress={this._onPressLogout} />
       </View>

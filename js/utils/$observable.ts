@@ -2,7 +2,6 @@ import { interval, from, Subject, timer, range } from 'rxjs';
 import { switchMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { get } from 'lodash';
 import { IAction } from '../models';
-import { Image } from 'react-native-image-crop-picker';
 let INTERVAL = 4000;
 const $queryNew = range(1, 20).pipe(
   concatMap(_ => timer(INTERVAL)),
@@ -53,7 +52,11 @@ const showCoinIncreaseAnimation = (transaction: number) =>
     },
   });
 
-const $UPLOAD_IMAGES: Subject<Image> = new Subject();
+interface IUploadImage {
+  path: string;
+  ossPath?: string;
+}
+const $UPLOAD_IMAGES: Subject<IUploadImage> = new Subject();
 export {
   $queryNew,
   $CENTER,

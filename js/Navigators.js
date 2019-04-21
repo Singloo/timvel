@@ -6,7 +6,9 @@ import {
 import * as Connectors from './connectors';
 const MainScreenNavigator = createBottomTabNavigator(
   {
-    Home: { screen: Connectors.homePage },
+    Home: {
+      screen: Connectors.homePage,
+    },
     ShopPage: { screen: Connectors.shopPage },
     NotifPage: { screen: Connectors.notifPage },
     UserPage: { screen: Connectors.userPage },
@@ -66,6 +68,9 @@ const SimpleApp = createStackNavigator(
     },
     postByTag: {
       screen: Connectors.postByTag,
+    },
+    camera: {
+      screen: Connectors.camera,
     },
   },
   {

@@ -24,7 +24,7 @@ class UserProfile extends Component {
   componentWillMount() {}
 
   render() {
-    const { userPosts, userTitles, onPressCard } = this.props;
+    const { userPosts, userTitles, onPressCard, onPressAvatar } = this.props;
 
     const renderCards = Object.keys(userPosts).map((key, index) => {
       return (
@@ -53,6 +53,7 @@ class UserProfile extends Component {
             username={User.username}
             userCoin={User.userCoin}
             userAvatar={User.avatar}
+            onPressAvatar={onPressAvatar}
             userTitles={userTitles}
             nScrollY={this._nscrollY}
             scrollY={this._scrollY}
@@ -63,7 +64,6 @@ class UserProfile extends Component {
     );
   }
 }
-UserProfile.propTypes = {};
 
 const styles = StyleSheet.create({
   wrapper: {

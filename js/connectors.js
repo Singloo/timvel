@@ -20,7 +20,9 @@ import postDetail from './pages/postDetail/postDetail.connect';
 import postReplies from './pages/postReplies/postReplies.container';
 import postByTag from './pages/postByTag/postByTag.container';
 import photoBrowser from './pages/photoBrowser/photoBrowser.container';
+import camera from './pages/camera/camera.container';
 export {
+  camera,
   photoBrowser,
   postByTag,
   postReplies,

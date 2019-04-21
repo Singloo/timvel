@@ -18,7 +18,9 @@ import comment from './pages/comment/comment.epic';
 import launchPage from './pages/launchPage/launchPage.epic';
 import postByTag from './pages/postByTag/postByTag.epics';
 import photoBrowser from './pages/photoBrowser/photoBrowser.epics';
+import camera from './pages/camera/camera.epics';
 const epics = [].concat(
+  camera,
   photoBrowser,
   postByTag,
   launchPage,

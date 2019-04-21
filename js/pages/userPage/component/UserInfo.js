@@ -5,6 +5,7 @@ import {
   PADDING_TOP_FULL,
   Styles,
   AnimatedImage,
+  Touchable,
 } from '../../../../re-kits';
 import { SCREEN_WIDTH, colors, isIOS } from '../../../utils';
 import Title from '../../../components/Title';
@@ -124,7 +125,7 @@ class UserInfo extends Component {
   };
 
   _renderAvatar = () => {
-    const { userAvatar } = this.props;
+    const { userAvatar, onPressAvatar } = this.props;
     const size = this.props.scrollY.interpolate({
       inputRange: [0, scroll_height],
       outputRange: [avatarSize, avatarSizeSmall],
@@ -136,17 +137,19 @@ class UserInfo extends Component {
       extrapolate: 'clamp',
     });
     return (
-      <Animated.Image
-        source={{ uri: userAvatar }}
-        style={[
-          styles.avatarNormal,
-          {
-            width: size,
-            height: size,
-            borderRadius,
-          },
-        ]}
-      />
+      <Touchable onPress={onPressAvatar}>
+        <Animated.Image
+          source={{ uri: userAvatar }}
+          style={[
+            styles.avatarNormal,
+            {
+              width: size,
+              height: size,
+              borderRadius,
+            },
+          ]}
+        />
+      </Touchable>
     );
   };
   _renderTitleAndUsername = () => {

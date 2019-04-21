@@ -119,7 +119,7 @@ class UUer {
     return DeviceInfo.getVersion();
   }
   updateAvatar = (url: string) => {
-    this.set('avatar', url);
+    return this.set('avatar', url);
   };
   logOut = () => {
     AV.User.logOut();
