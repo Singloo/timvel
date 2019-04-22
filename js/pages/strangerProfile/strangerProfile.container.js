@@ -8,6 +8,7 @@ import {
   ContentByTag,
   NAV_BAR_HEIGHT_FULL,
   Text,
+  colors,
 } from '../../../re-kits';
 import {
   SCREEN_WIDTH,
@@ -166,15 +167,18 @@ class StrangerProfile extends Component {
           {this.renderUserInfo()}
           {this.renderCards()}
         </Animated.ScrollView>
-        <Button
-          title={'send gift'}
-          onPress={curried(this._modalController)(true)}
-        />
         <NavBar
           title={this.user.username}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
-          style={{ position: 'absolute', top: 0 }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            backgroundColor: 'rgba(250,250,250,0.2)',
+          }}
+          sourceRight={Assets.gift.source}
+          rightTint={colors.main}
+          onPressRight={curried(this._modalController)(true)}
           renderCenter={this._renderNavBarCenter}
         />
         {this.renderFS(flowers)}

@@ -24,7 +24,7 @@ import {
   Separator,
   NAV_BAR_HEIGHT_FULL,
   PADDING_TOP_FULL,
-  Styles
+  Styles,
 } from '../../../re-kits';
 import SearchResults from './components/SearchResult';
 import _ from 'lodash';
@@ -150,7 +150,7 @@ class AddTag extends React.Component {
     Keyboard.dismiss();
     this.props.dispatch('ADD_TAG_ADD_TAG', {
       tag,
-      callback: this._onPressNewTag,
+      callback: invoke(this._onPressNewTag, this.close),
     });
   };
 
