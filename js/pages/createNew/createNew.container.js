@@ -146,6 +146,7 @@ class CreateNew extends React.Component {
       return;
     }
     this.dismissKeyboard();
+    this.autoUploadSubscription && this.autoUploadSubscription.unsubscribe();
     const {
       images,
       content,

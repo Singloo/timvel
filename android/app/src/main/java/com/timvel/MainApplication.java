@@ -80,8 +80,8 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
     Fabric.with(this, new Crashlytics());
+    SoLoader.init(this, /* native exopackage */ false);
     AVOSCloud.initialize(this,"UYganDzaND6XsvYaL552tlbs-gzGzoHsz","l5ld3QxRSvLCaJ4Rpv6gXbIq");
     PushService.setDefaultPushCallback(this, PushHandlerActivity.class);
   }
