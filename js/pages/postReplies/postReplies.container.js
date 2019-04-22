@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NavBar, Assets, RFlatList } from '../../../re-kits';
+import { NavBar, Assets, RFlatList, BasicView } from '../../../re-kits';
 import {
   colors,
   I18n,
@@ -76,12 +76,18 @@ class Sample extends Component {
           rightTitle={showReadAll ? 'Read All' : undefined}
           onPressRight={curried(this._readNotification)(undefined)}
         />
-        <RFlatList
-          data={comments}
-          style={{ backgroundColor: colors.lightGrey }}
-          renderItem={this._renderItem}
-          keyExtractor={(_, index) => 'psr' + index}
-        />
+        <BasicView
+          style={{ flex: 1 }}
+          isEmpty={comments.length === 0}
+          emptyMessage={'还没有人回复过你...'}
+        >
+          <RFlatList
+            data={comments}
+            style={{ backgroundColor: colors.lightGrey }}
+            renderItem={this._renderItem}
+            keyExtractor={(_, index) => 'psr' + index}
+          />
+        </BasicView>
       </View>
     );
   }

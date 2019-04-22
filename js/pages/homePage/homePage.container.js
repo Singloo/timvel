@@ -330,18 +330,32 @@ class HomePage extends React.Component {
         onPress={Vibration.vibrate}
       >
         <ActionButton.Icon
-          iconStyle={{ backgroundColor: colors.white }}
           iconProps={{
-            style: { backgroundColor: colors.white },
+            containerStyle: {
+              paddingTop: 5,
+              paddingLeft: 5,
+              backgroundColor: colors.white,
+              width: 46,
+              height: 46,
+              borderRadius: 23,
+            },
             resizeMode: 'contain',
           }}
+          style={{}}
           source={Assets.edit.source}
           onPress={this._onPressCreateNew}
         />
         <ActionButton.Icon
-          source={Assets.comment.source}
+          source={Assets.calendar.source}
           iconProps={{
-            style: { backgroundColor: colors.white },
+            containerStyle: {
+              paddingTop: 5,
+              paddingLeft: 5,
+              backgroundColor: colors.white,
+              width: 46,
+              height: 46,
+              borderRadius: 23,
+            },
             resizeMode: 'contain',
           }}
           onPress={() => {
@@ -349,10 +363,17 @@ class HomePage extends React.Component {
           }}
         />
         <ActionButton.Icon
-          source={Assets.bk1.source}
+          source={Assets.time_travel.source}
           onPress={this._timeTravel}
           iconProps={{
-            style: { backgroundColor: colors.white },
+            containerStyle: {
+              paddingTop: 5,
+              paddingLeft: 5,
+              backgroundColor: colors.white,
+              width: 46,
+              height: 46,
+              borderRadius: 23,
+            },
             resizeMode: 'contain',
           }}
         />

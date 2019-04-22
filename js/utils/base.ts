@@ -1,7 +1,6 @@
 import { Platform, Dimensions, LayoutChangeEvent } from 'react-native';
 import Moment from 'moment';
 import { get, difference } from 'lodash';
-import { LayoutEvent } from 'react-navigation';
 import { IPost, TDict, ILocalImage } from '../models';
 Moment.locale();
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
@@ -13,7 +12,7 @@ const days30 = [4, 6, 9, 11];
 
 export const randomNumber = (n: number, m: number) => {
   const c = m - n + 1;
-  return Math.random() * c + n;
+  return Math.round(Math.random() * c + n);
 };
 
 export const getRandomDate = (): string => {

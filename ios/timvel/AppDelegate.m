@@ -18,15 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  //old
-  // NSURL *jsCodeLocation;
-  // jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-  // RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-  //                                                     moduleName:@"timvel"
-  //                                              initialProperties:nil
-  //                                                  launchOptions:launchOptions];
-
-  //new
+  [Fabric with:@[[Crashlytics class]]];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"timvel"
@@ -38,7 +30,6 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [Fabric with:@[[Crashlytics class]]];
   [RNSplashScreen show];
   return YES;
 }
