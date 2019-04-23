@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 //@ts-ignore
 import Installation from 'leancloud-installation';
+import User from './User';
 const AndroidNotification = NativeModules.AndroidNotification;
 export default class Notification {
   Installation: Installation;
@@ -24,7 +25,6 @@ export default class Notification {
 
   //权限获取成功回调
   IOSonRegister = (deviceToken: string) => {
-    console.warn(deviceToken);
     if (deviceToken) {
       this.IOSsaveInstallation(deviceToken);
     }
@@ -33,17 +33,21 @@ export default class Notification {
   //保存deviceToken到Installation
   IOSsaveInstallation = (deviceToken: string) => {
     const info = {
-      apnsTopic: 'com.timvel',
+      apnsTopic: 'com.timvel.mobile',
       deviceType: 'ios',
       deviceToken: deviceToken,
     };
+
     this.Installation.getCurrent()
       .then((installation: any) => installation.save(info))
-      .then((result: any) => console.warn(result))
+      .then((result: any) => {
+        User.setInstallationId(deviceToken);
+      })
       .catch((error: any) => console.warn(error));
   };
 
   IOSonNotification = (notification: any) => {
+    console.warn(notification);
     //如果app在前台则显示alert
     if (AppState.currentState === 'active') {
       // this._showAlert(notification._alert);
@@ -73,11 +77,12 @@ export default class Notification {
   AndroidInstallation = () => {
     AndroidNotification.saveInstaillation((installationId: any) => {
       if (installationId) {
+        User.setInstallationId(installationId);
         // console.warn('Android installation', installationId);
         DeviceEventEmitter.addListener(
           AndroidNotification.ON_RECEIVE,
           notification => {
-            console.warn('receive android notification');
+            console.warn('receive android notification', notification);
           },
         );
         DeviceEventEmitter.addListener(AndroidNotification.ON_ERROR, res => {
@@ -87,7 +92,7 @@ export default class Notification {
         DeviceEventEmitter.addListener(
           AndroidNotification.ON_CUSTOM_RECEIVE,
           notification => {
-            console.warn('receive custom android notification');
+            console.warn('receive custom android notification', notification);
             // this._showAlert(JSON.parse(notification.data).alert);
           },
         );

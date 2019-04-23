@@ -28,7 +28,7 @@ AV.init({
 });
 //@ts-ignore
 import Installation from 'leancloud-installation';
-Installation(AV);
+const installation = Installation(AV);
 const store = configureStore();
 // Setup.preventDoublePress(SimpleApp);
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -37,12 +37,7 @@ export default class App extends React.Component {
   _alert;
   componentDidMount() {
     this._init();
-    let notification = new Notification(Installation);
-    if (isIOS) {
-      notification.IOSinitPush();
-    } else {
-      notification.AndroidinitPush();
-    }
+    this._setupNotification();
     if (isIOS) {
       return;
     }
@@ -53,6 +48,16 @@ export default class App extends React.Component {
     store.dispatch({ type: 'UPDATE_USERINFO', payload: {} });
     // this._unsubscribeBackHandler();
   }
+  _setupNotification = async () => {
+    let notification = new Notification(installation);
+    if (isIOS) {
+      setTimeout(() => {
+        notification.IOSinitPush();
+      }, 500);
+    } else {
+      notification.AndroidinitPush();
+    }
+  };
   onBackButtonPressAndroid = () => {
     const { show } = store.getState().alert;
     console.warn(show);

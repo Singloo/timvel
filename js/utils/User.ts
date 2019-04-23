@@ -2,9 +2,15 @@ import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES } from './$observable';
 import DeviceInfo from 'react-native-device-info';
+import { retry3, $retryDelay } from './$helper';
+import { map, switchMap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { apiClient } from './Network';
+import { Platform } from 'react-native';
 const dispatch = (type: string, payload = {}) => ({ type, payload });
 class UUer {
   user?: AV.User;
+  installationId?: string;
   constructor() {}
   init = async (callback?: () => void) => {
     try {
@@ -22,6 +28,7 @@ class UUer {
         .fetch()
         .then(_user => (this.user = user))
         .catch(() => {});
+      this.setInstallationId(this.installationId);
       return this.user;
     } catch (error) {
       console.warn('user init error', error);
@@ -135,6 +142,26 @@ class UUer {
       return false;
     }
     return this.userCoin >= parseInt(amount as string);
+  };
+  setInstallationId = (installationId?: string) => {
+    if (!this.isLoggedIn || !installationId) {
+      this.installationId = installationId;
+      return;
+    }
+    retry3(
+      apiClient.post('/user/save_installation', {
+        token: installationId,
+        user_object_id: this.objectId,
+        platform: Platform.OS,
+      }),
+    ).subscribe({
+      next: () => {
+        this.installationId = undefined;
+      },
+      error: err => {
+        console.warn(err);
+      },
+    });
   };
 }
 const User = new UUer();
