@@ -83,5 +83,6 @@ public class MainApplication extends Application implements ReactApplication {
     Fabric.with(this, new Crashlytics());
     SoLoader.init(this, /* native exopackage */ false);
     AVOSCloud.initialize(this,"UYganDzaND6XsvYaL552tlbs-gzGzoHsz","l5ld3QxRSvLCaJ4Rpv6gXbIq");
+    PushService.setDefaultChannelId(this,"timvel_medium");
   }
 }
