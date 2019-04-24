@@ -86,8 +86,7 @@ export default class Notification {
           },
         );
         DeviceEventEmitter.addListener(AndroidNotification.ON_ERROR, res => {
-          console.warn('android notification error');
-          console.warn(res);
+          console.warn('android notification error', res);
         });
         DeviceEventEmitter.addListener(
           AndroidNotification.ON_CUSTOM_RECEIVE,

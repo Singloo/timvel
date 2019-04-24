@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Intent;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVInstallation;
+import com.avos.avoscloud.PushService;
 import com.avos.avoscloud.SaveCallback;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
@@ -28,6 +29,7 @@ public class PushModule extends ReactContextBaseJavaModule implements ActivityEv
     public PushModule(ReactApplicationContext reactContext) {
         super(reactContext);
         singleton = this;
+        PushService.setDefaultPushCallback(getReactApplicationContext(), PushHandlerActivity.class);
     }
 
     @Override
