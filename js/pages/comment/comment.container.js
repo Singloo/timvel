@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -12,10 +12,11 @@ import {
   NAV_BAR_HEIGHT_FULL,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
+  TextInput,
 } from '../../../re-kits';
 import { colors, TAB_BAR_HEIGHT, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
-class Comment extends Component {
+class Comment extends React.Component {
   componentWillMount() {
     this.post = this.props.navigation.getParam('post', {});
     this._fetchComments();

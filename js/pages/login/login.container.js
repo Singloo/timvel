@@ -9,7 +9,6 @@ import {
   LayoutAnimation,
   findNodeHandle,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
@@ -30,6 +29,7 @@ import {
   User,
   I18n,
   isAndroid,
+  isIOS,
 } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
@@ -43,22 +43,25 @@ class Login extends Component {
     };
   }
   componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener(
-      'keyboardWillShow',
-      this.keyboardWillShow,
-    );
-    this.keyboardDidShowSub = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow,
-    );
-    this.keyboardWillHideSub = Keyboard.addListener(
-      'keyboardWillHide',
-      this.keyboardWillHide,
-    );
-    this.keyboardDidHideSub = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
+    if (isIOS) {
+      this.keyboardWillShowSub = Keyboard.addListener(
+        'keyboardWillShow',
+        this.keyboardWillShow,
+      );
+      this.keyboardWillHideSub = Keyboard.addListener(
+        'keyboardWillHide',
+        this.keyboardWillHide,
+      );
+    } else {
+      this.keyboardDidShowSub = Keyboard.addListener(
+        'keyboardDidShow',
+        this.keyboardDidShow,
+      );
+      this.keyboardDidHideSub = Keyboard.addListener(
+        'keyboardDidHide',
+        this.keyboardDidHide,
+      );
+    }
   }
 
   componentDidMount() {
@@ -67,10 +70,13 @@ class Login extends Component {
   componentWillUnmount() {
     this.props.dispatch('LOGIN_RESET_STATE');
     this.gradientBK && this.gradientBK.reset();
-    this.keyboardWillShowSub.remove();
-    this.keyboardWillHideSub.remove();
-    this.keyboardWillShowSub.remove();
-    this.keyboardDidHideSub.remove();
+    if (isIOS) {
+      this.keyboardWillShowSub && this.keyboardWillShowSub.remove();
+      this.keyboardWillHideSub && this.keyboardWillHideSub.remove();
+    } else {
+      this.keyboardDidShowSub && this.keyboardDidShowSub.remove();
+      this.keyboardDidHideSub && this.keyboardDidHideSub.remove();
+    }
     this.timer1 && clearTimeout(this.timer1);
   }
 
@@ -82,10 +88,10 @@ class Login extends Component {
     }).start();
   };
   keyboardDidShow = event => {
-    Animated.timing(this.state.keyboardHeight, {
-      duration: 400,
-      toValue: event.endCoordinates.height,
-    }).start();
+    // Animated.timing(this.state.keyboardHeight, {
+    //   duration: 400,
+    //   toValue: event.endCoordinates.height,
+    // }).start();
   };
   keyboardWillHide = event => {
     Animated.timing(this.state.keyboardHeight, {
@@ -94,10 +100,10 @@ class Login extends Component {
     }).start();
   };
   keyboardDidHide = event => {
-    Animated.timing(this.state.keyboardHeight, {
-      duration: 400,
-      toValue: 0,
-    }).start();
+    // Animated.timing(this.state.keyboardHeight, {
+    //   duration: 400,
+    //   toValue: 0,
+    // }).start();
   };
   //press
   _goBack = () => {

@@ -115,7 +115,7 @@ class CoinIncrease extends React.PureComponent {
     );
   };
   _clearSubscription = () => {
-    this.$timeSubscriber && this.$bubbleSubscriber.unsubscribe();
+    this.$timeSubscriber && this.$timeSubscriber.unsubscribe();
     this.$bubbleSubscriber && this.$bubbleSubscriber.unsubscribe();
   };
   _renderCoinBubble = () => {
