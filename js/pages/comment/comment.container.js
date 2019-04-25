@@ -1,18 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Button,
   NavBar,
-  Image,
-  InfiniteText,
-  Text,
   Assets,
   CommentBar,
   NAV_BAR_HEIGHT_FULL,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-  TextInput,
+  Styles,
 } from '../../../re-kits';
 import { colors, TAB_BAR_HEIGHT, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
@@ -74,7 +68,6 @@ class Comment extends React.Component {
     );
   }
 }
-Comment.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
