@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_screen" translatesAutoresizingMaskIntoConstraints="NO" id="3Rl-TC-Ugs">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <rect key="frame" x="0.0" y="146" width="375" height="375"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="375" id="Obw-ii-oXi"/>
+                        <constraint firstAttribute="width" constant="375" id="fAV-4N-OGv"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="3Rl-TC-Ugs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="1i3-is-bjj"/>
-                <constraint firstAttribute="trailing" secondItem="3Rl-TC-Ugs" secondAttribute="trailing" id="BMz-aM-25D"/>
-                <constraint firstItem="3Rl-TC-Ugs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ctp-DX-B4M"/>
-                <constraint firstAttribute="bottom" secondItem="3Rl-TC-Ugs" secondAttribute="bottom" id="mwL-iT-2rj"/>
+                <constraint firstItem="3Rl-TC-Ugs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="GmY-n6-53c"/>
+                <constraint firstItem="3Rl-TC-Ugs" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="INt-to-9gm"/>
+                <constraint firstAttribute="trailing" secondItem="3Rl-TC-Ugs" secondAttribute="trailing" id="aHI-rt-4jS"/>
+                <constraint firstItem="3Rl-TC-Ugs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wRX-Pf-OZt"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="548" y="455"/>
+            <point key="canvasLocation" x="562.39999999999998" y="591.45427286356824"/>
         </view>
     </objects>
     <resources>
-        <image name="launch_screen" width="375" height="667"/>
+        <image name="launch_screen" width="512" height="512"/>
     </resources>
 </document>
