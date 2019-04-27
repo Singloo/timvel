@@ -17,6 +17,7 @@ import {
   HANDLE,
   showCoinIncreaseAnimation,
   Network,
+  I18n,
 } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
@@ -69,7 +70,7 @@ class ShopPage extends Component {
     if (!PRODUCT_TYPES.includes(product.productType)) {
       this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',
-        content: 'Unknown product type.',
+        content: I18n.t('unknownProductType'),
       });
       return;
     }
@@ -101,20 +102,20 @@ class ShopPage extends Component {
       if (!PRODUCT_TYPES.includes(currentProduct.productType)) {
         this.props.dispatch('SHOW_SNAKE_BAR', {
           type: 'ERROR',
-          content: 'Unknown product type.',
+          content: I18n.t('unknownProductType'),
         });
         return;
       }
       if (!User.ableToBuy(currentProduct.price)) {
         this.props.dispatch('SHOW_SNAKE_BAR', {
           type: 'ERROR',
-          content: 'No enough coin',
+          content: I18n.t('noEnoughCoin'),
         });
         return;
       }
       await this._transaction(currentProduct);
       showCoinIncreaseAnimation(-parseInt(currentProduct.price));
-      this.props.snakeBar('Wow, a successful deal~');
+      this.props.snakeBar(I18n.t('niceDeal'));
       this._switchProductHandler(currentProduct);
     } catch (error) {
       console.warn(error.message);
@@ -163,7 +164,7 @@ class ShopPage extends Component {
    */
   _typeSticker = product => {
     this.props.dispatch('SHOP_PAGE_SAVE_IMAGE_TO_ALBUM', {
-      imageUrl: 'http://lc-uygandza.cn-n1.lcfile.com/00906d947703a0db1bcf.jpg',
+      imageUrl: product.imageUrl,
     });
   };
 
@@ -194,7 +195,6 @@ class ShopPage extends Component {
   render() {
     const { products, isLoading, isError } = this.props.state;
     const renderProducts = products.map(this._renderItem);
-    console.warn(isError);
     return (
       <View style={styles.container}>
         <BasicView
@@ -205,19 +205,13 @@ class ShopPage extends Component {
         >
           <ScrollView
             style={{ flex: 1, backgroundColor: colors.lightGrey }}
-            contentContainerStyle={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              paddingTop: NAV_BAR_HEIGHT_FULL,
-              paddingBottom: TAB_BAR_HEIGHT,
-              justifyContent: 'space-between',
-            }}
+            contentContainerStyle={styles.scrollContainer}
           >
             {renderProducts}
           </ScrollView>
         </BasicView>
         <NavBar
-          title={'Shop'}
+          title={I18n.t('shop')}
           style={{ position: 'absolute', top: 0 }}
           sourceRight={Assets.add.source}
           onPressRight={this._onPressRight}
@@ -254,6 +248,13 @@ class ShopPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: NAV_BAR_HEIGHT_FULL,
+    paddingBottom: TAB_BAR_HEIGHT,
+    justifyContent: 'space-between',
   },
 });
 

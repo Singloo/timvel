@@ -60,8 +60,8 @@ class Card extends React.Component {
       <View style={{ marginLeft: 20, marginTop: 20 }}>
         <Text style={styles.mainText}>
           {!isSelect
-            ? 'Choose your favourite one:'
-            : 'Send this will cost you:'}
+            ? I18n.t('chooseGift') + ':'
+            : I18n.t('giftWillCostsYou') + ':'}
         </Text>
         {isSelect && (
           <PriceTag price={price} style={{ marginLeft: 10, marginTop: 5 }} />
@@ -107,13 +107,13 @@ class Card extends React.Component {
     return (
       <View style={styles.buttonContainer}>
         <Button
-          title={'Cancel'}
+          title={I18n.t('cancel')}
           onPress={dismiss}
           type={'mainBlank'}
           buttonStyle={{ width: (SCREEN_WIDTH - 60) / 2 }}
         />
         <Button
-          title={'Confirm'}
+          title={I18n.t('confirm')}
           onPress={this._onPressConfirm}
           enable={currentGift !== null}
           buttonStyle={{ width: (SCREEN_WIDTH - 60) / 2 }}

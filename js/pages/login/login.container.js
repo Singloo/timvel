@@ -236,7 +236,11 @@ class Login extends Component {
           </Animated.View>
         </Touchable>
         <Button
-          title={onLoginPage ? '        New?      ' : 'Have an account?'}
+          title={
+            onLoginPage
+              ? `        ${I18n.t('isNew')}      `
+              : I18n.t('haveAnAccount')
+          }
           buttonStyle={[
             styles.buttonStyle,
             { backgroundColor: 'transparent', marginTop: 10 },
@@ -247,7 +251,7 @@ class Login extends Component {
         <NavBar
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
-          title={'LogIn or SignUp'}
+          title={onLoginPage ? I18n.t('loginTitle') : I18n.t('signUpTitle')}
           style={styles.navBar}
           titleStyle={{ color: colors.white }}
           leftTint={colors.white}

@@ -11,7 +11,7 @@ import {
   startWith,
   delay,
 } from 'rxjs/operators';
-import { randomItem, Cache, retry3, sortPosts } from '../../utils';
+import { randomItem, Cache, retry3, sortPosts, I18n } from '../../utils';
 import { colorSets } from '../../../re-kits';
 import * as R from 'ramda';
 const generateColorsUntil = (colors = [], toNum) => {
@@ -131,7 +131,7 @@ const fetchMorePosts = (action$, state$, { dispatch, httpClient }) =>
           map(({ data }) =>
             data.length === 0
               ? dispatch('SHOW_SNAKE_BAR', {
-                  message: '没有更多了....说说关于你的事吧?',
+                  message: I18n.t('noMoreData'),
                 })
               : dispatch('HOME_PAGE_MUTATE_POSTS', {
                   posts: data,

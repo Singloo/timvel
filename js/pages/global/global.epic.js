@@ -86,7 +86,7 @@ const updateUserinfoFromLeanCloud = (
             detail: info,
             password: password,
           });
-          user.save();
+          await user.save();
           observer.complete();
         } catch (error) {
           console.warn(error.message);

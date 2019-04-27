@@ -17,6 +17,7 @@ import {
   SCREEN_HEIGHT,
   User,
   curried,
+  I18n,
 } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { interval, Subject } from 'rxjs';
@@ -126,7 +127,7 @@ class StrangerProfile extends Component {
       const price = giftType > 100 ? 200 : 100;
       const bool = await User.ableToBuy(price);
       if (!bool) {
-        this.props.snakeBar('No coins..', 'ERROR');
+        this.props.snakeBar(I18n.t('noEnoughCoin'), 'ERROR');
         return;
       }
       this.giftSubject$.next({
@@ -140,7 +141,7 @@ class StrangerProfile extends Component {
       CoinTransactionRecords.showAnimation(-price);
     } catch (error) {
       console.warn(error.message);
-      this.props.snakeBar('Network error', 'ERROR');
+      this.props.snakeBar(I18n.t('networkError'), 'ERROR');
     }
   };
   _goToPostDetail = post => {

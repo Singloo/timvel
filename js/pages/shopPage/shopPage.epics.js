@@ -14,7 +14,7 @@ import {
   mergeAll,
   mapTo,
 } from 'rxjs/operators';
-import { Cache } from '../../utils';
+import { Cache, I18n } from '../../utils';
 const changeAvatar = (action$, state$, { User, dispatch }) =>
   action$.pipe(
     ofType('SHOP_PAGE_CHANGE_AVATAR'),
@@ -35,7 +35,7 @@ const changeAvatar = (action$, state$, { User, dispatch }) =>
           );
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
-              content: 'Avatar updated!',
+              content: I18n.t('avatarUpdaed'),
               type: 'SUCCESS',
             }),
           );
@@ -47,7 +47,6 @@ const changeAvatar = (action$, state$, { User, dispatch }) =>
           );
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
-              content: 'Network error',
               type: 'ERROR',
             }),
           );
@@ -66,14 +65,14 @@ const saveImageToAlbum = (action$, state$, { Network, dispatch }) =>
       from(Network.saveImageToAlbum(action.payload.imageUrl)).pipe(
         map(_ =>
           dispatch('SHOW_SNAKE_BAR', {
-            content: 'Avatar updated!',
+            content: I18n.t('saveImageSuccess'),
             type: 'SUCCESS',
           }),
         ),
         catchError(error =>
           of(
             dispatch('SHOW_SNAKE_BAR', {
-              content: 'Avatar updated!',
+              content: I18n.t('networkError') + error.message,
               type: 'ERROR',
             }),
           ),

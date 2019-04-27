@@ -16,17 +16,17 @@ const CONTAINER_BORDER_RADIUS = 12;
 const getTypeDescription = type => {
   switch (type) {
     case 'avatar':
-      return 'This product will replace your avatar';
+      return I18n.t('introAvatar');
     case 'draw_lots':
-      return 'A random buyer will get this product';
+      return I18n.t('introDrawLots');
     case 'sticker':
-      return 'This sticker will save to you photo album';
+      return I18n.t('introSticker');
     case 'one_time':
-      return 'After pay, you will be enabled to see the image';
+      return I18n.t('introOneTime');
     case 'title':
-      return 'Buy a title';
+      return I18n.t('introTitle');
     case 'draw_title':
-      return 'Get a random title';
+      return I18n.t('introDrawTitle');
     default:
       return '';
   }
@@ -115,7 +115,7 @@ class ConfirmPurchase extends React.Component {
     const { currentProduct } = this.props;
     return (
       <View style={{ paddingVertical: 10, paddingHorizontal: 5 }}>
-        <Text style={styles.title}>{'You are going to buy'}</Text>
+        <Text style={styles.title}>{I18n.t('goingToBuy')}</Text>
         <Text style={{ fontSize: 14, marginTop: 5, marginLeft: 10 }}>
           {'*' + getTypeDescription(currentProduct.productType)}
         </Text>
@@ -150,7 +150,7 @@ class ConfirmPurchase extends React.Component {
           imageStyle={{ width: 25, height: 25 }}
         />
         <Button
-          title={'Purchase'}
+          title={I18n.t('purchase')}
           onPress={invoke(closeModal, onPressPurchase)}
           size={'small'}
           textStyle={{ fontWeight: 'bold' }}

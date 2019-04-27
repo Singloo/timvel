@@ -18,7 +18,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import InputWithTitle from './components/InputWithTitle';
 import CustomTitle from './components/CustomTitle';
-import { colors, isAndroid, lenOfText, curried } from '../../utils';
+import { colors, isAndroid, lenOfText, curried, I18n } from '../../utils';
 const product_types = [
   'avatar',
   'draw_lots',
@@ -28,6 +28,18 @@ const product_types = [
   'draw_title',
 ];
 const available_product_types = ['avatar', 'sticker', 'title'];
+const mapTypeToTitle = type => {
+  switch (type) {
+    case 'avatar':
+      return I18n.t('productAvatar');
+    case 'sticker':
+      return I18n.t('productSticker');
+    case 'title':
+      return I18n.t('productTitle');
+    default:
+      return '';
+  }
+};
 class Sample extends Component {
   constructor(props) {
     super(props);
@@ -147,23 +159,10 @@ class Sample extends Component {
       ableToSend =
         ableToSend && !!confirmedCustomTitle.color && description.length > 0;
     }
-    const renderTypes = available_product_types.map((item, index) => {
-      return (
-        <Tag
-          key={index}
-          title={item}
-          selectedStyle={{ borderColor: colors.main }}
-          selectedTextStyle={{ color: colors.main }}
-          style={{ marginHorizontal: 4, marginVertical: 4 }}
-          isSelected={item === productType}
-          onPress={curried(this._onPressTag)(item)}
-        />
-      );
-    });
     return (
       <View style={styles.container}>
         <NavBar
-          title={'Publish Product'}
+          title={I18n.t('publishProduct')}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           sourceRight={Assets.send.source}
@@ -183,23 +182,25 @@ class Sample extends Component {
           }}
         >
           <InputWithTitle
-            title={'title'}
+            title={I18n.t('title')}
             onChangeText={this._onChangeText('title')}
             value={title}
           />
           <InputWithTitle
-            title={'price'}
+            title={I18n.t('price')}
             onChangeText={this._onChangeText('price')}
             value={price}
             errorHandler={this._checkPrice}
             textInputProps={{
               keyboardType: 'number-pad',
             }}
-            errorMessage={'Price format is wrong'}
+            errorMessage={I18n.t('priceFormatWrong')}
           />
           <View style={{ marginVertical: 5 }}>
-            <Text style={styles.text}>{'Product type'}</Text>
-            <View style={styles.tagContainer}>{renderTypes}</View>
+            <Text style={styles.text}>{I18n.t('productType')}</Text>
+            <View style={styles.tagContainer}>
+              {available_product_types.map(this._renderProductType)}
+            </View>
           </View>
           {this._renderCustomTitle(chooseTitle)}
           {this._renderChooseCover()}
@@ -209,6 +210,20 @@ class Sample extends Component {
     );
   }
 
+  _renderProductType = (item, index) => {
+    const { productType } = this.props.state;
+    return (
+      <Tag
+        key={index}
+        title={mapTypeToTitle(item)}
+        selectedStyle={{ borderColor: colors.main }}
+        selectedTextStyle={{ color: colors.main }}
+        style={{ marginHorizontal: 4, marginVertical: 4 }}
+        isSelected={item === productType}
+        onPress={curried(this._onPressTag)(item)}
+      />
+    );
+  };
   _renderCustomTitle = chooseTitle => {
     if (!chooseTitle) {
       return null;
@@ -216,9 +231,7 @@ class Sample extends Component {
     const { customTitle } = this.props.state;
     return (
       <View style={{ marginVertical: 5 }}>
-        <Text style={styles.text}>
-          {'Customize your title (at most 8 letters)'}
-        </Text>
+        <Text style={styles.text}>{I18n.t('customizeTitle')}</Text>
         <CustomTitle
           onChangeText={this._onChangeText('customTitle', 8)}
           value={customTitle}
@@ -232,7 +245,7 @@ class Sample extends Component {
     const { coverImage } = this.props.state;
     return (
       <View style={{ marginVertical: 5, alignItems: 'flex-start' }}>
-        <Text style={styles.text}>{'Cover'}</Text>
+        <Text style={styles.text}>{I18n.t('cover')}</Text>
         <Image
           source={coverImage ? { uri: coverImage.path } : Assets.add.source}
           onPress={this._onPressCoverImage}
@@ -248,7 +261,10 @@ class Sample extends Component {
     return (
       <View style={{ marginVertical: 5 }}>
         <Text style={styles.text}>
-          {'Description ' + (chooseTitle ? '(needed)' : '(optional)')}
+          {`${I18n.t('description')} ` +
+            (chooseTitle
+              ? `(${I18n.t('mandatory')})`
+              : `(${I18n.t('optional')})`)}
         </Text>
         <MultiLinesTextInput
           value={description}

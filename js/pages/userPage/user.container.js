@@ -10,6 +10,7 @@ import {
   HANDLE,
   Navigation,
   OSS,
+  I18n,
 } from '../../utils';
 import UserProfile from './component/UserProfile';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -82,15 +83,15 @@ class UserPage extends Component {
     this.props.dispatch('SHOW_ALERT', {
       choices: [
         {
-          title: 'Open camera',
+          title: I18n.t('openPhotoAlbum'),
           onPress: this._goToCamera,
         },
         {
-          title: 'Open photo album',
+          title: I18n.t('openCamera'),
           onPress: this._openPhotoAlbum,
         },
       ],
-      content: 'Change avatar',
+      content: I18n.t('changeAvatar'),
       vertical: true,
     });
   };
@@ -111,12 +112,11 @@ class UserPage extends Component {
         await User.updateAvatar(imageUrl);
         this.forceUpdate();
         this.props.dispatch('SHOW_SNAKE_BAR', {
-          content: 'Avatar changed successfully',
+          content: I18n.t('avatarUpdaed'),
         });
       } catch (err) {
         this.props.dispatch('SHOW_SNAKE_BAR', {
           type: 'ERROR',
-          content: 'Network error...',
         });
       } finally {
         this.props.dispatch('GLOABL_SET_STATE', {

@@ -70,16 +70,16 @@ class Sample extends Component {
     return (
       <View style={styles.container}>
         <NavBar
-          title={'Replies'}
+          title={I18n.t('replies')}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
-          rightTitle={showReadAll ? 'Read All' : undefined}
+          rightTitle={showReadAll ? I18n.t('readAll') : undefined}
           onPressRight={curried(this._readNotification)(undefined)}
         />
         <BasicView
           style={{ flex: 1 }}
           isEmpty={comments.length === 0}
-          emptyMessage={'还没有人回复过你...'}
+          emptyMessage={I18n.t('noReplies')}
         >
           <RFlatList
             data={comments}

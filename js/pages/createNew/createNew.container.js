@@ -25,7 +25,7 @@ import {
 } from '../../utils';
 import { getRandomPhoto } from '../../utils/Unsplash';
 import { from } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 @connect2('createNew')
 class CreateNew extends React.Component {
   autoUploadSubscription;
@@ -98,7 +98,7 @@ class CreateNew extends React.Component {
         if (images.length + imgs.length > 8) {
           this.props.dispatch('SHOW_SNAKE_BAR', {
             type: 'ERROR',
-            content: 'Number of images at most 8',
+            content: I18n.t('atMost8Pics'),
           });
           return;
         }
@@ -139,10 +139,7 @@ class CreateNew extends React.Component {
 
   _onPressSend = ableToPost => {
     if (!ableToPost) {
-      this.props.snakeBar(
-        'You need to upload at least one pic, try to get a random one?',
-        'NORMAL',
-      );
+      this.props.snakeBar(I18n.t('atLeastOnePic'), 'NORMAL');
       return;
     }
     this.dismissKeyboard();
@@ -201,20 +198,20 @@ class CreateNew extends React.Component {
     if (images.length > 8) {
       this.props.dispatch('SHOW_SNAKE_BAR', {
         type: 'ERROR',
-        content: 'Number of images at most 8',
+        content: I18n.t('atLeastOnePic'),
       });
       return;
     }
     this.props.dispatch('SHOW_ALERT', {
       choices: [
         {
-          title: '好的',
+          title: I18n.t('confirm'),
           onPress: this._getRandomImage,
         },
       ],
       type: 'NORMAL',
-      cancelTitle: '那算了',
-      content: '花费 2 个金币,选择一张随机的图片',
+      cancelTitle: I18n.t('cancel'),
+      content: I18n.t('spend2CoinChooseARandom'),
     });
   };
   _getRandomImage = () => {
@@ -279,7 +276,6 @@ class CreateNew extends React.Component {
     return (
       <View style={styles.container}>
         <NavBar
-          title={'Create New'}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           sourceRight={Assets.send.source}

@@ -30,6 +30,7 @@ import {
   isWifi,
   Navigation,
   Setup,
+  I18n,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
@@ -196,7 +197,7 @@ class HomePage extends React.Component {
         isLoading: false,
       });
       this.props.dispatch('SHOW_SNAKE_BAR', {
-        content: 'Welcome to ' + date,
+        content: I18n.t('afterTravel') + ' ' + date,
       });
     }, 2000);
   };

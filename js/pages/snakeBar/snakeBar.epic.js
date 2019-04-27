@@ -1,16 +1,7 @@
 import { ofType } from 'redux-observable';
-import { Observable, timer, interval, from, of } from 'rxjs';
-import {
-  delayWhen,
-  mergeMap,
-  delay,
-  map,
-  mapTo,
-  bufferWhen,
-  switchMap,
-  tap,
-  concatMap,
-} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+import { I18n } from '../../utils';
 const snakeBar = (action$, state$, { dispatch }) =>
   action$.pipe(
     ofType('SHOW_SNAKE_BAR'),
@@ -19,13 +10,14 @@ const snakeBar = (action$, state$, { dispatch }) =>
     // }),
     concatMap(({ payload }) =>
       Observable.create(observer => {
-        const {
+        let {
           type = 'NORMAL',
           content,
           duration = 2000,
           immediate = false,
           onPress = null,
         } = payload;
+        if (type === 'ERROR') content = content || I18n.t('networkError');
         observer.next(
           dispatch('SNAKE_BAR_SET_STATE', {
             ...payload,

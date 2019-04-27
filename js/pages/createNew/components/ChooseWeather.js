@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator, TextInput } from 'react-native';
 import { Button, Text, Selectors } from '../../../../re-kits';
-import { realSize, colors, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import { I18n } from '../../../utils';
 class ChooseWeather extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,7 @@ class ChooseWeather extends Component {
     } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{'Weather:'}</Text>
+        <Text style={styles.text}>{I18n.t('weather') + ':'}</Text>
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
           <Text
             style={{ alignSelf: 'center', marginHorizontal: 10, fontSize: 15 }}

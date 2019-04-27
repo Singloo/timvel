@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { Button, Text } from '../../../../re-kits';
-import { realSize, colors, I18n } from '../../../utils';
-import PropTypes from 'prop-types';
+import { colors, I18n } from '../../../utils';
 import DatePicker from 'react-native-datepicker';
 import DatePrecision from './DatePrecision';
 class ChooseDate extends Component {
@@ -48,7 +47,7 @@ class ChooseDate extends Component {
         {this._renderDatePrecision()}
         {this._renderDatePicker()}
         <Button
-          title={'Today'}
+          title={I18n.t('today')}
           onPress={onPressToday}
           type={'mainBlank'}
           buttonStyle={{
@@ -92,8 +91,8 @@ class ChooseDate extends Component {
           format={'YYYY-MM-DD'}
           // minDate={"2016-05-01"}
           // maxDate={"2016-06-01"}
-          confirmBtnText={'Confirm'}
-          cancelBtnText={'Cancel'}
+          confirmBtnText={I18n.t('confirm')}
+          cancelBtnText={I18n.t('cancel')}
           showIcon={false}
           customStyles={{
             dateInput: {
@@ -105,7 +104,7 @@ class ChooseDate extends Component {
             },
             dateTouchBody: {
               // backgroundColor: 'red',
-              width: realSize(150),
+              width: 150,
             },
           }}
           onDateChange={onChangeDate}

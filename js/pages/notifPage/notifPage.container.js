@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { NavBar, Assets, NAV_BAR_HEIGHT_FULL } from '../../../re-kits';
-import { colors, TAB_BAR_HEIGHT, curried } from '../../utils';
+import { colors, TAB_BAR_HEIGHT, curried, I18n } from '../../utils';
 import InfoCard from './components/InfoCard';
 class NotifPage extends Component {
   componentWillMount() {
@@ -36,7 +36,7 @@ class NotifPage extends Component {
           }}
         >
           <InfoCard
-            title={'回复我的'}
+            title={I18n.t('replies')}
             onPress={curried(this._goTo)('postReplies')}
             numOfMessage={numOfMessage}
             imgSource={Assets.NotificationReplay.source}

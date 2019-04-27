@@ -12,7 +12,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import DatePicker from 'react-native-datepicker';
 import { BlurView } from 'react-native-blur';
-import Moment from 'moment';
 class OneDay extends React.Component {
   constructor(props) {
     super(props);
@@ -34,17 +33,17 @@ class OneDay extends React.Component {
     }
   }
 
-  open() {
+  open = () => {
     const { modalContronller } = this.props;
     LayoutAnimation.configureNext(this.animtion);
     modalContronller(true);
-  }
+  };
 
-  close() {
+  close = () => {
     const { modalContronller } = this.props;
     LayoutAnimation.configureNext(this.animtion);
     modalContronller(false);
-  }
+  };
   render() {
     const { show, onChooseDate } = this.props;
     const { date } = this.state;
@@ -129,12 +128,7 @@ class OneDay extends React.Component {
           hideDayNames={false}
         />
         <View style={styles.textContainer}>
-          <Text
-            style={styles.textStyle}
-            onPress={() => {
-              this.close();
-            }}
-          >
+          <Text style={styles.textStyle} onPress={this.close}>
             {I18n.t('cancel')}
           </Text>
 
