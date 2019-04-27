@@ -87,6 +87,7 @@ const publishProduct = {
   productAvatar: '头像',
   productSticker: '表情包',
   productTitle: '称号',
+  productOneTime: '一次性照片',
 };
 const postReplies = {
   replies: '回复我的',
@@ -103,6 +104,10 @@ const setting = {
   foundNewVersion: '发现新版本啦,要乖乖下载哦',
   download: '下载',
   saveToClipboard: '已经把连接复制到剪切板啦,复制到浏览器下载',
+  oneTimeWarn: '如果你关掉这个页面,需要重新购买~',
+};
+const homePage = {
+  inProgress: '施工中🚧.....',
 };
 export default {
   ...loginPage,
@@ -116,4 +121,5 @@ export default {
   ...postReplies,
   ...notifPage,
   ...setting,
+  ...homePage,
 };

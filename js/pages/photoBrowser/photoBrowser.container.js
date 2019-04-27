@@ -4,7 +4,7 @@
  * Created Date: Thursday April 18th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Friday April 19th 2019 9:58:36 am
+ * Last Modified: Saturday April 27th 2019 6:34:36 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -32,9 +32,12 @@ class Sample extends Component {
   };
   render() {
     const { show, imageUrls, index } = this.props.state;
+    if (!show) {
+      return null;
+    }
     return (
-      // <View style={Styles.absolute}>
-      <Modal visible={show} transparent={true} onDismiss={() => {}}>
+      <View style={Styles.absolute}>
+        {/* <Modal visible={show} transparent={true} onDismiss={() => {}}> */}
         <PhotoBrowser
           imageUrls={imageUrls}
           onCancel={this._onCancel}
@@ -47,8 +50,8 @@ class Sample extends Component {
           )}
         />
         {this._renderHeader()}
-      </Modal>
-      // </View>
+        {/* </Modal> */}
+      </View>
     );
   }
   _renderImage = props => {

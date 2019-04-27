@@ -87,6 +87,7 @@ const publishProduct = {
   productAvatar: 'Avatar',
   productSticker: 'Sticker',
   productTitle: 'Title',
+  productOneTime: 'One-time picture',
 };
 const postReplies = {
   replies: 'Replies',
@@ -104,6 +105,10 @@ const setting = {
   download: 'download',
   saveToClipboard:
     'Saved url to your clipboard, paste it into browser to download',
+  oneTimeWarn: 'If you close this page, you need to buy it again',
+};
+const homePage = {
+  inProgress: 'In progress 🚧.....',
 };
 export default {
   ...loginPage,
@@ -117,4 +122,5 @@ export default {
   ...postReplies,
   ...notifPage,
   ...setting,
+  ...homePage,
 };

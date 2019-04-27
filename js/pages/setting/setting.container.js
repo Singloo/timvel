@@ -4,7 +4,7 @@
  * Created Date: Saturday April 27th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 27th 2019 6:11:23 pm
+ * Last Modified: Saturday April 27th 2019 6:45:21 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -65,6 +65,11 @@ class Sample extends Component {
         this.props.dispatch('SHOW_SNAKE_BAR', {
           content: I18n.t('saveToClipboard'),
           type: 'SUCCESS',
+        });
+      },
+      onNoNewVersion: () => {
+        this.props.dispatch('SHOW_SNAKE_BAR', {
+          content: I18n.t('noNewVersion'),
         });
       },
     });

@@ -71,9 +71,25 @@ class HomePage extends React.Component {
   }
   componentDidMount() {
     HomePageService.ifExistsQuest();
+    this._checkNewVersion();
   }
   componentWillUnmount() {}
-
+  _checkNewVersion = () => {
+    setTimeout(() => {
+      this.props.dispatch('SETTING_CHECK_NEW_VERSION', {
+        onConfirmDownload: link => {
+          if (isIOS) {
+            return;
+          }
+          Clipboard.setString(link);
+          this.props.dispatch('SHOW_SNAKE_BAR', {
+            content: I18n.t('saveToClipboard'),
+            type: 'SUCCESS',
+          });
+        },
+      });
+    }, 2000);
+  };
   _pendingPermissions = () => {
     Permission.checkPhotoPermission()
       .then(() => {})
@@ -182,6 +198,9 @@ class HomePage extends React.Component {
     this.props.dispatch('HOME_PAGE_SET_STATE', {
       date,
     });
+    this.props.dispatch('SHOW_SNAKE_BAR', {
+      content: I18n.t('inProgress'),
+    });
   };
 
   _timeTravel = () => {
@@ -196,10 +215,13 @@ class HomePage extends React.Component {
       this.props.dispatch('GLOBAL_SET_STATE', {
         isLoading: false,
       });
+      // this.props.dispatch('SHOW_SNAKE_BAR', {
+      //   content: I18n.t('afterTravel') + ' ' + date,
+      // });
       this.props.dispatch('SHOW_SNAKE_BAR', {
-        content: I18n.t('afterTravel') + ' ' + date,
+        content: I18n.t('inProgress'),
       });
-    }, 2000);
+    }, 1000);
   };
 
   _onPressSend = (value, callback) => {

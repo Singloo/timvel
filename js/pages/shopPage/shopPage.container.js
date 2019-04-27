@@ -175,7 +175,14 @@ class ShopPage extends Component {
    * @memberof ShopPage
    * show image one time
    */
-  _typeOnetime = product => {};
+  _typeOnetime = product => {
+    this.props.dispatch('PHOTO_BROWSER_SHOW', {
+      images: [product.imageUrl],
+    });
+    this.props.dispatch('SHOW_SNAKE_BAR', {
+      content: I18n.t('oneTimeWarn'),
+    });
+  };
 
   /**
    *
@@ -216,6 +223,7 @@ class ShopPage extends Component {
           style={{ position: 'absolute', top: 0 }}
           sourceRight={Assets.add.source}
           onPressRight={this._onPressRight}
+          blur={true}
         />
         {this._renderConfrimPurchase()}
       </View>

@@ -4,7 +4,7 @@
  * Created Date: Thursday March 14th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Thursday March 21st 2019 10:19:17 am
+ * Last Modified: Saturday April 27th 2019 6:31:05 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -45,7 +45,7 @@ class ProductCard extends React.Component {
   _renderTitle = () => {
     const { product, style } = this.props;
     return (
-      <View style={[styles.titleContainer, , style]}>
+      <View style={[styles.titleContainer, style]}>
         <Title
           title={product.title}
           customStyle={{
@@ -66,6 +66,8 @@ class ProductCard extends React.Component {
           style={style}
           resizeMode={'cover'}
           blur={true}
+          blurAmount={20}
+          blurType={'light'}
         />
       </View>
     );

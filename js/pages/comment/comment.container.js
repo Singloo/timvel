@@ -61,6 +61,7 @@ class Comment extends React.Component {
           title={'comments'}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
+          blur={true}
           style={{ position: 'absolute', top: 0 }}
         />
         <CommentBar onPressSend={this._onPressSend} />

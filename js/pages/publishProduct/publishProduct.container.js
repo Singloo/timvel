@@ -27,7 +27,7 @@ const product_types = [
   'title',
   'draw_title',
 ];
-const available_product_types = ['avatar', 'sticker', 'title'];
+const available_product_types = ['avatar', 'sticker', 'title', 'one_time'];
 const mapTypeToTitle = type => {
   switch (type) {
     case 'avatar':
@@ -36,6 +36,8 @@ const mapTypeToTitle = type => {
       return I18n.t('productSticker');
     case 'title':
       return I18n.t('productTitle');
+    case 'one_time':
+      return I18n.t('productOneTime');
     default:
       return '';
   }

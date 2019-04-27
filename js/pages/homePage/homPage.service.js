@@ -4,11 +4,11 @@
  * Created Date: Monday April 8th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 27th 2019 5:33:51 pm
+ * Last Modified: Saturday April 27th 2019 6:42:25 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
-import { User, Network, isWifi, retry3, apiClient } from '../../utils';
+import { User, Network, isWifi, retry3, apiClient, } from '../../utils';
 import { tap, concatMap, catchError, bufferCount } from 'rxjs/operators';
 import { from, throwError, merge } from 'rxjs';
 class Service {

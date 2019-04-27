@@ -4,13 +4,13 @@
  * Created Date: Saturday April 27th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 27th 2019 6:11:52 pm
+ * Last Modified: Saturday April 27th 2019 6:45:54 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import { ofType } from 'redux-observable';
 import { Observable, pipe, of } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, catchError } from 'rxjs/operators';
 import { retry3, I18n } from '../../utils';
 const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
   action$.pipe(
@@ -20,13 +20,10 @@ const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
         map(({ data }) => data),
         switchMap(data => {
           const { hasNew, link, message } = data;
-          const { onConfirmDownload } = payload;
+          const { onConfirmDownload, onNoNewVersion } = payload;
           if (!hasNew) {
-            return of(
-              dispatch('SHOW_SNAKE_BAR', {
-                content: I18n.t('noNewVersion'),
-              }),
-            );
+            onNoNewVersion && onNoNewVersion();
+            return of(dispatch(null));
           }
           return of(
             dispatch('SHOW_SNAKE_BAR', {
@@ -45,6 +42,7 @@ const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
             }),
           );
         }),
+        catchError(err => of(dispatch(null))),
       ),
     ),
   );
