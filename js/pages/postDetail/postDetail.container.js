@@ -10,6 +10,7 @@ import {
   SCREEN_WIDTH,
   colors,
   PADDING_TOP_FULL,
+  WeatherInfo,
 } from '../../../re-kits';
 import { extractUserFromPost, curried, isIOS } from '../../utils';
 import { UserInfoBar } from '../../components';
@@ -157,10 +158,14 @@ class Sample extends React.PureComponent {
         />
         <Image
           source={Assets.arrow_left.source}
-          style={{ width: 25, height: 25 }}
+          style={{ width: 25, height: 25, marginLeft: 15 }}
           onPress={this._goBack}
           resizeMode={'contain'}
           tintColor={colors.midGrey}
+        />
+        <WeatherInfo
+          weather={this.post.weatherInfo.weather}
+          temperature={this.post.weatherInfo.temperature}
         />
       </View>
     );
@@ -187,7 +192,7 @@ const styles = StyleSheet.create({
     height: NAV_BAR_HEIGHT_FULL,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    justifyContent: 'space-between',
     width: SCREEN_WIDTH,
   },
 });
