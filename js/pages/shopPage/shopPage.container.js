@@ -18,6 +18,7 @@ import {
   showCoinIncreaseAnimation,
   Network,
   I18n,
+  apiClient,
 } from '../../utils';
 import ProductCard from './components/ProductCard';
 import ConfirmPurchase from './pages/ConfirmPurchase';
@@ -123,7 +124,7 @@ class ShopPage extends Component {
   };
 
   _transaction = product => {
-    return Network.apiClient.post('/product/purchase', {
+    return apiClient.post('/product/purchase', {
       buyer_user_id: User.objectId,
       price: product.price,
       product_id: product.productId,

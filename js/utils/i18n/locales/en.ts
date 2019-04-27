@@ -34,7 +34,7 @@ const loginPage = {
   loginTitle: 'See you again',
   signUpTitle: 'Join us',
   isNew: 'New?',
-  haveAnAccount:'Have an account?'
+  haveAnAccount: 'Have an account?',
 };
 const normal = {
   networkError: 'Network error... ',
@@ -94,6 +94,17 @@ const postReplies = {
   noReplies: 'No replies',
 };
 const notifPage = {};
+const setting = {
+  logout: 'Log out',
+  checkVerison: 'Check new version',
+  areYouSureToLogout: 'Are you sure to log out?',
+  seeYouAgain: 'Looking forward to see you again',
+  noNewVersion: 'Current version is latest',
+  foundNewVersion: 'I found a new version~~ Pls download it',
+  download: 'download',
+  saveToClipboard:
+    'Saved url to your clipboard, paste it into browser to download',
+};
 export default {
   ...loginPage,
   ...createNew,
@@ -105,4 +116,5 @@ export default {
   ...publishProduct,
   ...postReplies,
   ...notifPage,
+  ...setting,
 };

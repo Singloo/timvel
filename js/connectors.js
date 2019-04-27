@@ -21,7 +21,9 @@ import postReplies from './pages/postReplies/postReplies.container';
 import postByTag from './pages/postByTag/postByTag.container';
 import photoBrowser from './pages/photoBrowser/photoBrowser.container';
 import camera from './pages/camera/camera.container';
+import setting from './pages/setting/setting.container';
 export {
+  setting,
   camera,
   photoBrowser,
   postByTag,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { NavBar, Assets, NAV_BAR_HEIGHT_FULL } from '../../../re-kits';
 import { colors, TAB_BAR_HEIGHT, curried, I18n } from '../../utils';
-import InfoCard from './components/InfoCard';
+import { InfoBar } from '../../components';
 class NotifPage extends Component {
   componentWillMount() {
     this.props.dispatch('NOTIFI_PAGE_FETCH_COMMENTS');
@@ -35,7 +35,7 @@ class NotifPage extends Component {
             paddingTop: NAV_BAR_HEIGHT_FULL,
           }}
         >
-          <InfoCard
+          <InfoBar
             title={I18n.t('replies')}
             onPress={curried(this._goTo)('postReplies')}
             numOfMessage={numOfMessage}

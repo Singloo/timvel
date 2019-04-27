@@ -1,18 +1,8 @@
-import Axios from 'axios';
-import { CameraRoll, Platform } from 'react-native';
+import { CameraRoll } from 'react-native';
 import RNFS from 'react-native-fs';
-import { API_V1, darkSkyKey } from '../constants';
+import { darkSkyKey } from '../constants';
 const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
-const axios = Axios.create({
-  timeout: 10000,
-});
-const apiClient = Axios.create({
-  timeout: 20000,
-  baseURL: API_V1,
-  headers: {
-    platfrom: Platform.OS,
-  },
-});
+import { apiClient, axios } from './httpClient';
 async function getIpInfo() {
   return axios.get('http://ip-api.com/json');
 }
@@ -90,5 +80,4 @@ export {
   getWeatherInfoToday,
   saveImageToAlbum,
   getUserInfo,
-  apiClient,
 };

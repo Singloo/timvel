@@ -1,13 +1,17 @@
+/*
+ * File: /Users/origami/Desktop/timvel/js/components/InfoCard.js
+ * Project: /Users/origami/Desktop/timvel
+ * Created Date: Saturday April 27th 2019
+ * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
+ * -----
+ * Last Modified: Saturday April 27th 2019 5:14:04 pm
+ * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
+ * -----
+ */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Image, Assets, Touchable } from '../../../../re-kits';
-import {
-  SCREEN_WIDTH,
-  colors,
-  colorSets,
-  randomItem,
-  I18n,
-} from '../../../utils';
+import { Text, Image, Assets, Touchable } from '../../re-kits';
+import { SCREEN_WIDTH, colors, colorSets, randomItem, I18n } from '../utils';
 const item_height = 60;
 const item_width = SCREEN_WIDTH;
 const RED_DOT_SIZE = 24;
@@ -26,7 +30,11 @@ class Card extends Component {
     const { title, onPress, style, imgSource } = this.props;
     return (
       <Touchable style={[styles.container, style]} onPress={onPress}>
-        <Image source={imgSource || Assets.bk3.source} size={'small'} />
+        {imgSource ? (
+          <Image source={imgSource} size={'small'} />
+        ) : (
+          <View style={{ width: 24 }} />
+        )}
         <Text style={styles.text}>{title}</Text>
         {this._renderRedDot()}
         <Image
@@ -52,7 +60,6 @@ class Card extends Component {
     );
   };
 }
-Card.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

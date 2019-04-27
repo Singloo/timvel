@@ -4,11 +4,11 @@
  * Created Date: Wednesday March 6th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Wednesday April 10th 2019 10:40:33 am
+ * Last Modified: Saturday April 27th 2019 5:34:41 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
-import { apiClient } from './Network';
+import { apiClient } from './httpClient';
 import { retry3, HANDLE } from './$helper';
 import { clearTimers } from './helper';
 import { INotification } from '../models';

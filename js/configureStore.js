@@ -1,11 +1,17 @@
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers';
 import epics from './epics';
-import { User, I18n, Network, OSS, Navigation } from './utils';
+import {
+  User,
+  I18n,
+  Network,
+  OSS,
+  Navigation,
+  apiClient as httpClient,
+} from './utils';
 import { createEpicMiddleware } from 'redux-observable';
 // import logger from 'redux-logger';
 import { $retryDelay } from './utils/$helper';
-const httpClient = Network.apiClient;
 const dispatch = (type, payload) => ({
   type,
   payload: payload || {},

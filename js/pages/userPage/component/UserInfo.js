@@ -6,6 +6,8 @@ import {
   Styles,
   AnimatedImage,
   Touchable,
+  Image,
+  Assets,
 } from '../../../../re-kits';
 import { SCREEN_WIDTH, colors, isIOS } from '../../../utils';
 import Title from '../../../components/Title';

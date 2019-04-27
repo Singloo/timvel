@@ -72,6 +72,9 @@ const SimpleApp = createStackNavigator(
     camera: {
       screen: Connectors.camera,
     },
+    setting: {
+      screen: Connectors.setting,
+    },
   },
   {
     headerMode: 'none',

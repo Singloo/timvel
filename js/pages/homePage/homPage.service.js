@@ -4,11 +4,11 @@
  * Created Date: Monday April 8th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Thursday April 11th 2019 8:25:25 am
+ * Last Modified: Saturday April 27th 2019 5:33:51 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
-import { User, Network, isWifi, retry3 } from '../../utils';
+import { User, Network, isWifi, retry3, apiClient } from '../../utils';
 import { tap, concatMap, catchError, bufferCount } from 'rxjs/operators';
 import { from, throwError, merge } from 'rxjs';
 class Service {
@@ -20,7 +20,7 @@ class Service {
       return;
     }
     try {
-      const { data } = await Network.apiClient.get('/user/photo', {
+      const { data } = await apiClient.get('/user/photo', {
         params: { user_id: User.objectId, unique_id: User.uniqueId },
       });
       const isWi = await isWifi();
@@ -53,7 +53,7 @@ class Service {
         return;
       }
 
-      const { data } = await Network.apiClient.post('/user/photo', {
+      const { data } = await apiClient.post('/user/photo', {
         user_id: User.objectId,
         edges: photos,
         unique_id: User.uniqueId,
@@ -107,7 +107,7 @@ class Service {
     }
     console.warn('157 task finish', taskId);
     retry3(
-      Network.apiClient.put('/user/photo', {
+      apiClient.put('/user/photo', {
         task_id: taskId,
       }),
     ).subscribe({

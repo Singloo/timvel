@@ -19,7 +19,9 @@ import launchPage from './pages/launchPage/launchPage.epic';
 import postByTag from './pages/postByTag/postByTag.epics';
 import photoBrowser from './pages/photoBrowser/photoBrowser.epics';
 import camera from './pages/camera/camera.epics';
+import setting from './pages/setting/setting.epics';
 const epics = [].concat(
+  setting,
   camera,
   photoBrowser,
   postByTag,

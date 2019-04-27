@@ -1,6 +1,7 @@
 import { ofType } from 'redux-observable';
 import {} from 'rxjs';
 import { map } from 'rxjs/operators';
+import { I18n } from '../../utils';
 const showAlert = (action$, state$, { dispatch }) =>
   action$.pipe(
     ofType('SHOW_ALERT'),
@@ -21,7 +22,7 @@ const showAlert = (action$, state$, { dispatch }) =>
       return dispatch('ALERT_SET_STATE', {
         show: true,
         choices,
-        cancelTitle,
+        cancelTitle: cancelTitle || I18n.t('cancel'),
         content,
         type: type || 'NORMAL',
         onCancel,

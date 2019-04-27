@@ -3,9 +3,7 @@ import { invoke } from './helper';
 import { $CENTER, $TYPES } from './$observable';
 import DeviceInfo from 'react-native-device-info';
 import { retry3, $retryDelay } from './$helper';
-import { map, switchMap } from 'rxjs/operators';
-import { from, of } from 'rxjs';
-import { apiClient } from './Network';
+import { apiClient } from './httpClient';
 import { Platform } from 'react-native';
 const dispatch = (type: string, payload = {}) => ({ type, payload });
 class UUer {

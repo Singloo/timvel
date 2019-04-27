@@ -51,6 +51,7 @@ const login = (action$, state$, { dispatch, User }) =>
             }),
           );
           callback && callback();
+          observer.complete();
         } catch (error) {
           observer.next(
             dispatch('GLOBAL_SET_STATE', {
@@ -58,7 +59,12 @@ const login = (action$, state$, { dispatch, User }) =>
             }),
           );
           console.warn(error);
-        } finally {
+          observer.next(
+            dispatch('SHOW_SNAKE_BAR', {
+              content: error.rawMessage || I18n.t('networkError'),
+              type: 'ERROR',
+            }),
+          );
           observer.complete();
         }
       }),

@@ -22,7 +22,9 @@ import postReplies from './pages/postReplies/postReplies.reducer';
 import postByTag from './pages/postByTag/postByTag.reducer';
 import photoBrowser from './pages/photoBrowser/photoBrowser.reducer';
 import camera from './pages/camera/camera.reducer';
+import setting from './pages/setting/setting.reducer';
 const reducers = combineReducers({
+  setting,
   camera,
   photoBrowser,
   postByTag,

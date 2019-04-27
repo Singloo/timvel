@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, ScrollView, Animated } from 'react-native';
-import { Button, NavBar, Image, InfiniteText, Text } from '../../../re-kits';
+import { StyleSheet, View } from 'react-native';
+import {
+  Button,
+  Image,
+  Assets,
+  PADDING_TOP_FULL,
+  colors,
+} from '../../../re-kits';
 import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -43,21 +49,19 @@ class UserPage extends Component {
     this.props.dispatch('USER_PAGE_FETCH_USER_TITLES');
   };
   _generateRandomButtons = () => {
-    for (var i = 0; i <= 50; i++) {
-      var x = parseInt(Math.random() * SCREEN_WIDTH, 10);
-      var y = parseInt(Math.random() * SCREEN_HEIGHT, 10);
-      var coordinate = {
+    this.tempLocations = [];
+    for (let i = 0; i <= 50; i++) {
+      let x = parseInt(Math.random() * SCREEN_WIDTH, 10);
+      let y = parseInt(Math.random() * SCREEN_HEIGHT, 10);
+      let coordinate = {
         x,
         y,
       };
       this.tempLocations.push(coordinate);
-
-      if (i == 20) {
-        this.props.dispatch('USER_SET_STATE', {
-          buttonLocations: this.tempLocations,
-        });
-      }
     }
+    this.props.dispatch('USER_SET_STATE', {
+      buttonLocations: this.tempLocations,
+    });
   };
 
   _onPressLogin = () => {
@@ -65,8 +69,7 @@ class UserPage extends Component {
       routeName: 'login',
     });
   };
-  _onPressLogout = () => {
-    User.logOut();
+  _logOutCallback = () => {
     this.props.dispatch('USER_RESET_STATE');
     this._generateRandomButtons();
     this._initUserMountListener();
@@ -125,6 +128,11 @@ class UserPage extends Component {
       }
     } catch (error) {}
   };
+  _onPressSetting = () => {
+    Navigation.navigate('setting', {
+      logOutCallback: this._logOutCallback,
+    });
+  };
   render() {
     const { buttonLocations, userPosts, userTitles } = this.props.state;
     const renderButton = buttonLocations.map((item, index) => {
@@ -158,10 +166,21 @@ class UserPage extends Component {
           onPressCard={this._goToPostDetail}
           onPressAvatar={this._onPressAvatar}
         />
-        <Button title={'log out'} onPress={this._onPressLogout} />
+        {this._renderSetting()}
       </View>
     );
   }
+  _renderSetting = () => {
+    return (
+      <Image
+        source={Assets.setting.source}
+        style={{ position: 'absolute', top: PADDING_TOP_FULL + 10, right: 20 }}
+        tintColor={colors.white}
+        size={'small'}
+        onPress={this._onPressSetting}
+      />
+    );
+  };
 }
 
 const styles = StyleSheet.create({

@@ -94,6 +94,16 @@ const postReplies = {
   noReplies: '还没有人回复过你...',
 };
 const notifPage = {};
+const setting = {
+  logout: '退出登录',
+  checkVerison: '检查新版本',
+  areYouSureToLogout: '确定退出登录吗?',
+  seeYouAgain: '我会在这里等你的',
+  noNewVersion: '已经是最新的app了, 好棒',
+  foundNewVersion: '发现新版本啦,要乖乖下载哦',
+  download: '下载',
+  saveToClipboard: '已经把连接复制到剪切板啦,复制到浏览器下载',
+};
 export default {
   ...loginPage,
   ...createNew,
@@ -105,4 +115,5 @@ export default {
   ...publishProduct,
   ...postReplies,
   ...notifPage,
+  ...setting,
 };
