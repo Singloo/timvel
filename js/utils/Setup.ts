@@ -88,7 +88,7 @@ const getProp = (store: any, path: string) => {
 };
 class handleBack {
   navigation?: NavigationContainer;
-  handlers: { [routeName: string]: () => void } = {};
+  handlers: { [routeName: string]: () => boolean } = {};
   lastPressTime: number = Date.now();
   preventDoublePress: number = Date.now();
   init = (navigation: NavigationContainer, store: any) => {
@@ -112,6 +112,15 @@ class handleBack {
       return null;
     }
     return this.navigation.state.nav.routes;
+  };
+  _handleExitApp = () => {
+    if (Date.now() - this.lastPressTime < 1000) {
+      BackHandler.exitApp();
+      return true;
+    }
+    ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+    this.lastPressTime = Date.now();
+    return true;
   };
   _onBackPress = (store: any) => () => {
     if (Date.now() - this.preventDoublePress < 400) {
@@ -141,16 +150,13 @@ class handleBack {
       );
       const handler = this.handlers[currentRouteName];
       if (typeof handler === 'function') {
-        handler();
-        return true;
+        const bool = handler();
+        if (bool) {
+          return true;
+        }
+        return this._handleExitApp();
       }
-      if (Date.now() - this.lastPressTime < 1000) {
-        BackHandler.exitApp();
-        return true;
-      }
-      ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
-      this.lastPressTime = Date.now();
-      return true;
+      return this._handleExitApp();
     }
     if (routes.length > 1) {
       const currentRouteName = get(
@@ -166,13 +172,7 @@ class handleBack {
       Navigation.back();
       return true;
     }
-    if (Date.now() - this.lastPressTime < 1000) {
-      BackHandler.exitApp();
-      return true;
-    }
-    ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
-    this.lastPressTime = Date.now();
-    return true;
+    return this._handleExitApp();
   };
 }
 
