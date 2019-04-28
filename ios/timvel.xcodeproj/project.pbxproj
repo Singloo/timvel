@@ -26,6 +26,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		150A3563207DFDDE000FA7A8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150A3561207DFDDD000FA7A8 /* Fabric.framework */; };
 		150A3564207DFDDE000FA7A8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150A3562207DFDDE000FA7A8 /* Crashlytics.framework */; };
+		155AB973227533F800CD3C97 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 155AB975227533F900CD3C97 /* InfoPlist.strings */; };
 		156AD7B7211E9E8C005FBB79 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 156AD78C211E9E8C005FBB79 /* libresolv.tbd */; };
 		156AD7B9211E9E96005FBB79 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156AD7B8211E9E96005FBB79 /* CoreTelephony.framework */; };
 		156AD7BB211E9E9D005FBB79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156AD7BA211E9E9D005FBB79 /* SystemConfiguration.framework */; };
@@ -453,6 +454,8 @@
 		150A3562207DFDDE000FA7A8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		151362BE226E9BEF00EE4937 /* timvel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = timvel.entitlements; path = timvel/timvel.entitlements; sourceTree = "<group>"; };
 		151BCE5E07A5409D8F58345C /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		155AB93F2275338F00CD3C97 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		155AB974227533F900CD3C97 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		156AD78C211E9E8C005FBB79 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		156AD7B8211E9E96005FBB79 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		156AD7BA211E9E9D005FBB79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -662,6 +665,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				155AB975227533F900CD3C97 /* InfoPlist.strings */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -996,6 +1000,7 @@
 				English,
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1447,6 +1452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				155AB973227533F800CD3C97 /* InfoPlist.strings in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				835C419AED914F87A1FB2E90 /* Entypo.ttf in Resources */,
 				109A82CA9FEE485091EB2E0B /* EvilIcons.ttf in Resources */,
@@ -1624,9 +1630,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				155AB93F2275338F00CD3C97 /* zh-Hans */,
 			);
 			name = LaunchScreen.xib;
 			path = timvel;
+			sourceTree = "<group>";
+		};
+		155AB975227533F900CD3C97 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				155AB974227533F900CD3C97 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

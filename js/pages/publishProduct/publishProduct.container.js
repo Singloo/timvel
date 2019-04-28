@@ -49,7 +49,9 @@ class Sample extends Component {
   }
   componentWillMount() {}
   componentDidMount() {}
-
+  componentWillUnmount() {
+    this.props.dispatch('PUBLISH_PRODUCT_RESET_STATE');
+  }
   _onPressKey = ({ nativeEvent }) => {
     if (nativeEvent.key == 'Enter') {
       this._scrollToEnd();

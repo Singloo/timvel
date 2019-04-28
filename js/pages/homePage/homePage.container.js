@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  StatusBar,
-  Animated,
-  CameraRoll,
-  BackHandler,
-} from 'react-native';
+import { StyleSheet, View, StatusBar, Animated } from 'react-native';
 import {
   Assets,
   ActionButton,
@@ -23,11 +16,7 @@ import {
   curried,
   Vibration,
   Permission,
-  Network,
-  retry3,
   User,
-  OSS,
-  isWifi,
   Navigation,
   Setup,
   I18n,
@@ -53,15 +42,19 @@ class HomePage extends React.Component {
       nscrollY: new Animated.Value(0),
     };
     this.taskCount = 0;
-    Setup.HandleBack.addHandler('homePage', this.onBackButtonPressAndroid);
+    Setup.HandleBack.addHandler('Home', this.onBackButtonPressAndroid);
   }
   onBackButtonPressAndroid = () => {
-    const { showDetail } = this.props.state;
+    const { showDetail, showOneDay } = this.props.state;
+    if (showOneDay) {
+      this._oneDay && this._oneDay.close();
+      return;
+    }
     if (showDetail) {
       this._contentDetail && this._contentDetail.onPressClose();
       return true;
     } else {
-      Navigation.back();
+      // Navigation.back();
       return false;
     }
   };
@@ -423,7 +416,7 @@ class HomePage extends React.Component {
         data={posts}
         scrollEventThrottle={6}
         initialNumToRender={5}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.2}
         keyExtractor={(_, index) => 'hpi' + index}
         // getItemLayout={(data, index) => ({
         //   length: cardHeight,

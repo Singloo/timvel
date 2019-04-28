@@ -1,7 +1,7 @@
 import {} from 'rxjs';
 import { map, delay, startWith } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
-const WAIT_TIME = __DEV__ ? 300 * 1.5 : 3000 * 1;
+const WAIT_TIME = __DEV__ ? 300 * 1.5 : 2000 * 1;
 const initApp = (action$, _, { navigation, dispatch }) =>
   action$.pipe(
     ofType('INIT_APP'),

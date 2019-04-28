@@ -77,13 +77,23 @@ export const connect2 = (
       container,
     );
 };
+const getProp = (store: any, path: string) => {
+  if (!store) {
+    return null;
+  }
+  if (typeof store.getState !== 'function') {
+    return null;
+  }
+  return get(store.getState(), path, null);
+};
 class handleBack {
   navigation?: NavigationContainer;
   handlers: { [routeName: string]: () => void } = {};
   lastPressTime: number = Date.now();
-  init = (navigation: NavigationContainer) => {
+  preventDoublePress: number = Date.now();
+  init = (navigation: NavigationContainer, store: any) => {
     this.navigation = navigation;
-    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+    BackHandler.addEventListener('hardwareBackPress', this._onBackPress(store));
   };
   addHandler = (routeName: string, handler: () => void) => {
     if (isIOS) {
@@ -103,10 +113,44 @@ class handleBack {
     }
     return this.navigation.state.nav.routes;
   };
-  _onBackPress = () => {
+  _onBackPress = (store: any) => () => {
+    if (Date.now() - this.preventDoublePress < 400) {
+      this.preventDoublePress = Date.now();
+      return true;
+    }
+    this.preventDoublePress = Date.now();
     const routes = this._getRoutes();
     if (!routes) {
       return false;
+    }
+    if (getProp(store, 'photoBrowser.show')) {
+      store.dispatch({
+        type: 'PHOTO_BROWSER_SET_STATE',
+        payload: {
+          show: false,
+        },
+      });
+      return true;
+    }
+    if (routes.length === 1) {
+      const route = routes[0];
+      const currentRouteName = get(
+        route.routes,
+        `[${route.index}].routeName`,
+        null,
+      );
+      const handler = this.handlers[currentRouteName];
+      if (typeof handler === 'function') {
+        handler();
+        return true;
+      }
+      if (Date.now() - this.lastPressTime < 1000) {
+        BackHandler.exitApp();
+        return true;
+      }
+      ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+      this.lastPressTime = Date.now();
+      return true;
     }
     if (routes.length > 1) {
       const currentRouteName = get(

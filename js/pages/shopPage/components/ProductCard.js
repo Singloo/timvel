@@ -60,7 +60,7 @@ class ProductCard extends React.Component {
           textStyle={{ marginLeft: 5, fontSize: 16 }}
         />
         <Text style={{ color: colors.deepOrange }} onPress={onPressPurchase}>
-          {'Purchase'}
+          {I18n.t('purchase')}
         </Text>
       </View>
     );

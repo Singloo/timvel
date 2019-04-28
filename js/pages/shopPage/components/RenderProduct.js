@@ -4,7 +4,7 @@
  * Created Date: Thursday March 14th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 27th 2019 6:31:05 pm
+ * Last Modified: Sunday April 28th 2019 9:44:31 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -68,6 +68,7 @@ class ProductCard extends React.Component {
           blur={true}
           blurAmount={20}
           blurType={'light'}
+          processType={'post'}
         />
       </View>
     );

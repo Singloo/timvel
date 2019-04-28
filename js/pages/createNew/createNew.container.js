@@ -22,16 +22,35 @@ import {
   subscribeUploadImages,
   generateUnsplashImageObj,
   generateLocalImageObj,
+  Setup,
+  Navigation,
 } from '../../utils';
 import { getRandomPhoto } from '../../utils/Unsplash';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
-@connect2('createNew')
+@connect2('createNew', {
+  stateMapper: ({ global, createNew, addTag }) => ({
+    global,
+    state: createNew,
+    addTag,
+  }),
+})
 class CreateNew extends React.Component {
   autoUploadSubscription;
   constructor(props) {
     super(props);
+    Setup.HandleBack.addHandler('createNew', this.onBackButtonPressAndroid);
   }
+  onBackButtonPressAndroid = () => {
+    const { show } = this.props.addTag;
+    if (show) {
+      this._addTag && this._addTag.getWrappedInstance().close();
+      return true;
+    } else {
+      Navigation.back();
+      return true;
+    }
+  };
   componentWillMount() {}
 
   componentDidMount() {

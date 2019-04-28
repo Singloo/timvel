@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.51</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>7</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -57,6 +57,24 @@
 	<string>This app needs access to your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to your photo library</string>
+  <key>NSBluetoothPeripheralUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSCameraUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>We need your permission to continue</string>
+  <key>NSMotionUsageDescription</key>
+  <string>We need your permission to continue</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

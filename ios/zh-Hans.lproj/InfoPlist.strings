@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  timvel
+
+  Created by Meanless on 2019/4/28.
+  Copyright © 2019 Facebook. All rights reserved.
+*/
+CFBundleDisplayName = "回溯";
