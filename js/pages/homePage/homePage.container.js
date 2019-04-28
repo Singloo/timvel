@@ -48,7 +48,7 @@ class HomePage extends React.Component {
     const { showDetail, showOneDay } = this.props.state;
     if (showOneDay) {
       this._oneDay && this._oneDay.close();
-      return;
+      return true;
     }
     if (showDetail) {
       this._contentDetail && this._contentDetail.onPressClose();
