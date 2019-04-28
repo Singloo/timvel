@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>8</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -51,30 +51,26 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We need your permission to continue</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We need your permission to continue</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need your permission to continue</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to your camera</string>
+	<string>We need your permission to continue</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your permission to continue</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app needs access to your microphone</string>
+	<key>NSMotionUsageDescription</key>
+	<string>We need your permission to continue</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need your permission to continue</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to your photo library</string>
-  <key>NSBluetoothPeripheralUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSCalendarsUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSCameraUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSPhotoLibraryAddUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSSpeechRecognitionUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSAppleMusicUsageDescription</key>
-  <string>We need your permission to continue</string>
-  <key>NSMotionUsageDescription</key>
-  <string>We need your permission to continue</string>
+	<string>We need your permission to continue</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We need your permission to continue</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
