@@ -30,6 +30,7 @@ import {
   I18n,
   isAndroid,
   isIOS,
+  Notification,
 } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
@@ -198,6 +199,9 @@ class Login extends Component {
     this.props.dispatch('SHOW_SNAKE_BAR', {
       content: I18n.t('welcome'),
     });
+    if (isIOS) {
+      Notification.IOSinitPush();
+    }
   };
   render() {
     const { onLoginPage, showSignUpPage } = this.props.state;

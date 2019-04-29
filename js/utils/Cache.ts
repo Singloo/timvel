@@ -4,7 +4,7 @@
  * Created Date: Sunday March 24th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 13th 2019 11:14:29 am
+ * Last Modified: Sunday April 28th 2019 6:51:13 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -44,6 +44,7 @@ const generateCommonKeys = (keyName: string, type: TCacheType = 'array') => (
 });
 const USER_POSTS_CACHE_KEYS = generateCommonKeys('userPosts');
 const POSTS_BY_TAG_KEYS = generateCommonKeys('postsByTag', 'array');
+const VERSION_CHECK_KEYS = generateCommonKeys('appVersion', 'string');
 const _switchCacheResult = (result: null | string, key: ICacheKey) => {
   if (result === null) {
     return result;
@@ -59,7 +60,9 @@ const _switchCacheResult = (result: null | string, key: ICacheKey) => {
   }
   return result;
 };
-const set = (key: ICacheKey, value: any) => {
+function set(key: ICacheKey, value: any): Promise<any>;
+function set(key: ICacheKey, value: any, noReturn: boolean): void;
+function set(key: ICacheKey, value: any, noReturn?: boolean) {
   if (!value) {
     throw new Error('value cannot be empty');
   }
@@ -69,8 +72,13 @@ const set = (key: ICacheKey, value: any) => {
   if (key.type === 'number' || key.type === 'float') {
     value = value.toString();
   }
+  if (noReturn === true) {
+    AsyncStorage.setItem(key.key, value)
+      .then(() => {})
+      .catch(() => {});
+  }
   return AsyncStorage.setItem(key.key, value);
-};
+}
 
 const get = async (key: ICacheKey) => {
   const result = await AsyncStorage.getItem(key.key);
@@ -89,4 +97,5 @@ export default {
   CACHE_KEYS,
   USER_POSTS_CACHE_KEYS,
   POSTS_BY_TAG_KEYS,
+  VERSION_CHECK_KEYS,
 };

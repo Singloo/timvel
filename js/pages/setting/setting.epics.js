@@ -4,13 +4,13 @@
  * Created Date: Saturday April 27th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 27th 2019 6:45:54 pm
+ * Last Modified: Sunday April 28th 2019 6:58:00 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import { ofType } from 'redux-observable';
-import { Observable, pipe, of } from 'rxjs';
-import { map, mergeMap, switchMap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { retry3, I18n } from '../../utils';
 const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
   action$.pipe(
@@ -20,7 +20,7 @@ const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
         map(({ data }) => data),
         switchMap(data => {
           const { hasNew, link, message } = data;
-          const { onConfirmDownload, onNoNewVersion } = payload;
+          const { onConfirmDownload, onNoNewVersion, onCancel } = payload;
           if (!hasNew) {
             onNoNewVersion && onNoNewVersion();
             return of(dispatch(null));
@@ -31,7 +31,7 @@ const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
               type: 'SUCCESS',
             }),
             dispatch('SHOW_ALERT', {
-              title: `What's new?`,
+              title: I18n.t('foundNewVersion'),
               content: message,
               choices: [
                 {
@@ -39,6 +39,7 @@ const checkNewVersion = (action$, _, { httpClient, dispatch }) =>
                   onPress: () => onConfirmDownload && onConfirmDownload(link),
                 },
               ],
+              onCancel,
             }),
           );
         }),

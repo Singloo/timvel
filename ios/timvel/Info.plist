@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>9</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -58,6 +58,8 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>NSCameraUsageDescription</key>
+	<string>We need your permission to continue</string>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your permission to continue</string>

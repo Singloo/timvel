@@ -9,11 +9,12 @@ import {
 import Installation from 'leancloud-installation';
 import User from './User';
 const AndroidNotification = NativeModules.AndroidNotification;
-export default class Notification {
-  Installation: Installation;
-  constructor(installation: Installation) {
+class Notification {
+  Installation?: Installation;
+  constructor() {}
+  init = (installation: Installation) => {
     this.Installation = installation;
-  }
+  };
   IOSinitPush = () => {
     PushNotificationIOS.addEventListener('register', this.IOSonRegister);
     PushNotificationIOS.addEventListener(
@@ -99,3 +100,4 @@ export default class Notification {
     });
   };
 }
+export default new Notification();

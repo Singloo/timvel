@@ -4,12 +4,12 @@
  * Created Date: Saturday April 27th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday April 27th 2019 6:45:21 pm
+ * Last Modified: Sunday April 28th 2019 6:56:04 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Clipboard } from 'react-native';
+import { StyleSheet, View, ScrollView, Clipboard, Linking } from 'react-native';
 import {
   Button,
   NavBar,
@@ -20,10 +20,11 @@ import {
   SCREEN_WIDTH,
   colors,
 } from '../../../re-kits';
-import { I18n, User, apiClient, retry3, isIOS } from '../../utils';
+import { I18n, User, apiClient, retry3, isIOS, Cache } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { InfoBar } from '../../components';
-import { map } from 'rxjs/operators';
+import {} from 'rxjs/operators';
+import DeviceInfo from 'react-native-device-info';
 @connect2('setting')
 class Sample extends Component {
   componentWillMount() {
@@ -59,6 +60,7 @@ class Sample extends Component {
     this.props.dispatch('SETTING_CHECK_NEW_VERSION', {
       onConfirmDownload: link => {
         if (isIOS) {
+          Linking.openURL('https://itunes.apple.com/cn/app/id1461661373');
           return;
         }
         Clipboard.setString(link);
@@ -71,6 +73,13 @@ class Sample extends Component {
         this.props.dispatch('SHOW_SNAKE_BAR', {
           content: I18n.t('noNewVersion'),
         });
+      },
+      onCancel: () => {
+        Cache.set(
+          Cache.VERSION_CHECK_KEYS(DeviceInfo.getReadableVersion()),
+          'true',
+          true,
+        );
       },
     });
   };

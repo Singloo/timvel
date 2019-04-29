@@ -9,7 +9,14 @@ import {
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';
-import { Setup, isIOS, Notification, Navigation } from './utils';
+import {
+  Setup,
+  isIOS,
+  Notification,
+  Navigation,
+  isAndroid,
+  User,
+} from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
 import { CoinTransactionAnimation } from './components/CoinTransactionAnimation';
@@ -49,13 +56,9 @@ export default class App extends React.Component {
     // this._unsubscribeBackHandler();
   }
   _setupNotification = async () => {
-    let notification = new Notification(installation);
-    if (isIOS) {
-      setTimeout(() => {
-        notification.IOSinitPush();
-      }, 500);
-    } else {
-      notification.AndroidinitPush();
+    Notification.init(installation);
+    if (isAndroid) {
+      Notification.AndroidinitPush();
     }
   };
   onBackButtonPressAndroid = () => {

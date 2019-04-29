@@ -20,6 +20,9 @@ import {
   Navigation,
   Setup,
   I18n,
+  Cache,
+  Notification,
+  isIOS,
 } from '../../utils';
 import MainCard from './components/MainCardWithSideTimeLine';
 import CarouselCard from './components/CarouselCard';
@@ -28,6 +31,7 @@ import OneDay from './pages/OneDay';
 import HeaderBar from './components/HeaderBar';
 import { get } from 'lodash';
 import { HomePageService } from './homPage.service';
+import DeviceInfo from 'react-native-device-info';
 // import { AnimatedWrapper } from '../../../re-kits/animationEasy/';
 const getGradientColors = (colors, currentIndex) => [
   colors[currentIndex],
@@ -65,22 +69,49 @@ class HomePage extends React.Component {
   componentDidMount() {
     HomePageService.ifExistsQuest();
     this._checkNewVersion();
+    this._setupIosNotification();
   }
   componentWillUnmount() {}
-  _checkNewVersion = () => {
-    setTimeout(() => {
-      this.props.dispatch('SETTING_CHECK_NEW_VERSION', {
-        onConfirmDownload: link => {
-          if (isIOS) {
-            return;
-          }
-          Clipboard.setString(link);
-          this.props.dispatch('SHOW_SNAKE_BAR', {
-            content: I18n.t('saveToClipboard'),
-            type: 'SUCCESS',
-          });
-        },
-      });
+  _setupIosNotification = () => {
+    if (isIOS && User.isLoggedIn) {
+      Notification.IOSinitPush();
+    }
+  };
+  _checkNewVersion = async () => {
+    setTimeout(async () => {
+      try {
+        const dontRemind = await Cache.get(
+          Cache.VERSION_CHECK_KEYS(DeviceInfo.getReadableVersion()),
+        );
+        if (dontRemind === 'true') {
+          return;
+        }
+        this.props.dispatch('SETTING_CHECK_NEW_VERSION', {
+          onConfirmDownload: link => {
+            if (isIOS) {
+              Linking.openURL('https://itunes.apple.com/cn/app/id1461661373');
+              return;
+            }
+            Clipboard.setString(link);
+            this.props.dispatch('SHOW_SNAKE_BAR', {
+              content: I18n.t('saveToClipboard'),
+              type: 'SUCCESS',
+            });
+            Cache.set(
+              Cache.VERSION_CHECK_KEYS(DeviceInfo.getReadableVersion()),
+              'true',
+              true,
+            );
+          },
+          onCancel: () => {
+            Cache.set(
+              Cache.VERSION_CHECK_KEYS(DeviceInfo.getReadableVersion()),
+              'true',
+              true,
+            );
+          },
+        });
+      } catch (err) {}
     }, 2000);
   };
   _pendingPermissions = () => {
