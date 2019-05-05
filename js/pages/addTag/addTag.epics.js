@@ -39,10 +39,11 @@ const insertTag = (action$, state$, { httpClient, dispatch }) =>
               content: 'Tag added!',
             }),
           );
-          callback && callback({ tag, popularity: 0, ...data });
+          if (typeof callback === 'function')
+            callback({ tag, popularity: 0, ...data });
+          observer.complete();
         } catch (error) {
           console.warn(error);
-        } finally {
           observer.complete();
         }
       }),

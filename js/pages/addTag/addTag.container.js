@@ -150,7 +150,10 @@ class AddTag extends React.Component {
     Keyboard.dismiss();
     this.props.dispatch('ADD_TAG_ADD_TAG', {
       tag,
-      callback: invoke(this._onPressNewTag, this.close),
+      callback: tag => {
+        this._onPressNewTag(tag);
+        this.close();
+      },
     });
   };
 
@@ -171,7 +174,7 @@ class AddTag extends React.Component {
     });
     const height = this.state.animationState.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, SCREEN_HEIGHT],
+      outputRange: [SCREEN_HEIGHT, 0],
     });
     return (
       <Animated.View
@@ -181,7 +184,7 @@ class AddTag extends React.Component {
           style={[
             styles.contentContainer,
             {
-              height,
+              marginTop: height,
             },
           ]}
         >
@@ -302,11 +305,15 @@ class AddTag extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: { justifyContent: 'flex-end', zIndex: 2 },
+  container: {
+    // justifyContent: 'flex-end',
+    // zIndex: 2,
+  },
   contentContainer: {
     width: SCREEN_WIDTH,
     backgroundColor: colors.white,
     paddingHorizontal: 10,
+    flex: 1,
   },
   close: {
     paddingTop: PADDING_TOP_FULL,
