@@ -1,37 +1,45 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, Image, InfiniteText, Assets } from '../../../../re-kits';
+import {
+  Button,
+  Text,
+  Image,
+  InfiniteText,
+  Assets,
+  Touchable,
+} from '../../../../re-kits';
 import { colors, I18n } from '../../../utils';
 class Card extends Component {
   componentWillMount() {}
 
   render() {
-    const { index, comment } = this.props;
+    const { index, comment, onLongPress } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.headContainer}>
-          <Image
-            source={{ uri: comment.avatar }}
-            size={'regular'}
-            isRound={true}
-          />
-          <InfiniteText
-            text={comment.username}
-            style={{ marginHorizontal: 10 }}
-          />
-          <Text style={styles.subText}>{index}</Text>
+      <Touchable withoutFeedback={true} onLongPress={onLongPress}>
+        <View style={styles.container}>
+          <View style={styles.headContainer}>
+            <Image
+              source={{ uri: comment.avatar }}
+              size={'regular'}
+              isRound={true}
+            />
+            <InfiniteText
+              text={comment.username}
+              style={{ marginHorizontal: 10 }}
+            />
+            <Text style={styles.subText}>{index}</Text>
+          </View>
+          <View style={styles.contentContainer}>
+            <Text style={styles.content}>{comment.content}</Text>
+          </View>
+          <View style={styles.bottomContainer}>
+            <Text style={styles.subText}>{comment.createdAt}</Text>
+          </View>
         </View>
-        <View style={styles.contentContainer}>
-          <Text style={styles.content}>{comment.content}</Text>
-        </View>
-        <View style={styles.bottomContainer}>
-          <Text style={styles.subText}>{comment.createdAt}</Text>
-        </View>
-      </View>
+      </Touchable>
     );
   }
 }
-Card.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

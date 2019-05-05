@@ -7,6 +7,7 @@ import {
   CommentBar,
   NAV_BAR_HEIGHT_FULL,
   Styles,
+  curried,
 } from '../../../re-kits';
 import { colors, TAB_BAR_HEIGHT, I18n } from '../../utils';
 import CommentCard from './components/CommentCard';
@@ -24,7 +25,13 @@ class Comment extends React.Component {
   };
 
   _renderItem = ({ item, index }) => {
-    return <CommentCard comment={item} index={index + 1} />;
+    return (
+      <CommentCard
+        comment={item}
+        index={index + 1}
+        onLongPress={curried(this._report)(item.commentId)}
+      />
+    );
   };
 
   _fetchComments = () => {
@@ -39,6 +46,22 @@ class Comment extends React.Component {
       content: value,
       post: this.post,
       callback: callback,
+    });
+  };
+  _report = commentId => {
+    // const { posts } = this.props.state;
+    const callback = () => {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        content: I18n.t('reportSuccess'),
+      });
+      // this.props.dispatch('HOME_PAGE_SET_STATE', {
+      //   posts: posts.filter(o => o.postId !== postId),
+      // });
+    };
+    this.props.dispatch('ALERT_REPORT', {
+      childId: commentId,
+      type: 'comment',
+      callback,
     });
   };
   render() {
