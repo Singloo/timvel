@@ -4,6 +4,7 @@ import {
   createAppContainer,
 } from 'react-navigation';
 import * as Connectors from './connectors';
+import { Policy } from './singlePages';
 const MainScreenNavigator = createBottomTabNavigator(
   {
     Home: {
@@ -74,6 +75,9 @@ const SimpleApp = createStackNavigator(
     },
     setting: {
       screen: Connectors.setting,
+    },
+    policy: {
+      screen: Policy,
     },
   },
   {

@@ -31,6 +31,7 @@ import {
   isAndroid,
   isIOS,
   Notification,
+  Navigation,
 } from '../../utils';
 import LottieView from 'lottie-react-native';
 import { BlurView } from 'react-native-blur';
@@ -66,6 +67,9 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    if (__DEV__) {
+      return;
+    }
     setTimeout(() => this.gradientBK && this.gradientBK.play(), 800);
   }
   componentWillUnmount() {
@@ -186,6 +190,24 @@ class Login extends Component {
       return;
     }
     Keyboard.dismiss();
+    this.props.dispatch('SHOW_ALERT', {
+      choices: [
+        { title: I18n.t('userPolicy'), onPress: this._goToPolicy },
+        {
+          title: I18n.t('confirm'),
+          onPress: () => {
+            this._onConfirmSignUp(username, password, email);
+          },
+        },
+      ],
+      content: 'if you press confirm, means you agree with our user policy',
+      cancelTitle: I18n.t('cancel'),
+      onCancel: () => {
+        Navigation.back();
+      },
+    });
+  };
+  _onConfirmSignUp = (username, password, email) => {
     this.props.dispatch('SIGNUP', {
       username: username.trim(),
       password: password.trim(),
@@ -193,7 +215,9 @@ class Login extends Component {
       callback: this._signUpCallback,
     });
   };
-
+  _goToPolicy = () => {
+    Navigation.navigate('policy');
+  };
   _signUpCallback = () => {
     this._goBack();
     this.props.dispatch('SHOW_SNAKE_BAR', {
@@ -216,7 +240,13 @@ class Login extends Component {
           source={require('../../lottieFiles/gradient.json')}
           style={styles.absoluteBK}
         />
-        <BlurView blurType={'light'} style={Styles.absolute} blurAmount={20} />
+        {isIOS && (
+          <BlurView
+            blurType={'light'}
+            style={Styles.absolute}
+            blurAmount={30}
+          />
+        )}
         <Touchable withoutFeedback={true} onPress={this._dismissKeyboard}>
           <Animated.View
             style={[
@@ -234,6 +264,7 @@ class Login extends Component {
                 <SignUpPage
                   onLoginPage={onLoginPage}
                   onPressSignUp={this._onPressSignUp}
+                  onPressUserPolicy={this._goToPolicy}
                 />
               )}
             </View>

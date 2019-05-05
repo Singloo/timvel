@@ -60,9 +60,6 @@ class Alert extends Component {
       useNativeDriver: true,
     });
   }
-  componentDidMount() {}
-  componentWillMount() {}
-  componentWillUnmount() {}
   componentDidUpdate() {
     const { show } = this.props.state;
     if (show) {
@@ -74,12 +71,16 @@ class Alert extends Component {
     onPress && onPress();
   };
   _renderChoices = () => {
-    const { choices } = this.props.state;
+    const { choices, vertical } = this.props.state;
     return choices.map((item, index) => {
       return (
         <Text
           key={index}
-          style={[styles.choices, item.color && { color: item.color }]}
+          style={[
+            styles.choices,
+            vertical && { color: colors.main },
+            item.color && { color: item.color },
+          ]}
           onPress={this._onPressChoices(item.onPress)}
         >
           {item.title}

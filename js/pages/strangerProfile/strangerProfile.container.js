@@ -9,6 +9,7 @@ import {
   NAV_BAR_HEIGHT_FULL,
   Text,
   colors,
+  Touchable,
 } from '../../../re-kits';
 import {
   SCREEN_WIDTH,
@@ -121,7 +122,22 @@ class StrangerProfile extends Component {
       showModal: bool,
     });
   };
-
+  _report = userId => {
+    // const { posts } = this.props.state;
+    const callback = () => {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        content: I18n.t('reportSuccess'),
+      });
+      // this.props.dispatch('HOME_PAGE_SET_STATE', {
+      //   posts: posts.filter(o => o.postId !== postId),
+      // });
+    };
+    this.props.dispatch('ALERT_REPORT', {
+      childId: userId,
+      type: 'user',
+      callback,
+    });
+  };
   _onConfirmSendGift = async giftType => {
     try {
       const price = giftType > 100 ? 200 : 100;
@@ -222,14 +238,19 @@ class StrangerProfile extends Component {
     const transform = [{ translateY }, { scale }];
     return (
       <Animated.View>
-        <Animated.Image
-          source={{ uri: this.user.avatar }}
-          style={{
-            height: IMAGE_HEIGHT,
-            width: IMAGE_WIDTH,
-            transform,
-          }}
-        />
+        <Touchable
+          withoutFeedback={true}
+          onLongPress={curried(this._report)(this.user.userId)}
+        >
+          <Animated.Image
+            source={{ uri: this.user.avatar }}
+            style={{
+              height: IMAGE_HEIGHT,
+              width: IMAGE_WIDTH,
+              transform,
+            }}
+          />
+        </Touchable>
       </Animated.View>
     );
   };

@@ -52,13 +52,13 @@
 		</dict>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>We need your permission to continue</string>
+	<string>Share your media</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>NSCameraUsageDescription</key>
-	<string>We need your permission to continue</string>
+	<string>Shot a photo as your avatar</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -68,9 +68,9 @@
 	<key>NSMotionUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need your permission to continue</string>
+	<string>share your photos and save photo to your local album</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need your permission to continue</string>
+	<string>share your photos and save photo to your local album</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>We need your permission to continue</string>
 	<key>UIAppFonts</key>

@@ -4,7 +4,7 @@
  * Created Date: Saturday April 27th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday April 28th 2019 6:56:04 pm
+ * Last Modified: Sunday May 5th 2019 9:47:33 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -13,14 +13,17 @@ import { StyleSheet, View, ScrollView, Clipboard, Linking } from 'react-native';
 import {
   Button,
   NavBar,
-  Image,
-  InfiniteText,
-  Text,
   Assets,
   SCREEN_WIDTH,
   colors,
 } from '../../../re-kits';
-import { I18n, User, apiClient, retry3, isIOS, Cache } from '../../utils';
+import {
+  I18n,
+  User,
+  isIOS,
+  Cache,
+  Navigation,
+} from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { InfoBar } from '../../components';
 import {} from 'rxjs/operators';
@@ -83,6 +86,9 @@ class Sample extends Component {
       },
     });
   };
+  _goToPolicy = () => {
+    Navigation.navigate('policy');
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -96,6 +102,7 @@ class Sample extends Component {
             title={I18n.t('checkVerison')}
             onPress={this._onPressCheckNewVersion}
           />
+          <InfoBar title={I18n.t('userPolicy')} onPress={this._goToPolicy} />
         </ScrollView>
         <Button
           title={I18n.t('logout')}

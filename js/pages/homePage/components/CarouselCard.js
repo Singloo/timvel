@@ -1,14 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
-import {
-  Button,
-  Image,
-  InfiniteText,
-  Text,
-  Touchable,
-  Assets,
-  Styles,
-} from '../../../../re-kits';
+import { Image, Text, Touchable, Styles } from '../../../../re-kits';
 import { colors, SCREEN_WIDTH } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import Moment from 'moment';
@@ -16,7 +8,7 @@ const item_width = SCREEN_WIDTH - 40 - 0;
 const item_height = SCREEN_WIDTH * 0.5;
 class CarouselCard extends React.Component {
   render() {
-    const { isOdd, post, onPress } = this.props;
+    const { isOdd, post, onPress, onLongPress } = this.props;
     const formatedDate = Moment(post.happenedAt);
 
     return (
@@ -29,6 +21,7 @@ class CarouselCard extends React.Component {
             uri: post.imageUrls[0].imageUrl,
           }}
           processType={'post'}
+          onLongPress={onLongPress}
           style={{
             width: item_width,
             height: item_height,

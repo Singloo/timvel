@@ -35,9 +35,16 @@ const loginPage = {
   signUpTitle: 'Join us',
   isNew: 'New?',
   haveAnAccount: 'Have an account?',
+  userPolicy: 'User Policy',
 };
 const normal = {
   networkError: 'Network error... ',
+  reportTitle: 'We will handle your report in 24 hours',
+  reportPornographic: 'pornographic contents',
+  reportPersonalAbuse: 'personal abuse',
+  reportAds: 'spam',
+  reportOthers: 'other objectionable content',
+  reportSuccess: 'Thanks for your feedback',
 };
 const user = {
   noEnoughCoin: 'No enough coin...',

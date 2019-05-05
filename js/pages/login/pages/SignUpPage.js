@@ -63,7 +63,7 @@ class SignUpPage extends React.Component {
     });
   };
   render() {
-    const { onLoginPage, onPressSignUp } = this.props;
+    const { onLoginPage, onPressSignUp, onPressUserPolicy } = this.props;
     const { username, password, email } = this.state;
     return (
       <View style={[Styles.absolute, styles.container]}>
@@ -162,6 +162,18 @@ class SignUpPage extends React.Component {
             onPressSignUp(username, password, email);
           }}
         />
+        <Text
+          style={{
+            color: colors.main,
+            alignSelf: 'center',
+            marginTop: 30,
+            fontSize: 14,
+            opacity: !onLoginPage ? 1 : 0,
+          }}
+          onPress={onPressUserPolicy}
+        >
+          {I18n.t('userPolicy')}
+        </Text>
         {/* </ScrollView> */}
       </View>
     );

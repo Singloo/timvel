@@ -74,10 +74,29 @@ const getUserInfo = (user_id: string) => {
   return apiClient.get(`/user/${user_id}`);
 };
 
+function report(
+  child_id: number,
+  type: string,
+  reason: string,
+  user_id: string,
+) {
+  apiClient
+    .post('/report', {
+      child_id,
+      type,
+      reason,
+      user_id,
+    })
+    .then(() => {})
+    .catch(err => {
+      console.warn(err);
+    });
+}
 export {
   getIpInfo,
   getWeatherInfoBefore,
   getWeatherInfoToday,
   saveImageToAlbum,
   getUserInfo,
+  report,
 };

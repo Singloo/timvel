@@ -35,9 +35,16 @@ const loginPage = {
   signUpTitle: '加入我们',
   isNew: '新人?',
   haveAnAccount: '已有账号?',
+  userPolicy: '用户协议',
 };
 const normal = {
   networkError: '请求失败了... 可能是网络不好',
+  reportTitle: '我们会在24小时内处理',
+  reportPornographic: '色情内容',
+  reportPersonalAbuse: '人身攻击',
+  reportAds: '广告',
+  reportOthers: '其他令人反感的内容',
+  reportSuccess: '感谢你的反馈',
 };
 const user = {
   noEnoughCoin: '可惜呢... 没有足够的金币',

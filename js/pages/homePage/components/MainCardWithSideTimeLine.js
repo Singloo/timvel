@@ -116,7 +116,7 @@ class MainCard extends React.Component {
   }
 
   renderChildren = () => {
-    const { post, hidden, onPressImage } = this.props;
+    const { post, hidden, onPressImage, onLongPressImage } = this.props;
     const imageUrls = post.imageUrls.map(o => o.imageUrl);
     return (
       <View
@@ -143,6 +143,7 @@ class MainCard extends React.Component {
                 showsPagination={!hidden}
                 additionalProps={{ onIndexChanged: this._onIndexChange }}
                 onPressImage={() => onPressImage(imageUrls, this.currentIndex)}
+                onLongPressImage={onLongPressImage}
               />
             </View>
           </AnimatedWrapper>

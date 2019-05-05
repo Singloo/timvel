@@ -60,6 +60,22 @@ class Sample extends React.PureComponent {
       index,
     });
   };
+  _reportPost = postId => {
+    // const { posts } = this.props.state;
+    const callback = () => {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        content: I18n.t('reportSuccess'),
+      });
+      // this.props.dispatch('HOME_PAGE_SET_STATE', {
+      //   posts: posts.filter(o => o.postId !== postId),
+      // });
+    };
+    this.props.dispatch('ALERT_REPORT', {
+      childId: postId,
+      type: 'post',
+      callback,
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -111,6 +127,7 @@ class Sample extends React.PureComponent {
       },
       additionalProps: { onIndexChange: this._onIndexChange },
       onPressImage: () => this._showPhotoBrowser(imageUrls, this.currentIndex),
+      onLongPressImage: curried(this._reportPost)(this.post.postId),
     };
     return <ImageComp {...imageProps} />;
   };

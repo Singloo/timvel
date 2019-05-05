@@ -170,6 +170,7 @@ class HomePage extends React.Component {
         key={'hpc' + index}
         post={item}
         onPress={curried(this._onPressCarouselItem)(item)}
+        onLongPress={curried(this._reportPost)(item.postId)}
       />
     );
   };
@@ -247,7 +248,22 @@ class HomePage extends React.Component {
       });
     }, 1000);
   };
-
+  _reportPost = postId => {
+    // const { posts } = this.props.state;
+    const callback = () => {
+      this.props.dispatch('SHOW_SNAKE_BAR', {
+        content: I18n.t('reportSuccess'),
+      });
+      // this.props.dispatch('HOME_PAGE_SET_STATE', {
+      //   posts: posts.filter(o => o.postId !== postId),
+      // });
+    };
+    this.props.dispatch('ALERT_REPORT', {
+      childId: postId,
+      type: 'post',
+      callback,
+    });
+  };
   _onPressSend = (value, callback) => {
     this.props.dispatch('COMMENT_COMMENT_POST', {
       content: value,
@@ -322,6 +338,7 @@ class HomePage extends React.Component {
       onPressEmoji: this._onPressEmoji(item.postId),
       onPressTag: this._onPressTag,
       onPressImage: this._showPhotoBrowser,
+      onLongPressImage: curried(this._reportPost)(item.postId),
     };
     return <MainCard {...cardProps} />;
   };
