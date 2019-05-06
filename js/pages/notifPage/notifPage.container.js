@@ -43,7 +43,7 @@ class NotifPage extends Component {
           />
           {/* <InfoCard title={'回复我的'} onPress={() => {}} /> */}
         </ScrollView>
-        <NavBar title={'Info'} style={{ position: 'absolute' }} blur={true} />
+        <NavBar title={'消息'} style={{ position: 'absolute' }} blur={true} />
       </View>
     );
   }

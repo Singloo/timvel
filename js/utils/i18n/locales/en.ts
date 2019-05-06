@@ -36,6 +36,8 @@ const loginPage = {
   isNew: 'New?',
   haveAnAccount: 'Have an account?',
   userPolicy: 'User Policy',
+  ifAgreeWithUserPolicy:
+    'if you press confirm, means you agree with our user policy',
 };
 const normal = {
   networkError: 'Network error... ',

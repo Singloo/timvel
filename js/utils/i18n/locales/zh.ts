@@ -36,6 +36,7 @@ const loginPage = {
   isNew: '新人?',
   haveAnAccount: '已有账号?',
   userPolicy: '用户协议',
+  ifAgreeWithUserPolicy: '如果你确定注册,表示你同意我们的用户协议',
 };
 const normal = {
   networkError: '请求失败了... 可能是网络不好',

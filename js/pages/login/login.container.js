@@ -200,7 +200,7 @@ class Login extends Component {
           },
         },
       ],
-      content: 'if you press confirm, means you agree with our user policy',
+      content: I18n.t('ifAgreeWithUserPolicy'),
       cancelTitle: I18n.t('cancel'),
       onCancel: () => {
         Navigation.back();
@@ -241,11 +241,7 @@ class Login extends Component {
           style={styles.absoluteBK}
         />
         {isIOS && (
-          <BlurView
-            blurType={'light'}
-            style={Styles.absolute}
-            blurAmount={30}
-          />
+          <BlurView blurType={'dark'} style={Styles.absolute} blurAmount={30} />
         )}
         <Touchable withoutFeedback={true} onPress={this._dismissKeyboard}>
           <Animated.View

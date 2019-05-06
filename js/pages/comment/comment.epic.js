@@ -39,14 +39,14 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
             }),
             dispatch('SHOW_SNAKE_BAR', {
               type: 'SUCCESS',
-              content: 'Comment successful',
+              content: '评论成功',
             }),
           ];
         }),
         $catchError(
           dispatch('SHOW_SNAKE_BAR', {
             type: 'ERROR',
-            content: 'Network error, try again',
+            content: '网络错误,再试一次?',
           }),
         ),
       );

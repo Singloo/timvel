@@ -6,3 +6,6 @@
   Copyright © 2019 Facebook. All rights reserved.
 */
 CFBundleDisplayName = "回溯";
+NSCameraUsageDescription = "我们需要使用你的相机拍照并分享";
+NSPhotoLibraryAddUsageDescription = "分享你相册中的照片和保存图片到你的相册";
+NSPhotoLibraryUsageDescription = "分享你相册中的照片和保存图片到你的相册";

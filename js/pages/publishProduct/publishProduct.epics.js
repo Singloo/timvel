@@ -29,7 +29,7 @@ const publishProduct = (
           if (!User.isLoggedIn) {
             observer.next(
               dispatch('SHOW_SNAKE_BAR', {
-                content: 'Please log in first',
+                content: '请先登录',
                 type: 'ERROR',
               }),
             );
@@ -55,7 +55,7 @@ const publishProduct = (
           navigation.back();
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
-              content: 'Sent success, waiting for review',
+              content: '我们已经收到啦,需要等待审核',
             }),
           );
         } catch (error) {
@@ -67,7 +67,7 @@ const publishProduct = (
           );
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
-              content: 'Network error',
+              content: '网络错误',
               type: 'ERROR',
             }),
           );

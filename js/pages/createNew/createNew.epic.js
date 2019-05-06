@@ -149,7 +149,7 @@ const getWeather = (action$, _, { dispatch, Network }) =>
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
               type: 'ERROR',
-              content: `It's tooooo old !!!`,
+              content: '这个时间不可以',
             }),
           );
           observer.complete();
@@ -159,7 +159,7 @@ const getWeather = (action$, _, { dispatch, Network }) =>
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
               type: 'ERROR',
-              content: `Hmmmm.... it's impossible`,
+              content: '未来的事情怎么会知道呢?',
             }),
           );
           observer.complete();

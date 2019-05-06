@@ -81,7 +81,7 @@ class Comment extends React.Component {
           keyExtractor={(_, index) => 'cmc' + index}
         />
         <NavBar
-          title={'comments'}
+          title={'评论'}
           sourceLeft={Assets.arrow_left.source}
           onPressLeft={this._goBack}
           blur={true}

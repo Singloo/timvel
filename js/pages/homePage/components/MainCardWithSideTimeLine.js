@@ -124,7 +124,7 @@ class MainCard extends React.Component {
           {
             backgroundColor: hidden ? 'transparent' : 'white',
           },
-          hidden ? undefined : Styles.shadow,
+          hidden ? undefined : Styles.shadowLight,
         ]}
       >
         <View style={[styles.container, { opacity: hidden ? 0 : 1 }]}>

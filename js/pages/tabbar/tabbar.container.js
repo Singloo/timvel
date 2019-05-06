@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, findNodeHandle, Animated } from 'react-native';
-import { Assets } from '../../../re-kits';
+import { Assets, colors } from '../../../re-kits';
 import { PADDING_BOTTOM, TAB_BAR_HEIGHT, curried, isIOS } from '../../utils';
 import { BlurView } from 'react-native-blur';
 // const BlurView = View;
@@ -15,6 +15,7 @@ class Tabbar extends Component {
     this.state = {
       viewRef: null,
       animationState: new Animated.Value(0),
+      currentTabName: 'Home',
     };
     this.animationStart = Animated.timing(this.state.animationState, {
       toValue: TAB_BAR_HEIGHT,
@@ -27,7 +28,6 @@ class Tabbar extends Component {
       useNativeDriver: true,
     });
   }
-  componentWillMount() {}
   componentDidUpdate(prevProps) {
     if (goingToHidden(prevProps, this.props)) {
       this.animationStart.start();
@@ -43,10 +43,14 @@ class Tabbar extends Component {
   _onPressTab = key => {
     const { jumpTo } = this.props;
     jumpTo(key);
+    this.setState({
+      currentTabName: key,
+    });
   };
   render() {
     const translateY = this.state.animationState;
     const transform = [{ translateY }];
+    const { currentTabName } = this.state;
     return (
       <Animated.View
         style={[
@@ -88,29 +92,39 @@ class Tabbar extends Component {
           />
         )}
         <Tab
-          source={Assets.eu_bird.source}
+          source={
+            currentTabName == 'Home'
+              ? Assets.tabHome2Active.source
+              : Assets.tabHome2.source
+          }
           onPress={curried(this._onPressTab)('Home')}
           // tintColor={index == 0 ? activeTintColor : inactiveTintColor}
           // title={'home'}
         />
         <Tab
-          source={Assets.eu_bosk.source}
+          source={Assets.tabShop.source}
           onPress={curried(this._onPressTab)('ShopPage')}
-          // tintColor={index == 1 ? activeTintColor : inactiveTintColor}
+          tintColor={
+            currentTabName == 'ShopPage' ? colors.main : colors.pureBlack
+          }
           // size={'large'}
           // title={'home'}
         />
 
         <Tab
-          source={Assets.eu_cactus.source}
+          source={Assets.tabNotification.source}
           onPress={curried(this._onPressTab)('NotifPage')}
-          // tintColor={index == 2 ? activeTintColor : inactiveTintColor}
+          tintColor={
+            currentTabName == 'NotifPage' ? colors.main : colors.pureBlack
+          }
           // title={'home'}
         />
         <Tab
-          source={Assets.eu_fox.source}
+          source={Assets.tabProfile.source}
           onPress={curried(this._onPressTab)('UserPage')}
-          // tintColor={index == 3 ? activeTintColor : inactiveTintColor}
+          tintColor={
+            currentTabName == 'UserPage' ? colors.main : colors.pureBlack
+          }
           // title={'home'}
         />
       </Animated.View>
