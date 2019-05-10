@@ -93,6 +93,17 @@ class Sample extends React.PureComponent {
           <View style={{ zIndex: 1 }}>
             {this.renderUserInfo()}
             {this.renderContent()}
+            <Image
+              source={Assets.report.source}
+              size={'small'}
+              tintColor={colors.depGrey}
+              onPress={curried(this._reportPost)(this.post.postId)}
+              style={{
+                position: 'absolute',
+                top: 5,
+                right: 10,
+              }}
+            />
           </View>
         </Animated.ScrollView>
         <CommentBar onPressSend={this._onPressSend} />
@@ -127,7 +138,6 @@ class Sample extends React.PureComponent {
       },
       additionalProps: { onIndexChange: this._onIndexChange },
       onPressImage: () => this._showPhotoBrowser(imageUrls, this.currentIndex),
-      onLongPressImage: curried(this._reportPost)(this.post.postId),
     };
     return <ImageComp {...imageProps} />;
   };

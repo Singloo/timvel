@@ -29,7 +29,7 @@ class Comment extends React.Component {
       <CommentCard
         comment={item}
         index={index + 1}
-        onLongPress={curried(this._report)(item.commentId)}
+        onPressReport={curried(this._report)(item.commentId)}
       />
     );
   };

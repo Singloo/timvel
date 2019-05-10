@@ -170,7 +170,6 @@ class HomePage extends React.Component {
         key={'hpc' + index}
         post={item}
         onPress={curried(this._onPressCarouselItem)(item)}
-        onLongPress={curried(this._reportPost)(item.postId)}
       />
     );
   };
@@ -338,7 +337,7 @@ class HomePage extends React.Component {
       onPressEmoji: this._onPressEmoji(item.postId),
       onPressTag: this._onPressTag,
       onPressImage: this._showPhotoBrowser,
-      onLongPressImage: curried(this._reportPost)(item.postId),
+      onPressReport: curried(this._reportPost)(item.postId),
     };
     return <MainCard {...cardProps} />;
   };
@@ -514,6 +513,7 @@ class HomePage extends React.Component {
         isAnimating={contentDetailIsAnimating}
         onPressSend={this._onPressSend}
         onPressImage={this._showPhotoBrowser}
+        reportPost={curried(this._reportPost)(get(currentPost, 'postId', null))}
       />
     );
   };

@@ -8,35 +8,39 @@ import {
   Assets,
   Touchable,
 } from '../../../../re-kits';
-import { colors, I18n } from '../../../utils';
+import { colors, I18n, DateFormatter } from '../../../utils';
 class Card extends Component {
   componentWillMount() {}
 
   render() {
-    const { index, comment, onLongPress } = this.props;
+    const { index, comment, onPressReport } = this.props;
+    const dateFormatter = new DateFormatter(comment.createdAt);
     return (
-      <Touchable withoutFeedback={true} onLongPress={onLongPress}>
-        <View style={styles.container}>
-          <View style={styles.headContainer}>
-            <Image
-              source={{ uri: comment.avatar }}
-              size={'regular'}
-              isRound={true}
-            />
-            <InfiniteText
-              text={comment.username}
-              style={{ marginHorizontal: 10 }}
-            />
-            <Text style={styles.subText}>{index}</Text>
-          </View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.content}>{comment.content}</Text>
-          </View>
-          <View style={styles.bottomContainer}>
-            <Text style={styles.subText}>{comment.createdAt}</Text>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.headContainer}>
+          <Image
+            source={{ uri: comment.avatar }}
+            size={'regular'}
+            isRound={true}
+          />
+          <InfiniteText
+            text={comment.username}
+            style={{ marginHorizontal: 10 }}
+          />
+          <Image
+            source={Assets.report.source}
+            size={'verySmall'}
+            onPress={onPressReport}
+            tintColor={colors.depGrey}
+          />
         </View>
-      </Touchable>
+        <View style={styles.contentContainer}>
+          <Text style={styles.content}>{comment.content}</Text>
+        </View>
+        <View style={styles.bottomContainer}>
+          <Text style={styles.subText}>{dateFormatter.yearMonthDayTime}</Text>
+        </View>
+      </View>
     );
   }
 }

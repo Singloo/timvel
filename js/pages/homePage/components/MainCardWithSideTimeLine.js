@@ -8,6 +8,9 @@ import {
   flattenStyles,
   Styles,
   Tag,
+  Image,
+  Assets,
+  colors,
 } from '../../../../re-kits';
 import { DateFormatter, curried, SCREEN_WIDTH } from '../../../utils';
 import { UserInfoBar } from '../../../components';
@@ -106,7 +109,16 @@ class MainCard extends React.Component {
           {this.renderChildren()}
           {this.renderUserInfoBar()}
           <View style={{ position: 'absolute', right: 0, top: 0 }}>
-            {this._renderTag()}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {this._renderTag()}
+              <Image
+                source={Assets.report.source}
+                onPress={this.props.onPressReport}
+                size={'small'}
+                style={{ marginLeft: 10 }}
+                tintColor={colors.depGrey}
+              />
+            </View>
             {this.renderWeather()}
           </View>
         </View>

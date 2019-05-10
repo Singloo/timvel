@@ -172,6 +172,18 @@ class ContentDetail extends React.Component {
           <View style={{ zIndex: 1 }}>
             {this.renderUserInfo()}
             {this.renderContent()}
+            <Image
+              source={Assets.report.source}
+              size={'small'}
+              onPress={this.props.reportPost}
+              tintColor={colors.depGrey}
+              style={{
+                position: 'absolute',
+                top: 5,
+                right: 10,
+                opacity: this.state.isAnimating ? 0 : 1,
+              }}
+            />
           </View>
         </Animated.ScrollView>
         {this.renderCommentBar()}
