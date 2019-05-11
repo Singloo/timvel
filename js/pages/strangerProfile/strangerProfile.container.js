@@ -122,7 +122,7 @@ class StrangerProfile extends Component {
       showModal: bool,
     });
   };
-  _report = userId => {
+  _report = () => {
     // const { posts } = this.props.state;
     const callback = () => {
       this.props.dispatch('SHOW_SNAKE_BAR', {
@@ -133,7 +133,7 @@ class StrangerProfile extends Component {
       // });
     };
     this.props.dispatch('ALERT_REPORT', {
-      childId: userId,
+      childId: this.user.userId,
       type: 'user',
       callback,
     });
@@ -191,11 +191,9 @@ class StrangerProfile extends Component {
           style={{
             position: 'absolute',
             top: 0,
-            backgroundColor: 'rgba(250,250,250,0.2)',
+            backgroundColor: 'rgba(250,250,250,0.5)',
           }}
-          sourceRight={Assets.gift.source}
-          rightTint={colors.main}
-          onPressRight={curried(this._modalController)(true)}
+          renderRight={this._renderNavBarRight}
           renderCenter={this._renderNavBarCenter}
         />
         {this.renderFS(flowers)}
@@ -211,6 +209,24 @@ class StrangerProfile extends Component {
         <Text style={{ fontSize: 16, marginLeft: 10 }}>
           {this.user.username}
         </Text>
+      </View>
+    );
+  };
+  _renderNavBarRight = () => {
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Image
+          source={Assets.report.source}
+          tintColor={colors.depGrey}
+          onPress={this._report}
+          size={'small'}
+        />
+        <Image
+          source={Assets.gift.source}
+          tintColor={colors.main}
+          onPress={curried(this._modalController)(true)}
+          style={{ marginLeft: 15 }}
+        />
       </View>
     );
   };

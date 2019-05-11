@@ -36,60 +36,81 @@ const report = (action$, state$, { dispatch }) =>
     ofType('ALERT_REPORT'),
     map(action => {
       const { childId, type, callback } = action.payload;
-      return dispatch('ALERT_SET_STATE', {
-        show: true,
-        choices: [
-          {
-            title: I18n.t('reportPornographic'),
-            onPress: () => {
-              Network.report(
-                childId,
-                type,
-                I18n.t('reportPornographic'),
-                User.objectId,
-              );
-              callback && callback();
-            },
+      let choices = [
+        {
+          title: I18n.t('reportPornographic'),
+          onPress: () => {
+            Network.report(
+              childId,
+              type,
+              I18n.t('reportPornographic'),
+              User.objectId,
+            );
+            callback && callback();
           },
-          {
-            title: I18n.t('reportPersonalAbuse'),
-            onPress: () => {
-              Network.report(
-                childId,
-                type,
-                I18n.t('reportPersonalAbuse'),
-                User.objectId,
-              );
-              callback && callback();
-            },
+        },
+        {
+          title: I18n.t('reportPersonalAbuse'),
+          onPress: () => {
+            Network.report(
+              childId,
+              type,
+              I18n.t('reportPersonalAbuse'),
+              User.objectId,
+            );
+            callback && callback();
           },
-          {
-            title: I18n.t('reportAds'),
-            onPress: () => {
-              Network.report(childId, type, I18n.t('reportAds'), User.objectId);
-              callback && callback();
-            },
+        },
+        {
+          title: I18n.t('reportAds'),
+          onPress: () => {
+            Network.report(childId, type, I18n.t('reportAds'), User.objectId);
+            callback && callback();
           },
+        },
+        {
+          title: I18n.t('reportBlockUser'),
+          onPress: () => {
+            Network.report(
+              childId,
+              type,
+              I18n.t('reportBlockUser'),
+              User.objectId,
+            );
+            callback && callback();
+          },
+        },
+        {
+          title: I18n.t('reportOthers'),
+          onPress: () => {
+            Network.report(
+              childId,
+              type,
+              I18n.t('reportOthers'),
+              User.objectId,
+            );
+            callback && callback();
+          },
+        },
+      ];
+      if (type === 'user')
+        choices = [
           {
             title: I18n.t('reportBlockUser'),
             onPress: () => {
-              Network.report(childId, type, I18n.t('reportBlockUser'), User.objectId);
-              callback && callback();
-            },
-          },
-          {
-            title: I18n.t('reportOthers'),
-            onPress: () => {
               Network.report(
                 childId,
                 type,
-                I18n.t('reportOthers'),
+                I18n.t('reportBlockUser'),
                 User.objectId,
               );
               callback && callback();
             },
           },
-        ],
+        ];
+      return dispatch('ALERT_SET_STATE', {
+        show: true,
+        choices,
         cancelTitle: I18n.t('cancel'),
         content: I18n.t('reportTitle'),
         type: 'NORMAL',
