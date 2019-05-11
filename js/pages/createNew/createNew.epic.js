@@ -13,6 +13,7 @@ import {
   DARK_SKY_WEATHER_TYPE,
 } from './untils/weatherData';
 import { Cache } from '../../utils';
+import { CoinTransactionRecords } from '../../services';
 const postInitialValues = {
   postType: 'normal',
   angry: 0,
@@ -109,9 +110,10 @@ const createPost = (
             }),
           );
           navigation.back();
+          CoinTransactionRecords.showAnimation(10);
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
-              content: '发布成功!',
+              content: '发布成功! +10',
               type: 'SUCCESS',
             }),
           );

@@ -107,7 +107,7 @@ class ShopPage extends Component {
         });
         return;
       }
-      if (!User.ableToBuy(currentProduct.price)) {
+      if (!(await User.ableToBuy(currentProduct.price))) {
         this.props.dispatch('SHOW_SNAKE_BAR', {
           type: 'ERROR',
           content: I18n.t('noEnoughCoin'),

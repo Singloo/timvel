@@ -47,6 +47,7 @@ const normal = {
   reportAds: 'spam',
   reportOthers: 'other objectionable content',
   reportSuccess: 'Thanks for your feedback',
+  reportBlockUser: 'block this user',
 };
 const user = {
   noEnoughCoin: 'No enough coin...',

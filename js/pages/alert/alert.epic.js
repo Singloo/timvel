@@ -71,6 +71,13 @@ const report = (action$, state$, { dispatch }) =>
             },
           },
           {
+            title: I18n.t('reportBlockUser'),
+            onPress: () => {
+              Network.report(childId, type, I18n.t('reportBlockUser'), User.objectId);
+              callback && callback();
+            },
+          },
+          {
             title: I18n.t('reportOthers'),
             onPress: () => {
               Network.report(

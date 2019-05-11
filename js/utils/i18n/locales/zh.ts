@@ -46,6 +46,7 @@ const normal = {
   reportAds: '广告',
   reportOthers: '其他令人反感的内容',
   reportSuccess: '感谢你的反馈',
+  reportBlockUser: '屏蔽用户',
 };
 const user = {
   noEnoughCoin: '可惜呢... 没有足够的金币',

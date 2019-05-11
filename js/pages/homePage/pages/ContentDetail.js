@@ -56,7 +56,6 @@ class ContentDetail extends React.Component {
       nscrollY: new Animated.Value(0),
       isAnimating: true,
     };
-    this.goingToShow = true;
     this._content = React.createRef();
     this._commentBar = React.createRef();
     this._userInfo = React.createRef();

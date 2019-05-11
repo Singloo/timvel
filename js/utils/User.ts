@@ -68,7 +68,9 @@ class UUer {
       return null;
     }
     this.user.increment(key, value);
-    return this.user.save();
+    const user = await this.user.save();
+    this.user = user;
+    return user;
   };
   logIn = async ({
     username,
@@ -134,12 +136,14 @@ class UUer {
   increaseCoin = (num?: number) => {
     return this.increment('userCoin', num);
   };
-  ableToBuy = (amount: number | string) => {
-    if (!this.user) {
+  ableToBuy = async (amount: number | string) => {
+    if (!this.isLoggedIn) {
       console.warn('No user');
       return false;
     }
-    return this.userCoin >= parseInt(amount as string);
+    const user = await AV.User.currentAsync();
+    this.user = user;
+    return user.get('userCoin') >= parseInt(amount as string);
   };
   setInstallationId = (installationId?: string) => {
     if (!this.isLoggedIn || !installationId) {
