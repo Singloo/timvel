@@ -3,6 +3,7 @@ import { switchMap, map, tap } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { $catchError, ApiNotifications, retry3, HANDLE } from '../../utils';
 import Moment from 'moment';
+import { CoinTransactionRecords } from '../../services';
 const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
   action$.pipe(
     ofType('COMMENT_COMMENT_POST'),
@@ -31,6 +32,7 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
           content: content,
           createdAt: Moment().format(),
         })),
+        tap(() => CoinTransactionRecords.consume(5, 'comment')),
         switchMap(comment => {
           const { comments } = state$.value.comment;
           return [
@@ -39,7 +41,7 @@ const sendComment = (action$, state$, { User, httpClient, dispatch }) =>
             }),
             dispatch('SHOW_SNAKE_BAR', {
               type: 'SUCCESS',
-              content: '评论成功',
+              content: '评论成功 +5',
             }),
           ];
         }),

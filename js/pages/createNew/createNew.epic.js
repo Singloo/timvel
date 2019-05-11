@@ -110,7 +110,7 @@ const createPost = (
             }),
           );
           navigation.back();
-          CoinTransactionRecords.showAnimation(10);
+          CoinTransactionRecords.consume(10, 'create_post');
           observer.next(
             dispatch('SHOW_SNAKE_BAR', {
               content: '发布成功! +10',
