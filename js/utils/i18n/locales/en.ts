@@ -48,6 +48,15 @@ const normal = {
   reportOthers: 'other objectionable content',
   reportSuccess: 'Thanks for your feedback',
   reportBlockUser: 'block this user',
+  monthAgo: 'months ago',
+  monthLater: 'months later',
+  thisMonth: 'this month',
+  dayAgo: 'days ago',
+  dayLater: 'days later',
+  thisDay: 'today',
+  yearAgo: 'years ago',
+  yearLater: 'years later',
+  thisYear: 'this year',
 };
 const user = {
   noEnoughCoin: 'No enough coin...',

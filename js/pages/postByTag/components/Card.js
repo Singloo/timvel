@@ -23,6 +23,7 @@ const extractEmojiNums = post => ({
 const cardWidth = SCREEN_WIDTH - 20 - 20;
 const cardHeight = cardWidth - 60;
 const diffEmojiChange = (currentPost, nextPost) => {
+  if (currentPost.postId !== nextPost.postId) return true;
   const current = extractEmojiNums(currentPost);
   const next = extractEmojiNums(nextPost);
   return !!Object.keys(current).find(key => current[key] !== next[key]);
@@ -71,24 +72,25 @@ class Card extends Component {
   };
   _renderContent = () => {
     const { post, onPressPost } = this.props;
-    if (post.content.length === 0) {
-      return null;
-    }
+    // if (post.content.length === 0) {
+    //   return null;
+    // }
     return (
       <Touchable
         style={{ paddingLeft: 10, marginBottom: 10 }}
         onPress={onPressPost}
       >
-        <Text style={{ marginBottom: 10 }} numberOfLines={2}>
-          {post.content}
-        </Text>
+        {post.content.length !== 0 && (
+          <Text style={{ marginBottom: 10 }} numberOfLines={2}>
+            {post.content}
+          </Text>
+        )}
         {this._renderTime()}
       </Touchable>
     );
   };
   _renderTime = () => {
     const { post } = this.props;
-
     return (
       <View
         style={{
@@ -102,8 +104,9 @@ class Card extends Component {
         <Text style={styles.dateTime}>
           {this.dateFormatter.getHappenedAt(post.precision)}
         </Text>
+
         <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
-          {this.dateFormatter.fromNow}
+          {this.dateFormatter.fromNow(post.precision)}
         </Text>
       </View>
     );

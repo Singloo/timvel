@@ -47,6 +47,15 @@ const normal = {
   reportOthers: '其他令人反感的内容',
   reportSuccess: '感谢你的反馈',
   reportBlockUser: '屏蔽用户',
+  monthAgo: '个月前',
+  monthLater: '个月后',
+  thisMonth: '本月',
+  dayAgo: '天前',
+  dayLater: '天后',
+  thisDay: '今天',
+  yearAgo: '年前',
+  yearLater: '年后',
+  thisYear: '今年',
 };
 const user = {
   noEnoughCoin: '可惜呢... 没有足够的金币',

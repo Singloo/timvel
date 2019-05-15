@@ -3,9 +3,8 @@ import en from './locales/en';
 import * as RNLocalize from 'react-native-localize';
 import { get } from 'lodash';
 const firstLocale = RNLocalize.getLocales()[0];
-const languageCode = firstLocale
-  ? get(firstLocale, 'languageCode', 'en')
-  : 'en';
+const languageCode =
+  get(firstLocale, 'languageCode', 'en') === 'zh' ? 'zh' : 'en';
 
 const sentenceSet = () => {
   switch (languageCode) {

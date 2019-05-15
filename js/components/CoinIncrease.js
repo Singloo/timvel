@@ -18,6 +18,7 @@ import {
   randomNumber,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
+  apiClient,
 } from '../utils';
 
 import * as Animatable from 'react-native-animatable';
@@ -78,11 +79,19 @@ class CoinIncrease extends React.PureComponent {
       .pipe(filter(({ type }) => type === $TYPES.userMount))
       .subscribe(() => {
         console.warn('timer init');
-        setTimeout(() => {
-          this.setState({
-            show: true,
-          });
-          this._init();
+        setTimeout(async () => {
+          try {
+            const { data } = await apiClient.get('/user/show_timer', {
+              params: {
+                user_id: User.objectId,
+              },
+            });
+            if (!data.show) return;
+            this.setState({
+              show: true,
+            });
+            this._init();
+          } catch (err) {}
         }, 5000);
         listener.unsubscribe();
         this._userUnmountListener();

@@ -2,7 +2,6 @@ import { Platform, Dimensions, LayoutChangeEvent } from 'react-native';
 import Moment from 'moment';
 import { get, difference } from 'lodash';
 import { IPost, TDict, ILocalImage } from '../models';
-Moment.locale();
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 );

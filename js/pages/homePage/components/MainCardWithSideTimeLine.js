@@ -36,6 +36,7 @@ const extractEmojiNums = post => ({
   nofeeling: post.nofeeling,
 });
 const diffEmojiChange = (currentPost, nextPost) => {
+  if (currentPost.postId !== nextPost.postId) return true;
   const current = extractEmojiNums(currentPost);
   const next = extractEmojiNums(nextPost);
   return !!Object.keys(current).find(key => current[key] !== next[key]);
@@ -273,7 +274,7 @@ class MainCard extends React.Component {
           {happenedAt.getHappenedAt(post.precision)}
         </Text>
         <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 10 }}>
-          {happenedAt.fromNow}
+          {happenedAt.fromNow(post.precision)}
         </Text>
       </Animatable.View>
     );

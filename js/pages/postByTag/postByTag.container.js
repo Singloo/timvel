@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import {
-  Button,
-  NavBar,
-  Image,
-  InfiniteText,
-  Text,
-  Assets,
-  RFlatList,
-} from '../../../re-kits';
+import { NavBar, Assets } from '../../../re-kits';
 import { I18n, curried } from '../../utils';
 import { connect2 } from '../../utils/Setup';
 import { get } from 'lodash';
@@ -68,7 +60,10 @@ class Sample extends Component {
           contentContainerStyle={{ flexDirection: 'row' }}
         >
           <GradientSideBar
-            style={{ marginHorizontal: 10, marginVertical: -300 }}
+            style={{
+              marginHorizontal: 10,
+              marginVertical: -300,
+            }}
           />
           <View style={{}}>
             {/* <Text style={{}}>{'我在未来等你'.split('').join('\n')}</Text> */}
