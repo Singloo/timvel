@@ -296,7 +296,7 @@ class AddTag extends React.Component {
             onPressTag={this._onPressNewTag}
             isEmpty={searchResults.length === 0}
             showAddButton={value.trim().length !== 0}
-            onPressAddTag={curried(this._onPressAddTag)(value)}
+            onPressAddTag={() => this._onPressAddTag(value)}
           />
         )}
       </View>

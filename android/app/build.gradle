@@ -141,8 +141,8 @@ android {
         applicationId "com.timvel"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
-        versionName "0.52"
+        versionCode 12
+        versionName "0.53"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

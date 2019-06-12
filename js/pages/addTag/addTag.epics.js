@@ -1,32 +1,46 @@
 import { ofType } from 'redux-observable';
-import { Observable, pipe, interval } from 'rxjs';
-import { map, mergeMap, throttle, takeLast, debounce } from 'rxjs/operators';
+import { Observable, pipe, interval, from } from 'rxjs';
+import {
+  map,
+  debounce,
+  switchMap,
+  pluck,
+} from 'rxjs/operators';
 
 const fetchPopularTags = (action$, state$, { httpClient, dispatch }) =>
   action$.pipe(
     ofType('ADD_TAG_FETCH_POPULAR'),
-    mergeMap(action =>
-      Observable.create(async observer => {
-        try {
-          const { data } = await httpClient.get('/tag/popular');
-          observer.next(
+    switchMap(
+      action =>
+        from(httpClient.get('/tag/popular')).pipe(
+          pluck('data'),
+          map(data =>
             dispatch('ADD_TAG_SET_STATE', {
               popularTags: data,
             }),
-          );
-        } catch (error) {
-          console.warn(error);
-        } finally {
-          observer.complete();
-        }
-      }),
+          ),
+        ),
+      // Observable.create(async observer => {
+      //   try {
+      //     const { data } = await httpClient.get('/tag/popular');
+      //     observer.next(
+      //       dispatch('ADD_TAG_SET_STATE', {
+      //         popularTags: data,
+      //       }),
+      //     );
+      //   } catch (error) {
+      //     console.warn(error);
+      //   } finally {
+      //     observer.complete();
+      //   }
+      // }),
     ),
   );
 
 const insertTag = (action$, state$, { httpClient, dispatch }) =>
   action$.pipe(
     ofType('ADD_TAG_ADD_TAG'),
-    mergeMap(action =>
+    switchMap(action =>
       Observable.create(async observer => {
         try {
           const { tag, callback } = action.payload;
@@ -53,7 +67,7 @@ const searchTag = (action$, state$, { httpClient, dispatch }) =>
   action$.pipe(
     ofType('ADD_TAG_SEARCH_TAG'),
     debounce(action => interval(300)),
-    mergeMap(action =>
+    switchMap(action =>
       Observable.create(async observer => {
         try {
           const { tag } = action.payload;

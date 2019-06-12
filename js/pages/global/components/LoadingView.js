@@ -36,7 +36,7 @@ class LoadingView extends Component {
             style={{
               width: realSize(375),
               height: realSize(375),
-              transform: [{ scale: 1 }],
+              // transform: [{ scale: 1 }],
             }}
           />
         </View>
