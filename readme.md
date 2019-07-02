@@ -16,9 +16,11 @@
   
 
 
-如果你想加入... 
+如果你想加入这个项目... 想实现你的想法...(不管是前端,服务器,ai,游戏) 或者学习一个其他领域的知识
+可以联系我,非常欢迎
 
 
+### 下载app
 - [ios app store下载](https://apps.apple.com/cn/app/id1461661373)
 - [google play](https://play.google.com/store/apps/details?id=com.timvel)
 - [其他android](https://timvel-downloads.oss-cn-hangzhou.aliyuncs.com/timvel-latest.apk)
