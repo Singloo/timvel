@@ -4,7 +4,7 @@
  * Created Date: Thursday March 14th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Thursday March 14th 2019 9:49:40 am
+ * Last Modified: Tuesday July 2nd 2019 10:19:29 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -98,6 +98,7 @@ const switchTitle = (title, customStyle) => {
       if (customStyle) {
         return customStyle;
       }
+      break;
   }
 };
 const styles = StyleSheet.create({
