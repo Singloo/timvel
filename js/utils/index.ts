@@ -20,3 +20,4 @@ export { OSS, Network, Setup, Vibration };
 export { default as Permission } from './Permission';
 export * from './NetInfo';
 export * from './httpClient';
+export * from './leancloud';

@@ -1,17 +1,21 @@
 import { CameraRoll } from 'react-native';
 import RNFS from 'react-native-fs';
-import { darkSkyKey } from '../constants';
-const imageUrlPrefix = 'https://timvel-1.oss-cn-hangzhou.aliyuncs.com/images/';
+import {
+  darkSkyKey,
+  imageUrlPrefix,
+  IP_INFO_END_POINT,
+  WEATHER_INFO_END_POINT,
+} from '../constants';
 import { apiClient, axios } from './httpClient';
 async function getIpInfo() {
-  return axios.get('http://ip-api.com/json');
+  return axios.get(IP_INFO_END_POINT);
 }
 
 async function getWeatherInfoToday(
   latitude: number | string,
   longitude: number | string,
 ) {
-  return axios.get('https://weatherapi.market.xiaomi.com/wtr-v3/weather/all', {
+  return axios.get(WEATHER_INFO_END_POINT, {
     params: {
       latitude: latitude,
       longitude: longitude,

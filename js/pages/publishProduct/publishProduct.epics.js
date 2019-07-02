@@ -1,7 +1,6 @@
 import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import AV from 'leancloud-storage';
 const publishProduct = (
   action$,
   state$,

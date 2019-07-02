@@ -1,10 +1,10 @@
-import AV from 'leancloud-storage';
 import { invoke } from './helper';
 import { $CENTER, $TYPES } from './$observable';
 import DeviceInfo from 'react-native-device-info';
 import { retry3, $retryDelay } from './$helper';
 import { apiClient } from './httpClient';
 import { Platform } from 'react-native';
+import { AV } from './leancloud';
 const dispatch = (type: string, payload = {}) => ({ type, payload });
 class UUer {
   user?: AV.User;

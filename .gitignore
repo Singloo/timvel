@@ -67,3 +67,5 @@ buck-out/
 
 android/app/release/
 console.d.ts
+
+js/constants.ts

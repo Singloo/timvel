@@ -16,6 +16,7 @@ import {
   Navigation,
   isAndroid,
   User,
+  AV,
 } from './utils';
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
@@ -28,11 +29,6 @@ YellowBox.ignoreWarnings([
   'Warning: ViewPagerAndroid',
   'Warning: Slider has been',
 ]);
-import AV from 'leancloud-storage';
-AV.init({
-  appId: 'UYganDzaND6XsvYaL552tlbs-gzGzoHsz',
-  appKey: 'l5ld3QxRSvLCaJ4Rpv6gXbIq',
-});
 //@ts-ignore
 import Installation from 'leancloud-installation';
 const installation = Installation(AV);
