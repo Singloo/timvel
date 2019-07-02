@@ -7,6 +7,13 @@
 我还将继续完善这个项目...做的匆忙,
 但是现在在学其他东西,可能到8月份才会有时间来继续这个项目
 
+#### 这个项目开源了所有代码... 包括后端, 数据库版本控制, nginx, 小程序, web, flask...
+- [timvel-server](https://github.com/Singloo/timvel-server)
+- [timvel-nginx](https://github.com/Singloo/timvel-nginx)
+- [timvel-db(postgresql)](https://github.com/Singloo/timvel-postgreSql)
+- 其他的...去我profile里找找吧, 都是不怎么重要的
+  
+
 #### todo list
 - [ ] 服务器安全
 - [ ] 改进app设计
