@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  View,
-  UIManager,
-  PushNotificationIOS,
-  YellowBox,
-  BackHandler,
-} from 'react-native';
+import { View, UIManager, YellowBox, BackHandler } from 'react-native';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';

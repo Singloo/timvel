@@ -1,5 +1,4 @@
 import {
-  PushNotificationIOS,
   AppState,
   Alert,
   NativeModules,
@@ -8,6 +7,8 @@ import {
 //@ts-ignore
 import Installation from 'leancloud-installation';
 import User from './User';
+// @ts-ignore
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 const AndroidNotification = NativeModules.AndroidNotification;
 class Notification {
   Installation?: Installation;

@@ -11,7 +11,7 @@ import { SCREEN_WIDTH, colors, isIOS, I18n } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import DatePicker from 'react-native-datepicker';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 class OneDay extends React.Component {
   constructor(props) {
     super(props);

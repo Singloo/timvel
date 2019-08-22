@@ -1,33 +1,24 @@
 package com.timvel;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.PushService;
 import com.facebook.react.ReactApplication;
-import org.reactnative.camera.RNCameraPackage;
-import com.reactnativecommunity.slider.ReactSliderPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.nativeModules.PushHandlerActivity;
 import com.nativeModules.TimvelPackages;
-import com.rnfs.RNFSPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactlibrary.RNAliyunOssPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -40,24 +31,30 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNCameraPackage(),
-            new ReactSliderPackage(),
-            new AsyncStoragePackage(),
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      return packages;
+      // return Arrays.<ReactPackage>asList(
+      //     new MainReactPackage(),
             new RNLocalizePackage(),
-            new FastImageViewPackage(),
-            new RNGestureHandlerPackage(),
-            new TimvelPackages(),
-            new RNFSPackage(),
-            new RNDeviceInfo(),
-            new RNAliyunOssPackage(),
-            new SplashScreenReactPackage(),
-            new PickerPackage(),
-            new LottiePackage(),
-            new LinearGradientPackage(),
-            new BlurViewPackage()
-      );
+      //       new RNCameraPackage(),
+      //       new ReactSliderPackage(),
+      //       new AsyncStoragePackage(),
+      //       new RNLocalizePackage(),
+      //       new FastImageViewPackage(),
+      //       new RNGestureHandlerPackage(),
+      //       new TimvelPackages(),
+      //       new RNFSPackage(),
+      //       new RNDeviceInfo(),
+      //       new RNAliyunOssPackage(),
+      //       new SplashScreenReactPackage(),
+      //       new PickerPackage(),
+      //       new LottiePackage(),
+      //       new LinearGradientPackage(),
+      //       new BlurViewPackage()
+      // );
     }
 
     @Override

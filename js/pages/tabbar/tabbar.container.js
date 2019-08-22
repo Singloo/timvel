@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, findNodeHandle, Animated } from 'react-native';
 import { Assets, colors } from '../../../re-kits';
 import { PADDING_BOTTOM, TAB_BAR_HEIGHT, curried, isIOS } from '../../utils';
-import { BlurView } from 'react-native-blur';
-// const BlurView = View;
+import { BlurView } from '@react-native-community/blur';
 import Tab from './components/Tab';
 const goingToHidden = (prev, curr) =>
   !prev.global.isTabBarHidden && curr.global.isTabBarHidden;

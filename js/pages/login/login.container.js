@@ -34,7 +34,7 @@ import {
   Navigation,
 } from '../../utils';
 import LottieView from 'lottie-react-native';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 class Login extends Component {

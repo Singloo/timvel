@@ -15,7 +15,7 @@ import {
 import { extractUserFromPost, curried, isIOS } from '../../utils';
 import { UserInfoBar } from '../../components';
 import { get } from 'lodash';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 const NavBar = isIOS
   ? Animated.createAnimatedComponent(BlurView)
   : Animated.View;

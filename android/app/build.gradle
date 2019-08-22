@@ -38,6 +38,9 @@ import com.android.build.OutputFile
  *   // the entry file for bundle generation
  *   entryFile: "index.android.js",
  *
+ *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   bundleCommand: "ram-bundle",
+ *
  *   // whether to bundle JS and assets in debug mode
  *   bundleInDebug: false,
  *
@@ -94,7 +97,8 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    nodeExecutableAndArgs : ["/Users/origami/.nvm/versions/node/v11.2.0/bin/node"]
+    enableHermes: false,  // clean and rebuild if changing
+    nodeExecutableAndArgs : ["/Users/origami/.nvm/versions/node/v12.6.0/bin/node"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -114,6 +118,28 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+/**
+* The preferred build flavor of JavaScriptCore.
+*
+* For example, to use the international variant, you can use:
+* `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+*
+* The international variant includes ICU i18n library and necessary data
+* allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+* give correct results when using with locales other than en-US.  Note that
+* this variant is about 6MiB larger per architecture than default.
+*/
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+/**
+* Whether to enable the Hermes VM.
+*
+* This should be set on project.ext.react and mirrored here.  If it is not set
+* on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
+* and the benefits of using Hermes will therefore be sharply reduced.
+*/
+def enableHermes = project.ext.react.get("enableHermes", false);
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     //next line removed from 0.59.0
@@ -124,7 +150,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-     signingConfigs {
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
         release {
             storeFile file('../keystores/timvel.keystore')
             keyAlias 'timvel-alias'
@@ -148,7 +180,7 @@ android {
         }
         // flavorDimensions "default"
          multiDexEnabled true
-         //react-native-blur
+         //@react-native-community/blur
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         // react-native-camera
@@ -163,7 +195,13 @@ android {
         }
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -172,8 +210,8 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2, "arm64-v8a": 3, "x86_64": 4]
+             // https://developer.android.com/studio/build/configure-apk-splits.html
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -181,44 +219,37 @@ android {
             }
         }
     }
+    packagingOptions {
+        pickFirst '**/armeabi-v7a/libc++_shared.so'
+        pickFirst '**/x86/libc++_shared.so'
+        pickFirst '**/arm64-v8a/libc++_shared.so'
+        pickFirst '**/x86_64/libc++_shared.so'
+        pickFirst '**/x86/libjsc.so'
+        pickFirst '**/armeabi-v7a/libjsc.so'
+    }
 }
 
 dependencies {
-    implementation project(':react-native-camera')
-    implementation project(':@react-native-community_slider')
-    implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-localize')
-    implementation project(':react-native-fast-image')
-    implementation project(':react-native-gesture-handler')
      // LeanCloud 基础包
     implementation ('cn.leancloud.android:avoscloud-sdk:v4.7.3')
 
     // 推送与即时通讯需要的包
     implementation ('cn.leancloud.android:avoscloud-push:v4.7.3@aar'){transitive = true}
-    implementation project(':react-native-fs')
-    implementation project(':react-native-device-info')
     implementation project(':aliyun-oss-react-native')
     implementation project(':react-native-splash-screen')
-    implementation project(':lottie-react-native')
-    implementation project(':react-native-linear-gradient')
-    implementation project(':react-native-image-crop-picker')
-    compile project(':react-native-blur')
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-
-      // If your app supports Android versions before Ice Cream Sandwich (API level 14)
-//    compile 'com.facebook.fresco:animated-base-support:1.8.1'
-
-//     // For animated GIF support
-//     compile 'com.facebook.fresco:animated-gif:1.8.1'
-
-//     // For WebP support, including animated WebP
-//     compile 'com.facebook.fresco:animated-webp:1.8.1'
-//     compile 'com.facebook.fresco:webpsupport:1.8.1'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
-    transitive = true;
-  }
+        transitive = true;
+    }
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    if (enableHermes) {
+      def hermesPath = "../../node_modules/hermesvm/android/";
+      debugImplementation files(hermesPath + "hermes-debug.aar")
+      releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+      implementation jscFlavor
+    }
 }
 
 // Run this once to be able to run the application with BUCK
@@ -227,3 +258,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

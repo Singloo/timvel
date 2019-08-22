@@ -11,7 +11,7 @@ import {
 } from '../../../../re-kits';
 import { SCREEN_WIDTH, colors, isIOS } from '../../../utils';
 import Title from '../../../components/Title';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 const width = SCREEN_WIDTH;
 const height = 200;

@@ -16,7 +16,7 @@ import {
   NAV_BAR_HEIGHT_FULL,
 } from '../../../../re-kits';
 import {} from '../../../utils';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 const scroll_height = 200 - 44 - PADDING_TOP_FULL;
 class HeaderBar extends Component {
   constructor(props) {
