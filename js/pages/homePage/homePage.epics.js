@@ -13,7 +13,7 @@ import {
 } from 'rxjs/operators';
 import { randomItem, Cache, retry3, sortPosts, I18n } from '../../utils';
 import { colorSets } from '../../../re-kits';
-import * as R from 'ramda';
+import { uniqBy } from 'lodash';
 const generateColorsUntil = (colors = [], toNum) => {
   const _colors = colors.concat(randomItem(colorSets, toNum - colors.length));
   if (_colors.length >= toNum) {
@@ -206,11 +206,11 @@ const mutatePosts = (action$, state$, { dispatch }) =>
     map(({ payload }) => {
       const { posts: nextPosts, ...additionalProps } = payload;
       const { posts, colorsSets } = state$.value.homePage;
-      const next = R.uniqBy(
-        a => a.postId,
+      const next = uniqBy(
         Array.isArray(nextPosts)
           ? posts.concat(nextPosts)
           : [nextPosts].concat(posts),
+        'postId',
       );
       const nextColors = generateColorsUntil(colorsSets, next.length + 1);
       return dispatch('HOME_PAGE_SET_STATE', {

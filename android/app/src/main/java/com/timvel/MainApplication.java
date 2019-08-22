@@ -11,7 +11,6 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import com.wix.interactable.Interactable;
 import com.nativeModules.PushHandlerActivity;
 import com.nativeModules.TimvelPackages;
 import com.rnfs.RNFSPackage;
@@ -20,9 +19,7 @@ import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactlibrary.RNAliyunOssPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.imagepicker.ImagePickerPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -51,7 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNLocalizePackage(),
             new FastImageViewPackage(),
             new RNGestureHandlerPackage(),
-            new Interactable(),
             new TimvelPackages(),
             new RNFSPackage(),
             new RNDeviceInfo(),
@@ -59,9 +55,7 @@ public class MainApplication extends Application implements ReactApplication {
             new SplashScreenReactPackage(),
             new PickerPackage(),
             new LottiePackage(),
-            new VectorIconsPackage(),
             new LinearGradientPackage(),
-            new ImagePickerPackage(),
             new BlurViewPackage()
       );
     }
