@@ -42,8 +42,22 @@ target 'timvel' do
 
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
+  target 'timvelTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+  use_native_modules!
 end
 
+target 'timvel-tvOS' do
+  # Pods for RnDiffApp-tvOS
+
+  target 'timvel-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
 # very important to have, unless you removed React dependencies for Libraries 
 # and you rely on Cocoapods to manage it
 # post_install do |installer|

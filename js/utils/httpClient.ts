@@ -15,10 +15,6 @@ import DeviceInfo from 'react-native-device-info';
 const headers = {
   app: 'timvel-mobile',
   platform: Platform.OS,
-  'build-number': DeviceInfo.getBuildNumber(),
-  'readable-version': DeviceInfo.getReadableVersion(),
-  buildNumber: DeviceInfo.getBuildNumber(),
-  readableVersion: DeviceInfo.getReadableVersion(),
   build_number: DeviceInfo.getBuildNumber(),
   readable_version: DeviceInfo.getReadableVersion(),
 };
