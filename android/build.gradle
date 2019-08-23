@@ -53,7 +53,23 @@ allprojects {
          }
       }
    }
+     afterEvaluate {project ->
+    // force libs to use recent buildtools
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion = 28  // change to match your desired version
+                buildToolsVersion = "28.0.3" // ....
+            }
+        }
+    }
  }
+
+// react native blur
+//  ext {
+//     compileSdkVersion   = 27
+//     targetSdkVersion    = 27
+//     buildToolsVersion   = "27.0.3"
+// }
  //next few lines removed since 0.59.0
 // task wrapper(type: Wrapper) {
 //     gradleVersion = '4.7'

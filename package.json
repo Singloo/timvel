@@ -5,7 +5,8 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "npx jetify"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
@@ -15,6 +16,7 @@
     "@react-native-community/slider": "^2.0.0",
     "aliyun-oss-react-native": "^1.0.0-alpha.7",
     "axios": "^0.19.0",
+    "jetifier": "^1.6.4",
     "leancloud-installation": "^2.0.1",
     "leancloud-storage": "^3.15.0",
     "lodash": "^4.17.15",

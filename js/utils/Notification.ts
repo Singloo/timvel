@@ -9,7 +9,7 @@ import Installation from 'leancloud-installation';
 import User from './User';
 // @ts-ignore
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-const AndroidNotification = NativeModules.AndroidNotification;
+// const AndroidNotification = NativeModules.AndroidNotification;
 class Notification {
   Installation?: Installation;
   constructor() {}
@@ -77,28 +77,28 @@ class Notification {
   };
 
   AndroidInstallation = () => {
-    AndroidNotification.saveInstaillation((installationId: any) => {
-      if (installationId) {
-        User.setInstallationId(installationId);
-        // console.warn('Android installation', installationId);
-        DeviceEventEmitter.addListener(
-          AndroidNotification.ON_RECEIVE,
-          notification => {
-            console.warn('receive android notification', notification);
-          },
-        );
-        DeviceEventEmitter.addListener(AndroidNotification.ON_ERROR, res => {
-          console.warn('android notification error', res);
-        });
-        DeviceEventEmitter.addListener(
-          AndroidNotification.ON_CUSTOM_RECEIVE,
-          notification => {
-            console.warn('receive custom android notification', notification);
-            // this._showAlert(JSON.parse(notification.data).alert);
-          },
-        );
-      }
-    });
+    // AndroidNotification.saveInstaillation((installationId: any) => {
+    //   if (installationId) {
+    //     User.setInstallationId(installationId);
+    //     // console.warn('Android installation', installationId);
+    //     DeviceEventEmitter.addListener(
+    //       AndroidNotification.ON_RECEIVE,
+    //       notification => {
+    //         console.warn('receive android notification', notification);
+    //       },
+    //     );
+    //     DeviceEventEmitter.addListener(AndroidNotification.ON_ERROR, res => {
+    //       console.warn('android notification error', res);
+    //     });
+    //     DeviceEventEmitter.addListener(
+    //       AndroidNotification.ON_CUSTOM_RECEIVE,
+    //       notification => {
+    //         console.warn('receive custom android notification', notification);
+    //         // this._showAlert(JSON.parse(notification.data).alert);
+    //       },
+    //     );
+    //   }
+    // });
   };
 }
 export default new Notification();
