@@ -1,11 +1,11 @@
 ## Timvel
 
 开始重构项目, 重构目标
-- rn更新到最新版本
-- 更好的项目结构
+- [x] rn更新到最新版本
+- 更好的项目结构(clean architecture)
 - 容易测试的
-- 抛弃redux, 设计一个新的state manager, 依托于rxjs
-- 使用rxjs
+- 抛弃redux, 使用mobx ~~~设计一个新的state manager, 依托于rxjs~~~
+- 使用更多的rxjs
 - 注释代码  
 
 
