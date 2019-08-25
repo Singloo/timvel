@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, UIManager, YellowBox, BackHandler } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import configureStore from './configureStore';
 import SimpleApp from './Navigators';
 import {
@@ -16,14 +16,10 @@ import {
 import * as Connectors from './connectors';
 import CoinIncrease from './components/CoinIncrease';
 import { CoinTransactionAnimation } from './components/CoinTransactionAnimation';
-//ignore isMounted is deprecated, this warning fixed in higher version
-YellowBox.ignoreWarnings([
-  'Warning: isMounted(...) is deprecated',
-  'Module RCTImageLoader',
-  'Module RCTImagePickerManager',
-  'Warning: ViewPagerAndroid',
-  'Warning: Slider has been',
-]);
+import { Provider } from 'mobx-react';
+import rootStore from './store';
+import Splash from 'react-native-splash-screen';
+YellowBox.ignoreWarnings(['is deprecated', 'tvOS', 'UIManager']);
 //@ts-ignore
 import Installation from 'leancloud-installation';
 const installation = Installation(AV);
@@ -34,6 +30,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class App extends React.Component {
   _alert;
   componentDidMount() {
+    Splash.hide();
     this._init();
     this._setupNotification();
     if (isIOS) {
@@ -84,20 +81,22 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Provider store={store}>
-        <View style={{ flex: 1 }}>
+      <Provider {...rootStore}>
+        {/* <ReduxProvider store={store}> */}
+        <>
           <SimpleApp
             ref={navigation => {
               this._navigation = navigation;
               Navigation.setNavigation(navigation);
             }}
           />
-          <Connectors.photoBrowser />
-          <Connectors.global />
-          <Connectors.alert ref={r => (this._alert = r)} />
-          <Connectors.snakeBar />
-          <CoinIncrease />
-        </View>
+          {/* <Connectors.photoBrowser />
+            <Connectors.global />
+            <Connectors.alert ref={r => (this._alert = r)} />
+            <Connectors.snakeBar />
+            <CoinIncrease /> */}
+        </>
+        {/* </ReduxProvider> */}
       </Provider>
     );
   }
