@@ -1,13 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Button, NavBar, RFlatList } from '../../../../re-kits';
+import {
+  Text,
+  Button,
+  NavBar,
+  RFlatList,
+  PADDING_TOP,
+} from '../../../../re-kits';
 import { IViewModel, IPresenter } from '../types';
 import { FeedPresenter } from '../presenter';
 import {} from '../interactor';
 import { FeedStore } from '../../../store';
 import { observer, inject } from 'mobx-react';
 import { IPost } from '../../../models';
-import { FeedCard } from './components/functional';
+import { FeedCard, FeedBackground } from './components/functional';
+import CardWithImage from './components/CardWithImage';
+import CardWithPureText from './components/CardWithPureText';
 interface IProps {
   presenter: FeedPresenter;
   feed?: FeedStore;
@@ -28,18 +36,19 @@ class FeedViewModel extends React.Component<IProps, any> implements IViewModel {
   render() {
     const { posts } = this.props.feed!;
     return (
-      <View>
-        <NavBar title={'Feed'} />
+      <View style={{ flex: 1 }}>
+        <FeedBackground />
         <RFlatList
           data={posts}
           renderItem={this._renderCard}
           keyExtractor={item => 'p' + item.postId}
+          contentContainerStyle={{ paddingTop: PADDING_TOP + 20 }}
         />
       </View>
     );
   }
   _renderCard = ({ item }: { item: IPost; index: number }) => {
-    return <FeedCard post={item} onPress={this.presenter.onPressPost} />;
+    return <CardWithPureText post={item} />;
   };
 }
 
