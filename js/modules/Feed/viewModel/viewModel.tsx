@@ -47,7 +47,12 @@ class FeedViewModel extends React.Component<IProps, any> implements IViewModel {
       </View>
     );
   }
-  _renderCard = ({ item }: { item: IPost; index: number }) => {
+  _renderCard = ({ item, index }: { item: IPost; index: number }) => {
+    return index % 2 === 0 ? (
+      <CardWithImage post={item} />
+    ) : (
+      <CardWithPureText post={item} />
+    );
     return <CardWithPureText post={item} />;
   };
 }

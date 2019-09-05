@@ -33,16 +33,8 @@ class CardWithPureText extends React.PureComponent<IProps> {
   renderTagContainer = () => {
     return (
       <View style={[styles.tagContainer, styles.tagShadow]}>
-        <View style={{ left: 60 + 18, top: 5 }}>
-          <Text
-            fontSize={23}
-            bold
-            style={{
-              transform: [{ rotate: '-90deg' }],
-              width: 180,
-              // backgroundColor: 'red',
-              textAlign: 'center',
-            }}>
+        <View style={styles.tagWrapper}>
+          <Text fontSize={23} bold>
             {this.props.post.tag}
           </Text>
         </View>
@@ -124,5 +116,12 @@ const styles = StyleSheet.create({
     },
     android: { elevation: 1, backgroundColor: 'white' },
   }),
+  tagWrapper: {
+    left: 60 + 18,
+    top: 5,
+    transform: [{ rotate: '-90deg' }],
+    width: 180,
+    alignItems: 'center',
+  },
 });
 export default CardWithPureText;
