@@ -94,9 +94,9 @@ export function realSize(px: number) {
 export const EMAIL_REGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 
 export function randomItem(
-  arr = [],
+  arr: any[] = [],
   returnLength = 1,
-  returnArray = [],
+  returnArray: any[] = [],
 ): any | any[] {
   let returnNum = returnLength || 1;
   let returnArr = returnArray || [];

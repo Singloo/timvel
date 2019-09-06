@@ -34,7 +34,7 @@ class CardWithImage extends React.PureComponent<IProps> {
         <Text fontSize={23} bold style={{ marginBottom: -3, marginLeft: 14 }}>
           {post.tag}
         </Text>
-        <View style={[styles.colorBk, { backgroundColor: '#fff59d' }]}>
+        <View style={[styles.colorBk, { backgroundColor: post.tintColor }]}>
           <View style={styles.whiteInColor} />
         </View>
       </View>

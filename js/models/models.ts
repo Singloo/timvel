@@ -47,7 +47,12 @@ export interface IWeatherInfo {
   weatherCode: number | string;
 }
 export type TPostPrecision = 'year' | 'month' | 'day';
-export interface IPost {
+
+interface IPostPropsInClient {
+  cardType: CardType;
+  tintColor: string;
+}
+export interface IPost extends IPostPropsInClient {
   postId: number;
   content: string;
   imageUrls: (ILocalImage | IUnsplashImage)[];
@@ -68,4 +73,10 @@ export interface IPost {
   popularity: number;
   numOfComments: number;
   precision: TPostPrecision;
+}
+
+export enum CardType {
+  MULTIPLE_IMAGES_LESS_TEXT = 1,
+  MORE_TEXT_WITHOUT_IMAGE = 2,
+  IMAGE_WIDTH_MEDIUM_TEXT = 3,
 }

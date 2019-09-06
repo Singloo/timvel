@@ -16,6 +16,7 @@ import { IPost } from '../../../models';
 import { FeedCard, FeedBackground } from './components/functional';
 import CardWithImage from './components/CardWithImage';
 import CardWithPureText from './components/CardWithPureText';
+import CardWithTextAndImage from './components/CardWithTextAndImage';
 interface IProps {
   presenter: FeedPresenter;
   feed?: FeedStore;
@@ -48,11 +49,13 @@ class FeedViewModel extends React.Component<IProps, any> implements IViewModel {
     );
   }
   _renderCard = ({ item, index }: { item: IPost; index: number }) => {
-    return index % 2 === 0 ? (
-      <CardWithImage post={item} />
-    ) : (
-      <CardWithPureText post={item} />
-    );
+    // return <CardWithTextAndImage post={item} />;
+    if (index % 3 === 0) {
+      return <CardWithImage post={item} />;
+    }
+    if (index % 3 === 1) {
+      return <CardWithTextAndImage post={item} />;
+    }
     return <CardWithPureText post={item} />;
   };
 }

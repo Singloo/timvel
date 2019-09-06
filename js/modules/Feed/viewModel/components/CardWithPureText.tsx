@@ -27,7 +27,9 @@ class CardWithPureText extends React.PureComponent<IProps> {
   }
   renderColorBk = () => {
     return (
-      <View style={[styles.colorBk, { backgroundColor: colors.lightGreen }]} />
+      <View
+        style={[styles.colorBk, { backgroundColor: this.props.post.tintColor }]}
+      />
     );
   };
   renderTagContainer = () => {
@@ -44,17 +46,8 @@ class CardWithPureText extends React.PureComponent<IProps> {
   renderContent = () => {
     const { post } = this.props;
     return (
-      <View
-        style={{
-          // backgroundColor: 'red',
-          marginLeft: 30 + 30 + 25,
-          marginTop: -40,
-        }}>
-        <Image
-          size={60}
-          uri={post.avatar}
-          style={{ top: 50, left: -10, zIndex: 4 }}
-        />
+      <View style={styles.contentContainer}>
+        <Image size={60} uri={post.avatar} style={styles.avatar} />
         {this.renderText()}
       </View>
     );
@@ -84,20 +77,26 @@ const styles = StyleSheet.create({
     height: COLORBK_HEIGHT,
     position: 'absolute',
     top: 0,
+    // to border
     right: 15,
   },
   textContainer: {
     width: TEXT_CONTAINER_WIDTH,
     height: TEXT_CONTAINER_HEIGHT,
     padding: 20,
+    // avatar + 20
     paddingTop: 60,
     backgroundColor: 'white',
   },
   tagContainer: {
     position: 'absolute',
+    // to color bk
     top: 40,
+    // 2 grey bar
     left: 60,
+    // fixed
     height: 180,
+    // widh 25, 3 for tag
     width: 25 + 3,
     backgroundColor: 'white',
     justifyContent: 'center',
@@ -117,11 +116,25 @@ const styles = StyleSheet.create({
     android: { elevation: 1, backgroundColor: 'white' },
   }),
   tagWrapper: {
+    // 2 grey bar
     left: 60 + 18,
     top: 5,
     transform: [{ rotate: '-90deg' }],
     width: 180,
     alignItems: 'center',
+  },
+  contentContainer: {
+    // 2 grey bar, 25 tag container width
+    marginLeft: 30 + 30 + 25,
+    //
+    marginTop: -40,
+  },
+  avatar: {
+    // 50 in content
+    top: 50,
+    // 10 to content
+    left: -10,
+    zIndex: 4,
   },
 });
 export default CardWithPureText;
