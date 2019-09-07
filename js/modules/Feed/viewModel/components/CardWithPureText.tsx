@@ -14,6 +14,7 @@ import { IPost } from '../../../../models';
 import { get } from 'lodash';
 interface IProps {
   post: IPost;
+  onPressPost: () => void;
 }
 class CardWithPureText extends React.PureComponent<IProps> {
   render() {
@@ -44,12 +45,12 @@ class CardWithPureText extends React.PureComponent<IProps> {
     );
   };
   renderContent = () => {
-    const { post } = this.props;
+    const { post, onPressPost } = this.props;
     return (
-      <View style={styles.contentContainer}>
+      <Touchable onPress={onPressPost} style={styles.contentContainer}>
         <Image size={60} uri={post.avatar} style={styles.avatar} />
         {this.renderText()}
-      </View>
+      </Touchable>
     );
   };
   renderText = () => {

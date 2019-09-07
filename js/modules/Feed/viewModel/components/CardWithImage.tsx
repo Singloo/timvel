@@ -14,6 +14,7 @@ import { IPost } from '../../../../models';
 import { get } from 'lodash';
 interface IProps {
   post: IPost;
+  onPressPost: () => void;
 }
 class CardWithImage extends React.PureComponent<IProps> {
   render() {
@@ -77,7 +78,12 @@ class CardWithImage extends React.PureComponent<IProps> {
     );
   };
   renderCornerWhiteBk = () => {
-    return <View style={[styles.conerWhiteBk, Styles.shadowLight]} />;
+    return (
+      <Touchable
+        onPress={this.props.onPressPost}
+        style={[styles.conerWhiteBk, Styles.shadowLight]}
+      />
+    );
   };
 }
 // 1.5 grey bar, half pink bar

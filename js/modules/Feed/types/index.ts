@@ -1,6 +1,7 @@
 import { IPost } from '../../../models';
+import { NavigationScreenProps } from 'react-navigation';
 
-export interface IProps {}
+export interface IProps extends NavigationScreenProps {}
 export interface IState {}
 export interface IViewModel {
   presenter: IPresenter;

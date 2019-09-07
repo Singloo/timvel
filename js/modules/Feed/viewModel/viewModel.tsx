@@ -49,13 +49,18 @@ class FeedViewModel extends React.Component<IProps, any> implements IViewModel {
     );
   }
   _renderCard = ({ item, index }: { item: IPost; index: number }) => {
+    const props = {
+      post: item,
+      onPressPost: () => this.presenter.onPressPost(item),
+      key: 'pst' + item.postId,
+    };
     switch (item.cardType) {
       case PostCardType.IMAGE_WIDTH_MEDIUM_TEXT:
-        return <CardWithTextAndImage post={item} key={'pst' + item.postId} />;
+        return <CardWithTextAndImage {...props} />;
       case PostCardType.MORE_TEXT_WITHOUT_IMAGE:
-        return <CardWithPureText post={item} key={'pst' + item.postId} />;
+        return <CardWithPureText {...props} />;
       case PostCardType.MULTIPLE_IMAGES_LESS_TEXT:
-        return <CardWithImage post={item} key={'pst' + item.postId} />;
+        return <CardWithImage {...props} />;
     }
     // if (index % 3 === 0) {
     //   return <CardWithImage post={item} />;

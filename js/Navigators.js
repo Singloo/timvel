@@ -6,6 +6,7 @@ import {
 import * as Connectors from './connectors';
 import { Policy } from './singlePages';
 import Feed from './modules/Feed/builder';
+import PostDetail from './modules/PostDetail/builder';
 const MainScreenNavigator = createBottomTabNavigator(
   {
     Home: {
@@ -62,9 +63,9 @@ const SimpleApp = createStackNavigator(
     // publishProduct: {
     //   screen: Connectors.publishProduct,
     // },
-    // postDetail: {
-    //   screen: Connectors.postDetail,
-    // },
+    postDetail: {
+      screen: PostDetail,
+    },
     // postReplies: {
     //   screen: Connectors.postReplies,
     // },

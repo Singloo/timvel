@@ -5,11 +5,11 @@ import { IProps, IInteractor, IPresenter, IViewModel } from '../types';
 import {} from '../presenter';
 import {} from '../interactor';
 import ViewModal from '../viewModel/viewModel';
-import { TemplatePresenter } from '../presenter';
-import { TemplateInteractor } from '../interactor';
+import { PostDetailPresenter } from '../presenter';
+import { PostDetailInteractor } from '../interactor';
 import RootStore from '../../../store';
 class Builder extends React.Component<IProps> {
-  presenter: TemplatePresenter;
+  presenter: PostDetailPresenter;
   constructor(props: IProps) {
     super(props);
     const interactor = this.buildInteractor();
@@ -17,10 +17,10 @@ class Builder extends React.Component<IProps> {
   }
   componentDidMount() {}
   buildInteractor = () => {
-    return new TemplateInteractor();
+    return new PostDetailInteractor();
   };
   buildPresenter = (interactor: IInteractor) => {
-    return new TemplatePresenter(interactor, this.props.navigation);
+    return new PostDetailPresenter(interactor, this.props.navigation);
   };
   buildViewModel = () => {
     return <ViewModal presenter={this.presenter} />;

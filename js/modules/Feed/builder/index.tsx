@@ -20,7 +20,7 @@ class Builder extends React.Component<IProps> {
     return new FeedInteractor(RootStore.feed);
   };
   buildPresenter = (interactor: IInteractor) => {
-    return new FeedPresenter(interactor);
+    return new FeedPresenter(interactor, this.props.navigation);
   };
   buildViewModel = () => {
     return <ViewModal presenter={this.presenter} />;

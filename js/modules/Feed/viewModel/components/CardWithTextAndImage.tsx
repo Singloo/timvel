@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { Text, Image, Styles } from '../../../../../re-kits';
+import { Text, Image, Styles, Touchable } from '../../../../../re-kits';
 import { IPost } from '../../../../models';
 import { get } from 'lodash';
 interface IProps {
   post: IPost;
+  onPressPost: () => void;
 }
 class CardWithTextAndImage extends React.PureComponent<IProps> {
   render() {
@@ -17,15 +18,19 @@ class CardWithTextAndImage extends React.PureComponent<IProps> {
   }
 
   renderImage = () => {
-    const { post } = this.props;
+    const { post, onPressPost } = this.props;
     return (
-      <Image style={styles.img} uri={get(post, 'imageUrls[0].imageUrl')} />
+      <Image
+        onPress={onPressPost}
+        style={styles.img}
+        uri={get(post, 'imageUrls[0].imageUrl')}
+      />
     );
   };
   renderContent = () => {
-    const { post } = this.props;
+    const { post, onPressPost } = this.props;
     return (
-      <View style={styles.contentWrapper}>
+      <Touchable onPress={onPressPost} style={styles.contentWrapper}>
         <View style={styles.avatarTagContainer}>
           <Text fontSize={23} bold style={{ top: 3, textAlign: 'right' }}>
             {post.tag}
@@ -37,7 +42,7 @@ class CardWithTextAndImage extends React.PureComponent<IProps> {
           </Text>
           <Image uri={post.avatar} size={60} style={styles.avatar} />
         </View>
-      </View>
+      </Touchable>
     );
   };
 }

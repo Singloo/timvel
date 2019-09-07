@@ -1,7 +1,7 @@
 import {} from '../../../utils';
 import { IPresenter, IInteractor, IViewModel } from '../types';
 import { NavigationScreenProp } from 'react-navigation';
-class TemplatePresenter implements IPresenter {
+class PostDetailPresenter implements IPresenter {
   viewModel?: IViewModel;
   constructor(
     public interactor: IInteractor,
@@ -14,4 +14,4 @@ class TemplatePresenter implements IPresenter {
   componentDidMount() {}
   componentWillUnmount() {}
 }
-export { TemplatePresenter };
+export { PostDetailPresenter };
