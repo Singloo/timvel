@@ -25,24 +25,28 @@ const transitionConfig = (
   if (nextRouteName === 'postDetail') {
     return {
       transitionSpec: {
-        duration: 700,
+        duration: 500,
         // easing: Easing.out(Easing.poly(4)),
         timing: Animated.timing,
         useNativeDriver: true,
       },
       screenInterpolator: (sceneProps: NavigationSceneRendererProps) => {
         const { layout, position, scene } = sceneProps;
-        const thisSceneIndex = scene.index;
+        const currentSceneIndex = scene.index;
         const width = layout.initWidth;
 
         const translateX = position.interpolate({
-          inputRange: [thisSceneIndex - 1, thisSceneIndex],
+          inputRange: [currentSceneIndex - 1, currentSceneIndex],
           outputRange: [width, 0],
         });
 
         const scale = position.interpolate({
-          inputRange: [thisSceneIndex - 1, thisSceneIndex],
-          outputRange: [0.3, 1],
+          inputRange: [
+            currentSceneIndex - 1,
+            currentSceneIndex - 0.3,
+            currentSceneIndex,
+          ],
+          outputRange: [0, 0, 1],
         });
         return { transform: [{ translateX: 0 }], opacity: scale };
       },

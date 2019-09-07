@@ -5225,9 +5225,10 @@ react-native-permissions@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npm.taobao.org/react-native-permissions/download/react-native-permissions-1.2.0.tgz#0deb616bf1565c17c91f1cb1f953809b2892c29e"
 
-react-native-root-siblings@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.npm.taobao.org/react-native-root-siblings/download/react-native-root-siblings-3.2.1.tgz#06bd8722babe8a30e914b73eae4beffa3218ec57"
+react-native-root-siblings@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.npm.taobao.org/react-native-root-siblings/download/react-native-root-siblings-3.2.2.tgz#2b5105d4bb236041148248b94c6dc04601205eb8"
+  integrity sha1-K1EF1LsjYEEUgki5TG3ARgEgXrg=
   dependencies:
     prop-types "^15.6.2"
     static-container "^1.0.0"

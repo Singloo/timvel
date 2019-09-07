@@ -7,7 +7,7 @@ import {} from '../interactor';
 import ViewModal from '../viewModel/viewModel';
 import { PostDetailPresenter } from '../presenter';
 import { PostDetailInteractor } from '../interactor';
-import RootStore from '../../../store';
+import rootStore from '../../../store';
 class Builder extends React.Component<IProps> {
   presenter: PostDetailPresenter;
   constructor(props: IProps) {
@@ -17,7 +17,11 @@ class Builder extends React.Component<IProps> {
   }
   componentDidMount() {}
   buildInteractor = () => {
-    return new PostDetailInteractor();
+    const post = this.props.navigation.getParam('post');
+    rootStore.postDetail.setState({
+      currentPost: post,
+    });
+    return new PostDetailInteractor(rootStore.postDetail);
   };
   buildPresenter = (interactor: IInteractor) => {
     return new PostDetailPresenter(interactor, this.props.navigation);

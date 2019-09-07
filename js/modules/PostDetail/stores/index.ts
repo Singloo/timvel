@@ -1,12 +1,15 @@
 import { observable, action, configure } from 'mobx';
-import {} from '../../../models';
+import { IPost } from '../../../models';
 
 configure({
   enforceActions: 'always',
 });
 
-interface IStore {}
+interface IStore {
+  currentPost?: IPost;
+}
 class PostDetailStore {
+  currentPost?: IPost;
   @action setState = (nextState: IStore) => {
     Object.assign(this, nextState);
   };

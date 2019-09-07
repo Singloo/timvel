@@ -1,14 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Button } from '../../../../re-kits';
+import { Text, Button, Image, SCREEN_WIDTH } from '../../../../re-kits';
 import { IViewModel, IPresenter } from '../types';
 import { PostDetailPresenter } from '../presenter';
-import {} from '../interactor';
-import {} from '../../../store';
+import { PostDetailStore } from '../../../store';
 import { observer, inject } from 'mobx-react';
+import { get } from 'lodash';
 
 interface IProps {
   presenter: PostDetailPresenter;
+  postDetail?: PostDetailStore;
 }
 
 // @inject('store')
@@ -22,12 +23,16 @@ class PostDetailViewModel extends React.Component<IProps, any>
     this.presenter.setViewModal(this);
   }
   render() {
+    const { currentPost } = this.props.postDetail!;
     return (
-      <View>
-        <Text>{'Hello'}</Text>
+      <View style={{ flex: 1 }}>
+        <Image
+          uri={get(currentPost!.imageUrls[0], 'imageUrl')}
+          style={{ width: SCREEN_WIDTH, height: 200 }}
+        />
       </View>
     );
   }
 }
 
-export default inject()(PostDetailViewModel);
+export default inject('postDetail')(PostDetailViewModel);
