@@ -2,11 +2,55 @@ import {
   createBottomTabNavigator,
   createStackNavigator,
   createAppContainer,
+  NavigationTransitionProps,
+  NavigationSceneRendererProps,
 } from 'react-navigation';
-import * as Connectors from './connectors';
+import { Easing, Animated } from 'react-native';
+// import * as Connectors from './connectors';
 import { Policy } from './singlePages';
 import Feed from './modules/Feed/builder';
 import PostDetail from './modules/PostDetail/builder';
+import { get } from 'lodash';
+const transitionConfig = (
+  transitionProps: NavigationTransitionProps,
+  prevTransitionProps: NavigationTransitionProps,
+  isModal: boolean,
+) => {
+  const { scenes } = transitionProps;
+  const prevScene = scenes[scenes.length - 2];
+  const nextScene = scenes[scenes.length - 1];
+  const prevRouteName = get(prevScene, 'route.routeName');
+  const nextRouteName = get(nextScene, 'route.routeName');
+  // console.log(scenes, prevRouteName, nextRouteName);
+  if (nextRouteName === 'postDetail') {
+    return {
+      transitionSpec: {
+        duration: 700,
+        // easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+        useNativeDriver: true,
+      },
+      screenInterpolator: (sceneProps: NavigationSceneRendererProps) => {
+        const { layout, position, scene } = sceneProps;
+        const thisSceneIndex = scene.index;
+        const width = layout.initWidth;
+
+        const translateX = position.interpolate({
+          inputRange: [thisSceneIndex - 1, thisSceneIndex],
+          outputRange: [width, 0],
+        });
+
+        const scale = position.interpolate({
+          inputRange: [thisSceneIndex - 1, thisSceneIndex],
+          outputRange: [0.3, 1],
+        });
+        return { transform: [{ translateX: 0 }], opacity: scale };
+      },
+    };
+  }
+  return {};
+};
+
 const MainScreenNavigator = createBottomTabNavigator(
   {
     Home: {
@@ -86,6 +130,7 @@ const SimpleApp = createStackNavigator(
     headerMode: 'none',
     initialRouteName: 'Main',
     // transitionConfig: TransitionConfiguration,
+    transitionConfig: transitionConfig,
   },
 );
 
