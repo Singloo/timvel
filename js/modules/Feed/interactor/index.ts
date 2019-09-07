@@ -1,8 +1,16 @@
 import { IInteractor } from '../types';
 import { FeedStore } from '../../../store';
 import { Cache, apiClient, randomItem } from '../../../utils';
-import { IPost } from '../../../models';
+import { IPost, PostCardType } from '../../../models';
 import { lightColorSet } from '../../../../re-kits/utils/colors';
+import { get } from 'lodash';
+const calCardType = (post: IPost): PostCardType => {
+  if (get(post.imageUrls, 'length', 0) === 0)
+    return PostCardType.MORE_TEXT_WITHOUT_IMAGE;
+  if (get(post.imageUrls, 'length') === 1)
+    return PostCardType.IMAGE_WIDTH_MEDIUM_TEXT;
+  return PostCardType.MULTIPLE_IMAGES_LESS_TEXT;
+};
 class FeedInteractor implements IInteractor {
   constructor(public feed: FeedStore) {}
 
@@ -16,6 +24,7 @@ class FeedInteractor implements IInteractor {
       return {
         ...post,
         tintColor: randomItem(lightColorSet),
+        cardType: calCardType(post),
       };
     });
     this.feed.setState({

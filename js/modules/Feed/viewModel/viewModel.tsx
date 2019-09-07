@@ -12,7 +12,7 @@ import { FeedPresenter } from '../presenter';
 import {} from '../interactor';
 import { FeedStore } from '../../../store';
 import { observer, inject } from 'mobx-react';
-import { IPost } from '../../../models';
+import { IPost, PostCardType } from '../../../models';
 import { FeedCard, FeedBackground } from './components/functional';
 import CardWithImage from './components/CardWithImage';
 import CardWithPureText from './components/CardWithPureText';
@@ -49,14 +49,21 @@ class FeedViewModel extends React.Component<IProps, any> implements IViewModel {
     );
   }
   _renderCard = ({ item, index }: { item: IPost; index: number }) => {
-    // return <CardWithTextAndImage post={item} />;
-    if (index % 3 === 0) {
-      return <CardWithImage post={item} />;
+    switch (item.cardType) {
+      case PostCardType.IMAGE_WIDTH_MEDIUM_TEXT:
+        return <CardWithTextAndImage post={item} key={'pst' + item.postId} />;
+      case PostCardType.MORE_TEXT_WITHOUT_IMAGE:
+        return <CardWithPureText post={item} key={'pst' + item.postId} />;
+      case PostCardType.MULTIPLE_IMAGES_LESS_TEXT:
+        return <CardWithImage post={item} key={'pst' + item.postId} />;
     }
-    if (index % 3 === 1) {
-      return <CardWithTextAndImage post={item} />;
-    }
-    return <CardWithPureText post={item} />;
+    // if (index % 3 === 0) {
+    //   return <CardWithImage post={item} />;
+    // }
+    // if (index % 3 === 1) {
+    //   return <CardWithTextAndImage post={item} />;
+    // }
+    // return <CardWithPureText post={item} />;
   };
 }
 

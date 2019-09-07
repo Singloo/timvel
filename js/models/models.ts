@@ -49,7 +49,7 @@ export interface IWeatherInfo {
 export type TPostPrecision = 'year' | 'month' | 'day';
 
 interface IPostPropsInClient {
-  cardType: CardType;
+  cardType: PostCardType;
   tintColor: string;
 }
 export interface IPost extends IPostPropsInClient {
@@ -75,7 +75,7 @@ export interface IPost extends IPostPropsInClient {
   precision: TPostPrecision;
 }
 
-export enum CardType {
+export enum PostCardType {
   MULTIPLE_IMAGES_LESS_TEXT = 1,
   MORE_TEXT_WITHOUT_IMAGE = 2,
   IMAGE_WIDTH_MEDIUM_TEXT = 3,

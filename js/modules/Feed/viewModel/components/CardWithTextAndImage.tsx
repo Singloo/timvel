@@ -27,7 +27,7 @@ class CardWithTextAndImage extends React.PureComponent<IProps> {
     return (
       <View style={styles.contentWrapper}>
         <View style={styles.avatarTagContainer}>
-          <Text fontSize={23} bold style={{ top: 3 }}>
+          <Text fontSize={23} bold style={{ top: 3, textAlign: 'right' }}>
             {post.tag}
           </Text>
         </View>
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     position: 'absolute',
-    // 1.5 grey
-    left: 30 + 15,
+    // 1 grey + 10
+    left: 30 + 10,
     // center of image
     bottom: CENTER_IMAGE,
   },
